@@ -12,6 +12,12 @@
     "preinstall": "npx only-allow yarn",
     "prepare": "husky install"
   },
+  "lint-staged": {
+    "*.{ts,js,tsx,jsx,css}": [
+      "lint --fix",
+      "prettier --write ."
+    ]
+  },
   "dependencies": {
     "@radix-ui/react-slot": "^1.0.2",
     "class-variance-authority": "^0.7.0",
