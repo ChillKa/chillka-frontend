@@ -1,6 +1,6 @@
-import UserLoginButton from './user/UserLoginButton';
+import LoginButton from './user/LoginButton';
+import ResgisterButton from './user/RegisterButton';
 import UserProfileButton from './user/UserProfileButton';
-import UserResgisterButton from './user/UserRegisterButton';
 
 interface HeaderProps {
   isLogin?: boolean;
@@ -16,8 +16,8 @@ const Header: React.FC<HeaderProps> = ({ isLogin = false }) => {
           <UserProfileButton />
         ) : (
           <>
-            <UserLoginButton />
-            <UserResgisterButton />
+            <LoginButton />
+            <ResgisterButton />
           </>
         )}
       </section>
