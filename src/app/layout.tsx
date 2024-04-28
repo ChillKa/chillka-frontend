@@ -1,3 +1,5 @@
+import Footer from '@components/Footer';
+import Header from '@components/Header';
 import cn from '@lib/utils';
 import type { Metadata } from 'next';
 import { Inter as FontSans } from 'next/font/google';
@@ -22,7 +24,11 @@ const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => (
         fontSans.variable
       )}
     >
-      {children}
+      <Header />
+      <main className="debug min-h-[calc(100vh-var(--header-height)-var(--footer-height))]">
+        {children}
+      </main>
+      <Footer />
     </body>
   </html>
 );

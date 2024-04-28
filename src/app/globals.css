@@ -4,6 +4,9 @@
 
 @layer base {
   :root {
+    --header-height: 4rem;
+    --footer-height: 3rem;
+
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
 
@@ -72,5 +75,11 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .debug {
+    border: 1px solid red;
   }
 }
