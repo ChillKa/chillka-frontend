@@ -9,7 +9,7 @@ import {
 } from '@components/ui/popover';
 import { useState } from 'react';
 
-interface UserProfileButtonProps {
+export interface UserProfileButtonProps {
   onSignOut?: () => void;
 }
 

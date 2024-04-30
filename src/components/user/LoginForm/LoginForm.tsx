@@ -10,17 +10,17 @@ import {
   FormMessage,
 } from '@components/ui/form';
 import { Input } from '@components/ui/input';
-import { toast } from '@components/ui/use-toast';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginFormSchema } from '@lib/definitions';
+import { useAuthContext } from '@store/AuthProvider/AuthProvider';
 import { useRef } from 'react';
 import { useFormState } from 'react-dom';
 import { useForm } from 'react-hook-form';
-import { login } from 'src/action/auth';
 import { z } from 'zod';
 
 const LoginForm: React.FC = () => {
-  const [state, formAction] = useFormState(login, {
+  const { login } = useAuthContext();
+  const [_, formAction] = useFormState(login, {
     errors: undefined,
   });
 
@@ -44,12 +44,6 @@ const LoginForm: React.FC = () => {
           form.handleSubmit(() => {
             formAction(new FormData(formRef.current!));
           })(e);
-
-          if (state?.message) {
-            toast({
-              title: state.message,
-            });
-          }
         }}
         className="space-y-2"
       >

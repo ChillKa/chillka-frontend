@@ -105,30 +105,12 @@ export async function register(
   }
 }
 
-// TODO: Just not to implement it
-// export async function logout(): Promise<void> {
-//   cookies().set('session', '', { expires: new Date(0), path: '/' });
-// }
+export async function logout(): Promise<void> {
+  cookies().set('session', '', { expires: new Date(0), path: '/' });
+}
 
-// export async function getSession(): Promise<any> {
-//   const session = cookies().get('session')?.value;
-//   if (!session) return null;
-//   return { token: session };
-// }
-
-// export async function updateSession(
-//   request: NextRequest
-// ): Promise<NextResponse | undefined> {
-//   const session = request.cookies.get('session')?.value;
-//   if (!session) return undefined;
-
-//   const expires = new Date(Date.now() + 3600 * 1000);
-//   const res = NextResponse.next();
-//   res.cookies.set({
-//     name: 'session',
-//     value: session,
-//     httpOnly: true,
-//     expires,
-//   });
-//   return res;
-// }
+export async function getSession(): Promise<any> {
+  const session = cookies().get('session')?.value;
+  if (!session) return null;
+  return { token: session };
+}
