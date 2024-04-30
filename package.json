@@ -12,6 +12,12 @@
     "preinstall": "npx only-allow yarn",
     "prepare": "husky install"
   },
+  "lint-staged": {
+    "*.{ts,js,tsx,jsx,css}": [
+      "lint --fix",
+      "prettier --write ."
+    ]
+  },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
     "@radix-ui/react-avatar": "^1.0.4",
