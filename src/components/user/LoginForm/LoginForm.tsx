@@ -10,24 +10,21 @@ import {
   FormMessage,
 } from '@components/ui/form';
 import { Input } from '@components/ui/input';
+import { toast } from '@components/ui/use-toast';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { loginFormSchema } from '@lib/definitions';
+import { useRef } from 'react';
+import { useFormState } from 'react-dom';
 import { useForm } from 'react-hook-form';
+import { login } from 'src/action/auth';
 import { z } from 'zod';
 
-const loginFormSchema = z.object({
-  email: z
-    .string()
-    .min(1, { message: 'This field has to be filled.' })
-    .max(50)
-    .email(),
-  password: z.string().min(8).max(50),
-});
+const LoginForm: React.FC = () => {
+  const [state, formAction] = useFormState(login, {
+    errors: undefined,
+  });
 
-const LoginForm: React.FC<{
-  onSubmit: (data: z.infer<typeof loginFormSchema>) => void;
-}> = ({ onSubmit }) => {
-  const form = useForm({
-    mode: 'onSubmit',
+  const form = useForm<z.output<typeof loginFormSchema>>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
       email: '',
@@ -35,13 +32,27 @@ const LoginForm: React.FC<{
     },
   });
 
-  const handleSubmit = form.handleSubmit((data) => {
-    onSubmit?.(data);
-  });
+  const formRef = useRef<HTMLFormElement>(null);
 
   return (
     <Form {...form}>
-      <form onSubmit={handleSubmit} className="space-y-2">
+      <form
+        ref={formRef}
+        action={formAction}
+        onSubmit={(e) => {
+          e.preventDefault();
+          form.handleSubmit(() => {
+            formAction(new FormData(formRef.current!));
+          })(e);
+
+          if (state?.message) {
+            toast({
+              title: state.message,
+            });
+          }
+        }}
+        className="space-y-2"
+      >
         <FormField
           control={form.control}
           name="email"

@@ -10,26 +10,21 @@ import {
   FormMessage,
 } from '@components/ui/form';
 import { Input } from '@components/ui/input';
+import { toast } from '@components/ui/use-toast';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { registerFormSchema } from '@lib/definitions';
 import Link from 'next/link';
+import { useRef } from 'react';
+import { useFormState } from 'react-dom';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
+import { register } from 'src/action/auth';
 
-const registerFormSchema = z.object({
-  email: z
-    .string()
-    .min(1, { message: 'This field has to be filled.' })
-    .max(50)
-    .email(),
-  password: z.string().min(8).max(50),
-  username: z.string().min(1).max(50),
-});
+const RegisterForm: React.FC = () => {
+  const [state, formAction] = useFormState(register, {
+    errors: undefined,
+  });
 
-const RegisterForm: React.FC<{
-  onSubmit?: (data: z.infer<typeof registerFormSchema>) => void;
-}> = ({ onSubmit }) => {
   const form = useForm({
-    mode: 'onSubmit',
     resolver: zodResolver(registerFormSchema),
     defaultValues: {
       email: '',
@@ -38,14 +33,24 @@ const RegisterForm: React.FC<{
     },
   });
 
-  const handleSubmit = form.handleSubmit((data) => {
-    onSubmit?.(data);
-  });
+  const formRef = useRef<HTMLFormElement>(null);
 
   return (
     <Form {...form}>
       <form
-        onSubmit={handleSubmit}
+        ref={formRef}
+        action={formAction}
+        onSubmit={(e) => {
+          e.preventDefault();
+          form.handleSubmit(() => {
+            formAction(new FormData(formRef.current!));
+          })(e);
+          if (state?.message) {
+            toast({
+              title: state.message,
+            });
+          }
+        }}
         className="flex w-full flex-col justify-center space-y-2"
       >
         <FormField

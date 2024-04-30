@@ -1,5 +1,6 @@
 import Footer from '@components/Footer';
 import Header from '@components/Header';
+import { Toaster } from '@components/ui/toaster';
 import cn from '@lib/utils';
 import type { Metadata } from 'next';
 import { Inter as FontSans } from 'next/font/google';
@@ -27,6 +28,7 @@ const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => (
       <Header />
       <main className="debug min-h-[calc(100vh-var(--header-height)-var(--footer-height))]">
         {children}
+        <Toaster />
       </main>
       <Footer />
     </body>
