@@ -29,7 +29,7 @@ const RegisterForm: React.FC = () => {
     defaultValues: {
       email: '',
       password: '',
-      username: '',
+      displayName: '',
     },
   });
 
@@ -55,7 +55,7 @@ const RegisterForm: React.FC = () => {
       >
         <FormField
           control={form.control}
-          name="username"
+          name="displayName"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Username</FormLabel>

@@ -1,6 +1,11 @@
 'use server';
 
-import { FormState, endpoint, loginFormSchema } from '@lib/definitions';
+import {
+  FormState,
+  endpoint,
+  loginFormSchema,
+  registerFormSchema,
+} from '@lib/definitions';
 import { cookies } from 'next/headers';
 
 export async function login(
@@ -58,7 +63,8 @@ export async function register(
   state: FormState,
   formData: FormData
 ): Promise<FormState> {
-  const validatedFields = loginFormSchema.safeParse({
+  const validatedFields = registerFormSchema.safeParse({
+    displayName: formData.get('displayName'),
     email: formData.get('email'),
     password: formData.get('password'),
   });
@@ -69,7 +75,7 @@ export async function register(
     };
   }
 
-  const { email, password } = validatedFields.data;
+  const { email, password, displayName } = validatedFields.data;
 
   try {
     const response = await fetch(`${endpoint}/register`, {
@@ -77,7 +83,7 @@ export async function register(
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ email, password, displayName }),
     });
 
     if (!response.ok) {
@@ -85,15 +91,6 @@ export async function register(
         message: 'Registration failed',
       };
     }
-
-    const result = await response.json();
-
-    const expires = new Date(Date.now() + 3600 * 1000); // 1 hour from now
-    cookies().set('session', result.token, {
-      httpOnly: true,
-      expires,
-      path: '/',
-    });
 
     return {
       message: 'success register',
