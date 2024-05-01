@@ -10,18 +10,20 @@ import {
   FormMessage,
 } from '@components/ui/form';
 import { Input } from '@components/ui/input';
+import { toast } from '@components/ui/use-toast';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginFormSchema } from '@lib/definitions';
 import { useAuthContext } from '@store/AuthProvider/AuthProvider';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useFormState } from 'react-dom';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 const LoginForm: React.FC = () => {
   const { login } = useAuthContext();
-  const [_, formAction] = useFormState(login, {
-    errors: undefined,
+  const [state, formAction] = useFormState(login, {
+    status: undefined,
+    message: undefined,
   });
 
   const form = useForm<z.output<typeof loginFormSchema>>({
@@ -33,6 +35,15 @@ const LoginForm: React.FC = () => {
   });
 
   const formRef = useRef<HTMLFormElement>(null);
+
+  useEffect(() => {
+    if (state?.status) {
+      toast({
+        title: state.message ?? 'Unknown error',
+        variant: state.status === 'success' ? 'default' : 'destructive',
+      });
+    }
+  }, [state?.status, state?.message]);
 
   return (
     <Form {...form}>

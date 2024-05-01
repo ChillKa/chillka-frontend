@@ -14,14 +14,15 @@ import { toast } from '@components/ui/use-toast';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { registerFormSchema } from '@lib/definitions';
 import Link from 'next/link';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useFormState } from 'react-dom';
 import { useForm } from 'react-hook-form';
 import { register } from 'src/action/auth';
 
 const RegisterForm: React.FC = () => {
   const [state, formAction] = useFormState(register, {
-    errors: undefined,
+    status: undefined,
+    message: undefined,
   });
 
   const form = useForm({
@@ -35,6 +36,15 @@ const RegisterForm: React.FC = () => {
 
   const formRef = useRef<HTMLFormElement>(null);
 
+  useEffect(() => {
+    if (state?.status) {
+      toast({
+        title: state.message ?? 'Unknown error',
+        variant: state.status === 'success' ? 'default' : 'destructive',
+      });
+    }
+  }, [state?.status, state?.message]);
+
   return (
     <Form {...form}>
       <form
@@ -45,11 +55,6 @@ const RegisterForm: React.FC = () => {
           form.handleSubmit(() => {
             formAction(new FormData(formRef.current!));
           })(e);
-          if (state?.message) {
-            toast({
-              title: state.message,
-            });
-          }
         }}
         className="flex w-full flex-col justify-center space-y-2"
       >
