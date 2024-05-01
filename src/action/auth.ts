@@ -9,16 +9,13 @@ import { cookies } from 'next/headers';
 
 export type FormState =
   | {
-      errors?: {
-        email?: string[];
-        password?: string[];
-      };
+      status?: 'success' | 'failed';
       message?: string;
     }
   | undefined;
 
 export async function login(
-  state: FormState,
+  prevState: FormState,
   formData: FormData
 ): Promise<FormState> {
   const validatedFields = loginFormSchema.safeParse({
@@ -28,7 +25,8 @@ export async function login(
 
   if (!validatedFields.success) {
     return {
-      errors: validatedFields.error.flatten().fieldErrors,
+      status: 'failed',
+      message: 'Fields format is wrong',
     };
   }
 
@@ -45,6 +43,7 @@ export async function login(
 
     if (!response.ok) {
       return {
+        status: 'failed',
         message: 'Failed to login',
       };
     }
@@ -59,10 +58,12 @@ export async function login(
     });
 
     return {
+      status: 'success',
       message: 'success login',
     };
   } catch (error) {
     return {
+      status: 'failed',
       message: (error as Error).message,
     };
   }
@@ -80,7 +81,8 @@ export async function register(
 
   if (!validatedFields.success) {
     return {
-      errors: validatedFields.error.flatten().fieldErrors,
+      status: 'failed',
+      message: 'Fields format is wrong',
     };
   }
 
@@ -97,15 +99,18 @@ export async function register(
 
     if (!response.ok) {
       return {
+        status: 'failed',
         message: 'Registration failed',
       };
     }
 
     return {
+      status: 'success',
       message: 'success register',
     };
   } catch (error) {
     return {
+      status: 'failed',
       message: (error as Error).message,
     };
   }
