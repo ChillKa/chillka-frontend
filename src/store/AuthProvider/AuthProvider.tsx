@@ -1,11 +1,11 @@
 'use client';
 
 import {
+  FormState,
   login as authLogin,
   logout as authLogout,
   getSession,
 } from '@action/auth';
-import { FormState } from '@lib/definitions';
 import React, {
   PropsWithChildren,
   createContext,

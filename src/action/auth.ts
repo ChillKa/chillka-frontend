@@ -1,12 +1,21 @@
 'use server';
 
 import {
-  FormState,
   endpoint,
   loginFormSchema,
   registerFormSchema,
 } from '@lib/definitions';
 import { cookies } from 'next/headers';
+
+export type FormState =
+  | {
+      errors?: {
+        email?: string[];
+        password?: string[];
+      };
+      message?: string;
+    }
+  | undefined;
 
 export async function login(
   state: FormState,
