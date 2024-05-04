@@ -22,7 +22,7 @@ import { register } from 'src/action/auth';
 const RegisterForm: React.FC = () => {
   const [state, formAction] = useFormState(register, {
     status: undefined,
-    message: undefined,
+    message: '',
   });
 
   const form = useForm({
@@ -31,19 +31,20 @@ const RegisterForm: React.FC = () => {
       email: '',
       password: '',
       displayName: '',
+      ...(state?.fields ?? {}),
     },
   });
 
   const formRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
-    if (state?.status) {
+    if (state && state.message !== '' && !state.issues) {
       toast({
         title: state.message ?? 'Unknown error',
         variant: state.status === 'success' ? 'default' : 'destructive',
       });
     }
-  }, [state?.status, state?.message]);
+  }, [state?.status, state?.message, state]);
 
   return (
     <Form {...form}>

@@ -10,7 +10,9 @@ import { cookies } from 'next/headers';
 export type FormState =
   | {
       status?: 'success' | 'failed';
-      message?: string;
+      message: string;
+      fields?: Record<string, string>;
+      issues?: string[];
     }
   | undefined;
 
@@ -24,9 +26,16 @@ export async function login(
   });
 
   if (!validatedFields.success) {
+    const fields: Record<string, string> = {};
+    Object.keys(formData).forEach((key) => {
+      fields[key] = formData.get(key)?.toString() ?? '';
+    });
+
     return {
       status: 'failed',
       message: 'Fields format is wrong',
+      fields,
+      issues: validatedFields.error.issues.map((issue) => issue.message),
     };
   }
 
@@ -45,6 +54,7 @@ export async function login(
       return {
         status: 'failed',
         message: 'Failed to login',
+        fields: validatedFields.data,
       };
     }
 
@@ -60,11 +70,13 @@ export async function login(
     return {
       status: 'success',
       message: 'success login',
+      fields: validatedFields.data,
     };
   } catch (error) {
     return {
       status: 'failed',
       message: (error as Error).message,
+      fields: validatedFields.data,
     };
   }
 }
@@ -80,9 +92,16 @@ export async function register(
   });
 
   if (!validatedFields.success) {
+    const fields: Record<string, string> = {};
+    Object.keys(formData).forEach((key) => {
+      fields[key] = formData.get(key)?.toString() ?? '';
+    });
+
     return {
       status: 'failed',
       message: 'Fields format is wrong',
+      fields,
+      issues: validatedFields.error.issues.map((issue) => issue.message),
     };
   }
 
@@ -101,17 +120,20 @@ export async function register(
       return {
         status: 'failed',
         message: 'Registration failed',
+        fields: validatedFields.data,
       };
     }
 
     return {
       status: 'success',
       message: 'success register',
+      fields: validatedFields.data,
     };
   } catch (error) {
     return {
       status: 'failed',
       message: (error as Error).message,
+      fields: validatedFields.data,
     };
   }
 }

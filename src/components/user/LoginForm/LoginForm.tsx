@@ -23,7 +23,7 @@ const LoginForm: React.FC = () => {
   const { login } = useAuthContext();
   const [state, formAction] = useFormState(login, {
     status: undefined,
-    message: undefined,
+    message: '',
   });
 
   const form = useForm<z.output<typeof loginFormSchema>>({
@@ -31,19 +31,20 @@ const LoginForm: React.FC = () => {
     defaultValues: {
       email: '',
       password: '',
+      ...(state?.fields ?? {}),
     },
   });
 
   const formRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
-    if (state?.status) {
+    if (state && state.message !== '' && !state.issues) {
       toast({
         title: state.message ?? 'Unknown error',
         variant: state.status === 'success' ? 'default' : 'destructive',
       });
     }
-  }, [state?.status, state?.message]);
+  }, [state?.status, state?.message, state]);
 
   return (
     <Form {...form}>
