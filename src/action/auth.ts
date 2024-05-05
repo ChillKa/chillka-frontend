@@ -6,6 +6,7 @@ import {
   registerFormSchema,
 } from '@lib/definitions';
 import { cookies } from 'next/headers';
+import { z } from 'zod';
 
 export type FormState =
   | {
@@ -82,26 +83,14 @@ export async function login(
 }
 
 export async function register(
-  state: FormState,
-  formData: FormData
+  data: z.infer<typeof registerFormSchema>
 ): Promise<FormState> {
-  const validatedFields = registerFormSchema.safeParse({
-    displayName: formData.get('displayName'),
-    email: formData.get('email'),
-    password: formData.get('password'),
-  });
+  const validatedFields = registerFormSchema.safeParse(data);
 
   if (!validatedFields.success) {
-    const fields: Record<string, string> = {};
-    Object.keys(formData).forEach((key) => {
-      fields[key] = formData.get(key)?.toString() ?? '';
-    });
-
     return {
       status: 'failed',
       message: 'Fields format is wrong',
-      fields,
-      issues: validatedFields.error.issues.map((issue) => issue.message),
     };
   }
 
@@ -120,20 +109,17 @@ export async function register(
       return {
         status: 'failed',
         message: 'Registration failed',
-        fields: validatedFields.data,
       };
     }
 
     return {
       status: 'success',
       message: 'success register',
-      fields: validatedFields.data,
     };
   } catch (error) {
     return {
       status: 'failed',
       message: (error as Error).message,
-      fields: validatedFields.data,
     };
   }
 }

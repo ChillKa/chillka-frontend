@@ -14,16 +14,12 @@ import { toast } from '@components/ui/use-toast';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { registerFormSchema } from '@lib/definitions';
 import Link from 'next/link';
-import { useEffect, useRef } from 'react';
-import { useFormState } from 'react-dom';
+import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { register } from 'src/action/auth';
 
 const RegisterForm: React.FC = () => {
-  const [state, formAction] = useFormState(register, {
-    status: undefined,
-    message: '',
-  });
+  const [isPending, startTransition] = useTransition();
 
   const form = useForm({
     resolver: zodResolver(registerFormSchema),
@@ -31,32 +27,25 @@ const RegisterForm: React.FC = () => {
       email: '',
       password: '',
       displayName: '',
-      ...(state?.fields ?? {}),
     },
   });
 
-  const formRef = useRef<HTMLFormElement>(null);
-
-  useEffect(() => {
-    if (state && state.message !== '' && !state.issues) {
-      toast({
-        title: state.message ?? 'Unknown error',
-        variant: state.status === 'success' ? 'default' : 'destructive',
-      });
-    }
-  }, [state?.status, state?.message, state]);
+  const handleSubmitRegister = form.handleSubmit(async (data) => {
+    startTransition(async () => {
+      const result = await register(data);
+      if (result?.message !== '') {
+        toast({
+          title: result?.message ?? 'Unknown error',
+          variant: result?.status === 'success' ? 'default' : 'destructive',
+        });
+      }
+    });
+  });
 
   return (
     <Form {...form}>
       <form
-        ref={formRef}
-        action={formAction}
-        onSubmit={(e) => {
-          e.preventDefault();
-          form.handleSubmit(() => {
-            formAction(new FormData(formRef.current!));
-          })(e);
-        }}
+        onSubmit={handleSubmitRegister}
         className="flex w-full flex-col justify-center space-y-2"
       >
         <FormField
@@ -107,7 +96,9 @@ const RegisterForm: React.FC = () => {
         <section className="flex items-center justify-center">
           <p>已經有帳號?</p>
           <Link href="/auth/login" replace>
-            <Button variant="ghost">登入</Button>
+            <Button variant="ghost" disabled={isPending}>
+              登入
+            </Button>
           </Link>
         </section>
       </form>
