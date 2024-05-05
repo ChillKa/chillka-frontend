@@ -6,6 +6,7 @@ import {
   logout as authLogout,
   getSession,
 } from '@action/auth';
+import { loginFormSchema } from '@lib/definitions';
 import { useRouter } from 'next/navigation';
 import React, {
   PropsWithChildren,
@@ -16,10 +17,11 @@ import React, {
   useMemo,
   useState,
 } from 'react';
+import { z } from 'zod';
 
 export interface AuthContextType {
   isLoggedin: boolean;
-  login: (state: FormState, formData: FormData) => Promise<FormState>;
+  login: (formData: z.infer<typeof loginFormSchema>) => Promise<FormState>;
   logout: () => Promise<void>;
 }
 
@@ -49,8 +51,8 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   }, []);
 
   const login = useCallback(
-    async (state: FormState, formData: FormData) => {
-      const result = await authLogin(state, formData);
+    async (formData: z.infer<typeof loginFormSchema>) => {
+      const result = await authLogin(formData);
       const session = await getSession();
       setIsLoggedin(!!session);
 

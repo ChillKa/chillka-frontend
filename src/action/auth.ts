@@ -18,25 +18,14 @@ export type FormState =
   | undefined;
 
 export async function login(
-  prevState: FormState,
-  formData: FormData
+  data: z.infer<typeof loginFormSchema>
 ): Promise<FormState> {
-  const validatedFields = loginFormSchema.safeParse({
-    email: formData.get('email'),
-    password: formData.get('password'),
-  });
+  const validatedFields = loginFormSchema.safeParse(data);
 
   if (!validatedFields.success) {
-    const fields: Record<string, string> = {};
-    Object.keys(formData).forEach((key) => {
-      fields[key] = formData.get(key)?.toString() ?? '';
-    });
-
     return {
       status: 'failed',
       message: 'Fields format is wrong',
-      fields,
-      issues: validatedFields.error.issues.map((issue) => issue.message),
     };
   }
 
@@ -55,7 +44,6 @@ export async function login(
       return {
         status: 'failed',
         message: 'Failed to login',
-        fields: validatedFields.data,
       };
     }
 
@@ -71,13 +59,11 @@ export async function login(
     return {
       status: 'success',
       message: 'success login',
-      fields: validatedFields.data,
     };
   } catch (error) {
     return {
       status: 'failed',
       message: (error as Error).message,
-      fields: validatedFields.data,
     };
   }
 }

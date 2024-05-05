@@ -14,51 +14,37 @@ import { toast } from '@components/ui/use-toast';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginFormSchema } from '@lib/definitions';
 import { useAuthContext } from '@store/AuthProvider/AuthProvider';
-import { useEffect, useRef } from 'react';
-import { useFormState } from 'react-dom';
+import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 const LoginForm: React.FC = () => {
   const { login } = useAuthContext();
-  const [state, formAction] = useFormState(login, {
-    status: undefined,
-    message: '',
-  });
+  const [isPending, startTransition] = useTransition();
 
   const form = useForm<z.output<typeof loginFormSchema>>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
       email: '',
       password: '',
-      ...(state?.fields ?? {}),
     },
   });
 
-  const formRef = useRef<HTMLFormElement>(null);
-
-  useEffect(() => {
-    if (state && state.message !== '' && !state.issues) {
-      toast({
-        title: state.message ?? 'Unknown error',
-        variant: state.status === 'success' ? 'default' : 'destructive',
-      });
-    }
-  }, [state?.status, state?.message, state]);
+  const handleSubmitLogin = form.handleSubmit(async (data) => {
+    startTransition(async () => {
+      const result = await login(data);
+      if (result?.message !== '') {
+        toast({
+          title: result?.message ?? 'Unknown error',
+          variant: result?.status === 'success' ? 'default' : 'destructive',
+        });
+      }
+    });
+  });
 
   return (
     <Form {...form}>
-      <form
-        ref={formRef}
-        action={formAction}
-        onSubmit={(e) => {
-          e.preventDefault();
-          form.handleSubmit(() => {
-            formAction(new FormData(formRef.current!));
-          })(e);
-        }}
-        className="space-y-2"
-      >
+      <form onSubmit={handleSubmitLogin} className="space-y-2">
         <FormField
           control={form.control}
           name="email"
@@ -90,7 +76,9 @@ const LoginForm: React.FC = () => {
           )}
         />
         <div className="flex justify-end">忘記密碼？</div>
-        <Button type="submit">登入</Button>
+        <Button type="submit" disabled={isPending}>
+          登入
+        </Button>
       </form>
     </Form>
   );
