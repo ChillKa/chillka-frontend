@@ -6,16 +6,14 @@
     "dev": "next dev -p 3535",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint --fix",
-    "format": "prettier --write .",
+    "lint": "next lint --fix prettier --write .",
     "cm": "git cz",
     "preinstall": "npx only-allow yarn",
     "prepare": "husky install"
   },
   "lint-staged": {
     "*.{ts,js,tsx,jsx,css}": [
-      "lint --fix",
-      "prettier --write ."
+      "yarn run lint"
     ]
   },
   "dependencies": {
