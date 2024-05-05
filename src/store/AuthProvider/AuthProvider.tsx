@@ -6,6 +6,7 @@ import {
   logout as authLogout,
   getSession,
 } from '@action/auth';
+import { useRouter } from 'next/navigation';
 import React, {
   PropsWithChildren,
   createContext,
@@ -36,6 +37,7 @@ export const useAuthContext = (): AuthContextType => {
 
 const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [isLoggedin, setIsLoggedin] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     const checkSession = async () => {
@@ -46,13 +48,18 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     checkSession();
   }, []);
 
-  const login = useCallback(async (state: FormState, formData: FormData) => {
-    const result = await authLogin(state, formData);
-    const session = await getSession();
-    setIsLoggedin(!!session);
+  const login = useCallback(
+    async (state: FormState, formData: FormData) => {
+      const result = await authLogin(state, formData);
+      const session = await getSession();
+      setIsLoggedin(!!session);
 
-    return result;
-  }, []);
+      if (session) router.push('/user/about');
+
+      return result;
+    },
+    [router]
+  );
 
   const logout = useCallback(async () => {
     await authLogout();
