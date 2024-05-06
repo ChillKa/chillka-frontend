@@ -92,13 +92,13 @@ const RegisterForm: React.FC = () => {
           )}
         />
 
-        <Button type="submit">Submit</Button>
+        <Button disabled={isPending} type="submit">
+          Submit
+        </Button>
         <section className="flex items-center justify-center">
           <p>已經有帳號?</p>
           <Link href="/auth/login" replace>
-            <Button variant="ghost" disabled={isPending}>
-              登入
-            </Button>
+            <Button variant="ghost">登入</Button>
           </Link>
         </section>
       </form>

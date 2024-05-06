@@ -1,12 +1,13 @@
 import { fetchMe } from '@action/user';
+import UserProfileForm from '@components/user/UserProfileForm';
 
 const UserAboutPage = async () => {
   const result = await fetchMe();
 
   return (
-    <section className="flex w-full justify-center">
+    <section className="flex w-full justify-center p-2">
       {result.status === 'success' ? (
-        <div>{result.data.displayName}</div>
+        <UserProfileForm defaultData={result.data} />
       ) : (
         <div>failed</div>
       )}
