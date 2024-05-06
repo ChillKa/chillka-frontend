@@ -1,21 +1,13 @@
 'use server';
 
 import {
+  FormState,
   endpoint,
   loginFormSchema,
   registerFormSchema,
 } from '@lib/definitions';
 import { cookies } from 'next/headers';
 import { z } from 'zod';
-
-export type FormState =
-  | {
-      status?: 'success' | 'failed';
-      message: string;
-      fields?: Record<string, string>;
-      issues?: string[];
-    }
-  | undefined;
 
 export async function login(
   data: z.infer<typeof loginFormSchema>
