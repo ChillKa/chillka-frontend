@@ -41,9 +41,11 @@ export async function login(
     });
 
     if (!response.ok) {
+      const errorMessage = await response.text();
+
       return {
         status: 'failed',
-        message: 'Failed to login',
+        message: `${errorMessage ?? 'Login failed'} (${response.status})`,
       };
     }
 
@@ -92,9 +94,10 @@ export async function register(
     });
 
     if (!response.ok) {
+      const errorMessage = await response.text();
       return {
         status: 'failed',
-        message: 'Registration failed',
+        message: `${errorMessage ?? 'Register failed'} (${response.status})`,
       };
     }
 
