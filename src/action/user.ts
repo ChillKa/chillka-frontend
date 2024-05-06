@@ -39,12 +39,10 @@ export type UserFetchState =
       message: string;
     };
 
-// TODO: remove userId and use session and jwt id to get the current user
-export async function fetchUser(userId: number): Promise<UserFetchState> {
+// TODO: use session and jwt id to get the current user
+export async function fetchMe(): Promise<UserFetchState> {
   const fetchedData = {
-    id: userId,
-    name: 'Alice',
-    email: 'alice@example.com',
+    displayName: 'tester',
   };
 
   const validatedData = userFormSchema.safeParse(fetchedData);

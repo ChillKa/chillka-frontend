@@ -1,22 +1,16 @@
-import { decodeJwt } from 'jose';
-import { cookies } from 'next/headers';
+import { fetchMe } from '@action/user';
 
-function decrypt(): string {
-  const cookieStore = cookies();
-  const session = cookieStore.get('session')?.value;
-  const payload = decodeJwt(session ?? '');
-
-  if ('username' in payload && typeof payload.username === 'string') {
-    return payload.username ?? '';
-  }
-  return '';
-}
-
-const UserAboutPage = () => {
-  const payload = decrypt();
+const UserAboutPage = async () => {
+  const result = await fetchMe();
 
   return (
-    <section className="flex w-full justify-center">{payload ?? ''}</section>
+    <section className="flex w-full justify-center">
+      {result.status === 'success' ? (
+        <div>{result.data.displayName}</div>
+      ) : (
+        <div>failed</div>
+      )}
+    </section>
   );
 };
 
