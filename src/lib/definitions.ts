@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const endpoint = 'http://localhost:3000/api';
+export const endpoint = process.env.API_ENDPOINT;
 
 export const loginFormSchema = z.object({
   email: z
