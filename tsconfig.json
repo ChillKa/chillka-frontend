@@ -24,9 +24,7 @@
       "@ui/*": ["./src/components/ui/*"],
       "@hook/*": ["./src/hook/*"],
       "@lib/*": ["./src/lib/*"],
-      "@api/*": ["./src/api/*"],
-      "@action/*": ["./src/action/*"],
-      "@store/*": ["./src/store/*"]
+      "@api/*": ["./src/api/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
