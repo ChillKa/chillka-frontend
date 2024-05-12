@@ -1,12 +1,11 @@
 'use client';
 
 import {
-  FormState,
   login as authLogin,
   logout as authLogout,
   getSession,
 } from '@action/auth';
-import { loginFormSchema } from '@lib/definitions';
+import { FormState, loginFormSchema } from '@lib/definitions';
 import { useRouter } from 'next/navigation';
 import React, {
   PropsWithChildren,
