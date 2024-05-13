@@ -73,7 +73,11 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ defaultData }) => {
             <FormItem>
               <FormLabel>顯示名稱</FormLabel>
               <FormControl>
-                <Input placeholder="Please Type Username" {...field} />
+                <Input
+                  placeholder="Please Type Username"
+                  disabled={!isEditing}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
