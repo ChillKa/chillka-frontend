@@ -31,7 +31,7 @@ export async function updateUser(data: UserData): Promise<FormState> {
   try {
     const { payload } = await jwtVerify(
       sessionCookie,
-      new TextEncoder().encode('secret')
+      new TextEncoder().encode(process.env.JWT_SECRET)
     );
 
     if (typeof payload.id !== 'string') {
@@ -92,7 +92,7 @@ export async function fetchMe(): Promise<UserFetchState> {
   try {
     const { payload } = await jwtVerify(
       sessionCookie,
-      new TextEncoder().encode('secret')
+      new TextEncoder().encode(process.env.JWT_SECRET)
     );
     if (typeof payload.id !== 'string') {
       throw new Error('No payload id');
