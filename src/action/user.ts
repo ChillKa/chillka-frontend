@@ -19,16 +19,52 @@ export async function updateUser(data: UserData): Promise<FormState> {
 
   const { displayName } = validatedFields.data;
 
+  const sessionCookie = cookies().get('session')?.value;
+
+  if (!sessionCookie) {
+    return {
+      status: 'failed',
+      message: 'No session cookie found',
+    };
+  }
+
   try {
-    await Promise.resolve('success');
+    const { payload } = await jwtVerify(
+      sessionCookie,
+      new TextEncoder().encode('secret')
+    );
+
+    if (typeof payload.id !== 'string') {
+      throw new Error('No payload id');
+    }
+
+    const userId = payload.id;
+
+    const response = await fetch(`${endpoint}/user/${userId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${sessionCookie}`,
+      },
+      body: JSON.stringify(validatedFields.data),
+    });
+
+    if (!response.ok) {
+      const errorMessage = await response.text();
+      return {
+        status: 'failed',
+        message: `${errorMessage ?? 'Update user failed'} (${response.status})`,
+      };
+    }
+
     return {
       status: 'success',
-      message: `User ${displayName} is updated successful.`,
+      message: `User ${displayName} is updated successfully.`,
     };
   } catch (error) {
     return {
       status: 'failed',
-      message: `Failed to update user due to error: ${error}`,
+      message: `Failed to update user due to error: ${error instanceof Error ? error.message : String(error)}`,
     };
   }
 }
