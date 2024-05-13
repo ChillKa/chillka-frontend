@@ -11,7 +11,7 @@ const UserAboutPage = async () => {
         {result.status === 'success' ? (
           <UserProfileForm defaultData={result.data} />
         ) : (
-          <div>Failed</div>
+          <div>{result.message}</div>
         )}
       </Card>
     </section>
