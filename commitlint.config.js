@@ -21,23 +21,23 @@ module.exports = {
           }
           return [true];
         },
-        'custom-header-max-length': ({ header }, _when, expetedValue) => {
-          if (header.length > expetedValue) {
+        'custom-header-max-length': ({ header }, _when, expectedValue) => {
+          if (header.length > expectedValue) {
             return [
               false,
               `
-                標題必須少於${expetedValue}個字元, 現在為${header.length}個字元
+                標題必須少於${expectedValue}個字元, 現在為${header.length}個字元
                 `,
             ];
           }
           return [true];
         },
-        'custom-header-min-length': ({ header }, _when, expetedValue) => {
-          if (header.length < expetedValue) {
+        'custom-header-min-length': ({ header }, _when, expectedValue) => {
+          if (header.length < expectedValue) {
             return [
               false,
               `
-                標題必須多於${expetedValue}個字元, 現在為${header.length}個字元
+                標題必須多於${expectedValue}個字元, 現在為${header.length}個字元
                 `,
             ];
           }
