@@ -2,8 +2,8 @@
 
 import { FormState, endpoint, userFormSchema } from '@lib/definitions';
 import { jwtVerify } from 'jose';
-import { cookies } from 'next/headers';
 import { z } from 'zod';
+import { getSessionCookie } from './utils';
 
 export type UserData = z.infer<typeof userFormSchema>;
 
@@ -19,7 +19,7 @@ export async function updateUser(data: UserData): Promise<FormState> {
 
   const { displayName } = validatedFields.data;
 
-  const sessionCookie = cookies().get('session')?.value;
+  const sessionCookie = getSessionCookie();
 
   if (!sessionCookie) {
     return {
@@ -80,7 +80,7 @@ export type UserFetchState =
     };
 
 export async function fetchMe(): Promise<UserFetchState> {
-  const sessionCookie = cookies().get('session')?.value;
+  const sessionCookie = getSessionCookie();
 
   if (!sessionCookie) {
     return {

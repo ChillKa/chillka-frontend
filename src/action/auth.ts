@@ -6,8 +6,12 @@ import {
   loginFormSchema,
   registerFormSchema,
 } from '@lib/definitions';
-import { cookies } from 'next/headers';
 import { z } from 'zod';
+import {
+  clearSessionCookie,
+  getSessionCookie,
+  setSessionCookie,
+} from './utils';
 
 export async function login(
   data: z.infer<typeof loginFormSchema>
@@ -42,22 +46,17 @@ export async function login(
     }
 
     const result = await response.json();
-
-    const expires = new Date(Date.now() + 3600 * 1000); // 1 hour from now
-    cookies().set('session', result.token, {
-      httpOnly: true,
-      expires,
-      path: '/',
-    });
+    setSessionCookie(result.token, 3600);
 
     return {
       status: 'success',
-      message: 'success login',
+      message: 'Successfully logged in',
     };
   } catch (error) {
     return {
       status: 'failed',
-      message: (error as Error).message,
+      message:
+        error instanceof Error ? error.message : 'An unknown error occurred',
     };
   }
 }
@@ -100,17 +99,24 @@ export async function register(
   } catch (error) {
     return {
       status: 'failed',
-      message: (error as Error).message,
+      message:
+        error instanceof Error ? error.message : 'An unknown error occurred',
     };
   }
 }
 
 export async function logout(): Promise<void> {
-  cookies().set('session', '', { expires: new Date(0), path: '/' });
+  clearSessionCookie();
 }
 
-export async function getSession(): Promise<any> {
-  const session = cookies().get('session')?.value;
-  if (!session) return null;
-  return { token: session };
+export async function getSession(): Promise<{
+  token: string;
+} | null> {
+  const token = getSessionCookie();
+
+  return token
+    ? {
+        token,
+      }
+    : null;
 }
