@@ -11,29 +11,21 @@ import {
   clearSessionCookie,
   getSessionCookie,
   setSessionCookie,
+  validateWithSchema,
 } from './utils';
 
 export async function login(
   data: z.infer<typeof loginFormSchema>
 ): Promise<FormState> {
-  const validatedFields = loginFormSchema.safeParse(data);
-
-  if (!validatedFields.success) {
-    return {
-      status: 'failed',
-      message: 'Fields format is wrong',
-    };
-  }
-
-  const { email, password } = validatedFields.data;
-
   try {
+    const validatedData = validateWithSchema(loginFormSchema, data);
+
     const response = await fetch(`${endpoint}/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify(validatedData),
     });
 
     if (!response.ok) {
@@ -64,24 +56,15 @@ export async function login(
 export async function register(
   data: z.infer<typeof registerFormSchema>
 ): Promise<FormState> {
-  const validatedFields = registerFormSchema.safeParse(data);
-
-  if (!validatedFields.success) {
-    return {
-      status: 'failed',
-      message: 'Fields format is wrong',
-    };
-  }
-
-  const { email, password, displayName } = validatedFields.data;
-
   try {
+    const validatedData = validateWithSchema(registerFormSchema, data);
+
     const response = await fetch(`${endpoint}/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ email, password, displayName }),
+      body: JSON.stringify(validatedData),
     });
 
     if (!response.ok) {

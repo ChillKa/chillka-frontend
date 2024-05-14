@@ -3,32 +3,24 @@
 import { FormState, endpoint, userFormSchema } from '@lib/definitions';
 import { jwtVerify } from 'jose';
 import { z } from 'zod';
-import { getSessionCookie } from './utils';
+import { getSessionCookie, validateWithSchema } from './utils';
 
 export type UserData = z.infer<typeof userFormSchema>;
 
 export async function updateUser(data: UserData): Promise<FormState> {
-  const validatedFields = userFormSchema.safeParse(data);
-
-  if (!validatedFields.success) {
-    return {
-      status: 'failed',
-      message: 'Fields format is wrong',
-    };
-  }
-
-  const { displayName } = validatedFields.data;
-
-  const sessionCookie = getSessionCookie();
-
-  if (!sessionCookie) {
-    return {
-      status: 'failed',
-      message: 'No session cookie found',
-    };
-  }
-
   try {
+    const validatedData = validateWithSchema(userFormSchema, data);
+    const { displayName } = validatedData;
+
+    const sessionCookie = getSessionCookie();
+
+    if (!sessionCookie) {
+      return {
+        status: 'failed',
+        message: 'No session cookie found',
+      };
+    }
+
     const { payload } = await jwtVerify(
       sessionCookie,
       new TextEncoder().encode(process.env.JWT_SECRET)
@@ -46,7 +38,7 @@ export async function updateUser(data: UserData): Promise<FormState> {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${sessionCookie}`,
       },
-      body: JSON.stringify(validatedFields.data),
+      body: JSON.stringify(validatedData),
     });
 
     if (!response.ok) {
@@ -80,16 +72,16 @@ export type UserFetchState =
     };
 
 export async function fetchMe(): Promise<UserFetchState> {
-  const sessionCookie = getSessionCookie();
-
-  if (!sessionCookie) {
-    return {
-      status: 'failed',
-      message: 'No session cookie found',
-    };
-  }
-
   try {
+    const sessionCookie = getSessionCookie();
+
+    if (!sessionCookie) {
+      return {
+        status: 'failed',
+        message: 'No session cookie found',
+      };
+    }
+
     const { payload } = await jwtVerify(
       sessionCookie,
       new TextEncoder().encode(process.env.JWT_SECRET)
