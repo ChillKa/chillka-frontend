@@ -1,3 +1,4 @@
+import { jwtVerify } from 'jose';
 import { cookies } from 'next/headers';
 import { ZodSchema, infer as zodInfer } from 'zod';
 
@@ -61,4 +62,16 @@ export const setSessionCookie = (token: string, expiresIn: number) => {
 
 export const clearSessionCookie = () => {
   cookies().set('session', '', { expires: new Date(0), path: '/' });
+};
+
+export const getJwtPayload = async () => {
+  const sessionCookie = getSessionCookie();
+  if (!sessionCookie) return null;
+
+  const { payload } = await jwtVerify(
+    sessionCookie,
+    new TextEncoder().encode(process.env.JWT_SECRET)
+  );
+
+  return payload;
 };

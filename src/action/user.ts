@@ -1,9 +1,8 @@
 'use server';
 
 import { FormState, endpoint, userFormSchema } from '@lib/definitions';
-import { jwtVerify } from 'jose';
 import { z } from 'zod';
-import { getSessionCookie, validateWithSchema } from './utils';
+import { getJwtPayload, getSessionCookie, validateWithSchema } from './utils';
 
 export type UserData = z.infer<typeof userFormSchema>;
 
@@ -21,12 +20,9 @@ export async function updateUser(data: UserData): Promise<FormState> {
       };
     }
 
-    const { payload } = await jwtVerify(
-      sessionCookie,
-      new TextEncoder().encode(process.env.JWT_SECRET)
-    );
+    const payload = await getJwtPayload();
 
-    if (typeof payload.id !== 'string') {
+    if (typeof payload?.id !== 'string') {
       throw new Error('No payload id');
     }
 
@@ -82,11 +78,8 @@ export async function fetchMe(): Promise<UserFetchState> {
       };
     }
 
-    const { payload } = await jwtVerify(
-      sessionCookie,
-      new TextEncoder().encode(process.env.JWT_SECRET)
-    );
-    if (typeof payload.id !== 'string') {
+    const payload = await getJwtPayload();
+    if (typeof payload?.id !== 'string') {
       throw new Error('No payload id');
     }
     const userId = payload.id;
