@@ -75,3 +75,80 @@ export const getJwtPayload = async () => {
 
   return payload;
 };
+
+interface FetchOptions<T> {
+  endpoint: string;
+  method: 'GET' | 'POST' | 'PATCH' | 'DELETE';
+  body?: T;
+  headers?: Record<string, string>;
+  shouldAuth?: boolean;
+}
+
+/**
+ * Executes an Next fetch.
+ *
+ * @template T The expected type of the request body.
+ * @param {FetchOptions<T>} options - The options to configure the fetch request.
+ * @returns {Promise<Response>} A promise that resolves to the raw fetch response.
+ * @throws {Error} Throws an error if authentication is required but no session cookie is found.
+ *
+ * @example
+ * ```typescript
+ *   try {
+ *     const response = await fetchAPI({
+ *       endpoint: 'https://api.example.com/data',
+ *       method: 'GET',
+ *       shouldAuth: true
+ *     });
+ *     const data = await response.json();
+ *     console.log(data);
+ *   } catch (error) {
+ *     console.error('Fetch error:', error);
+ *   }
+ * ```
+ *
+ * @example
+ * ```typescript
+ *   try {
+ *     const response = await fetchAPI({
+ *       endpoint: 'https://api.example.com/users',
+ *       method: 'POST',
+ *       body: { name: 'Jane Doe', age: 30 },
+ *       shouldAuth: true
+ *     });
+ *     if (!response.ok) throw new Error('Failed to post data');
+ *     const data = await response.json();
+ *     console.log('User created:', data);
+ *   } catch (error) {
+ *     console.error('Fetch error:', error);
+ *   }
+ * ```
+ */
+export async function fetchAPI<T>({
+  endpoint,
+  method,
+  body,
+  headers = {},
+  shouldAuth = false,
+}: FetchOptions<T>): Promise<Response> {
+  const finalHeaders: Record<string, string> = {
+    'Content-Type': 'application/json',
+    ...headers,
+  };
+
+  if (shouldAuth) {
+    const sessionCookie = getSessionCookie();
+    if (sessionCookie === null) {
+      throw new Error('Authentication required but no session cookie found.');
+    }
+    finalHeaders.Authorization = `Bearer ${sessionCookie}`;
+  }
+
+  const response = await fetch(endpoint, {
+    method,
+    headers: finalHeaders,
+    body: body ? JSON.stringify(body) : undefined,
+  });
+
+  return response;
+}
