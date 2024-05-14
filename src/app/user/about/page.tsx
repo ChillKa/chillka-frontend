@@ -1,4 +1,5 @@
 import { fetchMe } from '@action/user';
+import { Card } from '@components/ui/card';
 import UserProfileForm from '@components/user/UserProfileForm';
 
 const UserAboutPage = async () => {
@@ -6,11 +7,13 @@ const UserAboutPage = async () => {
 
   return (
     <section className="flex w-full justify-center p-2">
-      {result.status === 'success' ? (
-        <UserProfileForm defaultData={result.data} />
-      ) : (
-        <div>failed</div>
-      )}
+      <Card className="mt-2 w-[50%] p-5">
+        {result.status === 'success' ? (
+          <UserProfileForm defaultData={result.data} />
+        ) : (
+          <div>{result.message}</div>
+        )}
+      </Card>
     </section>
   );
 };

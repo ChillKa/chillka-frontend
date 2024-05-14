@@ -1,4 +1,8 @@
-import { FormState, userFormSchema } from '@lib/definitions';
+'use server';
+
+import { FormState, endpoint, userFormSchema } from '@lib/definitions';
+import { jwtVerify } from 'jose';
+import { cookies } from 'next/headers';
 import { z } from 'zod';
 
 export type UserData = z.infer<typeof userFormSchema>;
@@ -15,16 +19,52 @@ export async function updateUser(data: UserData): Promise<FormState> {
 
   const { displayName } = validatedFields.data;
 
+  const sessionCookie = cookies().get('session')?.value;
+
+  if (!sessionCookie) {
+    return {
+      status: 'failed',
+      message: 'No session cookie found',
+    };
+  }
+
   try {
-    await Promise.resolve('success');
+    const { payload } = await jwtVerify(
+      sessionCookie,
+      new TextEncoder().encode(process.env.JWT_SECRET)
+    );
+
+    if (typeof payload.id !== 'string') {
+      throw new Error('No payload id');
+    }
+
+    const userId = payload.id;
+
+    const response = await fetch(`${endpoint}/user/${userId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${sessionCookie}`,
+      },
+      body: JSON.stringify(validatedFields.data),
+    });
+
+    if (!response.ok) {
+      const errorMessage = await response.text();
+      return {
+        status: 'failed',
+        message: `${errorMessage ?? 'Update user failed'} (${response.status})`,
+      };
+    }
+
     return {
       status: 'success',
-      message: `User ${displayName} is updated successful.`,
+      message: `User ${displayName} is updated successfully.`,
     };
   } catch (error) {
     return {
       status: 'failed',
-      message: `Failed to update user due to error: ${error}`,
+      message: `Failed to update user due to error: ${error instanceof Error ? error.message : String(error)}`,
     };
   }
 }
@@ -39,23 +79,52 @@ export type UserFetchState =
       message: string;
     };
 
-// TODO: use session and jwt id to get the current user
 export async function fetchMe(): Promise<UserFetchState> {
-  const fetchedData = {
-    displayName: 'tester',
-  };
+  const sessionCookie = cookies().get('session')?.value;
 
-  const validatedData = userFormSchema.safeParse(fetchedData);
-
-  if (!validatedData.success) {
+  if (!sessionCookie) {
     return {
       status: 'failed',
-      message: 'Data validation failed',
+      message: 'No session cookie found',
     };
   }
 
   try {
-    await Promise.resolve('success');
+    const { payload } = await jwtVerify(
+      sessionCookie,
+      new TextEncoder().encode(process.env.JWT_SECRET)
+    );
+    if (typeof payload.id !== 'string') {
+      throw new Error('No payload id');
+    }
+    const userId = payload.id;
+
+    const response = await fetch(`${endpoint}/user/${userId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${sessionCookie}`,
+      },
+    });
+
+    if (!response.ok) {
+      const errorMessage = await response.text();
+      return {
+        status: 'failed',
+        message: `${errorMessage ?? 'Fetch user data failed'} (${response.status})`,
+      };
+    }
+
+    const fetchedData = await response.json();
+
+    const validatedData = userFormSchema.safeParse(fetchedData);
+
+    if (!validatedData.success) {
+      return {
+        status: 'failed',
+        message: 'Data validation failed',
+      };
+    }
 
     return {
       status: 'success',
