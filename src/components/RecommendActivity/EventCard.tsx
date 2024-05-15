@@ -1,7 +1,8 @@
 import { Bookmark, Building2, CalendarDays, MapPin, Users } from 'lucide-react';
 
 interface EventCardProps {
-  title?: string;
+  title: string;
+  cover: string;
   description: string;
   startTime: string;
   endTime: string;
@@ -9,10 +10,12 @@ interface EventCardProps {
   location: string;
   organizer: string;
   pricing: number;
+  discount?: number;
 }
 
 const EventCard: React.FC<EventCardProps> = ({
   title,
+  cover,
   description,
   startTime,
   endTime,
@@ -20,6 +23,7 @@ const EventCard: React.FC<EventCardProps> = ({
   location,
   organizer,
   pricing,
+  discount,
 }) => {
   return (
     <div
@@ -28,7 +32,7 @@ const EventCard: React.FC<EventCardProps> = ({
     >
       <div className="relative h-[208px] w-full overflow-hidden">
         <img
-          src="https://fastly.picsum.photos/id/495/200/200.jpg?hmac=WzrKoNNBWVnlSjTRFVRlUyZghnLUBZJXeXdHNugLsQ4"
+          src={cover}
           alt="Descriptive Alt Text"
           className="h-full w-full object-cover transition-transform duration-300 hover:scale-150"
         />
@@ -74,7 +78,11 @@ const EventCard: React.FC<EventCardProps> = ({
 
       <div className="flex h-[28px] items-center justify-start gap-2">
         <span className="text-lg font-bold">NT${pricing}</span>
-        <span className="bg-slate-600 px-2 py-1 text-white">70% OFF</span>
+        {discount && (
+          <span className="bg-slate-600 px-2 py-1 text-white">
+            {discount}% OFF
+          </span>
+        )}
       </div>
     </div>
   );

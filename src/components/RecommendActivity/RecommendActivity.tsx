@@ -14,6 +14,7 @@ const RecommendActivity: React.FC<RecommendActivityProps> = () => {
       <div className="flex w-full justify-between">
         <EventCard
           title="夕陽海灘派對"
+          cover="https://fastly.picsum.photos/id/495/200/200.jpg?hmac=WzrKoNNBWVnlSjTRFVRlUyZghnLUBZJXeXdHNugLsQ4"
           description="在金色夕陽下，與夥伴們一同沙灘狂歡，享受音樂、美食和海浪聲。"
           startTime="2024.1.1"
           endTime="2024.6.30"
@@ -21,6 +22,7 @@ const RecommendActivity: React.FC<RecommendActivityProps> = () => {
           location="台北市 / 信義區"
           organizer="台灣蜘蛛人登高社團"
           pricing={100}
+          discount={70}
         />
         <div id="event-card" className="bg-red h-[564px] w-[416px]">
           card2
