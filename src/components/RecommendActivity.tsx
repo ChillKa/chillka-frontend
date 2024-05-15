@@ -1,5 +1,5 @@
 import { Button } from '@components/ui/button';
-import { Building2, CalendarDays, MapPin, Users } from 'lucide-react';
+import { Bookmark, Building2, CalendarDays, MapPin, Users } from 'lucide-react';
 
 interface RecommendActivityProps {}
 
@@ -7,7 +7,7 @@ const RecommendActivity: React.FC<RecommendActivityProps> = () => {
   return (
     <section className="debug w-full">
       <div className="flex w-full items-start justify-between">
-        <h1 className='mb-2" text-2xl font-semibold'>推薦活動</h1>
+        <h1 className="mb-2 text-5xl font-bold leading-10">推薦活動</h1>
         <Button variant="ghost">查看活動</Button>
       </div>
       <div>---</div>
@@ -20,19 +20,21 @@ const RecommendActivity: React.FC<RecommendActivityProps> = () => {
             <img
               src="https://fastly.picsum.photos/id/495/200/200.jpg?hmac=WzrKoNNBWVnlSjTRFVRlUyZghnLUBZJXeXdHNugLsQ4"
               alt="Descriptive Alt Text"
-              className="h-full w-full object-cover"
+              className="h-full w-full object-cover transition-transform duration-300 hover:scale-150"
             />
-            <button
-              type="button"
-              className="absolute bottom-4 right-4 rounded bg-black px-4 py-2 text-xs text-white opacity-75 hover:opacity-100"
+            <span
+              className="absolute bottom-0 right-0 flex h-[80px] w-[80px] 
+              flex-col items-center justify-center
+              gap-2 bg-[#F0EDE7] text-xs"
             >
-              查看
-            </button>
+              <Bookmark />
+              收藏
+            </span>
           </div>
 
-          <div className="h-[88px]">
-            <h1 className="mb-2 text-2xl font-semibold">夕陽海灘派對</h1>
-            <p className="mb-4 text-sm text-gray-600">
+          <div className="flex h-[88px] flex-col gap-4">
+            <h1 className="text-2xl font-semibold">夕陽海灘派對</h1>
+            <p className="text-sm text-gray-600">
               在金色夕陽下，與夥伴們一同沙灘狂歡，享受音樂、美食和海浪聲。
             </p>
           </div>
@@ -62,7 +64,7 @@ const RecommendActivity: React.FC<RecommendActivityProps> = () => {
 
           <div className="flex h-[28px] items-center justify-start gap-2">
             <span className="text-lg font-bold">NT$100</span>
-            <span className="bg-slate-500 text-white">70% OFF</span>
+            <span className="bg-slate-600 px-2 py-1 text-white">70% OFF</span>
           </div>
         </div>
         <div id="event-card" className="bg-red h-[564px] w-[416px]">
