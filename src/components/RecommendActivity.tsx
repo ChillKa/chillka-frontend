@@ -10,7 +10,7 @@ const RecommendActivity: React.FC<RecommendActivityProps> = () => {
         <h1 className="mb-2 text-5xl font-bold leading-10">推薦活動</h1>
         <Button variant="ghost">查看活動</Button>
       </div>
-      <div>---</div>
+      <hr className="mb-4 mt-2 w-[48px] border-t-2 border-gray-400" />
       <div className="flex w-full justify-between">
         <div
           id="event-card"
@@ -42,8 +42,8 @@ const RecommendActivity: React.FC<RecommendActivityProps> = () => {
           <div className="flex h-[144px] flex-col justify-between gap-4">
             <div className="flex justify-start gap-4">
               <CalendarDays />
-              <p>活動時間</p>
-              <p>2024.1.1-2024.6.30</p>
+              <p className="font-[400]">活動時間</p>
+              <p className="font-[500]">2024.1.1-2024.6.30</p>
             </div>
             <div className="flex justify-start gap-4">
               <Users />
