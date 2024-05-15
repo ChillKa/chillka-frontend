@@ -1,8 +1,8 @@
 'use server';
 
-import { FormState, endpoint, userFormSchema } from '@lib/definitions';
+import { FormState, userFormSchema } from '@lib/definitions';
 import { z } from 'zod';
-import { getJwtPayload, getSessionCookie, validateWithSchema } from './utils';
+import { fetchAPI, getJwtPayload, validateWithSchema } from './utils';
 
 export type UserData = z.infer<typeof userFormSchema>;
 
@@ -10,15 +10,6 @@ export async function updateUser(data: UserData): Promise<FormState> {
   try {
     const validatedData = validateWithSchema(userFormSchema, data);
     const { displayName } = validatedData;
-
-    const sessionCookie = getSessionCookie();
-
-    if (!sessionCookie) {
-      return {
-        status: 'failed',
-        message: 'No session cookie found',
-      };
-    }
 
     const payload = await getJwtPayload();
 
@@ -28,13 +19,11 @@ export async function updateUser(data: UserData): Promise<FormState> {
 
     const userId = payload.id;
 
-    const response = await fetch(`${endpoint}/user/${userId}`, {
+    const response = await fetchAPI({
+      api: `/user/${userId}`,
       method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${sessionCookie}`,
-      },
-      body: JSON.stringify(validatedData),
+      data: validatedData,
+      shouldAuth: true,
     });
 
     if (!response.ok) {
@@ -69,27 +58,16 @@ export type UserFetchState =
 
 export async function fetchMe(): Promise<UserFetchState> {
   try {
-    const sessionCookie = getSessionCookie();
-
-    if (!sessionCookie) {
-      return {
-        status: 'failed',
-        message: 'No session cookie found',
-      };
-    }
-
     const payload = await getJwtPayload();
     if (typeof payload?.id !== 'string') {
       throw new Error('No payload id');
     }
     const userId = payload.id;
 
-    const response = await fetch(`${endpoint}/user/${userId}`, {
+    const response = await fetchAPI({
+      api: `/user/${userId}`,
       method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${sessionCookie}`,
-      },
+      shouldAuth: true,
     });
 
     if (!response.ok) {

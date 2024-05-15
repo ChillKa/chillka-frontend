@@ -1,3 +1,4 @@
+import { endpoint } from '@lib/definitions';
 import { jwtVerify } from 'jose';
 import { cookies } from 'next/headers';
 import { ZodSchema, infer as zodInfer } from 'zod';
@@ -77,9 +78,9 @@ export const getJwtPayload = async () => {
 };
 
 interface FetchOptions<T> {
-  endpoint: string;
+  api: string;
   method: 'GET' | 'POST' | 'PATCH' | 'DELETE';
-  body?: T;
+  data?: T;
   headers?: Record<string, string>;
   shouldAuth?: boolean;
 }
@@ -87,7 +88,7 @@ interface FetchOptions<T> {
 /**
  * Executes an Next fetch.
  *
- * @template T The expected type of the request body.
+ * @template T The expected type of the request payload.
  * @param {FetchOptions<T>} options - The options to configure the fetch request.
  * @returns {Promise<Response>} A promise that resolves to the raw fetch response.
  * @throws {Error} Throws an error if authentication is required but no session cookie is found.
@@ -96,7 +97,7 @@ interface FetchOptions<T> {
  * ```typescript
  *   try {
  *     const response = await fetchAPI({
- *       endpoint: 'https://api.example.com/data',
+ *       api: '/data',
  *       method: 'GET',
  *       shouldAuth: true
  *     });
@@ -111,9 +112,9 @@ interface FetchOptions<T> {
  * ```typescript
  *   try {
  *     const response = await fetchAPI({
- *       endpoint: 'https://api.example.com/users',
+ *       api: '/users',
  *       method: 'POST',
- *       body: { name: 'Jane Doe', age: 30 },
+ *       data: { name: 'Jane Doe', age: 30 },
  *       shouldAuth: true
  *     });
  *     if (!response.ok) throw new Error('Failed to post data');
@@ -125,9 +126,9 @@ interface FetchOptions<T> {
  * ```
  */
 export async function fetchAPI<T>({
-  endpoint,
+  api,
   method,
-  body,
+  data,
   headers = {},
   shouldAuth = false,
 }: FetchOptions<T>): Promise<Response> {
@@ -144,10 +145,10 @@ export async function fetchAPI<T>({
     finalHeaders.Authorization = `Bearer ${sessionCookie}`;
   }
 
-  const response = await fetch(endpoint, {
+  const response = await fetch(`${endpoint}${api}`, {
     method,
     headers: finalHeaders,
-    body: body ? JSON.stringify(body) : undefined,
+    body: data ? JSON.stringify(data) : undefined,
   });
 
   return response;

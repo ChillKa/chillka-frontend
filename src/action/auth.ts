@@ -2,13 +2,13 @@
 
 import {
   FormState,
-  endpoint,
   loginFormSchema,
   registerFormSchema,
 } from '@lib/definitions';
 import { z } from 'zod';
 import {
   clearSessionCookie,
+  fetchAPI,
   getSessionCookie,
   setSessionCookie,
   validateWithSchema,
@@ -20,12 +20,10 @@ export async function login(
   try {
     const validatedData = validateWithSchema(loginFormSchema, data);
 
-    const response = await fetch(`${endpoint}/login`, {
+    const response = await fetchAPI({
+      api: '/login',
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(validatedData),
+      data: validatedData,
     });
 
     if (!response.ok) {
@@ -59,12 +57,10 @@ export async function register(
   try {
     const validatedData = validateWithSchema(registerFormSchema, data);
 
-    const response = await fetch(`${endpoint}/register`, {
+    const response = await fetchAPI({
+      api: '/register',
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(validatedData),
+      data: validatedData,
     });
 
     if (!response.ok) {
