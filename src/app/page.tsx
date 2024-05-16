@@ -9,7 +9,7 @@ const Home = () => {
     <div className="flex flex-col items-center">
       <div>您目前所在位置是首頁</div>
 
-      <div className="h-[708px] w-[1296px]">
+      <div id="mock-layout" className="w-full xl:w-[1296px]">
         <RecommendActivity />
       </div>
     </div>

@@ -28,13 +28,13 @@ const EventCard: React.FC<EventCardProps> = ({
   return (
     <div
       id="event-card"
-      className="bg-red debug flex h-[564px] w-[416px] flex-col gap-8"
+      className="bg-red debug flex h-[564px] w-full flex-col gap-8 xl:w-[416px]"
     >
       <div className="relative h-[208px] w-full overflow-hidden">
         <img
           src={cover}
           alt="Descriptive Alt Text"
-          className="h-full w-full object-cover transition-transform duration-300 hover:scale-150"
+          className="absolute left-0 top-0 h-full w-full object-cover transition-transform duration-300 hover:scale-110"
         />
         <span
           className="absolute bottom-0 right-0 flex h-[80px] w-[80px] 
