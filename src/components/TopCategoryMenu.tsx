@@ -68,7 +68,7 @@ const items: ItemType[] = [
 ];
 
 const ItemRow = ({ rowItems }: { rowItems: ItemType[] }) => (
-  <div className="flex h-40 xl:h-[300px]">
+  <div className="flex h-40 gap-4 xl:h-[300px]">
     {rowItems.map((item, index) => (
       <Fragment key={item.text}>
         <IconButton

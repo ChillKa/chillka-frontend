@@ -19,13 +19,15 @@ const IconButton = ({
   return (
     <Link
       className={cn(
-        'flex flex-col items-center justify-center gap-2',
+        'group flex flex-col items-center justify-center gap-2 transition duration-300 hover:bg-primary hover:fill-surface',
         className
       )}
       href={linkURL}
     >
-      <Icon className="h-10 w-10" strokeWidth={1} />
-      <span className="block text-xl font-bold ">{categoryName}</span>
+      <Icon className="h-10 w-10 group-hover:stroke-surface" strokeWidth={1} />
+      <span className="block text-xl font-bold group-hover:text-surface ">
+        {categoryName}
+      </span>
     </Link>
   );
 };
