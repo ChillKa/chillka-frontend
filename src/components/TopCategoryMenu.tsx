@@ -67,7 +67,7 @@ const items: ItemType[] = [
   },
 ];
 
-const ItemRow = ({ rowItems }: { rowItems: ItemType[] }) => (
+const ItemRow = ({ rowItems }: { rowItems: ItemType[] }): React.JSX.Element => (
   <div className="flex h-40 gap-4 xl:h-[300px]">
     {rowItems.map((item, index) => (
       <Fragment key={item.text}>
