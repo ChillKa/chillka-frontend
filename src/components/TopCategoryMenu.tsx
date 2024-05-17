@@ -28,42 +28,42 @@ const items: ItemType[] = [
   {
     Icon: TreesIcon,
     text: '戶外踏青',
-    url: '',
+    url: '/categories/outdoors-and-travel',
   },
   {
     Icon: PartyPopperIcon,
     text: '社交活動',
-    url: '',
+    url: '/categories/friendship-and-socializing',
   },
   {
     Icon: HeartIcon,
     text: '興趣嗜好',
-    url: '',
+    url: '/categories/hobbies-crafts',
   },
   {
     Icon: DumbbellIcon,
     text: '運動健身',
-    url: '',
+    url: '/categories/sports-and-fitness',
   },
   {
     Icon: HazeIcon,
     text: '健康生活',
-    url: '',
+    url: '/categories/health-and-wellness',
   },
   {
     Icon: BotIcon,
     text: '科技玩物',
-    url: '',
+    url: '/categories/technology',
   },
   {
     Icon: PaletteIcon,
     text: '藝術文化',
-    url: '',
+    url: '/categories/art-and-culture',
   },
   {
     Icon: Gamepad2Icon,
     text: '遊戲',
-    url: '',
+    url: '/categories/games',
   },
 ];
 
@@ -77,7 +77,7 @@ const ItemRow = ({ rowItems }: { rowItems: ItemType[] }) => (
           categoryName={item.text}
           icon={item.Icon}
         />
-        {index < items.length - 1 && (
+        {index < rowItems.length - 1 && (
           <Separator orientation="vertical" className="w-[0.5px]" />
         )}
       </Fragment>
