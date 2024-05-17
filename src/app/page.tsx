@@ -1,3 +1,4 @@
+import TopCategoryMenu from '@components/TopCategoryMenu';
 import { Button } from '@ui/button';
 import { z } from 'zod';
 
@@ -6,9 +7,10 @@ const Home = () => {
   mySchema.parse('123');
 
   return (
-    <div>
+    <div className="px-3">
       <div>您目前所在位置是首頁</div>
       <Button>我是 shadcn ui 的 button </Button>
+      <TopCategoryMenu className="mx-auto" />
     </div>
   );
 };
