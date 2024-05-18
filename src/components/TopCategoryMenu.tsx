@@ -12,9 +12,9 @@ import {
   TreesIcon,
 } from 'lucide-react';
 import { Fragment } from 'react';
-import IconButton from './IconButton';
+import CategoryIconButton from './CategoryIconButton';
 
-type Props = {
+type TopCategoryMenuProps = {
   className: string;
 };
 
@@ -67,11 +67,11 @@ const items: ItemType[] = [
   },
 ];
 
-const ItemRow = ({ rowItems }: { rowItems: ItemType[] }): React.JSX.Element => (
+const CategoryItemRow = ({ rowItems }: { rowItems: ItemType[] }) => (
   <div className="flex h-40 gap-4 xl:h-[300px]">
     {rowItems.map((item, index) => (
       <Fragment key={item.text}>
-        <IconButton
+        <CategoryIconButton
           className="h-full w-full"
           linkURL={item.url}
           categoryName={item.text}
@@ -85,7 +85,7 @@ const ItemRow = ({ rowItems }: { rowItems: ItemType[] }): React.JSX.Element => (
   </div>
 );
 
-const TopCategoryMenu = ({ className = '' }: Props): React.JSX.Element => {
+const TopCategoryMenu = ({ className = '' }: TopCategoryMenuProps) => {
   const mobileRowLength = 2;
   const desktopRowLength = 4;
 
@@ -99,7 +99,7 @@ const TopCategoryMenu = ({ className = '' }: Props): React.JSX.Element => {
       const rowItems = arrangeItems.slice(startIndex, startIndex + rowLength);
       return (
         <Fragment key={index}>
-          <ItemRow rowItems={rowItems} />
+          <CategoryItemRow rowItems={rowItems} />
           <Separator className="h-[0.5px]" />
         </Fragment>
       );

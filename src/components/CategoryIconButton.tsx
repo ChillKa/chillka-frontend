@@ -2,19 +2,19 @@ import cn from '@lib/utils';
 import { LucideIcon } from 'lucide-react';
 import Link from 'next/link';
 
-type Props = {
+type CategoryIconButtonProps = {
   className: string;
   linkURL: string;
   categoryName: string;
   icon: LucideIcon;
 };
 
-const IconButton = ({
+const CategoryIconButton = ({
   className = '',
   linkURL,
   categoryName,
   icon,
-}: Props): React.JSX.Element => {
+}: CategoryIconButtonProps) => {
   const Icon = icon;
   return (
     <Link
@@ -32,4 +32,4 @@ const IconButton = ({
   );
 };
 
-export default IconButton;
+export default CategoryIconButton;
