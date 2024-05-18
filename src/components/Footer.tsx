@@ -32,7 +32,7 @@ const Footer = ({ className }: FooterProps) => {
   return (
     <footer
       className={cn(
-        'space-y-12 px-3 py-24 text-primary xl:space-y-24',
+        'space-y-12 px-3 py-24 text-primary xl:space-y-24 xl:pb-36 xl:pl-[312px]',
         className
       )}
     >
