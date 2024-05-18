@@ -113,7 +113,9 @@ const TopCategoryMenu = ({ className = '' }: TopCategoryMenuProps) => {
   );
 
   return (
-    <section className={cn('px-3 xl:max-w-[81rem] xl:px-0', className)}>
+    <section
+      className={cn('px-3 text-primary xl:max-w-[81rem] xl:px-0', className)}
+    >
       <h1 className="text-5xl font-bold tracking-[-1.2%]">探索最TOP類型</h1>
       <div className="mt-12 flex flex-col gap-6 xl:hidden">
         {mobileItemArrangement}
