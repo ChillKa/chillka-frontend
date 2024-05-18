@@ -24,7 +24,10 @@ const CategoryIconButton = ({
       )}
       href={linkURL}
     >
-      <Icon className="h-10 w-10 group-hover:stroke-surface" strokeWidth={1} />
+      <Icon
+        className="h-10 w-10 group-hover:stroke-surface"
+        strokeWidth={1.2}
+      />
       <span className="block text-xl font-bold group-hover:text-surface ">
         {categoryName}
       </span>
