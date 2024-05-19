@@ -1,4 +1,11 @@
-import { Bookmark, Building2, CalendarDays, MapPin, Users } from 'lucide-react';
+import {
+  Bookmark,
+  Building2,
+  CalendarDays,
+  Check,
+  MapPin,
+  Users,
+} from 'lucide-react';
 
 interface EventCardProps {
   title: string;
@@ -7,6 +14,7 @@ interface EventCardProps {
   startTime: string;
   endTime: string;
   attendeeCount: number;
+  isCollected: boolean;
   location: string;
   organizer: string;
   pricing: number;
@@ -20,6 +28,7 @@ const EventCard: React.FC<EventCardProps> = ({
   startTime,
   endTime,
   attendeeCount,
+  isCollected = false,
   location,
   organizer,
   pricing,
@@ -28,7 +37,7 @@ const EventCard: React.FC<EventCardProps> = ({
   return (
     <div
       id="event-card"
-      className="bg-red debug flex h-[564px] w-full flex-col gap-8 xl:w-[416px]"
+      className="bg-red flex h-[564px] w-full flex-col gap-8 xl:w-[416px]"
     >
       <div className="relative h-[208px] w-full overflow-hidden">
         <img
@@ -36,14 +45,25 @@ const EventCard: React.FC<EventCardProps> = ({
           alt="Descriptive Alt Text"
           className="absolute left-0 top-0 h-full w-full object-cover transition-transform duration-300 hover:scale-110"
         />
-        <span
-          className="absolute bottom-0 right-0 flex h-[80px] w-[80px] 
-          flex-col items-center justify-center
-          gap-2 bg-[#F0EDE7] text-xs"
-        >
-          <Bookmark />
-          收藏
-        </span>
+        {isCollected ? (
+          <span
+            className="absolute bottom-0 right-0 flex h-[80px] w-[80px] 
+              flex-col items-center justify-center
+              gap-2 bg-[#403E3D] text-xs"
+          >
+            <Check />
+            已收藏
+          </span>
+        ) : (
+          <span
+            className="absolute bottom-0 right-0 flex h-[80px] w-[80px] 
+              flex-col items-center justify-center
+              gap-2 bg-[#F0EDE7] text-xs"
+          >
+            <Bookmark />
+            收藏
+          </span>
+        )}
       </div>
 
       <div className="flex h-[88px] flex-col gap-4">

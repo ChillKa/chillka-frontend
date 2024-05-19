@@ -1,4 +1,4 @@
-import { Button } from '@components/ui/button';
+import { ArrowUpRight } from 'lucide-react';
 import EventCard from './EventCard';
 
 interface RecommendActivityProps {}
@@ -8,7 +8,13 @@ const RecommendActivity: React.FC<RecommendActivityProps> = () => {
     <section className="w-full">
       <div className="flex w-full items-start justify-between">
         <h1 className="mb-2 text-5xl font-bold leading-10">推薦活動</h1>
-        <Button variant="ghost">查看活動</Button>
+        <button
+          className="r flex h-12 w-24 justify-between border-b border-black px-0 pb-4 pt-2"
+          type="button"
+        >
+          查看更多
+          <ArrowUpRight />
+        </button>
       </div>
       <hr className="mb-4 mt-2 w-[48px] border-t-2 border-gray-400" />
       <div className="flex w-full flex-col justify-between space-y-4 xl:flex-row xl:space-y-0">
@@ -23,6 +29,7 @@ const RecommendActivity: React.FC<RecommendActivityProps> = () => {
           organizer="台灣蜘蛛人登高社團"
           pricing={100}
           discount={70}
+          isCollected
         />
         <EventCard
           title="城市探險尋寶"
@@ -35,6 +42,7 @@ const RecommendActivity: React.FC<RecommendActivityProps> = () => {
           organizer="臺灣健康教育暨長"
           pricing={100}
           discount={30}
+          isCollected={false}
         />
         <EventCard
           title="極光露營體驗"
@@ -47,6 +55,7 @@ const RecommendActivity: React.FC<RecommendActivityProps> = () => {
           organizer="安妮雅喜歡這個"
           pricing={100}
           discount={25}
+          isCollected={false}
         />
       </div>
     </section>
