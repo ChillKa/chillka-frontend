@@ -32,7 +32,7 @@ const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => (
           {children}
           <Toaster />
         </main>
-        <Footer />
+        <Footer className="mx-auto" />
       </AuthProvider>
     </body>
   </html>
