@@ -1,5 +1,6 @@
 'use client';
 
+import cn from '@lib/utils';
 import { cva } from 'class-variance-authority';
 import {
   Bookmark,
@@ -59,13 +60,19 @@ const EventCard = ({
   return (
     <div
       id="event-card"
-      className="bg-red flex h-[564px] w-full flex-col gap-8 xl:w-[416px]"
+      className={cn(
+        'bg-red flex h-[564px] w-full flex-col gap-8',
+        'xl:w-[416px]'
+      )}
     >
       <div className="relative h-[208px] w-full overflow-hidden">
         <img
           src={cover}
           alt="Descriptive Alt Text"
-          className="absolute left-0 top-0 h-full w-full object-cover transition-transform duration-300 hover:scale-110"
+          className={cn(
+            'absolute left-0 top-0 h-full w-full object-cover',
+            'transition-transform duration-300 hover:scale-110'
+          )}
         />
         <button
           type="button"

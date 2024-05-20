@@ -1,3 +1,5 @@
+import { Button } from '@components/ui/button';
+import cn from '@lib/utils';
 import { ArrowUpRight } from 'lucide-react';
 import EventCard from './EventCard';
 
@@ -7,8 +9,13 @@ const RecommendActivity = () => {
       <div className="flex w-full items-start justify-between">
         <h1 className="mb-2 text-5xl font-bold leading-10">推薦活動</h1>
         <button
-          className="hidden h-12 w-24 justify-between border-b border-gray-600 px-0 pb-4 pt-2 transition-colors duration-200 ease-in-out hover:border-primary xl:flex"
           type="button"
+          className={cn(
+            'hidden h-12 w-24 justify-between',
+            'border-b border-gray-500 px-0 pb-4 pt-2',
+            'transition-colors duration-200 ease-in-out hover:border-primary',
+            'xl:flex'
+          )}
         >
           查看更多
           <ArrowUpRight />
@@ -55,13 +62,19 @@ const RecommendActivity = () => {
           discount={25}
           isCollected={false}
         />
-        <button
-          type="button"
-          className="flex h-14 w-full items-center justify-center gap-4 border border-primary px-8 py-4 transition-opacity duration-200 ease-in-out hover:opacity-100 xl:hidden"
+        <Button
+          variant="outline"
+          className={cn(
+            'flex h-14 w-full items-center justify-center gap-4',
+            'border border-primary px-8 py-4',
+            'text-base font-medium',
+            'xl:hidden',
+            'transition-colors hover:bg-primary hover:fill-surface hover:text-surface'
+          )}
         >
           查看更多附近活動
-          <ArrowUpRight />
-        </button>
+          <ArrowUpRight size={16} />
+        </Button>
       </div>
     </section>
   );
