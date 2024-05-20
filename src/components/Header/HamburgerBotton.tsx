@@ -4,7 +4,6 @@ import {
   registerAndLoginList,
   userList,
 } from '@components/Header/menu';
-import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar';
 import {
   Popover,
   PopoverContent,
@@ -12,6 +11,8 @@ import {
 } from '@components/ui/popover';
 import useRWD from '@hook/useRWD';
 import cross from '@public/header__cross.svg';
+import defaultAvatar from '@public/header__defaultAvatar.svg';
+import fakeAvatar from '@public/header__fakeAvatar.svg';
 import hamburger from '@public/header__hamburger.svg';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -30,7 +31,6 @@ type List = {
 
 const HamburgerBotton = ({ isLoggedin, onSignOut }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
-
   const device = useRWD();
 
   return (
@@ -44,13 +44,13 @@ const HamburgerBotton = ({ isLoggedin, onSignOut }: Props) => {
               <Image src={hamburger} alt="hamburger" />
             )}
           </div>
-          <Avatar className="ml-2">
-            <AvatarImage src="https://github.com/shadcn.png" />
-            <AvatarFallback>User</AvatarFallback>
-          </Avatar>
+          <Image
+            className="ml-2"
+            src={isLoggedin ? fakeAvatar : defaultAvatar}
+            alt="user"
+          />
         </PopoverTrigger>
       </div>
-
       <PopoverContent className="h-0 w-0 border-none bg-transparent p-0">
         <div className="absolute right-[-56px] top-4  w-[272px]  rounded-[32px] border border-black bg-[#e8e4de] pt-6 ">
           {isLoggedin ? (
