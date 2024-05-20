@@ -1,14 +1,16 @@
 /*
 
 - [x] 9 dummy datas
-- [] build up the card
+- [x] build up the cards for mobile version
+- []
 - [] fix dispaly
 
 */
 
 import cn from '@lib/utils';
-import { CommentsData } from 'src/types/comments';
+import { CommentsDataType } from 'src/types/comments';
 import CommentCard from './CommentCard';
+import { Separator } from './ui/separator';
 
 /*
 fetch data from API - 121
@@ -18,7 +20,7 @@ type CommentWrapperProps = {
   className: string;
 };
 
-const DUMMY_DATA: CommentsData = {
+const DUMMY_DATA: CommentsDataType = {
   comments: [
     {
       id: '63a9b7e8f4b0d15c8e9d3c47',
@@ -105,18 +107,32 @@ const DUMMY_DATA: CommentsData = {
   total: 9,
 };
 
-const CommentWrapper = ({ className = '' }: CommentWrapperProps) => {
+const CommentSection = ({ className = '' }: CommentWrapperProps) => {
   // should add fetch data after backend ready.
   // fetch...
   const data = DUMMY_DATA.comments;
 
   return (
-    <section className={cn('', className)}>
+    <section className={cn('space-y-12 px-3 text-primary', className)}>
+      <h1 className="text-5xl font-bold">
+        探索他人的精彩經歷，找到你的下段冒險
+      </h1>
+      <Separator className="h-0.5 w-12" />
       {data.map((item) => (
-        <CommentCard key={item.name} className="" />
+        <div key={item.id}>
+          <CommentCard
+            className="mb-6"
+            activityName={item.name}
+            participant={item.participant}
+            profilePicture={item.profilePicture}
+            date={item.date}
+            content={item.content}
+          />
+          <Separator className="h-[0.5px]" />
+        </div>
       ))}
     </section>
   );
 };
 
-export default CommentWrapper;
+export default CommentSection;
