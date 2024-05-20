@@ -1,7 +1,7 @@
 'use client';
 
-import HamburgerBotton from '@components/user/Header/HamburgerBotton';
-import LogoButton from '@components/user/Header/LogoButton';
+// import HamburgerBotton from '@components/Header/HamburgerBotton';
+import LogoButton from '@components/Header/LogoButton';
 // import { useAuthContext } from 'src/store/AuthProvider/AuthProvider';
 
 const Header = () => {
@@ -15,7 +15,7 @@ const Header = () => {
     <header className="flex h-[112px] w-full items-center justify-between bg-[#e8e4de] px-3 ">
       <LogoButton />
       <div className="flex">
-        <HamburgerBotton />
+        {/* <HamburgerBotton isLoggedin={isLoggedin} /> */}
       </div>
     </header>
   );

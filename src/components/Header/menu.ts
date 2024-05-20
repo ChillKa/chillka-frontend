@@ -53,12 +53,12 @@ export const registerAndLoginList = [
   {
     name: '註冊',
     icon: register,
-    url: '',
+    url: '/auth/register',
   },
   {
     name: '登入',
     icon: login,
-    url: '',
+    url: '/auth/login',
   },
 ];
 
