@@ -3,6 +3,7 @@
 import EmailButton from '@components/Header/EmailButton';
 import HamburgerBotton from '@components/Header/HamburgerBotton';
 import LogoButton from '@components/Header/LogoButton';
+import NotificationButton from '@components/Header/NotificationButton';
 import useRWD from '@hook/useRWD';
 import { useAuthContext } from 'src/store/AuthProvider/AuthProvider';
 
@@ -24,7 +25,7 @@ const Header = () => {
       <div className="flex">
         {isLoggedin && device === 'PC' && (
           <>
-            <div>123</div>
+            <NotificationButton />
             <EmailButton />
           </>
         )}
