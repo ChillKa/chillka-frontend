@@ -11,12 +11,13 @@ import {
   Users,
 } from 'lucide-react';
 import { useState } from 'react';
+import { FormatDate } from './RecommendActivity-types';
 
 interface EventCardProps {
   title: string;
   cover: string;
   description: string;
-  startTime: string;
+  startTime: FormatDate<'YY.MM.DD'>;
   endTime: string;
   attendeeCount: number;
   isCollected: boolean;
