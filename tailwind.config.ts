@@ -7,6 +7,9 @@ const config = {
   content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
   prefix: '',
   theme: {
+    screens: {
+      xl: '1366px',
+    },
     container: {
       center: true,
       padding: '2rem',
