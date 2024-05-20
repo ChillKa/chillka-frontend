@@ -1,5 +1,6 @@
 'use client';
 
+import { UserProfileButtonProps } from '@components/Header/index';
 import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar';
 import { Button } from '@components/ui/button';
 import {
@@ -8,10 +9,6 @@ import {
   PopoverTrigger,
 } from '@components/ui/popover';
 import { useState } from 'react';
-
-export interface UserProfileButtonProps {
-  onSignOut?: () => void;
-}
 
 const UserProfileButton: React.FC<UserProfileButtonProps> = ({ onSignOut }) => {
   const [isOpen, setIsOpen] = useState(false);
