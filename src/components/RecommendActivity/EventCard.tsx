@@ -1,3 +1,6 @@
+'use client';
+
+import { cva } from 'class-variance-authority';
 import {
   Bookmark,
   Building2,
@@ -6,6 +9,7 @@ import {
   MapPin,
   Users,
 } from 'lucide-react';
+import { useState } from 'react';
 
 interface EventCardProps {
   title: string;
@@ -18,10 +22,10 @@ interface EventCardProps {
   location: string;
   organizer: string;
   pricing: number;
-  discount?: number;
+  discount: number | undefined;
 }
 
-const EventCard: React.FC<EventCardProps> = ({
+const EventCard = ({
   title,
   cover,
   description,
@@ -33,7 +37,25 @@ const EventCard: React.FC<EventCardProps> = ({
   organizer,
   pricing,
   discount,
-}) => {
+}: EventCardProps) => {
+  const [collected, setCollected] = useState(isCollected);
+
+  const collectedVariants = cva(
+    'absolute bottom-0 right-0 flex h-[80px] w-[80px] flex-col items-center justify-center gap-2 text-xs transition duration-300',
+    {
+      variants: {
+        collected: {
+          true: 'bg-primary text-white',
+          false: 'bg-surface text-black',
+        },
+      },
+    }
+  );
+
+  const handleToggle = () => {
+    setCollected((prev) => !prev);
+  };
+
   return (
     <div
       id="event-card"
@@ -45,25 +67,14 @@ const EventCard: React.FC<EventCardProps> = ({
           alt="Descriptive Alt Text"
           className="absolute left-0 top-0 h-full w-full object-cover transition-transform duration-300 hover:scale-110"
         />
-        {isCollected ? (
-          <span
-            className="absolute bottom-0 right-0 flex h-[80px] w-[80px] 
-              flex-col items-center justify-center
-              gap-2 bg-[#403E3D] text-xs"
-          >
-            <Check />
-            已收藏
-          </span>
-        ) : (
-          <span
-            className="absolute bottom-0 right-0 flex h-[80px] w-[80px] 
-              flex-col items-center justify-center
-              gap-2 bg-[#F0EDE7] text-xs"
-          >
-            <Bookmark />
-            收藏
-          </span>
-        )}
+        <button
+          type="button"
+          onClick={handleToggle}
+          className={collectedVariants({ collected })}
+        >
+          {collected ? <Check /> : <Bookmark />}
+          {collected ? '已收藏' : '收藏'}
+        </button>
       </div>
 
       <div className="flex h-[88px] flex-col gap-4">

@@ -1,22 +1,20 @@
 import { ArrowUpRight } from 'lucide-react';
 import EventCard from './EventCard';
 
-interface RecommendActivityProps {}
-
-const RecommendActivity: React.FC<RecommendActivityProps> = () => {
+const RecommendActivity = () => {
   return (
     <section className="w-full">
       <div className="flex w-full items-start justify-between">
         <h1 className="mb-2 text-5xl font-bold leading-10">推薦活動</h1>
         <button
-          className="r flex h-12 w-24 justify-between border-b border-black px-0 pb-4 pt-2"
+          className="flex h-12 w-24 justify-between border-b border-gray-600 px-0 pb-4 pt-2 transition-colors duration-200 ease-in-out hover:border-primary"
           type="button"
         >
           查看更多
           <ArrowUpRight />
         </button>
       </div>
-      <hr className="mb-4 mt-2 w-[48px] border-t-2 border-gray-400" />
+      <hr className="mb-12 mt-12 w-[48px] border-t-2 border-gray-400" />
       <div className="flex w-full flex-col justify-between space-y-4 xl:flex-row xl:space-y-0">
         <EventCard
           title="夕陽海灘派對"
