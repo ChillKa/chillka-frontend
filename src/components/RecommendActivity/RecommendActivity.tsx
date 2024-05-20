@@ -24,9 +24,9 @@ const RecommendActivity = () => {
       <hr className="mb-12 mt-12 w-[48px] border-t-2 border-gray-400" />
       <div className="flex w-full flex-col justify-between space-y-4 xl:flex-row xl:space-y-0">
         <EventCard
-          title="夕陽海灘派對"
+          title="夕陽海灘派對夕陽海灘派對夕陽海灘派對"
           cover="https://fastly.picsum.photos/id/495/200/200.jpg?hmac=WzrKoNNBWVnlSjTRFVRlUyZghnLUBZJXeXdHNugLsQ4"
-          description="在金色夕陽下，與夥伴們一同沙灘狂歡，享受音樂、美食和海浪聲。"
+          description="在金色夕陽下，與夥伴們一同沙灘狂歡，享受音樂、美食和海浪聲。在金色夕陽下，與夥伴們一同沙灘狂歡，享受音樂、美食和海浪聲。"
           startTime="2024.01.01"
           endTime="2024.06.30"
           attendeeCount={999}
