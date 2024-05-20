@@ -36,7 +36,7 @@ const HamburgerBotton = ({ isLoggedin, onSignOut }: Props) => {
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger className="flex flex-col items-center justify-center">
-        <div className="flex h-16 w-[112px]  rounded-full border border-black">
+        <div className="flex h-16 w-[112px]  items-center justify-center  rounded-full border border-black">
           <div className="flex h-10 w-10 items-center justify-center">
             {isOpen ? (
               <Image src={cross} alt="cross" />
