@@ -1,13 +1,13 @@
-export interface Comment {
+export interface CommentType {
   id: string;
   participant: string;
+  profilePicture: string;
   name: string;
   date: string;
   content: string;
-  profilePicture: string;
 }
 
-export interface CommentsData {
-  comments: Array<Comment>;
+export interface CommentsDataType {
+  comments: Array<CommentType>;
   total: number;
 }
