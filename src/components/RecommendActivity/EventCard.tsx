@@ -78,8 +78,10 @@ const EventCard = ({
       </div>
 
       <div className="flex h-[88px] flex-col gap-4">
-        <h1 className="text-2xl font-semibold">{title}</h1>
-        <p className="text-sm text-gray-600">{description}</p>
+        <h1 className="truncate text-2xl font-semibold">{title}</h1>
+        <p className="line-clamp-2 overflow-hidden text-ellipsis text-sm text-gray-600">
+          {description}
+        </p>
       </div>
 
       <div className="flex h-[144px] flex-col justify-between gap-4">
@@ -103,7 +105,7 @@ const EventCard = ({
         <div className="flex justify-start gap-4">
           <Building2 />
           <p>主辦單位</p>
-          <p>{organizer}</p>
+          <p className="truncate">{organizer}</p>
         </div>
       </div>
 
