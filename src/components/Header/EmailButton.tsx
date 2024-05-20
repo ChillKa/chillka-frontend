@@ -52,13 +52,13 @@ const EmailButton = () => {
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
-      <div className="mr-4 flex h-16 w-16 items-center justify-center rounded-full border border-black">
-        <PopoverTrigger className="flex">
+      <PopoverTrigger className="flex">
+        <div className="mr-4 flex h-16 w-16 items-center justify-center rounded-full border border-black">
           <div className="flex h-10 w-10 items-center justify-center">
             <Image src={email} alt="email" />
           </div>
-        </PopoverTrigger>
-      </div>
+        </div>
+      </PopoverTrigger>
 
       <PopoverContent className="h-0 w-0 border-none bg-transparent p-0">
         <div className="absolute right-[-30px] top-4  w-[636px]  rounded-[32px] border border-black bg-[#e8e4de] pt-6 ">
