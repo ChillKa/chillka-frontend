@@ -1,6 +1,6 @@
 import Footer from '@components/Footer';
-import Header from '@components/Header';
 import { Toaster } from '@components/ui/toaster';
+import Header from '@components/user/Header';
 import cn from '@lib/utils';
 import AuthProvider from '@store/AuthProvider/AuthProvider';
 import type { Metadata } from 'next';
