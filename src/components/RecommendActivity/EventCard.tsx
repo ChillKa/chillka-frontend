@@ -43,7 +43,7 @@ const EventCard = ({
   const [collected, setCollected] = useState(isCollected);
 
   const collectedVariants = cva(
-    'absolute bottom-0 right-0 flex h-[80px] w-[80px] flex-col items-center justify-center gap-2 text-xs transition duration-300',
+    'absolute bottom-0 right-0 flex h-20 w-20 flex-col items-center justify-center gap-2 text-xs transition duration-300',
     {
       variants: {
         collected: {
@@ -62,11 +62,11 @@ const EventCard = ({
     <div
       id="event-card"
       className={cn(
-        'bg-red flex h-[564px] w-full flex-col gap-8',
-        'xl:w-[416px]'
+        'bg-red flex h-[35.25rem] w-full flex-col gap-8',
+        'xl:w-[26rem]'
       )}
     >
-      <div className="relative h-[208px] w-full overflow-hidden">
+      <div className="relative h-[13rem] w-full overflow-hidden">
         <img
           src={cover}
           alt="Descriptive Alt Text"
@@ -85,14 +85,14 @@ const EventCard = ({
         </button>
       </div>
 
-      <div className="flex h-[88px] flex-col gap-4">
+      <div className="w- flex h-[5.5rem] flex-col gap-4">
         <h1 className="truncate text-2xl font-semibold">{title}</h1>
         <p className="line-clamp-2 overflow-hidden text-ellipsis text-sm text-gray-600">
           {description}
         </p>
       </div>
 
-      <div className="flex h-[144px] flex-col justify-between gap-4">
+      <div className="flex h-[9rem] flex-col justify-between gap-4">
         <div className="flex justify-start gap-4">
           <CalendarDays />
           <p className="font-[400]">活動時間</p>
@@ -117,7 +117,7 @@ const EventCard = ({
         </div>
       </div>
 
-      <div className="flex h-[28px] items-center justify-start gap-2">
+      <div className="flex h-7 items-center justify-start gap-2">
         <span className="text-lg font-bold">NT${pricing}</span>
         {discount && (
           <span className="bg-slate-600 px-2 py-1 text-white">

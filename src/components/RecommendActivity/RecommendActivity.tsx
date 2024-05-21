@@ -21,7 +21,7 @@ const RecommendActivity = () => {
           <ArrowUpRight />
         </button>
       </div>
-      <hr className="mb-12 mt-12 w-[48px] border-t-2 border-gray-400" />
+      <hr className="mb-12 mt-12 w-12 border-t-2 border-gray-400" />
       <div className="flex w-full flex-col justify-between space-y-4 xl:flex-row xl:space-y-0">
         <EventCard
           title="夕陽海灘派對夕陽海灘派對夕陽海灘派對"
