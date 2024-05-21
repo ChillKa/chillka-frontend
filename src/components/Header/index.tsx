@@ -21,19 +21,25 @@ const Header = () => {
 
   return (
     <>
-      <header className="flex h-[112px] w-full items-center justify-between bg-[#e8e4de] px-3 ">
-        <LogoButton />
-        <div className="flex">
-          {isLoggedin && device === 'PC' && (
-            <>
-              <NotificationButton />
-              <EmailButton />
-            </>
-          )}
-          <HamburgerBotton isLoggedin={isLoggedin} onSignOut={handleSignOut} />
+      <header className="flex w-full justify-center bg-[#e8e4de] px-3">
+        <div className="flex h-[112px] w-full max-w-[1296px] items-center justify-between bg-[#e8e4de]  ">
+          <LogoButton />
+          <div className="flex">
+            {isLoggedin && device === 'PC' && (
+              <>
+                <NotificationButton />
+                <EmailButton />
+              </>
+            )}
+            <HamburgerBotton
+              isLoggedin={isLoggedin}
+              onSignOut={handleSignOut}
+            />
+          </div>
         </div>
+        {device === 'PC' && <div className="h-[56px] bg-[#e8e4de]" />}
       </header>
-      {device === 'PC' && <div className="h-[56px] bg-[#e8e4de]" />}
+      <div className="border" />
     </>
   );
 };
