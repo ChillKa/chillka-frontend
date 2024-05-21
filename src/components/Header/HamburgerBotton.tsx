@@ -52,7 +52,7 @@ const HamburgerBotton = ({ isLoggedin, onSignOut }: Props) => {
         </div>
       </PopoverTrigger>
       <PopoverContent className="h-0 w-0 border-none bg-transparent p-0">
-        <div className="absolute right-[-56px] top-4  w-[272px]  rounded-[32px] border border-black bg-[#e8e4de] pt-6 ">
+        <div className=" absolute right-[-68px] top-4 h-[100vh] w-[100vw] overflow-scroll bg-[#e8e4de] pt-6 xl:right-[-56px] xl:h-fit xl:max-h-[450px] xl:w-[272px] xl:rounded-[32px] xl:border xl:border-black ">
           {isLoggedin ? (
             <>
               {device === 'mobile' &&
