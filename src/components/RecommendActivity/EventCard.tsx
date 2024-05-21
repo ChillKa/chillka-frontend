@@ -120,7 +120,7 @@ const EventCard = ({
       <div className="flex h-7 items-center justify-start gap-2">
         <span className="text-lg font-bold">NT${pricing}</span>
         {discount && (
-          <span className="bg-slate-600 px-2 py-1 text-white">
+          <span className="bg-primary px-2 py-1 text-white">
             {discount}% OFF
           </span>
         )}
