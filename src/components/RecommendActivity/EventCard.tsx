@@ -95,25 +95,25 @@ const EventCard = ({
       <div className="flex h-[9rem] flex-col justify-between gap-4">
         <div className="flex justify-start gap-4">
           <CalendarDays />
-          <p className="font-[400]">活動時間</p>
-          <p className="font-[500]">
+          <p className="h-6 w-16 text-base font-normal">活動時間</p>
+          <p className="font-medium">
             {startTime}-{endTime}
           </p>
         </div>
         <div className="flex justify-start gap-4">
-          <Users />
-          <p>參加人數</p>
-          <p>{attendeeCount}</p>
+          <Users size={24} />
+          <p className="h-6 w-16 text-base font-normal">參加人數</p>
+          <p className="truncate text-base font-medium">{attendeeCount}</p>
         </div>
         <div className="flex justify-start gap-4">
-          <MapPin />
-          <p>舉辦位置</p>
-          <p>{location}</p>
+          <MapPin size={24} />
+          <p className="h-6 w-16 text-base font-normal">舉辦位置</p>
+          <p className="truncate text-base font-medium">{location}</p>
         </div>
         <div className="flex justify-start gap-4">
-          <Building2 />
-          <p>主辦單位</p>
-          <p className="truncate">{organizer}</p>
+          <Building2 size={24} />
+          <p className="h-6 w-16 text-base font-normal">主辦單位</p>
+          <p className="truncate text-base font-medium">{organizer}</p>
         </div>
       </div>
 

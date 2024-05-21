@@ -5,7 +5,7 @@ import EventCard from './EventCard';
 
 const RecommendActivity = () => {
   return (
-    <section className={cn('w-full p-3', 'xl:w-[1296px] xl:p-0')}>
+    <section className={cn('w-full p-3', 'xl:w-[81rem] xl:p-0')}>
       <div className="flex w-full items-start justify-between">
         <h1 className="mb-2 text-5xl font-bold leading-10">推薦活動</h1>
         <button
