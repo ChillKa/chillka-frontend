@@ -3,6 +3,7 @@ import cn from '@lib/utils';
 import { ArrowUpRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import FooterMenu from './FooterMenu';
 
 type FooterProps = {
   className: string;
@@ -51,21 +52,15 @@ const Footer = ({ className }: FooterProps) => {
         </div>
         <div className="space-y-6 xl:space-y-4">
           <div className="flex flex-wrap gap-6 text-xl font-bold xl:gap-12 xl:text-3xl">
-            <Link
-              className="relative hidden py-2.5 transition duration-300 ease-out hover:after:absolute hover:after:bottom-0 hover:after:left-0 hover:after:block hover:after:w-full hover:after:border-b-2 hover:after:border-primary hover:after:bg-primary xl:inline-block xl:py-6"
-              href="/activity"
-            >
-              開始揪咖
-            </Link>
+            <FooterMenu url="/activity" name="開始揪咖" className="hidden" />
             <span className="hidden font-thin xl:inline-block xl:py-6">|</span>
             {SITEMAP.map((item) => (
-              <Link
+              <FooterMenu
                 key={item.name}
-                className="relative py-2.5 transition duration-300 ease-out hover:after:absolute hover:after:bottom-0 hover:after:left-0 hover:after:block hover:after:w-full hover:after:border-b-2 hover:after:border-primary hover:after:bg-primary xl:py-6"
-                href={item.url}
-              >
-                {item.name}
-              </Link>
+                url={item.url}
+                name={item.name}
+                className=""
+              />
             ))}
           </div>
 
