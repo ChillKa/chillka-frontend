@@ -30,6 +30,7 @@ type CarouselContextProps = {
   scrollNext: () => void;
   canScrollPrev: boolean;
   canScrollNext: boolean;
+  scrollProgress: number;
 } & CarouselProps;
 
 const CarouselContext = React.createContext<CarouselContextProps | null>(null);
@@ -69,6 +70,7 @@ const Carousel = React.forwardRef<
     );
     const [canScrollPrev, setCanScrollPrev] = React.useState(false);
     const [canScrollNext, setCanScrollNext] = React.useState(false);
+    const [scrollProgress, setScrollProgress] = React.useState(0);
 
     const onSelect = React.useCallback((api: CarouselApi) => {
       if (!api) {
@@ -86,6 +88,15 @@ const Carousel = React.forwardRef<
     const scrollNext = React.useCallback(() => {
       api?.scrollNext();
     }, [api]);
+
+    const onScroll = React.useCallback((api: CarouselApi) => {
+      if (!api) {
+        return;
+      }
+
+      const progress = Math.max(0, Math.min(1, api?.scrollProgress() || 0));
+      setScrollProgress(progress * 100);
+    }, []);
 
     const handleKeyDown = React.useCallback(
       (event: React.KeyboardEvent<HTMLDivElement>) => {
@@ -122,6 +133,14 @@ const Carousel = React.forwardRef<
       };
     }, [api, onSelect]);
 
+    React.useEffect(() => {
+      if (!api) return;
+      api.on('slidesInView', onScroll);
+      return () => {
+        api.off('slidesInView', onScroll);
+      };
+    }, [api, onScroll]);
+
     return (
       <CarouselContext.Provider
         value={{
@@ -134,6 +153,7 @@ const Carousel = React.forwardRef<
           scrollNext,
           canScrollPrev,
           canScrollNext,
+          scrollProgress,
         }}
       >
         <div
@@ -258,21 +278,7 @@ const CarouselProgress = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<typeof Progress>
 >(({ className, ...props }, ref) => {
-  const [scrollProgress, setScrollProgress] = React.useState(0);
-  const { api } = useCarousel();
-
-  const onScroll = React.useCallback((api: CarouselApi) => {
-    const progress = Math.max(0, Math.min(1, api?.scrollProgress() || 0));
-    setScrollProgress(progress * 100);
-  }, []);
-
-  React.useEffect(() => {
-    if (!api) return;
-    api.on('slidesInView', onScroll);
-    return () => {
-      api.off('slidesInView', onScroll);
-    };
-  }, [api, onScroll]);
+  const { scrollProgress } = useCarousel();
 
   return (
     <Progress
