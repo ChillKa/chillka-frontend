@@ -7,6 +7,8 @@ import { ArrowLeft, ArrowRight } from 'lucide-react';
 import * as React from 'react';
 
 import { Button } from '@components/ui/button';
+import { Progress } from '@components/ui/progress';
+
 import cn from '@lib/utils';
 
 type CarouselApi = UseEmblaCarouselType[1];
@@ -252,11 +254,29 @@ const CarouselNext = React.forwardRef<
 });
 CarouselNext.displayName = 'CarouselNext';
 
+const CarouselProgress = React.forwardRef<
+  HTMLDivElement,
+  React.ComponentProps<typeof Progress>
+>(({ className, ...props }, ref) => {
+  const { api } = useCarousel();
+
+  return (
+    <Progress
+      ref={ref}
+      className={cn('', className)}
+      value={(api?.scrollProgress() || 0) * 100}
+      {...props}
+    />
+  );
+});
+CarouselProgress.displayName = 'CarouselProgress';
+
 export {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
+  CarouselProgress,
   type CarouselApi,
 };
