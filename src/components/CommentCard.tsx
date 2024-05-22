@@ -35,7 +35,7 @@ const CommentCard = ({
           </span>
         </div>
       </div>
-      <p className="text-sm/6">{content}</p>
+      <p className="line-clamp-4 min-h-24 text-sm/6">{content}</p>
       <span className="block text-sm/6 font-medium">#{activityName}</span>
     </div>
   );
