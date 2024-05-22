@@ -7,16 +7,24 @@
 
 */
 
+'use client';
+
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from '@components/ui/carousel';
+import { Separator } from '@components/ui/separator';
 import cn from '@lib/utils';
-import { CommentsDataType } from 'src/types/comments';
+import Autoplay from 'embla-carousel-autoplay';
+import { CommentType, CommentsDataType } from 'src/types/comments';
 import CommentCard from './CommentCard';
-import { Separator } from './ui/separator';
 
 /*
 fetch data from API - 121
 */
 
-type CommentWrapperProps = {
+type CommentSectionProps = {
   className: string;
 };
 
@@ -107,10 +115,46 @@ const DUMMY_DATA: CommentsDataType = {
   total: 9,
 };
 
-const CommentSection = ({ className = '' }: CommentWrapperProps) => {
+const CommentItemRow = ({ rowItems }: { rowItems: CommentType[] }) => (
+  <>
+    {rowItems.map((item) => (
+      <div key={item.id}>
+        <CommentCard
+          className="mb-6"
+          activityName={item.name}
+          participant={item.participant}
+          profilePicture={item.profilePicture}
+          date={item.date}
+          content={item.content}
+        />
+        <Separator className="h-[0.5px] xl:hidden" />
+      </div>
+    ))}
+  </>
+);
+
+const CommentSection = ({ className = '' }: CommentSectionProps) => {
   // should add fetch data after backend ready.
   // fetch...
   const data = DUMMY_DATA.comments;
+
+  // Autoplay.globalOptions?.stopOnInteraction;
+
+  const generateItemArrangement = (
+    arrangeItems: CommentType[],
+    rowLength: number
+  ) => {
+    const arrangeLength = Math.ceil(arrangeItems.length / rowLength);
+    return Array.from({ length: arrangeLength }, (_, index) => {
+      const startIndex = index * rowLength;
+      const rowItems = arrangeItems.slice(startIndex, startIndex + rowLength);
+      return (
+        <CarouselItem className="space-y-12" key={index}>
+          <CommentItemRow rowItems={rowItems} />
+        </CarouselItem>
+      );
+    });
+  };
 
   return (
     <section className={cn('space-y-12 px-3 text-primary', className)}>
@@ -118,19 +162,16 @@ const CommentSection = ({ className = '' }: CommentWrapperProps) => {
         探索他人的精彩經歷，找到你的下段冒險
       </h1>
       <Separator className="h-0.5 w-12" />
-      {data.map((item) => (
-        <div key={item.id}>
-          <CommentCard
-            className="mb-6"
-            activityName={item.name}
-            participant={item.participant}
-            profilePicture={item.profilePicture}
-            date={item.date}
-            content={item.content}
-          />
-          <Separator className="h-[0.5px]" />
-        </div>
-      ))}
+      <Carousel
+        plugins={[
+          Autoplay({
+            delay: 2400,
+            stopOnInteraction: false,
+          }),
+        ]}
+      >
+        <CarouselContent>{generateItemArrangement(data, 3)}</CarouselContent>
+      </Carousel>
     </section>
   );
 };
