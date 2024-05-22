@@ -1,12 +1,3 @@
-/*
-
-- [x] 9 dummy datas
-- [x] build up the cards for mobile version
-- []
-- [] fix dispaly
-
-*/
-
 'use client';
 
 import {
@@ -22,6 +13,8 @@ import { CommentsDataType } from 'src/types/comments';
 import CommentCard from './CommentCard';
 
 /*
+TODO
+
 fetch data from API - 121
 */
 
@@ -135,11 +128,12 @@ const DUMMY_DATA: CommentsDataType = {
 // );
 
 const CommentSection = ({ className = '' }: CommentSectionProps) => {
-  // should add fetch data after backend ready.
-  // fetch...
+  /* should add fetch data after backend ready.
+     fetch...
+  */
   const { comments } = DUMMY_DATA;
 
-  // Autoplay.globalOptions?.stopOnInteraction;
+  /* For replace to three elements in a row version */
 
   // const generateItemArrangement = (
   //   arrangeItems: CommentType[],
