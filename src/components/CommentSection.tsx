@@ -175,6 +175,7 @@ const CommentSection = ({ className = '' }: CommentSectionProps) => {
           Autoplay({
             delay: 2400,
             stopOnInteraction: false,
+            stopOnMouseEnter: true,
           }),
         ]}
       >
