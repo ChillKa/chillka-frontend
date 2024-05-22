@@ -158,12 +158,18 @@ const CommentSection = ({ className = '' }: CommentSectionProps) => {
   // };
 
   return (
-    <section className={cn('space-y-12 px-3 text-primary', className)}>
+    <section
+      className={cn(
+        'space-y-12 px-3 text-primary xl:max-w-[81rem] xl:px-0',
+        className
+      )}
+    >
       <h1 className="text-5xl font-bold tracking-[0.036rem]">
         探索他人的精彩經歷，找到你的下段冒險
       </h1>
       <Separator className="h-0.5 w-12" />
       <Carousel
+        className="w-full xl:bg-primary"
         opts={{ loop: true, slidesToScroll: 1 }}
         plugins={[
           Autoplay({
@@ -172,11 +178,11 @@ const CommentSection = ({ className = '' }: CommentSectionProps) => {
           }),
         ]}
       >
-        <CarouselContent>
+        <CarouselContent className="xl:-ml-[1px]">
           {comments.map((item) => (
-            <CarouselItem className="space-y-12" key={item.id}>
+            <CarouselItem key={item.id} className="xl:basis-1/3 xl:pl-[1px]">
               <CommentCard
-                className="mb-6"
+                className="bg-surface xl:px-6"
                 activityName={item.name}
                 participant={item.participant}
                 profilePicture={item.profilePicture}
@@ -186,7 +192,8 @@ const CommentSection = ({ className = '' }: CommentSectionProps) => {
             </CarouselItem>
           ))}
         </CarouselContent>
-        <Separator className="h-[0.5px] xl:hidden" />
+        <div className="h-8 w-full bg-surface" />
+        <Separator className="h-[0.5px]" />
         <CarouselProgress className="h-0.5 rounded-none bg-surface" />
       </Carousel>
     </section>
