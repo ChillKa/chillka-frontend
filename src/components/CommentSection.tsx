@@ -13,11 +13,12 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
+  CarouselProgress,
 } from '@components/ui/carousel';
 import { Separator } from '@components/ui/separator';
 import cn from '@lib/utils';
 import Autoplay from 'embla-carousel-autoplay';
-import { CommentType, CommentsDataType } from 'src/types/comments';
+import { CommentsDataType } from 'src/types/comments';
 import CommentCard from './CommentCard';
 
 /*
@@ -115,55 +116,55 @@ const DUMMY_DATA: CommentsDataType = {
   total: 9,
 };
 
-const CommentItemRow = ({ rowItems }: { rowItems: CommentType[] }) => (
-  <>
-    {rowItems.map((item) => (
-      <div key={item.id}>
-        <CommentCard
-          className="mb-6"
-          activityName={item.name}
-          participant={item.participant}
-          profilePicture={item.profilePicture}
-          date={item.date}
-          content={item.content}
-        />
-        <Separator className="h-[0.5px] xl:hidden" />
-      </div>
-    ))}
-  </>
-);
+// const CommentItemRow = ({ rowItems }: { rowItems: CommentType[] }) => (
+//   <>
+//     {rowItems.map((item) => (
+//       <div key={item.id}>
+//         <CommentCard
+//           className="mb-6"
+//           activityName={item.name}
+//           participant={item.participant}
+//           profilePicture={item.profilePicture}
+//           date={item.date}
+//           content={item.content}
+//         />
+//         <Separator className="h-[0.5px] xl:hidden" />
+//       </div>
+//     ))}
+//   </>
+// );
 
 const CommentSection = ({ className = '' }: CommentSectionProps) => {
   // should add fetch data after backend ready.
   // fetch...
-  const data = DUMMY_DATA.comments;
+  const { comments } = DUMMY_DATA;
 
   // Autoplay.globalOptions?.stopOnInteraction;
 
-  const generateItemArrangement = (
-    arrangeItems: CommentType[],
-    rowLength: number
-  ) => {
-    const arrangeLength = Math.ceil(arrangeItems.length / rowLength);
-    return Array.from({ length: arrangeLength }, (_, index) => {
-      const startIndex = index * rowLength;
-      const rowItems = arrangeItems.slice(startIndex, startIndex + rowLength);
-      return (
-        <CarouselItem className="space-y-12" key={index}>
-          <CommentItemRow rowItems={rowItems} />
-        </CarouselItem>
-      );
-    });
-  };
+  // const generateItemArrangement = (
+  //   arrangeItems: CommentType[],
+  //   rowLength: number
+  // ) => {
+  //   const arrangeLength = Math.ceil(arrangeItems.length / rowLength);
+  //   return Array.from({ length: arrangeLength }, (_, index) => {
+  //     const startIndex = index * rowLength;
+  //     const rowItems = arrangeItems.slice(startIndex, startIndex + rowLength);
+  //     return (
+  //       <CarouselItem className="space-y-12" key={index}>
+  //         <CommentItemRow rowItems={rowItems} />
+  //       </CarouselItem>
+  //     );
+  //   });
+  // };
 
   return (
     <section className={cn('space-y-12 px-3 text-primary', className)}>
-      <h1 className="text-5xl font-bold">
+      <h1 className="text-5xl font-bold tracking-[0.036rem]">
         探索他人的精彩經歷，找到你的下段冒險
       </h1>
       <Separator className="h-0.5 w-12" />
       <Carousel
-        opts={{ loop: true }}
+        opts={{ loop: true, slidesToScroll: 1 }}
         plugins={[
           Autoplay({
             delay: 2400,
@@ -171,7 +172,22 @@ const CommentSection = ({ className = '' }: CommentSectionProps) => {
           }),
         ]}
       >
-        <CarouselContent>{generateItemArrangement(data, 3)}</CarouselContent>
+        <CarouselContent>
+          {comments.map((item) => (
+            <CarouselItem className="space-y-12" key={item.id}>
+              <CommentCard
+                className="mb-6"
+                activityName={item.name}
+                participant={item.participant}
+                profilePicture={item.profilePicture}
+                date={item.date}
+                content={item.content}
+              />
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+        <Separator className="h-[0.5px] xl:hidden" />
+        <CarouselProgress className="h-0.5 rounded-none bg-surface" />
       </Carousel>
     </section>
   );
