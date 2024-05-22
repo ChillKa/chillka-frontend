@@ -163,6 +163,7 @@ const CommentSection = ({ className = '' }: CommentSectionProps) => {
       </h1>
       <Separator className="h-0.5 w-12" />
       <Carousel
+        opts={{ loop: true }}
         plugins={[
           Autoplay({
             delay: 2400,

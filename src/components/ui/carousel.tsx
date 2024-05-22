@@ -258,13 +258,27 @@ const CarouselProgress = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<typeof Progress>
 >(({ className, ...props }, ref) => {
+  const [scrollProgress, setScrollProgress] = React.useState(0);
   const { api } = useCarousel();
+
+  const onScroll = React.useCallback((api: CarouselApi) => {
+    const progress = Math.max(0, Math.min(1, api?.scrollProgress() || 0));
+    setScrollProgress(progress * 100);
+  }, []);
+
+  React.useEffect(() => {
+    if (!api) return;
+    api.on('slidesInView', onScroll);
+    return () => {
+      api.off('slidesInView', onScroll);
+    };
+  }, [api, onScroll]);
 
   return (
     <Progress
       ref={ref}
       className={cn('', className)}
-      value={(api?.scrollProgress() || 0) * 100}
+      value={scrollProgress}
       {...props}
     />
   );
