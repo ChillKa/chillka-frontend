@@ -1,4 +1,3 @@
-import CallToAction from '@components/CallToAction';
 import Footer from '@components/Footer';
 import Header from '@components/Header';
 import { Toaster } from '@components/ui/toaster';
@@ -33,7 +32,6 @@ const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => (
           {children}
           <Toaster />
         </main>
-        <CallToAction className="mx-auto" />
         <Footer className="mx-auto" />
       </AuthProvider>
     </body>
