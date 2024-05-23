@@ -5,11 +5,11 @@ import cn from '@lib/utils';
 import Link from 'next/link';
 import Video from './Video';
 
-type CalltoActionSestionProps = {
+type CalltoActionSectionProps = {
   className: string;
 };
 
-const CallToActionSestion = ({ className }: CalltoActionSestionProps) => {
+const CallToActionSection = ({ className }: CalltoActionSectionProps) => {
   return (
     <section
       className={cn(
@@ -48,4 +48,4 @@ const CallToActionSestion = ({ className }: CalltoActionSestionProps) => {
   );
 };
 
-export default CallToActionSestion;
+export default CallToActionSection;
