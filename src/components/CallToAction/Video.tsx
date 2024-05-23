@@ -11,7 +11,7 @@ const Video = ({ className }: VideoProps) => {
       loop
       muted
       playsInline
-      className={cn('h-auto w-full', className)}
+      className={cn('object-cover', className)}
     >
       <source src="/callToAction.mp4" type="video/mp4" />
       Your browser does not support the video tag.
