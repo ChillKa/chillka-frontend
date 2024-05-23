@@ -1,4 +1,4 @@
-import CallToAction from '@components/CallToAction';
+import CallToActionSestion from '@components/CallToActionSestion';
 import CommentSection from '@components/CommentSection';
 import TopCategoryMenu from '@components/TopCategoryMenu';
 import { Button } from '@ui/button';
@@ -13,7 +13,7 @@ const Home = () => {
       <div>您目前所在位置是首頁</div>
       <Button>我是 shadcn ui 的 button </Button>
       <TopCategoryMenu className="mx-auto" />
-      <CallToAction className="mx-auto" />
+      <CallToActionSestion className="mx-auto" />
       <CommentSection className="mx-auto" />
     </div>
   );

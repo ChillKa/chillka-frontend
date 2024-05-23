@@ -3,11 +3,11 @@ import { Separator } from '@components/ui/separator';
 import cn from '@lib/utils';
 import Video from './Video';
 
-type CalltoActionProps = {
+type CalltoActionSestionProps = {
   className: string;
 };
 
-const CallToAction = ({ className }: CalltoActionProps) => {
+const CallToActionSestion = ({ className }: CalltoActionSestionProps) => {
   return (
     <section
       className={cn(
@@ -46,4 +46,4 @@ const CallToAction = ({ className }: CalltoActionProps) => {
   );
 };
 
-export default CallToAction;
+export default CallToActionSestion;
