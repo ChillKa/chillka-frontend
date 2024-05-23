@@ -75,7 +75,7 @@ const EventCard = ({
           objectFit="cover"
           className={cn(
             'absolute left-0 top-0 h-full w-full',
-            'transition-transform duration-300 hover:scale-110'
+            'transition-transform duration-300 ease-out hover:scale-150'
           )}
         />
         <button
