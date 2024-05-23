@@ -2,6 +2,7 @@ import { Button } from '@components/ui/button';
 import { Separator } from '@components/ui/separator';
 import { H1, Small } from '@components/ui/typography';
 import cn from '@lib/utils';
+import Link from 'next/link';
 import Video from './Video';
 
 type CalltoActionSestionProps = {
@@ -40,7 +41,7 @@ const CallToActionSestion = ({ className }: CalltoActionSestionProps) => {
       <Video className="h-[750px] w-full xl:h-[420px] xl:px-[110px]" />
       <div className="absolute bottom-0 right-0 pb-[33px] pl-[31px] pr-[30px] pt-[34px]">
         <Button className="h-[134px] w-[140px] bg-transparent bg-[url('/callToActionButton-surface.svg')] text-base font-medium text-primary transition duration-300 ease-out hover:bg-transparent hover:bg-[url('/callToActionButton-primary.svg')] hover:text-surface">
-          開始揪咖
+          <Link href="/activity">開始揪咖</Link>
         </Button>
       </div>
     </section>
