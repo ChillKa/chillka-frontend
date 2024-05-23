@@ -10,6 +10,7 @@ import {
   MapPin,
   Users,
 } from 'lucide-react';
+import Image from 'next/image';
 import { useState } from 'react';
 import { FormatDate } from './RecommendActivity-types';
 
@@ -43,7 +44,7 @@ const EventCard = ({
   const [collected, setCollected] = useState(isCollected);
 
   const collectedVariants = cva(
-    'absolute bottom-0 right-0 flex h-20 w-20 flex-col items-center justify-center gap-2 text-xs transition duration-300',
+    'absolute bottom-0 right-0 flex h-20 w-20 flex-col items-center justify-center gap-2 text-xs transition ease-out duration-300',
     {
       variants: {
         collected: {
@@ -67,11 +68,13 @@ const EventCard = ({
       )}
     >
       <div className="relative h-[13rem] w-full overflow-hidden">
-        <img
+        <Image
           src={cover}
           alt="Descriptive Alt Text"
+          layout="fill"
+          objectFit="cover"
           className={cn(
-            'absolute left-0 top-0 h-full w-full object-cover',
+            'absolute left-0 top-0 h-full w-full',
             'transition-transform duration-300 hover:scale-110'
           )}
         />
