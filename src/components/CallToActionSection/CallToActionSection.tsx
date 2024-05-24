@@ -13,7 +13,7 @@ const CallToActionSection = ({ className }: CalltoActionSectionProps) => {
   return (
     <section
       className={cn(
-        'relative pb-[100px] pt-[72px] xl:max-w-[81rem] xl:pb-0 xl:pt-20',
+        'relative pb-[100px] pt-[72px] text-primary xl:max-w-[81rem] xl:pb-0 xl:pt-20',
         className
       )}
     >
@@ -28,7 +28,7 @@ const CallToActionSection = ({ className }: CalltoActionSectionProps) => {
         <h1 className="w-[360.98px] bg-surface  pb-4 pl-[13px] pr-4 text-5xl font-bold -tracking-[0.012em] xl:-mt-3 xl:w-fit">
           讓你來揪咖！
         </h1>
-        <div className="w-fit bg-surface px-4 py-[30px]">
+        <div className="w-fit bg-surface px-4 py-8">
           <Separator className="h-[2px] w-12 bg-primary" />
         </div>
         <Small className="w-fit bg-surface p-4 pb-0 leading-6">
