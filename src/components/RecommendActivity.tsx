@@ -118,7 +118,7 @@ const RecommendActivity = () => {
             'transition-colors hover:bg-primary hover:fill-surface hover:text-surface'
           )}
         >
-          查看更多附近活動
+          查看更多推薦活動
           <ArrowUpRight size={16} />
         </Button>
       </div>
