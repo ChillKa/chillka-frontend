@@ -1,6 +1,7 @@
 'use client';
 
 import { Skeleton } from '@components/ui/skeleton';
+import { H3 } from '@components/ui/typography';
 import cn from '@lib/utils';
 import { cva } from 'class-variance-authority';
 import {
@@ -45,7 +46,7 @@ const EventCard = ({
   const [collected, setCollected] = useState(isCollected);
 
   const collectedVariants = cva(
-    'absolute bottom-0 right-0 flex h-20 w-20 flex-col items-center justify-center gap-2 text-xs transition ease-out duration-300',
+    'absolute bottom-0 right-0 flex h-20 w-20 flex-col items-center justify-center gap-2 text-xs transition ease-out duration-300 font-medium leading-5',
     {
       variants: {
         collected: {
@@ -64,7 +65,7 @@ const EventCard = ({
     <div
       id="event-card"
       className={cn(
-        'bg-red flex h-[35.25rem] w-full flex-col gap-8',
+        'flex h-[35.25rem] w-full flex-col gap-8 text-primary',
         'xl:w-[26rem]'
       )}
     >
@@ -90,8 +91,8 @@ const EventCard = ({
       </div>
 
       <div className="w- flex h-[5.5rem] flex-col gap-4">
-        <h1 className="truncate text-2xl font-semibold">{title}</h1>
-        <p className="line-clamp-2 overflow-hidden text-ellipsis text-sm text-gray-600">
+        <H3 className="truncate">{title}</H3>
+        <p className="line-clamp-2 overflow-hidden text-ellipsis text-sm">
           {description}
         </p>
       </div>

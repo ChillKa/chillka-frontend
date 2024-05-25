@@ -1,4 +1,5 @@
 import { Button } from '@components/ui/button';
+import { H1 } from '@components/ui/typography';
 import cn from '@lib/utils';
 import { ArrowUpRight } from 'lucide-react';
 import EventCard, { SkeletonEventCard } from './EventCard';
@@ -60,13 +61,13 @@ const RecommendActivity = () => {
   };
 
   return (
-    <section className={cn('w-full p-3', 'xl:w-[81rem] xl:p-0')}>
+    <section className={cn('w-full p-3 text-primary', 'xl:w-[81rem] xl:p-0')}>
       <div className="flex w-full items-start justify-between">
-        <h1 className="mb-2 text-5xl font-bold leading-10">推薦活動</h1>
+        <H1>推薦活動</H1>
         <button
           type="button"
           className={cn(
-            'relative hidden h-12 w-24 justify-between px-0 pb-4 pt-2',
+            'relative hidden h-12 w-24 justify-between px-0 pb-4 pt-2 font-medium',
             'after:absolute after:bottom-0 after:left-0 after:w-full after:border-b after:border-primary',
             'after:transition-[border-bottom-width] after:duration-300 after:ease-out hover:after:border-b-2',
             'xl:flex'
@@ -104,7 +105,7 @@ const RecommendActivity = () => {
           className={cn(
             'flex h-14 w-full items-center justify-center gap-4',
             'border border-primary px-8 py-4',
-            'text-base font-medium',
+            'text-base font-medium text-primary',
             'xl:hidden',
             'transition-colors hover:bg-primary hover:fill-surface hover:text-surface'
           )}
