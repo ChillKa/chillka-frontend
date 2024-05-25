@@ -4,7 +4,7 @@ import { Toaster } from '@components/ui/toaster';
 import cn from '@lib/utils';
 import AuthProvider from '@store/AuthProvider/AuthProvider';
 import type { Metadata } from 'next';
-import { Inter as FontSans } from 'next/font/google';
+import { Noto_Sans_TC as FontSans } from 'next/font/google';
 import React from 'react';
 import './globals.css';
 
@@ -32,7 +32,7 @@ const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => (
           {children}
           <Toaster />
         </main>
-        <Footer />
+        <Footer className="mx-auto" />
       </AuthProvider>
     </body>
   </html>
