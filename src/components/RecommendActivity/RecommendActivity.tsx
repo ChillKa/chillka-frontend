@@ -66,9 +66,9 @@ const RecommendActivity = () => {
         <button
           type="button"
           className={cn(
-            'hidden h-12 w-24 justify-between',
-            'border-b border-primary px-0 pb-4 pt-2',
-            'transition-[border-bottom-width] duration-300 ease-out hover:border-b-2',
+            'relative hidden h-12 w-24 justify-between px-0 pb-4 pt-2',
+            'after:absolute after:bottom-0 after:left-0 after:w-full after:border-b after:border-primary',
+            'after:transition-[border-bottom-width] after:duration-300 after:ease-out hover:after:border-b-2',
             'xl:flex'
           )}
         >
