@@ -1,3 +1,4 @@
+import CallToActionSection from '@components/CallToActionSection';
 import CommentSection from '@components/CommentSection';
 import RecommendActivity from '@components/RecommendActivity';
 import TopCategoryMenu from '@components/TopCategoryMenu';
@@ -15,6 +16,7 @@ const Home = () => {
       <RecommendActivity />
 
       <TopCategoryMenu className="mx-auto" />
+      <CallToActionSection className="mx-auto" />
       <CommentSection className="mx-auto" />
     </div>
   );
