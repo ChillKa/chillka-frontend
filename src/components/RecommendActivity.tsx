@@ -1,9 +1,9 @@
+import EventCard, { SkeletonEventCard } from '@components/EventCard';
 import { Button } from '@components/ui/button';
 import { H1 } from '@components/ui/typography';
 import cn from '@lib/utils';
 import { ArrowUpRight } from 'lucide-react';
-import EventCard, { SkeletonEventCard } from './EventCard';
-import { FormatDate } from './RecommendActivity-types';
+import { FormatDate } from './EventCard/EventCard-types';
 
 const RecommendActivity = () => {
   const result = {
