@@ -61,7 +61,13 @@ const RecommendActivity = () => {
   };
 
   return (
-    <section className={cn('w-full p-3 text-primary', 'xl:w-[81rem] xl:p-0')}>
+    <section
+      className={cn(
+        'mx-auto',
+        'w-full p-[12.5px] text-primary',
+        'xl:w-[81rem] xl:p-0'
+      )}
+    >
       <div className="flex w-full items-start justify-between">
         <H1>推薦活動</H1>
         <button
@@ -78,7 +84,7 @@ const RecommendActivity = () => {
         </button>
       </div>
       <hr className="mb-12 mt-12 w-12 border-t-2 border-gray-400" />
-      <div className="flex w-full flex-col justify-between space-y-4 xl:flex-row xl:space-y-0">
+      <div className="flex w-full flex-col justify-between space-y-12 xl:flex-row xl:space-y-0">
         {result.status === 'loading'
           ? Array.from({ length: 3 }).map((_, index) => {
               const id = index;

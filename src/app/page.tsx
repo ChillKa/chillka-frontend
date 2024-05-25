@@ -1,5 +1,5 @@
-import RecommendActivity from '@components/RecommendActivity';
 import CommentSection from '@components/CommentSection';
+import RecommendActivity from '@components/RecommendActivity';
 import TopCategoryMenu from '@components/TopCategoryMenu';
 import { Button } from '@ui/button';
 import { z } from 'zod';
@@ -12,9 +12,7 @@ const Home = () => {
     <div className="mb-36 space-y-36 ">
       <div>您目前所在位置是首頁</div>
       <Button>我是 shadcn ui 的 button </Button>
-      <div id="mock-wrapper" className="flex flex-col items-center">
-        <RecommendActivity />
-      </div>
+      <RecommendActivity />
 
       <TopCategoryMenu className="mx-auto" />
       <CommentSection className="mx-auto" />
