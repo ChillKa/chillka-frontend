@@ -1,13 +1,20 @@
+'use client';
+
 import EventCard, {
   FormatDate,
   SkeletonEventCard,
 } from '@components/EventCard';
 import { Button } from '@components/ui/button';
 import { H1 } from '@components/ui/typography';
+import useWindowSize from '@hook/use-window-size';
 import cn from '@lib/utils';
 import { ArrowUpRight } from 'lucide-react';
 
-const RecommendActivity = () => {
+const NearbyActivity = () => {
+  // TODO: Change the device determine
+  const { width } = useWindowSize();
+  const isMobile = width < 1366;
+
   const result = {
     status: 'success',
     data: [
@@ -59,8 +66,58 @@ const RecommendActivity = () => {
         discount: 25,
         isCollected: false,
       },
+      {
+        id: 3,
+        title: '夕陽海灘派對夕陽海灘派對夕陽海灘派對',
+        cover:
+          'https://fastly.picsum.photos/id/495/200/200.jpg?hmac=WzrKoNNBWVnlSjTRFVRlUyZghnLUBZJXeXdHNugLsQ4',
+        description:
+          '在金色夕陽下，與夥伴們一同沙灘狂歡，享受音樂、美食和海浪聲。在金色夕陽下，與夥伴們一同沙灘狂歡，享受音樂、美食和海浪聲。',
+        startTime: '2024.01.01',
+        endTime: '2024.06.30',
+        attendeeCount: 999,
+        location: '台北市 / 信義區',
+        organizer: '台灣蜘蛛人登高社團',
+        pricing: 100,
+        discount: 70,
+        isCollected: true,
+      },
+      {
+        id: 4,
+        title: '夕陽海灘派對夕陽海灘派對夕陽海灘派對',
+        cover:
+          'https://fastly.picsum.photos/id/495/200/200.jpg?hmac=WzrKoNNBWVnlSjTRFVRlUyZghnLUBZJXeXdHNugLsQ4',
+        description:
+          '在金色夕陽下，與夥伴們一同沙灘狂歡，享受音樂、美食和海浪聲。在金色夕陽下，與夥伴們一同沙灘狂歡，享受音樂、美食和海浪聲。',
+        startTime: '2024.01.01',
+        endTime: '2024.06.30',
+        attendeeCount: 999,
+        location: '台北市 / 信義區',
+        organizer: '台灣蜘蛛人登高社團',
+        pricing: 100,
+        discount: 70,
+        isCollected: true,
+      },
+      {
+        id: 5,
+        title: '夕陽海灘派對夕陽海灘派對夕陽海灘派對',
+        cover:
+          'https://fastly.picsum.photos/id/495/200/200.jpg?hmac=WzrKoNNBWVnlSjTRFVRlUyZghnLUBZJXeXdHNugLsQ4',
+        description:
+          '在金色夕陽下，與夥伴們一同沙灘狂歡，享受音樂、美食和海浪聲。在金色夕陽下，與夥伴們一同沙灘狂歡，享受音樂、美食和海浪聲。',
+        startTime: '2024.01.01',
+        endTime: '2024.06.30',
+        attendeeCount: 999,
+        location: '台北市 / 信義區',
+        organizer: '台灣蜘蛛人登高社團',
+        pricing: 100,
+        discount: 70,
+        isCollected: true,
+      },
     ],
   };
+
+  const eventsToShow = isMobile ? result.data.slice(0, 3) : result.data;
 
   return (
     <section
@@ -71,7 +128,7 @@ const RecommendActivity = () => {
       )}
     >
       <div className="flex w-full items-start justify-between">
-        <H1>推薦活動</H1>
+        <H1>附近活動</H1>
         <button
           type="button"
           className={cn(
@@ -86,13 +143,18 @@ const RecommendActivity = () => {
         </button>
       </div>
       <hr className="mb-12 mt-12 w-12 border-t-2 border-primary" />
-      <div className="flex w-full flex-col justify-between space-y-12 xl:flex-row xl:space-y-0">
+      <div
+        className={cn(
+          'flex w-full flex-col justify-between space-y-12',
+          'xl:flex-row xl:flex-wrap xl:gap-y-12 xl:space-y-0'
+        )}
+      >
         {result.status === 'loading'
           ? Array.from({ length: 3 }).map((_, index) => {
               const id = index;
               return <SkeletonEventCard key={id} />;
             })
-          : result.data.map((event) => (
+          : eventsToShow.map((event) => (
               <EventCard
                 key={event.id}
                 title={event.title}
@@ -118,7 +180,7 @@ const RecommendActivity = () => {
             'transition-colors hover:bg-primary hover:fill-surface hover:text-surface'
           )}
         >
-          查看更多推薦活動
+          查看更多附近活動
           <ArrowUpRight size={16} />
         </Button>
       </div>
@@ -126,4 +188,4 @@ const RecommendActivity = () => {
   );
 };
 
-export default RecommendActivity;
+export default NearbyActivity;
