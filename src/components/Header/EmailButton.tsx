@@ -3,8 +3,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@components/ui/popover';
-import email from '@public/header__email.svg';
 import fakeAvatar from '@public/header__fakeAvatar.svg';
+import { Mail } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -54,9 +54,7 @@ const EmailButton = () => {
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger className="flex">
         <div className="mr-4 flex h-16 w-16 items-center justify-center rounded-full border border-black">
-          <div className="flex h-10 w-10 items-center justify-center">
-            <Image src={email} alt="email" />
-          </div>
+          <Mail size={24} />
         </div>
       </PopoverTrigger>
 
@@ -68,7 +66,7 @@ const EmailButton = () => {
           {fakeData.map(
             (message, i) =>
               i < 4 && (
-                <div className="mb-4 flex  px-8 py-2" key={message.content}>
+                <div className="mb-4 flex px-8 py-2" key={message.content}>
                   <div className="mr-6">
                     <Image
                       className="mt-7 h-10 w-10"

@@ -3,9 +3,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@components/ui/popover';
-import notificationIcon from '@public/header__notification.svg';
-import contentIcon from '@public/notificationButton__icon.svg';
-import Image from 'next/image';
+import { Bell, Lightbulb } from 'lucide-react';
+// import notificationIcon from '@public/header__notification.svg';
+// import contentIcon from '@public/notificationButton__icon.svg';
 import Link from 'next/link';
 import { useState } from 'react';
 
@@ -44,9 +44,10 @@ const NotificationButton = () => {
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger className="flex">
         <div className="mr-4 flex h-16 w-16 items-center justify-center rounded-full border border-black">
-          <div className="flex h-10 w-10 items-center justify-center">
+          {/* <div className="flex h-10 w-10 items-center justify-center">
             <Image src={notificationIcon} alt="email" />
-          </div>
+          </div> */}
+          <Bell size={24} />
         </div>
       </PopoverTrigger>
 
@@ -62,11 +63,12 @@ const NotificationButton = () => {
                   className="mb-4 flex items-center justify-center px-8  py-2"
                   key={message.content}
                 >
-                  <Image
+                  {/* <Image
                     className="mr-6 h-10 w-10"
                     src={contentIcon}
                     alt="message"
-                  />
+                  /> */}
+                  <Lightbulb size={24} />
                   <div className="max-h-12 flex-1 overflow-hidden">
                     {message.content}
                   </div>

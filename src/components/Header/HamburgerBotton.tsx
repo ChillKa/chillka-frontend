@@ -10,10 +10,9 @@ import {
   PopoverTrigger,
 } from '@components/ui/popover';
 import useRWD from '@hook/useRWD';
-import cross from '@public/header__cross.svg';
 import defaultAvatar from '@public/header__defaultAvatar.svg';
 import fakeAvatar from '@public/header__fakeAvatar.svg';
-import hamburger from '@public/header__hamburger.svg';
+import { Menu, X } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -25,7 +24,7 @@ type Props = {
 
 type List = {
   name: string;
-  icon?: string;
+  icon?: JSX.Element;
   url: string;
 };
 
@@ -37,13 +36,7 @@ const HamburgerBotton = ({ isLoggedin, onSignOut }: Props) => {
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger className="flex flex-col items-center justify-center">
         <div className="flex h-16 w-[112px]  items-center justify-center  rounded-full border border-black">
-          <div className="flex h-10 w-10 items-center justify-center">
-            {isOpen ? (
-              <Image src={cross} alt="cross" />
-            ) : (
-              <Image src={hamburger} alt="hamburger" />
-            )}
-          </div>
+          {isOpen ? <X size={24} /> : <Menu size={24} />}
           <Image
             className="ml-2"
             src={isLoggedin ? fakeAvatar : defaultAvatar}
@@ -63,9 +56,7 @@ const HamburgerBotton = ({ isLoggedin, onSignOut }: Props) => {
                     href={list.url}
                   >
                     <div className="text-xl font-semibold">{list.name}</div>
-                    {list.icon && (
-                      <Image className="" src={list.icon} alt={list.name} />
-                    )}
+                    {list.icon && list.icon}
                   </Link>
                 ))}
               {userList.map((user: List) => (
@@ -75,9 +66,7 @@ const HamburgerBotton = ({ isLoggedin, onSignOut }: Props) => {
                   href={user.url}
                 >
                   <div className="text-xl font-semibold">{user.name}</div>
-                  {user.icon && (
-                    <Image className="" src={user.icon} alt={user.name} />
-                  )}
+                  {user.icon && user.icon}
                 </Link>
               ))}
             </>
@@ -90,9 +79,7 @@ const HamburgerBotton = ({ isLoggedin, onSignOut }: Props) => {
                   href={list.url}
                 >
                   <div className="text-xl font-semibold">{list.name}</div>
-                  {list.icon && (
-                    <Image className="" src={list.icon} alt={list.name} />
-                  )}
+                  {list.icon && list.icon}
                 </Link>
               ))}
             </>
