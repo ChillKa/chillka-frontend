@@ -10,8 +10,6 @@ import {
   PopoverTrigger,
 } from '@components/ui/popover';
 import useRWD from '@hook/useRWD';
-import defaultAvatar from '@public/header__defaultAvatar.svg';
-import fakeAvatar from '@public/header__fakeAvatar.svg';
 import { Menu, X } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -28,6 +26,9 @@ type List = {
   url: string;
 };
 
+const defaultAvatar = '/header__defaultAvatar.svg';
+const fakeAvatar = '/header__fakeAvatar.svg';
+
 const HamburgerBotton = ({ isLoggedin, onSignOut }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const device = useRWD();
@@ -41,6 +42,8 @@ const HamburgerBotton = ({ isLoggedin, onSignOut }: Props) => {
             className="ml-2"
             src={isLoggedin ? fakeAvatar : defaultAvatar}
             alt="user"
+            width={40}
+            height={40}
           />
         </div>
       </PopoverTrigger>

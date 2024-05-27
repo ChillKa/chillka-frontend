@@ -3,11 +3,12 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@components/ui/popover';
-import fakeAvatar from '@public/header__fakeAvatar.svg';
 import { Mail } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
+
+const fakeAvatar = '/header__fakeAvatar.svg';
 
 const fakeData = [
   {
@@ -72,6 +73,8 @@ const EmailButton = () => {
                       className="mt-7 h-10 w-10"
                       src={message.avatar}
                       alt="avatar"
+                      width={40}
+                      height={40}
                     />
                   </div>
                   <div>

@@ -1,10 +1,9 @@
-import logo from '@public/logo.svg';
 import Image from 'next/image';
 import Link from 'next/link';
 
 const LogoButton = () => (
   <Link href="/">
-    <Image className="h-[32px] w-[140px]" src={logo} alt="chillka" />
+    <Image width={140} height={32} src="/logo.svg" alt="chillka" />
   </Link>
 );
 
