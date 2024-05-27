@@ -1,13 +1,20 @@
+'use client';
+
 import EventCard, {
   FormatDate,
   SkeletonEventCard,
 } from '@components/EventCard';
 import { Button } from '@components/ui/button';
 import { H1 } from '@components/ui/typography';
+import useWindowSize from '@hook/use-window-size';
 import cn from '@lib/utils';
 import { ArrowUpRight } from 'lucide-react';
 
 const NearbyActivity = () => {
+  // TODO: Change the device determine
+  const { width } = useWindowSize();
+  const isMobile = width < 1366;
+
   const result = {
     status: 'success',
     data: [
@@ -110,6 +117,8 @@ const NearbyActivity = () => {
     ],
   };
 
+  const eventsToShow = isMobile ? result.data.slice(0, 3) : result.data;
+
   return (
     <section
       className={cn(
@@ -145,7 +154,7 @@ const NearbyActivity = () => {
               const id = index;
               return <SkeletonEventCard key={id} />;
             })
-          : result.data.map((event) => (
+          : eventsToShow.map((event) => (
               <EventCard
                 key={event.id}
                 title={event.title}
