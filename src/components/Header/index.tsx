@@ -27,8 +27,8 @@ const Header = () => {
           <div className="flex">
             {isLoggedin && device === 'PC' && (
               <>
-                <NotificationButton />
                 <EmailButton />
+                <NotificationButton />
               </>
             )}
             <HamburgerBotton
