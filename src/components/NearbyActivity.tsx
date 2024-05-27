@@ -133,7 +133,7 @@ const NearbyActivity = () => {
           <ArrowUpRight />
         </button>
       </div>
-      <hr className="mb-12 mt-12 w-12 border-t-2 border-gray-400" />
+      <hr className="mb-12 mt-12 w-12 border-t-2 border-primary" />
       <div
         className={cn(
           'flex w-full flex-col justify-between space-y-12',
