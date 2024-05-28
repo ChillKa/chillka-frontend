@@ -3,6 +3,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@components/ui/popover';
+import { Separator } from '@components/ui/separator';
 import { Mail } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -82,7 +83,7 @@ const EmailButton = () => {
                 </div>
               )
           )}
-          <div className="h-[1px] w-full bg-black" />
+          <Separator className="h-[1px] bg-primary" />
           <Link
             href="/"
             className="flex h-[72px] w-full items-center justify-center"

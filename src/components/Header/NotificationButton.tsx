@@ -3,6 +3,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@components/ui/popover';
+import { Separator } from '@components/ui/separator';
 import { Bell, Lightbulb } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -68,7 +69,7 @@ const NotificationButton = () => {
                 </div>
               )
           )}
-          <div className="h-[1px] w-full bg-black" />
+          <Separator className="h-[1px] bg-primary" />
           <Link
             href="/"
             className="flex h-[72px] w-full items-center justify-center"
