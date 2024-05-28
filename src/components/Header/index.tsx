@@ -4,7 +4,6 @@ import EmailButton from '@components/Header/EmailButton';
 import HamburgerBotton from '@components/Header/HamburgerBotton';
 import LogoButton from '@components/Header/LogoButton';
 import NotificationButton from '@components/Header/NotificationButton';
-import useRWD from '@hook/useRWD';
 import { useAuthContext } from 'src/store/AuthProvider/AuthProvider';
 
 export type UserProfileButtonProps = {
@@ -13,8 +12,6 @@ export type UserProfileButtonProps = {
 
 const Header = () => {
   const { isLoggedin, logout } = useAuthContext();
-  const device = useRWD();
-
   const handleSignOut: UserProfileButtonProps['onSignOut'] = () => {
     logout();
   };
@@ -25,19 +22,17 @@ const Header = () => {
         <div className="flex h-28 w-full max-w-[81rem] items-center justify-between bg-surface">
           <LogoButton />
           <div className="flex items-center justify-center">
-            {isLoggedin && device === 'PC' && (
-              <>
-                <EmailButton />
-                <NotificationButton />
-              </>
-            )}
+            <div className="hidden xl:block">
+              <EmailButton />
+              <NotificationButton />
+            </div>
             <HamburgerBotton
               isLoggedin={isLoggedin}
               onSignOut={handleSignOut}
             />
           </div>
         </div>
-        {device === 'PC' && <div className="h-14 bg-surface" />}
+        <div className="hidden h-14 bg-surface xl:block" />
       </header>
       <div className="border" />
     </>
