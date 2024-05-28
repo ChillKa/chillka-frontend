@@ -1,6 +1,5 @@
 import {
   SITEMAP,
-  phoneList,
   registerAndLoginList,
   userList,
 } from '@components/Header/menu';
@@ -10,7 +9,6 @@ import {
   PopoverTrigger,
 } from '@components/ui/popover';
 import { Separator } from '@components/ui/separator';
-import useRWD from '@hook/useRWD';
 import { Menu, X } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -32,7 +30,6 @@ const fakeAvatar = '/header__fakeAvatar.svg';
 
 const HamburgerBotton = ({ isLoggedin, onSignOut }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
-  const device = useRWD();
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
@@ -47,20 +44,9 @@ const HamburgerBotton = ({ isLoggedin, onSignOut }: Props) => {
         />
       </PopoverTrigger>
       <PopoverContent className="h-0 w-0 border-none bg-transparent p-0">
-        <div className="no-scrollbar absolute right-[-68px] top-4 h-[100vh] w-[100vw] overflow-scroll bg-[#e8e4de] pt-6 xl:right-[-56px] xl:h-fit xl:max-h-[450px] xl:w-[272px] xl:rounded-[32px] xl:border-4 xl:border-black">
+        <div className="no-scrollbar absolute right-[-56px] top-4 hidden h-fit max-h-[450px] w-[272px] overflow-scroll rounded-[32px] border-4 border-black bg-[#e8e4de] pt-6 xl:block">
           {isLoggedin ? (
             <>
-              {device === 'mobile' &&
-                phoneList.map((list: List) => (
-                  <Link
-                    className="mb-4 flex justify-between px-8 py-2 "
-                    key={list.name}
-                    href={list.url}
-                  >
-                    <div className="text-xl font-semibold">{list.name}</div>
-                    {list.icon && list.icon}
-                  </Link>
-                ))}
               {userList.map((user: List) => (
                 <Link
                   className="mb-4 flex justify-between px-8 py-2"
