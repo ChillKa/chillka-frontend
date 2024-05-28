@@ -30,7 +30,7 @@ const CallToActionSection = ({ className }: CalltoActionSectionProps) => {
           讓你來揪咖！
         </h1>
         <div className="w-fit bg-surface px-4 py-8">
-          <Separator className="h-[0.125rem] w-12 bg-primary" />
+          <Separator className="h-0.5 w-12 bg-primary" />
         </div>
         <Small className="w-fit bg-surface p-4 pb-0 leading-6">
           Your Crew, Your Call
