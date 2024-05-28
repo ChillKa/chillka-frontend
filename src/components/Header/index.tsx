@@ -21,8 +21,8 @@ const Header = () => {
 
   return (
     <>
-      <header className="flex w-full justify-center bg-[#e8e4de] px-3">
-        <div className="flex h-[112px] w-full max-w-[1296px] items-center justify-between bg-[#e8e4de]">
+      <header className="flex w-full justify-center bg-surface px-3">
+        <div className="flex h-28 w-full max-w-[81rem] items-center justify-between bg-surface">
           <LogoButton />
           <div className="flex items-center justify-center">
             {isLoggedin && device === 'PC' && (
@@ -37,7 +37,7 @@ const Header = () => {
             />
           </div>
         </div>
-        {device === 'PC' && <div className="h-[56px] bg-[#e8e4de]" />}
+        {device === 'PC' && <div className="h-14 bg-surface" />}
       </header>
       <div className="border" />
     </>

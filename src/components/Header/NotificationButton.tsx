@@ -46,7 +46,7 @@ const NotificationButton = () => {
       </PopoverTrigger>
 
       <PopoverContent className="h-0 w-0 border-none bg-transparent p-0">
-        <div className="absolute right-[-30px] top-4  w-[636px] rounded-[32px] border-4 border-black bg-[#e8e4de] pt-6 ">
+        <div className="absolute right-[-30px] top-4  w-[636px] rounded-[32px] border-4 border-black bg-surface pt-6 ">
           <h2 className="mb-4 px-8 text-3xl font-bold tracking-[-0.0140625rem]">
             通知
           </h2>
@@ -72,7 +72,7 @@ const NotificationButton = () => {
           <Separator className="h-[1px] bg-primary" />
           <Link
             href="/"
-            className="flex h-[72px] w-full items-center justify-center"
+            className="flex h-[4.5rem] w-full items-center justify-center"
           >
             查看所有通知
           </Link>

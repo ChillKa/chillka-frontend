@@ -44,7 +44,7 @@ const HamburgerBotton = ({ isLoggedin, onSignOut }: Props) => {
         />
       </PopoverTrigger>
       <PopoverContent className="h-0 w-0 border-none bg-transparent p-0">
-        <div className="no-scrollbar absolute right-[-56px] top-4 hidden h-fit max-h-[450px] w-[272px] overflow-scroll rounded-[32px] border-4 border-black bg-[#e8e4de] pt-6 xl:block">
+        <div className="no-scrollbar absolute right-[-56px] top-4 hidden h-fit max-h-[450px] w-[272px] overflow-scroll rounded-[32px] border-4 border-black bg-surface pt-6 xl:block">
           {isLoggedin ? (
             <>
               {userList.map((user: List) => (
