@@ -1,52 +1,29 @@
 'use server';
 
-import { FormState, endpoint, userFormSchema } from '@lib/definitions';
-import { jwtVerify } from 'jose';
-import { cookies } from 'next/headers';
+import { FormState, userFormSchema } from '@lib/definitions';
 import { z } from 'zod';
+import { fetchAPI, getJwtPayload, validateWithSchema } from './utils';
 
 export type UserData = z.infer<typeof userFormSchema>;
 
 export async function updateUser(data: UserData): Promise<FormState> {
-  const validatedFields = userFormSchema.safeParse(data);
-
-  if (!validatedFields.success) {
-    return {
-      status: 'failed',
-      message: 'Fields format is wrong',
-    };
-  }
-
-  const { displayName } = validatedFields.data;
-
-  const sessionCookie = cookies().get('session')?.value;
-
-  if (!sessionCookie) {
-    return {
-      status: 'failed',
-      message: 'No session cookie found',
-    };
-  }
-
   try {
-    const { payload } = await jwtVerify(
-      sessionCookie,
-      new TextEncoder().encode(process.env.JWT_SECRET)
-    );
+    const validatedData = validateWithSchema(userFormSchema, data);
+    const { displayName } = validatedData;
 
-    if (typeof payload.id !== 'string') {
+    const payload = await getJwtPayload();
+
+    if (typeof payload?.id !== 'string') {
       throw new Error('No payload id');
     }
 
     const userId = payload.id;
 
-    const response = await fetch(`${endpoint}/user/${userId}`, {
+    const response = await fetchAPI({
+      api: `/user/${userId}`,
       method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${sessionCookie}`,
-      },
-      body: JSON.stringify(validatedFields.data),
+      data: validatedData,
+      shouldAuth: true,
     });
 
     if (!response.ok) {
@@ -80,31 +57,17 @@ export type UserFetchState =
     };
 
 export async function fetchMe(): Promise<UserFetchState> {
-  const sessionCookie = cookies().get('session')?.value;
-
-  if (!sessionCookie) {
-    return {
-      status: 'failed',
-      message: 'No session cookie found',
-    };
-  }
-
   try {
-    const { payload } = await jwtVerify(
-      sessionCookie,
-      new TextEncoder().encode(process.env.JWT_SECRET)
-    );
-    if (typeof payload.id !== 'string') {
+    const payload = await getJwtPayload();
+    if (typeof payload?.id !== 'string') {
       throw new Error('No payload id');
     }
     const userId = payload.id;
 
-    const response = await fetch(`${endpoint}/user/${userId}`, {
+    const response = await fetchAPI({
+      api: `/user/${userId}`,
       method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${sessionCookie}`,
-      },
+      shouldAuth: true,
     });
 
     if (!response.ok) {

@@ -5,6 +5,9 @@ const nextConfig = {
       exclude: ['error'],
     },
   },
+  images: {
+    domains: ['fastly.picsum.photos'],
+  },
 };
 
 export default nextConfig;
