@@ -56,8 +56,10 @@ const NotificationButton = () => {
                   className="mb-4 flex items-center justify-center px-8  py-2"
                   key={message.content}
                 >
-                  <Lightbulb size={24} />
-                  <div className="max-h-12 flex-1 overflow-hidden">
+                  <div className="mr-6 rounded-full bg-[#403E3D] p-2">
+                    <Lightbulb className="text-white" size={24} />
+                  </div>
+                  <div className="max-h-14 flex-1 overflow-hidden text-xl font-bold">
                     {message.content}
                   </div>
                   <div className="ml-6 w-[84px] text-right text-sm">

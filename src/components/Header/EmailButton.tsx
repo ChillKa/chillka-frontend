@@ -14,36 +14,31 @@ const fakeData = [
   {
     avatar: fakeAvatar,
     user: 'Apple',
-    content:
-      '您舉辦的「明日音樂節｜星光之夜」活動收到了新的提問，請查看並及時回覆。',
+    content: '您是否有任何繪畫或藝術相關的經驗？',
     time: '2024-03-21',
   },
   {
     avatar: fakeAvatar,
     user: 'Apple',
-    content:
-      '您舉辦的「明日音樂節｜星光之夜」活動收到了新的提問，請查看並及時回覆。',
+    content: '您是否有任何繪畫或藝術相關的經驗？',
     time: '2024-03-21',
   },
   {
     avatar: fakeAvatar,
     user: 'Apple',
-    content:
-      '您舉辦的「明日音樂節｜星光之夜」活動收到了新的提問，請查看並及時回覆。',
+    content: '您是否有任何繪畫或藝術相關的經驗？',
     time: '2024-03-21',
   },
   {
     avatar: fakeAvatar,
     user: 'Apple',
-    content:
-      '您舉辦的「明日音樂節｜星光之夜」活動收到了新的提問，請查看並及時回覆。',
+    content: '您是否有任何繪畫或藝術相關的經驗？',
     time: '2024-03-21',
   },
   {
     avatar: fakeAvatar,
     user: 'Apple',
-    content:
-      '您舉辦的「明日音樂節｜星光之夜」活動收到了新的提問，請查看並及時回覆。',
+    content: '您是否有任何繪畫或藝術相關的經驗？',
     time: '2024-03-21',
   },
 ];
@@ -77,10 +72,12 @@ const EmailButton = () => {
                   </div>
                   <div>
                     <div className="mb-2 text-xl font-bold">{message.user}</div>
-                    <div className="mb-2 max-h-12 overflow-hidden text-base">
+                    <div className="mb-2 h-7 overflow-hidden text-base">
                       {message.content}
                     </div>
-                    <div className="text-sm font-semibold">{message.time}</div>
+                    <div className="h-[14px] text-sm font-semibold leading-[14px]">
+                      {message.time}
+                    </div>
                   </div>
                 </div>
               )
