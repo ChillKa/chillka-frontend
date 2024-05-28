@@ -21,19 +21,19 @@ const fakeData = [
   {
     avatar: fakeAvatar,
     user: 'Apple',
-    content: '您是否有任何繪畫或藝術相關的經驗？',
+    content: '您是否有任何繪畫或藝術相關的經驗？ ',
     time: '2024-03-21',
   },
   {
     avatar: fakeAvatar,
     user: 'Apple',
-    content: '您是否有任何繪畫或藝術相關的經驗？',
+    content: '您是否有任何繪畫或藝術相關的經驗？  ',
     time: '2024-03-21',
   },
   {
     avatar: fakeAvatar,
     user: 'Apple',
-    content: '您是否有任何繪畫或藝術相關的經驗？',
+    content: '您是否有任何繪畫或藝術相關的經驗？   ',
     time: '2024-03-21',
   },
   {
