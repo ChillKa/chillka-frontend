@@ -9,6 +9,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@components/ui/popover';
+import { Separator } from '@components/ui/separator';
 import useRWD from '@hook/useRWD';
 import { Menu, X } from 'lucide-react';
 import Image from 'next/image';
@@ -85,8 +86,7 @@ const HamburgerBotton = ({ isLoggedin, onSignOut }: Props) => {
               ))}
             </>
           )}
-
-          <div className="mb-4 h-[1px] w-full bg-black" />
+          <Separator className="mb-4 h-[1px] bg-primary" />
           {SITEMAP.map((map: List) => (
             <Link
               className="mb-4 flex justify-between px-8 py-2"
@@ -99,7 +99,7 @@ const HamburgerBotton = ({ isLoggedin, onSignOut }: Props) => {
 
           {isLoggedin && (
             <>
-              <div className=" h-[1px] w-full bg-black" />
+              <Separator className="h-[1px] bg-primary" />
               <Link href="/">
                 <button
                   type="button"

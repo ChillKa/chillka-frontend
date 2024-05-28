@@ -55,9 +55,9 @@ const EmailButton = () => {
 
       <PopoverContent className="h-0 w-0 border-none bg-transparent p-0">
         <div className="absolute right-[-30px] top-4 w-[636px] rounded-[32px] border-4 border-black bg-[#e8e4de] pt-6 ">
-          <div className="mb-4 flex h-[52px] items-center px-8 text-3xl font-bold">
+          <h2 className="mb-4 px-8 text-3xl font-bold tracking-[-0.0140625rem]">
             信箱
-          </div>
+          </h2>
           {fakeData.map(
             (message, i) =>
               i < 4 && (
@@ -72,13 +72,13 @@ const EmailButton = () => {
                     />
                   </div>
                   <div>
-                    <div className="mb-2 text-xl font-bold">{message.user}</div>
-                    <div className="mb-2 h-7 overflow-hidden text-base">
+                    <p className="mb-2 text-xl font-bold">{message.user}</p>
+                    <p className="mb-2 h-7 overflow-hidden text-base">
                       {message.content}
-                    </div>
-                    <div className="h-[14px] text-sm font-semibold leading-[14px]">
+                    </p>
+                    <p className="h-[14px] text-sm font-semibold leading-[14px]">
                       {message.time}
-                    </div>
+                    </p>
                   </div>
                 </div>
               )
