@@ -35,20 +35,18 @@ const HamburgerBotton = ({ isLoggedin, onSignOut }: Props) => {
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
-      <PopoverTrigger className="flex flex-col items-center justify-center">
-        <div className="flex h-16 w-[112px]  items-center justify-center  rounded-full border border-black">
-          {isOpen ? <X size={24} /> : <Menu size={24} />}
-          <Image
-            className="ml-2"
-            src={isLoggedin ? fakeAvatar : defaultAvatar}
-            alt="user"
-            width={40}
-            height={40}
-          />
-        </div>
+      <PopoverTrigger className="mx-[3px] flex items-center justify-center rounded-full border border-primary p-3 data-[state=open]:mx-0 data-[state=open]:border-4">
+        {isOpen ? <X size={24} /> : <Menu size={24} />}
+        <Image
+          className="ml-2"
+          src={isLoggedin ? fakeAvatar : defaultAvatar}
+          alt="user"
+          width={40}
+          height={40}
+        />
       </PopoverTrigger>
-      <PopoverContent className=" h-0 w-0 border-none bg-transparent p-0">
-        <div className="no-scrollbar absolute right-[-68px] top-4 h-[100vh] w-[100vw] overflow-scroll bg-[#e8e4de] pt-6 xl:right-[-56px] xl:h-fit xl:max-h-[450px] xl:w-[272px] xl:rounded-[32px] xl:border xl:border-black ">
+      <PopoverContent className="h-0 w-0 border-none bg-transparent p-0">
+        <div className="no-scrollbar absolute right-[-68px] top-4 h-[100vh] w-[100vw] overflow-scroll bg-[#e8e4de] pt-6 xl:right-[-56px] xl:h-fit xl:max-h-[450px] xl:w-[272px] xl:rounded-[32px] xl:border-4 xl:border-black">
           {isLoggedin ? (
             <>
               {device === 'mobile' &&

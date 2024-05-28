@@ -22,7 +22,7 @@ const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => (
   <html lang="zh-tw">
     <body
       className={cn(
-        'm-0 h-full min-h-screen w-full overflow-hidden bg-background font-sans antialiased',
+        'm-0 h-full min-h-screen w-full bg-background font-sans antialiased',
         fontSans.variable
       )}
     >
