@@ -6,7 +6,7 @@ import EventCard, {
 } from '@components/EventCard';
 import { Button } from '@components/ui/button';
 import { H1 } from '@components/ui/typography';
-import useWindowSize from '@hook/use-window-size';
+import useWindowSize from '@hooks/use-window-size';
 import cn from '@lib/utils';
 import { ArrowUpRight } from 'lucide-react';
 
