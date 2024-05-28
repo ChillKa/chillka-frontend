@@ -49,7 +49,7 @@ const EmailButton = () => {
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
-      <PopoverTrigger className="ml-[3px] mr-4 rounded-full border border-primary p-5 data-[state=open]:ml-0 data-[state=open]:mr-[13px] data-[state=open]:border-4">
+      <PopoverTrigger className="ml-[3px] mr-[0.8125rem] rounded-full border border-primary p-5 data-[state=open]:ml-0 data-[state=open]:mr-[0.625rem] data-[state=open]:border-4">
         <Mail size={24} />
       </PopoverTrigger>
 
