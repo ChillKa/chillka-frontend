@@ -54,7 +54,7 @@ const EmailButton = () => {
       </PopoverTrigger>
 
       <PopoverContent className="h-0 w-0 border-none bg-transparent p-0">
-        <div className="absolute right-[-30px] top-4 w-[636px] rounded-[32px] border-4 border-black bg-surface pt-6 ">
+        <div className="absolute right-[-30px] w-[636px] rounded-[32px] border-4 border-black bg-surface pt-6 ">
           <h2 className="mb-4 px-8 text-3xl font-bold tracking-[-0.0140625rem]">
             信箱
           </h2>
