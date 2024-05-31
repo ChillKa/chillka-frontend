@@ -4,11 +4,12 @@
 - [x] built-up mobile version
   - [x] modal title
   - [x] modal content
-- [] feature: add framer motion
-  - [] add animation on menu items
-- [] mobile:
-  - [] add animation
-  - [] set hover effect propperly
+- [x] feature: add framer motion
+  - [x] add animation on menu items
+- [x] mobile:
+  - [x] add animation
+  - [x] modify menu animation
+  - [x] set hover effect propperly
 - [] desktop
 
 */

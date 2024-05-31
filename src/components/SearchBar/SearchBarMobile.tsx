@@ -45,7 +45,28 @@ type SearchBarMobileProps = {
   debugMode: boolean;
 };
 
-const sidebar = {
+const locationMenu = {
+  open: (height = 1000) => ({
+    clipPath: `circle(${height * 2 + 200}px at 40px 800px)`,
+    transition: {
+      type: 'spring',
+      stiffness: 10,
+      restDelta: 2,
+    },
+  }),
+  closed: {
+    // TODO: use mouse event to get cursor position
+    clipPath: 'circle(0px at 40px 800px)',
+    transition: {
+      delay: 0.5,
+      type: 'spring',
+      stiffness: 400,
+      damping: 40,
+    },
+  },
+};
+
+const categoryMenu = {
   open: (height = 1000) => ({
     clipPath: `circle(${height * 2 + 200}px at 340px 800px)`,
     transition: {
@@ -167,7 +188,7 @@ const SearchBarMobile = ({
         >
           <motion.div
             className="absolute bottom-0 left-0 right-0 top-20 border-t border-primary bg-surface px-4 py-6 shadow-2xl"
-            variants={sidebar}
+            variants={locationMenu}
             layout
           >
             <MenuItemContainer data={locations} />
@@ -182,7 +203,7 @@ const SearchBarMobile = ({
         >
           <motion.div
             className="absolute bottom-0 left-0 right-0 top-20 border-t border-primary bg-surface px-4 py-6 shadow-2xl"
-            variants={sidebar}
+            variants={categoryMenu}
             layout
           >
             <MenuItemContainer data={categories} />
