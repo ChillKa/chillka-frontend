@@ -5,6 +5,7 @@
     "github.vscode-pull-request-github",
     "p42ai.refactor",
     "esbenp.prettier-vscode",
-    "rvest.vs-code-prettier-eslint"
+    "rvest.vs-code-prettier-eslint",
+    "bradlc.vscode-tailwindcss"
   ]
 }
