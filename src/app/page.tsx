@@ -3,6 +3,7 @@ import CommentSection from '@components/CommentSection';
 import HeroSection from '@components/HeroSection';
 import NearbyActivity from '@components/NearbyActivity';
 import RecommendActivity from '@components/RecommendActivity';
+import SearchBar from '@components/SearchBar';
 import TopCategoryMenu from '@components/TopCategoryMenu';
 import { z } from 'zod';
 
@@ -13,6 +14,7 @@ const Home = () => {
   return (
     <div className="mb-36 space-y-24 xl:space-y-36 ">
       <HeroSection className="mx-auto xl:mt-14" />
+      <SearchBar />
       <NearbyActivity />
       <TopCategoryMenu className="mx-auto" />
       <RecommendActivity />
