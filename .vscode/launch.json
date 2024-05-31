@@ -1,0 +1,22 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node-terminal",
+      "name": "Debug Nextjs (Chrome)",
+      "request": "launch",
+      "command": "yarn next dev -p 3535",
+      "serverReadyAction": {
+        "action": "debugWithChrome",
+        "pattern": "- Local:.+(https?://.+)",
+        "uriFormat": "%s",
+        "webRoot": "${workspaceFolder}",
+        "killOnServerStop": false
+      },
+      "skipFiles": ["<node_internals>/**", "**/node_modules/**", "**/.next/**"]
+    },
+  ]
+}
