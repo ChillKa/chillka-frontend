@@ -14,7 +14,7 @@ const variants = {
     },
   },
   closed: {
-    y: 50,
+    y: 30,
     opacity: 0,
     transition: {
       y: { stiffness: 1000 },
@@ -49,7 +49,7 @@ const MenuItem = ({ data }: MenuItemProps) => {
     >
       <motion.li
         variants={variants}
-        whileHover={{ scale: 1.1 }}
+        whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
       >
         <Lead className="text-primary">{data.text}</Lead>
