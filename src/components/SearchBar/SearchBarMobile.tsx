@@ -187,7 +187,7 @@ const SearchBarMobile = ({
           ref={containerRef}
         >
           <motion.div
-            className="absolute bottom-0 left-0 right-0 top-20 border-t border-primary bg-surface px-4 py-6 shadow-2xl"
+            className="absolute bottom-0 left-0 right-0 top-20 border-t border-primary bg-surface"
             variants={locationMenu}
             layout
           >
@@ -202,7 +202,7 @@ const SearchBarMobile = ({
           ref={containerRef}
         >
           <motion.div
-            className="absolute bottom-0 left-0 right-0 top-20 border-t border-primary bg-surface px-4 py-6 shadow-2xl"
+            className="absolute bottom-0 left-0 right-0 top-20 border-t border-primary bg-surface"
             variants={categoryMenu}
             layout
           >
