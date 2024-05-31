@@ -17,6 +17,7 @@ import { motion } from 'framer-motion';
 import { HashIcon, LucideIcon, MapIcon, SearchIcon, XIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useRef, useState } from 'react';
 import MenuItemContainer from './MenuItemContainer';
 import useDimensions from './use-dimensions';
@@ -77,6 +78,7 @@ const SearchBarMobile = ({
   const [isLocationMenuOpen, setLocationMenuOpen] = useState(false);
   const containerRef = useRef(null);
   const { height } = useDimensions(containerRef);
+  const router = useRouter();
 
   return (
     <Dialog defaultOpen={debugMode}>
@@ -110,15 +112,24 @@ const SearchBarMobile = ({
                 /* TODO: add debounce and fetch data form API later */
               }}
             />
-            <div className="absolute right-0 pr-3">
+            <button
+              className="absolute right-0 pr-3"
+              type="button"
+              onClick={() => {
+                /* TODO: add search method */
+                router.push('/');
+              }}
+              aria-label="Search activities button"
+            >
               <SearchIcon className="size-6" />
-            </div>
+            </button>
           </div>
           <div className="mt-4">
             <p className="ml-3 text-base font-bold">推薦活動</p>
             <div className="mt-6 flex gap-4 overflow-x-auto overflow-y-hidden px-3">
               {activityPictures.map((item) => (
                 <div className="min-w-fit space-y-2" key={item.description}>
+                  {/* TODO: link to search page */}
                   <Image
                     src={item.thumbnail}
                     alt={item.description}
@@ -133,6 +144,7 @@ const SearchBarMobile = ({
             <div className="mt-10 px-3">
               <p className="text-base font-bold">熱門關鍵字</p>
               <div className="mt-6 flex flex-wrap gap-2 overflow-x-auto overflow-y-hidden">
+                {/* TODO: link to search page */}
                 {activityKeywords.map((item) => (
                   <Link
                     href={item.url}
