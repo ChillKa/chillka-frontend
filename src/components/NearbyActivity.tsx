@@ -6,14 +6,12 @@ import EventCard, {
 } from '@components/EventCard';
 import { Button } from '@components/ui/button';
 import { H1 } from '@components/ui/typography';
-import useWindowSize from '@hooks/use-window-size';
+import useMediaQuery from '@hooks/use-media-query';
 import cn from '@lib/utils';
 import { ArrowUpRight } from 'lucide-react';
 
 const NearbyActivity = () => {
-  // TODO: Change the device determine
-  const { width } = useWindowSize();
-  const isMobile = width < 1366;
+  const { matches: isDefault } = useMediaQuery();
 
   const result = {
     status: 'success',
@@ -117,7 +115,7 @@ const NearbyActivity = () => {
     ],
   };
 
-  const eventsToShow = isMobile ? result.data.slice(0, 3) : result.data;
+  const eventsToShow = isDefault ? result.data.slice(0, 3) : result.data;
 
   return (
     <section
