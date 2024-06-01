@@ -165,7 +165,15 @@ const SearchBar = ({ className = '' }: SearchBarProps) => {
     );
   }
 
-  return <SearchBarDesktop className={cn('', className)} />;
+  return (
+    <SearchBarDesktop
+      className={cn('', className)}
+      activityPictures={DUMMY_PICTURES}
+      activityKeywords={DUMMY_KEYWORDS}
+      locations={DUMMY_LOCATIONS}
+      categories={DUMMY_CATEGORIES}
+    />
+  );
 };
 
 export default SearchBar;

@@ -25,7 +25,7 @@ type MenuItemContainerProps = {
 const MenuItemContainer = ({ data }: MenuItemContainerProps) => (
   <motion.ul
     variants={variants}
-    className="h-[calc(100%-4.5rem)] space-y-4 overflow-auto px-4 py-6"
+    className="no-scrollbar h-[calc(100%-4.5rem)] space-y-4 overflow-auto px-4 py-6 xl:h-full xl:py-4"
   >
     {data.map((item) => (
       <MenuItem data={item} key={item.text} />
