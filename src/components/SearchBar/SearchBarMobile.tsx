@@ -117,7 +117,13 @@ const SearchBarMobile = ({
           <DialogTitle asChild className="flex items-end justify-between">
             <div>
               <H2 className="mb-1 ml-3 text-primary">搜尋活動</H2>
-              <DialogClose className="bg-primary p-7">
+              <DialogClose
+                className="bg-primary p-7"
+                onClick={() => {
+                  setLocationMenuOpen(() => false);
+                  setCategoryMenuOpen(() => false);
+                }}
+              >
                 <XIcon className="size-6 stroke-white" />
               </DialogClose>
             </div>
