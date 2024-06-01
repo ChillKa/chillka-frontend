@@ -116,7 +116,7 @@ const SearchBarMobile = ({
         <DialogHeader>
           <DialogTitle asChild className="flex items-end justify-between">
             <div>
-              <H2 className="ml-3 text-primary">搜尋活動</H2>
+              <H2 className="mb-1 ml-3 text-primary">搜尋活動</H2>
               <DialogClose className="bg-primary p-7">
                 <XIcon className="size-6 stroke-white" />
               </DialogClose>
@@ -124,17 +124,17 @@ const SearchBarMobile = ({
           </DialogTitle>
         </DialogHeader>
         <div className="flex flex-col justify-between text-primary">
-          <div className="relative mx-3 mt-10 flex flex-col items-center border-0 border-b border-primary pb-4 pt-2">
+          <div className="mx-3 mt-10 flex border-0 border-b border-primary pb-4 pt-2">
             <Input
               type="text"
               placeholder="搜尋活動關鍵字"
-              className="h-fit w-full border-none p-0 text-base placeholder:text-primary/50 focus-visible:ring-0"
+              className="h-fit w-full border-none p-0 text-base placeholder:text-primary/50 focus-visible:ring-0 focus-visible:ring-offset-0"
               onChange={() => {
                 /* TODO: add debounce and fetch data form API later */
               }}
             />
             <button
-              className="absolute right-0 pr-3"
+              className="px-3"
               type="button"
               onClick={() => {
                 /* TODO: add search method */
@@ -147,7 +147,7 @@ const SearchBarMobile = ({
           </div>
           <div className="mt-4">
             <p className="ml-3 text-base font-bold">推薦活動</p>
-            <div className="mt-6 flex gap-4 overflow-x-auto overflow-y-hidden px-3">
+            <div className="no-scrollbar mt-6 flex gap-4 overflow-x-auto overflow-y-hidden px-3">
               {activityPictures.map((item) => (
                 <div className="min-w-fit space-y-2" key={item.description}>
                   {/* TODO: link to search page */}

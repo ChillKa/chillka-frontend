@@ -17,6 +17,7 @@
 'use client';
 
 import useMediaQuery from '@hooks/use-media-query';
+import cn from '@lib/utils';
 import {
   BotIcon,
   DumbbellIcon,
@@ -27,6 +28,7 @@ import {
   PartyPopperIcon,
   TreesIcon,
 } from 'lucide-react';
+import SearchBarDesktop from './SearchBarDesktop';
 import SearchBarMobile from './SearchBarMobile';
 
 //
@@ -143,7 +145,11 @@ const DUMMY_CATEGORIES = [
   },
 ];
 
-const SearchBar = () => {
+type SearchBarProps = {
+  className: string;
+};
+
+const SearchBar = ({ className = '' }: SearchBarProps) => {
   const { matches: isMobile } = useMediaQuery();
 
   if (isMobile) {
@@ -159,7 +165,7 @@ const SearchBar = () => {
     );
   }
 
-  return <div className="">Doing right now</div>;
+  return <SearchBarDesktop className={cn('', className)} />;
 };
 
 export default SearchBar;
