@@ -1,6 +1,5 @@
 import cn from '@lib/utils';
 import Image from 'next/image';
-import { H2 } from './ui/typography';
 
 type HeroSectionProps = {
   className: string;
@@ -10,7 +9,7 @@ const HeroSection = ({ className }: HeroSectionProps) => {
   return (
     <section
       className={cn(
-        'relative flex max-w-[81rem] flex-grow flex-col gap-10 px-3 pb-[17.5rem] pt-20 xl:items-center xl:p-0 xl:py-[7.625rem]',
+        'relative flex max-w-[81rem] flex-grow flex-col gap-6 px-3 pb-[17.5rem] pt-20 xl:items-center xl:gap-10 xl:p-0 xl:py-[7.625rem]',
         className
       )}
     >
@@ -18,8 +17,9 @@ const HeroSection = ({ className }: HeroSectionProps) => {
         src="https://images.unsplash.com/photo-1622495893726-f1478dcebc03?q=100&w=1296&h=fit&fm=webp"
         fill
         alt="Hero Image"
-        className="left-0 top-0 -z-10 h-full w-full object-cover object-[10%_50%] xl:object-center"
+        className="left-0 top-0 -z-20 h-full w-full object-cover object-[10%_50%] xl:object-center"
       />
+      <div className="absolute inset-0 -z-10 bg-black bg-opacity-30" />
       <svg
         width="140"
         height="32"
@@ -34,12 +34,29 @@ const HeroSection = ({ className }: HeroSectionProps) => {
           fill="#ffffff"
         />
       </svg>
-      <H2 className="text-white">無聊想找伴或參加活動嗎</H2>
+      <h2 className="text-xl font-bold -tracking-[0.005em] text-white xl:text-3xl xl:-tracking-[0.0075em]">
+        無聊想找伴或參加活動嗎？
+      </h2>
       <h1 className="text-[4rem]/[4.8rem] font-thin -tracking-[0.012em] text-white xl:text-center xl:text-[7.5rem]/[9rem]">
         <span className="block">一起揪咖，</span>
         <span className="block xl:inline">探索你的</span>
         <span className="block xl:inline">活動時光！</span>
       </h1>
+      <div className="absolute bottom-3 left-2 justify-center space-y-2 stroke-surface text-surface xl:-right-12 xl:bottom-0 xl:left-auto xl:stroke-primary xl:text-primary">
+        <p className="font-medium" style={{ writingMode: 'vertical-lr' }}>
+          Scroll down
+        </p>
+        <svg
+          className="ml-1"
+          width="10"
+          height="82"
+          viewBox="0 0 10 82"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M1 0V80L9 71.4286" stroke="inherit" />
+        </svg>
+      </div>
     </section>
   );
 };
