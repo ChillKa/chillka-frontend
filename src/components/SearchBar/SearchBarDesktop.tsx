@@ -39,6 +39,27 @@ type SearchBarDesktopProps = {
   }>;
 };
 
+const searchBarMenu = {
+  open: (height = 1000) => ({
+    clipPath: `circle(${height * 2 + 200}px at 0px ${height}px)`,
+    transition: {
+      type: 'spring',
+      stiffness: 30,
+      restDelta: 2,
+    },
+  }),
+  closed: {
+    // TODO: use mouse event to get cursor position
+    clipPath: 'circle(0px at 40px 800px)',
+    transition: {
+      delay: 0.5,
+      type: 'spring',
+      stiffness: 400,
+      damping: 40,
+    },
+  },
+};
+
 const locationMenu = {
   open: (height = 1000) => ({
     clipPath: `circle(${height * 2 + 200}px at 300px ${height}px)`,
@@ -116,43 +137,60 @@ const SearchBarDesktop = ({
               side="top"
               align="start"
               sideOffset={0}
-              className="mx-auto min-w-[81rem] border-x border-t border-primary bg-surface py-12"
+              className="mx-auto min-w-[81rem]"
               onPointerDownOutside={() => setSearchBarMenuOpen(() => false)}
               onEscapeKeyDown={() => setSearchBarMenuOpen(() => false)}
               // prevent auto focusing for input text
               onOpenAutoFocus={(e) => e.preventDefault()}
+              onInteractOutside={(e) => e.preventDefault()}
             >
-              <p className="ml-4 text-base font-bold">推薦活動</p>
-              <div className="no-scrollbar mt-6 flex gap-4 overflow-x-auto overflow-y-hidden px-4">
-                {activityPictures.map((item) => (
-                  <div className="min-w-fit space-y-2" key={item.description}>
-                    {/* TODO: link to search page */}
-                    <Image
-                      src={item.thumbnail}
-                      alt={item.description}
-                      width={200}
-                      height={100}
-                      className="h-[6.25rem] w-[12.5rem] object-cover"
-                    />
-                    <Small>{item.description}</Small>
+              <motion.div
+                initial="closed"
+                animate={isSearchBarMenuOpen ? 'open' : 'closed'}
+                custom={height}
+                ref={containerRef}
+              >
+                <motion.div
+                  className="border-x border-t border-primary bg-surface py-12"
+                  variants={searchBarMenu}
+                  layout
+                >
+                  <p className="ml-4 text-base font-bold">推薦活動</p>
+                  <div className="no-scrollbar mt-6 flex gap-4 overflow-x-auto overflow-y-hidden px-4">
+                    {activityPictures.map((item) => (
+                      <div
+                        className="min-w-fit space-y-2"
+                        key={item.description}
+                      >
+                        {/* TODO: link to search page */}
+                        <Image
+                          src={item.thumbnail}
+                          alt={item.description}
+                          width={200}
+                          height={100}
+                          className="h-[6.25rem] w-[12.5rem] object-cover"
+                        />
+                        <Small>{item.description}</Small>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-              <div className="mt-10 px-4 xl:mt-12">
-                <p className="text-base font-bold">熱門關鍵字</p>
-                <div className="mt-6 flex flex-wrap gap-2 overflow-x-auto overflow-y-hidden">
-                  {/* TODO: link to search page */}
-                  {activityKeywords.map((item) => (
-                    <Link
-                      href={item.url}
-                      className="w-fit rounded-2xl border px-4 py-2 font-medium"
-                      key={item.keyword}
-                    >
-                      {item.keyword}
-                    </Link>
-                  ))}
-                </div>
-              </div>
+                  <div className="mt-10 px-4 xl:mt-12">
+                    <p className="text-base font-bold">熱門關鍵字</p>
+                    <div className="mt-6 flex flex-wrap gap-2 overflow-x-auto overflow-y-hidden">
+                      {/* TODO: link to search page */}
+                      {activityKeywords.map((item) => (
+                        <Link
+                          href={item.url}
+                          className="w-fit rounded-2xl border px-4 py-2 font-medium"
+                          key={item.keyword}
+                        >
+                          {item.keyword}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </motion.div>
+              </motion.div>
             </PopoverContent>
           </Popover>
           <div
@@ -180,7 +218,29 @@ const SearchBarDesktop = ({
             </div>
           </div>
           <Popover open={isCategoryMenuOpen}>
-            <PopoverTrigger />
+            <PopoverTrigger asChild>
+              <div
+                className={cn(
+                  'mt-[1px] min-w-64 border-b border-primary py-4 pl-4',
+                  `${!isCategoryMenuOpen && ' mt-0 border-t'}`
+                )}
+              >
+                <button
+                  className="block w-full space-y-2 border-r border-primary px-4 text-left"
+                  type="button"
+                  onClick={() => {
+                    setCategoryMenuOpen(
+                      (isCurrentCategoryMenuOpen) => !isCurrentCategoryMenuOpen
+                    );
+                    setLocationMenuOpen(() => false);
+                    setSearchBarMenuOpen(() => false);
+                  }}
+                >
+                  <p className="font-bold">類型</p>
+                  <p className="text-base text-primary">選擇活動類型</p>
+                </button>
+              </div>
+            </PopoverTrigger>
             <PopoverContent
               sticky="always"
               side="top"
@@ -206,29 +266,30 @@ const SearchBarDesktop = ({
               </motion.div>
             </PopoverContent>
           </Popover>
-          <div
-            className={cn(
-              'mt-[1px] min-w-64 border-b border-primary py-4 pl-4',
-              `${!isCategoryMenuOpen && ' mt-0 border-t'}`
-            )}
-          >
-            <button
-              className="block w-full space-y-2 border-r border-primary px-4 text-left"
-              type="button"
-              onClick={() => {
-                setCategoryMenuOpen(
-                  (isCurrentCategoryMenuOpen) => !isCurrentCategoryMenuOpen
-                );
-                setLocationMenuOpen(() => false);
-                setSearchBarMenuOpen(() => false);
-              }}
-            >
-              <p className="font-bold">類型</p>
-              <p className="text-base text-primary">選擇活動類型</p>
-            </button>
-          </div>
           <Popover open={isLocationMenuOpen}>
-            <PopoverTrigger />
+            <PopoverTrigger asChild>
+              <div
+                className={cn(
+                  'mt-[1px] min-w-64 border-b border-primary py-4 pl-4',
+                  `${!isLocationMenuOpen && ' mt-0 border-t'}`
+                )}
+              >
+                <button
+                  className="block w-full space-y-2 border-primary px-4 text-left"
+                  type="button"
+                  onClick={() => {
+                    setLocationMenuOpen(
+                      (isCurrentLocationMenuOpen) => !isCurrentLocationMenuOpen
+                    );
+                    setCategoryMenuOpen(() => false);
+                    setSearchBarMenuOpen(() => false);
+                  }}
+                >
+                  <p className="font-bold">地區</p>
+                  <p className="text-base text-primary">選擇活動地區</p>
+                </button>
+              </div>
+            </PopoverTrigger>
             <PopoverContent
               sticky="always"
               side="top"
@@ -254,27 +315,6 @@ const SearchBarDesktop = ({
               </motion.div>
             </PopoverContent>
           </Popover>
-          <div
-            className={cn(
-              'mt-[1px] min-w-64 border-b border-primary py-4 pl-4',
-              `${!isLocationMenuOpen && ' mt-0 border-t'}`
-            )}
-          >
-            <button
-              className="block w-full space-y-2 border-primary px-4 text-left"
-              type="button"
-              onClick={() => {
-                setLocationMenuOpen(
-                  (isCurrentLocationMenuOpen) => !isCurrentLocationMenuOpen
-                );
-                setCategoryMenuOpen(() => false);
-                setSearchBarMenuOpen(() => false);
-              }}
-            >
-              <p className="font-bold">地區</p>
-              <p className="text-base text-primary">選擇活動地區</p>
-            </button>
-          </div>
         </div>
         <Button className="flex h-auto self-auto px-20 text-xl font-bold">
           搜尋活動
