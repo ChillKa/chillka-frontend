@@ -97,7 +97,7 @@ const SearchBarDesktop = ({
   return (
     <section
       className={cn(
-        'sticky top-72 z-20 mx-auto max-w-[81rem] space-y-6 border-t border-primary bg-surface py-6 text-primary',
+        'fixed inset-x-0 bottom-0 z-20 mx-auto max-w-[81rem] space-y-6 border-t border-primary bg-surface py-6 text-primary',
         className
       )}
     >
@@ -123,8 +123,8 @@ const SearchBarDesktop = ({
               // prevent auto focusing for input text
               onOpenAutoFocus={(e) => e.preventDefault()}
             >
-              <p className="ml-3 text-base font-bold">推薦活動</p>
-              <div className="no-scrollbar mt-6 flex gap-4 overflow-x-auto overflow-y-hidden px-3">
+              <p className="ml-4 text-base font-bold">推薦活動</p>
+              <div className="no-scrollbar mt-6 flex gap-4 overflow-x-auto overflow-y-hidden px-4">
                 {activityPictures.map((item) => (
                   <div className="min-w-fit space-y-2" key={item.description}>
                     {/* TODO: link to search page */}
@@ -139,7 +139,7 @@ const SearchBarDesktop = ({
                   </div>
                 ))}
               </div>
-              <div className="mt-10 px-3 xl:mt-12">
+              <div className="mt-10 px-4 xl:mt-12">
                 <p className="text-base font-bold">熱門關鍵字</p>
                 <div className="mt-6 flex flex-wrap gap-2 overflow-x-auto overflow-y-hidden">
                   {/* TODO: link to search page */}
@@ -244,11 +244,11 @@ const SearchBarDesktop = ({
           <div
             className={cn(
               'mt-[1px] min-w-64 border-b border-primary py-4 pl-4',
-              `${!isCategoryMenuOpen && ' mt-0 border-t'}`
+              `${!isLocationMenuOpen && ' mt-0 border-t'}`
             )}
           >
             <button
-              className="block w-full space-y-2 border-r border-primary px-4 text-left"
+              className="block w-full space-y-2 border-primary px-4 text-left"
               type="button"
               onClick={() => {
                 setLocationMenuOpen(

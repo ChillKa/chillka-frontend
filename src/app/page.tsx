@@ -14,7 +14,7 @@ const Home = () => {
   return (
     <div className="mb-36 space-y-24 xl:space-y-36 ">
       <HeroSection className="mx-auto xl:mt-14" />
-      <SearchBar className="" />
+      <SearchBar className="mx-auto" />
       <NearbyActivity />
       <TopCategoryMenu className="mx-auto" />
       <RecommendActivity />
