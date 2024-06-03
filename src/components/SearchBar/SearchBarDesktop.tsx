@@ -41,10 +41,10 @@ type SearchBarDesktopProps = {
 
 const locationMenu = {
   open: (height = 1000) => ({
-    clipPath: `circle(${height * 2 + 200}px at 40px 800px)`,
+    clipPath: `circle(${height * 2 + 200}px at 300px ${height}px)`,
     transition: {
       type: 'spring',
-      stiffness: 7,
+      stiffness: 15,
       restDelta: 2,
     },
   }),
@@ -62,10 +62,10 @@ const locationMenu = {
 
 const categoryMenu = {
   open: (height = 1000) => ({
-    clipPath: `circle(${height * 2 + 200}px at 340px 800px)`,
+    clipPath: `circle(${height * 2 + 200}px at -300px ${height}px)`,
     transition: {
       type: 'spring',
-      stiffness: 7,
+      stiffness: 12,
       restDelta: 2,
     },
   }),
@@ -93,7 +93,6 @@ const SearchBarDesktop = ({
   const [isLocationMenuOpen, setLocationMenuOpen] = useState(false);
   const containerRef = useRef(null);
   const { height } = useDimensions(containerRef);
-
   return (
     <section
       className={cn(
@@ -187,16 +186,23 @@ const SearchBarDesktop = ({
               side="top"
               align="start"
               sideOffset={0}
-              className="h-[22.625rem] w-64 border-x border-t border-primary bg-surface"
+              className="h-[22.625rem] w-64"
               asChild
               onEscapeKeyDown={() => setSearchBarMenuOpen(() => false)}
             >
               <motion.div
+                initial="closed"
                 animate={isCategoryMenuOpen ? 'open' : 'closed'}
-                variants={categoryMenu}
                 custom={height}
+                ref={containerRef}
               >
-                <MenuItemContainer data={categories} />
+                <motion.div
+                  className="absolute inset-0 border-x border-t border-primary bg-surface"
+                  variants={categoryMenu}
+                  layout
+                >
+                  <MenuItemContainer data={categories} />
+                </motion.div>
               </motion.div>
             </PopoverContent>
           </Popover>
@@ -228,16 +234,23 @@ const SearchBarDesktop = ({
               side="top"
               align="start"
               sideOffset={0}
-              className="h-[22.625rem] w-64 border-x border-t border-primary bg-surface"
+              className="relative h-[22.625rem] w-64"
               asChild
               onEscapeKeyDown={() => setSearchBarMenuOpen(() => false)}
             >
               <motion.div
+                initial="closed"
                 animate={isLocationMenuOpen ? 'open' : 'closed'}
-                variants={locationMenu}
                 custom={height}
+                ref={containerRef}
               >
-                <MenuItemContainer data={locations} />
+                <motion.div
+                  className="absolute inset-0 border-x border-t border-primary bg-surface"
+                  variants={locationMenu}
+                  layout
+                >
+                  <MenuItemContainer data={locations} />
+                </motion.div>
               </motion.div>
             </PopoverContent>
           </Popover>

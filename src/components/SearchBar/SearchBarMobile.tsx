@@ -187,7 +187,7 @@ const SearchBarMobile = ({
         </div>
         {/* locations menu animation */}
         <motion.div
-          initial={false}
+          initial="closed"
           animate={isLocationMenuOpen ? 'open' : 'closed'}
           custom={height}
           ref={containerRef}
@@ -202,7 +202,7 @@ const SearchBarMobile = ({
         </motion.div>
         {/* categories menu animation */}
         <motion.div
-          initial={false}
+          initial="closed"
           animate={isCategoryMenuOpen ? 'open' : 'closed'}
           custom={height}
           ref={containerRef}
