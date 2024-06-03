@@ -113,6 +113,8 @@ const SearchBarDesktop = ({
   const triggerRef = useRef<HTMLButtonElement | null>(null);
   const { height } = useDimensions(containerRef);
 
+  console.log(triggerRef);
+
   return (
     <section
       className={cn(
@@ -129,7 +131,7 @@ const SearchBarDesktop = ({
         }}
       >
         <div className="flex grow">
-          <Popover onOpenChange={(e) => setSearchBarMenuOpen(() => e)}>
+          <Popover open={isSearchBarMenuOpen}>
             <PopoverTrigger ref={triggerRef} asChild>
               <div
                 className={cn(
@@ -143,6 +145,11 @@ const SearchBarDesktop = ({
                     type="text"
                     className="h-fit w-full border-none p-0 text-base placeholder:text-primary focus-visible:ring-0 focus-visible:ring-offset-0"
                     placeholder="搜尋關鍵字"
+                    onSelect={() => {
+                      setSearchBarMenuOpen(() => true);
+                      setCategoryMenuOpen(() => false);
+                      setLocationMenuOpen(() => false);
+                    }}
                     onInput={() => {
                       // TODO: debouncing method & search method
                     }}
@@ -158,13 +165,13 @@ const SearchBarDesktop = ({
               sideOffset={0}
               className="mx-auto min-w-[81rem]"
               onPointerDownOutside={(e) => {
-                const open = triggerRef.current?.contains(
-                  e.currentTarget as Node
-                );
-                if (open !== undefined) {
-                  setSearchBarMenuOpen(open);
-                }
+                const open = triggerRef.current?.contains(e.target as Node);
+                setSearchBarMenuOpen(!!open);
               }}
+              onEscapeKeyDown={() => setSearchBarMenuOpen(() => false)}
+              // prevent auto focusing for input text
+              onOpenAutoFocus={(e) => e.preventDefault()}
+              onInteractOutside={(e) => e.preventDefault()}
             >
               <motion.div
                 initial="closed"
