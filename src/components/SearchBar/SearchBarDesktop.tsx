@@ -49,7 +49,6 @@ const searchBarMenu = {
     },
   }),
   closed: {
-    // TODO: use mouse event to get cursor position
     clipPath: 'circle(0px at 40px 800px)',
     transition: {
       delay: 0.5,
@@ -70,7 +69,6 @@ const locationMenu = {
     },
   }),
   closed: {
-    // TODO: use mouse event to get cursor position
     clipPath: 'circle(0px at 40px 800px)',
     transition: {
       delay: 0.5,
@@ -91,7 +89,6 @@ const categoryMenu = {
     },
   }),
   closed: {
-    // TODO: use mouse event to get cursor position
     clipPath: 'circle(0px at 340px 800px)',
     transition: {
       delay: 0.5,
@@ -113,7 +110,9 @@ const SearchBarDesktop = ({
   const [isCategoryMenuOpen, setCategoryMenuOpen] = useState(false);
   const [isLocationMenuOpen, setLocationMenuOpen] = useState(false);
   const containerRef = useRef(null);
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
   const { height } = useDimensions(containerRef);
+
   return (
     <section
       className={cn(
@@ -130,19 +129,42 @@ const SearchBarDesktop = ({
         }}
       >
         <div className="flex grow">
-          <Popover open={isSearchBarMenuOpen}>
-            <PopoverTrigger />
+          <Popover onOpenChange={(e) => setSearchBarMenuOpen(() => e)}>
+            <PopoverTrigger ref={triggerRef} asChild>
+              <div
+                className={cn(
+                  'mt-[1px] grow border-b border-primary py-4',
+                  `${!isSearchBarMenuOpen && ' mt-0 border-t'}`
+                )}
+              >
+                <div className="space-y-2 border-x border-primary px-4">
+                  <p className="font-bold">活動</p>
+                  <Input
+                    type="text"
+                    className="h-fit w-full border-none p-0 text-base placeholder:text-primary focus-visible:ring-0 focus-visible:ring-offset-0"
+                    placeholder="搜尋關鍵字"
+                    onInput={() => {
+                      // TODO: debouncing method & search method
+                    }}
+                    name="keyword"
+                  />
+                </div>
+              </div>
+            </PopoverTrigger>
             <PopoverContent
               sticky="always"
               side="top"
               align="start"
               sideOffset={0}
               className="mx-auto min-w-[81rem]"
-              onPointerDownOutside={() => setSearchBarMenuOpen(() => false)}
-              onEscapeKeyDown={() => setSearchBarMenuOpen(() => false)}
-              // prevent auto focusing for input text
-              onOpenAutoFocus={(e) => e.preventDefault()}
-              onInteractOutside={(e) => e.preventDefault()}
+              onPointerDownOutside={(e) => {
+                const open = triggerRef.current?.contains(
+                  e.currentTarget as Node
+                );
+                if (open !== undefined) {
+                  setSearchBarMenuOpen(open);
+                }
+              }}
             >
               <motion.div
                 initial="closed"
@@ -193,31 +215,7 @@ const SearchBarDesktop = ({
               </motion.div>
             </PopoverContent>
           </Popover>
-          <div
-            className={cn(
-              'mt-[1px] grow border-b border-primary py-4',
-              `${!isSearchBarMenuOpen && ' mt-0 border-t'}`
-            )}
-          >
-            <div className="space-y-2 border-x border-primary px-4">
-              <p className="font-bold">活動</p>
-              <Input
-                type="text"
-                className="h-fit w-full border-none p-0 text-base placeholder:text-primary focus-visible:ring-0 focus-visible:ring-offset-0"
-                placeholder="搜尋關鍵字"
-                onSelect={() => {
-                  setSearchBarMenuOpen(() => true);
-                  setCategoryMenuOpen(() => false);
-                  setLocationMenuOpen(() => false);
-                }}
-                onInput={() => {
-                  // TODO: debouncing method & search method
-                }}
-                name="keyword"
-              />
-            </div>
-          </div>
-          <Popover open={isCategoryMenuOpen}>
+          <Popover onOpenChange={(e) => setCategoryMenuOpen(() => e)}>
             <PopoverTrigger asChild>
               <div
                 className={cn(
@@ -228,13 +226,6 @@ const SearchBarDesktop = ({
                 <button
                   className="block w-full space-y-2 border-r border-primary px-4 text-left"
                   type="button"
-                  onClick={() => {
-                    setCategoryMenuOpen(
-                      (isCurrentCategoryMenuOpen) => !isCurrentCategoryMenuOpen
-                    );
-                    setLocationMenuOpen(() => false);
-                    setSearchBarMenuOpen(() => false);
-                  }}
                 >
                   <p className="font-bold">類型</p>
                   <p className="text-base text-primary">選擇活動類型</p>
@@ -248,7 +239,6 @@ const SearchBarDesktop = ({
               sideOffset={0}
               className="h-[22.625rem] w-64"
               asChild
-              onEscapeKeyDown={() => setSearchBarMenuOpen(() => false)}
             >
               <motion.div
                 initial="closed"
@@ -266,7 +256,7 @@ const SearchBarDesktop = ({
               </motion.div>
             </PopoverContent>
           </Popover>
-          <Popover open={isLocationMenuOpen}>
+          <Popover onOpenChange={(e) => setLocationMenuOpen(() => e)}>
             <PopoverTrigger asChild>
               <div
                 className={cn(
@@ -297,7 +287,6 @@ const SearchBarDesktop = ({
               sideOffset={0}
               className="relative h-[22.625rem] w-64"
               asChild
-              onEscapeKeyDown={() => setSearchBarMenuOpen(() => false)}
             >
               <motion.div
                 initial="closed"
