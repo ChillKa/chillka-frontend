@@ -11,6 +11,7 @@ import {
 import { Input } from '@components/ui/input';
 import { Popover, PopoverTrigger } from '@components/ui/popover';
 import { H2, Small } from '@components/ui/typography';
+import useDimensions from '@hooks/use-dimensions';
 import cn from '@lib/utils';
 import { Dialog, DialogTrigger } from '@radix-ui/react-dialog';
 import { motion } from 'framer-motion';
@@ -20,7 +21,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useRef, useState } from 'react';
 import MenuItemContainer from './MenuItemContainer';
-import useDimensions from './use-dimensions';
 
 type SearchBarMobileProps = {
   className: string;
