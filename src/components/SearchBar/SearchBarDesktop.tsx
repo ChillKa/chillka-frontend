@@ -68,7 +68,8 @@ const SearchBarDesktop = ({
   const [isSearchBarMenuOpen, setSearchBarMenuOpen] = useState(false);
   const [isCategoryMenuOpen, setCategoryMenuOpen] = useState(false);
   const [isLocationMenuOpen, setLocationMenuOpen] = useState(false);
-  const triggerRef = useRef<HTMLButtonElement | null>(null);
+  const searchBarTriggerRef = useRef<HTMLButtonElement | null>(null);
+  const searchBarInputRef = useRef<HTMLInputElement | null>(null);
 
   return (
     <section
@@ -87,10 +88,18 @@ const SearchBarDesktop = ({
       >
         <div className="flex grow">
           <Popover open={isSearchBarMenuOpen}>
-            <PopoverTrigger ref={triggerRef} asChild>
+            <PopoverTrigger
+              ref={searchBarTriggerRef}
+              asChild
+              onClick={() => {
+                if (searchBarInputRef.current) {
+                  searchBarInputRef.current.focus();
+                }
+              }}
+            >
               <div
                 className={cn(
-                  'mt-[1px] grow border-b border-primary py-4',
+                  'mt-[1px] grow border-b border-primary py-4 hover:cursor-pointer data-[state=open]:hover:cursor-default',
                   `${!isSearchBarMenuOpen && ' mt-0 border-t'}`
                 )}
               >
@@ -100,7 +109,7 @@ const SearchBarDesktop = ({
                     type="text"
                     className="h-fit w-full border-none p-0 text-base placeholder:text-primary focus-visible:ring-0 focus-visible:ring-offset-0"
                     placeholder="搜尋關鍵字"
-                    onSelect={() => {
+                    onFocus={() => {
                       setSearchBarMenuOpen(() => true);
                       setCategoryMenuOpen(() => false);
                       setLocationMenuOpen(() => false);
@@ -109,6 +118,7 @@ const SearchBarDesktop = ({
                       // TODO: debouncing method & search method
                     }}
                     name="keyword"
+                    ref={searchBarInputRef}
                   />
                 </div>
               </div>
@@ -120,7 +130,9 @@ const SearchBarDesktop = ({
               sideOffset={0}
               className="mx-auto min-w-[81rem]"
               onPointerDownOutside={(e) => {
-                const open = triggerRef.current?.contains(e.target as Node);
+                const open = searchBarTriggerRef.current?.contains(
+                  e.target as Node
+                );
                 setSearchBarMenuOpen(!!open);
               }}
               onEscapeKeyDown={() => setSearchBarMenuOpen(() => false)}
