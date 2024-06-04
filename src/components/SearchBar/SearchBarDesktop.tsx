@@ -39,64 +39,24 @@ type SearchBarDesktopProps = {
   }>;
 };
 
-const searchBarMenu = {
-  open: (height = 1000) => ({
-    clipPath: `circle(${height * 2 + 200}px at 0px ${height}px)`,
+const menuVariants = {
+  open: ({ size = 3000, locationX = 0, locationY = 0 }) => ({
+    clipPath: `circle(${size}px at ${locationX}px ${locationY}px)`,
     transition: {
       type: 'spring',
       stiffness: 30,
       restDelta: 2,
     },
   }),
-  closed: {
-    clipPath: 'circle(0px at 40px 800px)',
+  closed: ({ locationX = 0, locationY = 0 }) => ({
+    clipPath: `circle(0px at ${locationX}px ${locationY}px)`,
     transition: {
       delay: 0.5,
       type: 'spring',
       stiffness: 400,
       damping: 40,
-    },
-  },
-};
-
-const locationMenu = {
-  open: (height = 1000) => ({
-    clipPath: `circle(${height * 2 + 200}px at 300px ${height}px)`,
-    transition: {
-      type: 'spring',
-      stiffness: 15,
-      restDelta: 2,
     },
   }),
-  closed: {
-    clipPath: 'circle(0px at 40px 800px)',
-    transition: {
-      delay: 0.5,
-      type: 'spring',
-      stiffness: 400,
-      damping: 40,
-    },
-  },
-};
-
-const categoryMenu = {
-  open: (height = 1000) => ({
-    clipPath: `circle(${height * 2 + 200}px at -300px ${height}px)`,
-    transition: {
-      type: 'spring',
-      stiffness: 12,
-      restDelta: 2,
-    },
-  }),
-  closed: {
-    clipPath: 'circle(0px at 340px 800px)',
-    transition: {
-      delay: 0.5,
-      type: 'spring',
-      stiffness: 400,
-      damping: 40,
-    },
-  },
 };
 
 const SearchBarDesktop = ({
@@ -113,7 +73,7 @@ const SearchBarDesktop = ({
   const triggerRef = useRef<HTMLButtonElement | null>(null);
   const { height } = useDimensions(containerRef);
 
-  console.log(triggerRef);
+  console.log(height);
 
   return (
     <section
@@ -174,51 +134,43 @@ const SearchBarDesktop = ({
               onInteractOutside={(e) => e.preventDefault()}
             >
               <motion.div
+                className="border-x border-t border-primary bg-surface py-12"
+                variants={menuVariants}
                 initial="closed"
                 animate={isSearchBarMenuOpen ? 'open' : 'closed'}
-                custom={height}
-                ref={containerRef}
+                custom={{ size: 2500, locationX: 0, locationY: 500 }}
               >
-                <motion.div
-                  className="border-x border-t border-primary bg-surface py-12"
-                  variants={searchBarMenu}
-                  layout
-                >
-                  <p className="ml-4 text-base font-bold">推薦活動</p>
-                  <div className="no-scrollbar mt-6 flex gap-4 overflow-x-auto overflow-y-hidden px-4">
-                    {activityPictures.map((item) => (
-                      <div
-                        className="min-w-fit space-y-2"
-                        key={item.description}
+                <p className="ml-4 text-base font-bold">推薦活動</p>
+                <div className="no-scrollbar mt-6 flex gap-4 overflow-x-auto overflow-y-hidden px-4">
+                  {activityPictures.map((item) => (
+                    <div className="min-w-fit space-y-2" key={item.description}>
+                      {/* TODO: link to search page */}
+                      <Image
+                        src={item.thumbnail}
+                        alt={item.description}
+                        width={200}
+                        height={100}
+                        className="h-[6.25rem] w-[12.5rem] object-cover"
+                      />
+                      <Small>{item.description}</Small>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-10 px-4 xl:mt-12">
+                  <p className="text-base font-bold">熱門關鍵字</p>
+                  <div className="mt-6 flex flex-wrap gap-2 overflow-x-auto overflow-y-hidden">
+                    {/* TODO: link to search page */}
+                    {activityKeywords.map((item) => (
+                      <Link
+                        href={item.url}
+                        className="w-fit rounded-2xl border px-4 py-2 font-medium"
+                        key={item.keyword}
                       >
-                        {/* TODO: link to search page */}
-                        <Image
-                          src={item.thumbnail}
-                          alt={item.description}
-                          width={200}
-                          height={100}
-                          className="h-[6.25rem] w-[12.5rem] object-cover"
-                        />
-                        <Small>{item.description}</Small>
-                      </div>
+                        {item.keyword}
+                      </Link>
                     ))}
                   </div>
-                  <div className="mt-10 px-4 xl:mt-12">
-                    <p className="text-base font-bold">熱門關鍵字</p>
-                    <div className="mt-6 flex flex-wrap gap-2 overflow-x-auto overflow-y-hidden">
-                      {/* TODO: link to search page */}
-                      {activityKeywords.map((item) => (
-                        <Link
-                          href={item.url}
-                          className="w-fit rounded-2xl border px-4 py-2 font-medium"
-                          key={item.keyword}
-                        >
-                          {item.keyword}
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                </motion.div>
+                </div>
               </motion.div>
             </PopoverContent>
           </Popover>
@@ -245,21 +197,15 @@ const SearchBarDesktop = ({
               align="start"
               sideOffset={0}
               className="h-[22.625rem] w-64"
-              asChild
             >
               <motion.div
+                className="absolute inset-0 border-x border-t border-primary bg-surface"
+                variants={menuVariants}
                 initial="closed"
                 animate={isCategoryMenuOpen ? 'open' : 'closed'}
-                custom={height}
-                ref={containerRef}
+                custom={{ size: 1000, locationX: 128, locationY: 362 }}
               >
-                <motion.div
-                  className="absolute inset-0 border-x border-t border-primary bg-surface"
-                  variants={categoryMenu}
-                  layout
-                >
-                  <MenuItemContainer data={categories} />
-                </motion.div>
+                <MenuItemContainer data={categories} />
               </motion.div>
             </PopoverContent>
           </Popover>
@@ -293,21 +239,15 @@ const SearchBarDesktop = ({
               align="start"
               sideOffset={0}
               className="relative h-[22.625rem] w-64"
-              asChild
             >
               <motion.div
+                className="absolute inset-0 border-x border-t border-primary bg-surface"
+                variants={menuVariants}
                 initial="closed"
                 animate={isLocationMenuOpen ? 'open' : 'closed'}
-                custom={height}
-                ref={containerRef}
+                custom={{ size: 1000, locationX: 128, locationY: 362 }}
               >
-                <motion.div
-                  className="absolute inset-0 border-x border-t border-primary bg-surface"
-                  variants={locationMenu}
-                  layout
-                >
-                  <MenuItemContainer data={locations} />
-                </motion.div>
+                <MenuItemContainer data={locations} />
               </motion.div>
             </PopoverContent>
           </Popover>
