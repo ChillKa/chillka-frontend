@@ -1,7 +1,3 @@
-import dynamic from 'next/dynamic';
-
-const SearchBar = dynamic(() => import('./SearchBar'), {
-  ssr: false,
-});
+import SearchBar from './SearchBar';
 
 export default SearchBar;
