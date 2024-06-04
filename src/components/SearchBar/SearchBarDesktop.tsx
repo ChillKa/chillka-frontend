@@ -173,7 +173,7 @@ const SearchBarDesktop = ({
             <PopoverTrigger asChild>
               <div
                 className={cn(
-                  'mt-[1px] min-w-64 border-b border-primary py-4 pl-4',
+                  'mt-[1px] min-w-64 border-b border-primary py-4 pl-4  hover:cursor-pointer',
                   `${!isCategoryMenuOpen && ' mt-0 border-t'}`
                 )}
               >
@@ -208,7 +208,7 @@ const SearchBarDesktop = ({
             <PopoverTrigger asChild>
               <div
                 className={cn(
-                  'mt-[1px] min-w-64 border-b border-primary py-4 pl-4',
+                  'mt-[1px] min-w-64 border-b border-primary py-4 pl-4 hover:cursor-pointer',
                   `${!isLocationMenuOpen && ' mt-0 border-t'}`
                 )}
               >
