@@ -45,46 +45,24 @@ type SearchBarMobileProps = {
   debugMode: boolean;
 };
 
-const locationMenu = {
-  open: (height = 1000) => ({
-    clipPath: `circle(${height * 2 + 200}px at 40px 800px)`,
+const menuAnimationVariants = {
+  open: ({ size = 3000, locationX = 0, locationY = 800 }) => ({
+    clipPath: `circle(${size >= 0 ? 1000 : size}px at ${locationX}px ${locationY >= 0 ? 800 : locationY}px)`,
     transition: {
       type: 'spring',
-      stiffness: 10,
+      stiffness: 30,
       restDelta: 2,
     },
   }),
-  closed: {
-    // TODO: use mouse event to get cursor position
-    clipPath: 'circle(0px at 40px 800px)',
+  closed: ({ locationX = 0, locationY = 800 }) => ({
+    clipPath: `circle(0px at ${locationX}px ${locationY >= 0 ? 800 : locationY}px)`,
     transition: {
       delay: 0.5,
       type: 'spring',
       stiffness: 400,
       damping: 40,
     },
-  },
-};
-
-const categoryMenu = {
-  open: (height = 1000) => ({
-    clipPath: `circle(${height * 2 + 200}px at 340px 800px)`,
-    transition: {
-      type: 'spring',
-      stiffness: 10,
-      restDelta: 2,
-    },
   }),
-  closed: {
-    // TODO: use mouse event to get cursor position
-    clipPath: 'circle(0px at 340px 800px)',
-    transition: {
-      delay: 0.5,
-      type: 'spring',
-      stiffness: 400,
-      damping: 40,
-    },
-  },
 };
 
 const SearchBarMobile = ({
@@ -98,7 +76,7 @@ const SearchBarMobile = ({
   const [isCategoryMenuOpen, setCategoryMenuOpen] = useState(false);
   const [isLocationMenuOpen, setLocationMenuOpen] = useState(false);
   const containerRef = useRef(null);
-  const { height } = useDimensions(containerRef);
+  const { height, width } = useDimensions(containerRef);
   const router = useRouter();
 
   return (
@@ -112,7 +90,11 @@ const SearchBarMobile = ({
         <SearchIcon className="size-6" />
         <p>搜尋活動</p>
       </DialogTrigger>
-      <DialogContent hideCloseButton className="block h-svh w-screen p-0">
+      <DialogContent
+        hideCloseButton
+        className="block h-svh w-screen p-0"
+        ref={containerRef}
+      >
         <DialogHeader>
           <DialogTitle asChild className="flex items-end justify-between">
             <div>
@@ -187,33 +169,31 @@ const SearchBarMobile = ({
         </div>
         {/* locations menu animation */}
         <motion.div
+          className="absolute bottom-0 left-0 right-0 top-20 border-t border-primary bg-surface"
+          variants={menuAnimationVariants}
           initial="closed"
           animate={isLocationMenuOpen ? 'open' : 'closed'}
-          custom={height}
-          ref={containerRef}
+          custom={{
+            size: height * 2,
+            locationX: width / 4,
+            locationY: height,
+          }}
         >
-          <motion.div
-            className="absolute bottom-0 left-0 right-0 top-20 border-t border-primary bg-surface"
-            variants={locationMenu}
-            layout
-          >
-            <MenuItemContainer data={locations} />
-          </motion.div>
+          <MenuItemContainer data={locations} />
         </motion.div>
         {/* categories menu animation */}
         <motion.div
           initial="closed"
           animate={isCategoryMenuOpen ? 'open' : 'closed'}
-          custom={height}
-          ref={containerRef}
+          className="absolute bottom-0 left-0 right-0 top-20 border-t border-primary bg-surface"
+          variants={menuAnimationVariants}
+          custom={{
+            size: height * 2,
+            locationX: (width * 3) / 4,
+            locationY: height,
+          }}
         >
-          <motion.div
-            className="absolute bottom-0 left-0 right-0 top-20 border-t border-primary bg-surface"
-            variants={categoryMenu}
-            layout
-          >
-            <MenuItemContainer data={categories} />
-          </motion.div>
+          <MenuItemContainer data={categories} />
         </motion.div>
         <DialogFooter className="absolute bottom-0 left-0 right-0 flex flex-row gap-[1px] font-medium">
           <Popover open={isLocationMenuOpen}>

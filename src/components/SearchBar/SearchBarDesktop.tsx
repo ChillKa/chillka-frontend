@@ -15,7 +15,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRef, useState } from 'react';
 import MenuItemContainer from './MenuItemContainer';
-import useDimensions from './use-dimensions';
 
 type SearchBarDesktopProps = {
   className: string;
@@ -39,7 +38,7 @@ type SearchBarDesktopProps = {
   }>;
 };
 
-const menuVariants = {
+const menuAnimationVariants = {
   open: ({ size = 3000, locationX = 0, locationY = 0 }) => ({
     clipPath: `circle(${size}px at ${locationX}px ${locationY}px)`,
     transition: {
@@ -69,11 +68,7 @@ const SearchBarDesktop = ({
   const [isSearchBarMenuOpen, setSearchBarMenuOpen] = useState(false);
   const [isCategoryMenuOpen, setCategoryMenuOpen] = useState(false);
   const [isLocationMenuOpen, setLocationMenuOpen] = useState(false);
-  const containerRef = useRef(null);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
-  const { height } = useDimensions(containerRef);
-
-  console.log(height);
 
   return (
     <section
@@ -135,7 +130,7 @@ const SearchBarDesktop = ({
             >
               <motion.div
                 className="border-x border-t border-primary bg-surface py-12"
-                variants={menuVariants}
+                variants={menuAnimationVariants}
                 initial="closed"
                 animate={isSearchBarMenuOpen ? 'open' : 'closed'}
                 custom={{ size: 2500, locationX: 0, locationY: 500 }}
@@ -200,7 +195,7 @@ const SearchBarDesktop = ({
             >
               <motion.div
                 className="absolute inset-0 border-x border-t border-primary bg-surface"
-                variants={menuVariants}
+                variants={menuAnimationVariants}
                 initial="closed"
                 animate={isCategoryMenuOpen ? 'open' : 'closed'}
                 custom={{ size: 1000, locationX: 128, locationY: 362 }}
@@ -220,13 +215,6 @@ const SearchBarDesktop = ({
                 <button
                   className="block w-full space-y-2 border-primary px-4 text-left"
                   type="button"
-                  onClick={() => {
-                    setLocationMenuOpen(
-                      (isCurrentLocationMenuOpen) => !isCurrentLocationMenuOpen
-                    );
-                    setCategoryMenuOpen(() => false);
-                    setSearchBarMenuOpen(() => false);
-                  }}
                 >
                   <p className="font-bold">地區</p>
                   <p className="text-base text-primary">選擇活動地區</p>
@@ -242,7 +230,7 @@ const SearchBarDesktop = ({
             >
               <motion.div
                 className="absolute inset-0 border-x border-t border-primary bg-surface"
-                variants={menuVariants}
+                variants={menuAnimationVariants}
                 initial="closed"
                 animate={isLocationMenuOpen ? 'open' : 'closed'}
                 custom={{ size: 1000, locationX: 128, locationY: 362 }}
