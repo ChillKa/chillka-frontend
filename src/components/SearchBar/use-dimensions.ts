@@ -26,7 +26,7 @@ const useDimensions = (ref: React.RefObject<HTMLElement>) => {
     return () => {
       window.removeEventListener('resize', measure);
     };
-  }, [ref]);
+  }, [ref.current]);
 
   return dimensions.current;
 };
