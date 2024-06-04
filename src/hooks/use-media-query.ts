@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useSyncExternalStore } from 'react';
 import tailwindConfig from 'tailwind.config';
 
 const mobileBreakpoint = `(max-width: ${tailwindConfig.theme.screens.xl || '768px'})`;
@@ -42,20 +42,23 @@ const mobileBreakpoint = `(max-width: ${tailwindConfig.theme.screens.xl || '768p
  * );
  */
 export default function useMediaQuery(query: string = mobileBreakpoint) {
-  const [matches, setMatches] = useState(() => matchMedia(query).matches);
+  const subscribeMediaQuery = useCallback(
+    (onChange: () => void) => {
+      const mql = window.matchMedia(query);
+      mql.addEventListener('change', onChange);
 
-  useEffect(() => {
-    const mediaQueryList = matchMedia(query);
+      return () => {
+        mql.removeEventListener('change', onChange);
+      };
+    },
+    [query]
+  );
 
-    function onChange(event: MediaQueryListEvent) {
-      setMatches(event.matches);
-    }
-
-    mediaQueryList.addEventListener('change', onChange);
-    setMatches(mediaQueryList.matches);
-
-    return () => mediaQueryList.removeEventListener('change', onChange);
-  }, [query]);
+  const matches = useSyncExternalStore(
+    subscribeMediaQuery,
+    () => window.matchMedia(query).matches,
+    () => false
+  );
 
   return { matches };
 }
