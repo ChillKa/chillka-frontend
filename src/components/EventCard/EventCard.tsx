@@ -98,26 +98,38 @@ const EventCard = ({
 
       <div className="flex h-[9rem] flex-col justify-between gap-4">
         <div className="flex justify-start gap-4">
-          <CalendarDays />
-          <p className="h-6 w-16 text-base font-normal">活動時間</p>
-          <p className="font-medium">
+          <CalendarDays className="flex-shrink-0" size={24} />
+          <p className="h-6 w-16 flex-shrink-0 text-base font-normal">
+            活動時間
+          </p>
+          <p className="flex-grow truncate text-base font-medium">
             {startTime}-{endTime}
           </p>
         </div>
         <div className="flex justify-start gap-4">
-          <Users size={24} />
-          <p className="h-6 w-16 text-base font-normal">參加人數</p>
-          <p className="truncate text-base font-medium">{attendeeCount}</p>
+          <Users className="flex-shrink-0" size={24} />
+          <p className="h-6 w-16 flex-shrink-0 text-base font-normal">
+            參加人數
+          </p>
+          <p className="flex-grow truncate text-base font-medium">
+            {attendeeCount}
+          </p>
         </div>
         <div className="flex justify-start gap-4">
-          <MapPin size={24} />
-          <p className="h-6 w-16 text-base font-normal">舉辦位置</p>
-          <p className="truncate text-base font-medium">{location}</p>
+          <MapPin className="flex-shrink-0" size={24} />
+          <p className="h-6 w-16 flex-shrink-0 text-base font-normal">
+            舉辦位置
+          </p>
+          <p className="flex-grow truncate text-base font-medium">{location}</p>
         </div>
         <div className="flex justify-start gap-4">
-          <Building2 size={24} />
-          <p className="h-6 w-16 text-base font-normal">主辦單位</p>
-          <p className="truncate text-base font-medium">{organizer}</p>
+          <Building2 className="flex-shrink-0" size={24} />
+          <p className="h-6 w-16 flex-shrink-0 text-base font-normal">
+            主辦單位
+          </p>
+          <p className="flex-grow truncate text-base font-medium">
+            {organizer}
+          </p>
         </div>
       </div>
 

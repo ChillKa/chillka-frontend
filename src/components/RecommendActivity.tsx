@@ -54,7 +54,8 @@ const RecommendActivity = () => {
         endTime: '2024.06.30',
         attendeeCount: 999,
         location: '台北市 / 中正區',
-        organizer: '安妮雅喜歡這個',
+        organizer:
+          '安妮雅喜歡這個安妮雅喜歡這個安妮雅喜歡這個安妮雅喜歡這個安妮雅喜歡這個',
         pricing: 100,
         discount: 25,
         isCollected: false,
