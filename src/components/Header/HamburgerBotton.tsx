@@ -34,7 +34,9 @@ const HamburgerBotton = ({ isLoggedin, onSignOut }: Props) => {
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger className="mx-[3px] flex items-center justify-center rounded-full border border-primary p-3 data-[state=open]:mx-0 data-[state=open]:border-4">
-        {isOpen ? <X size={24} /> : <Menu size={24} />}
+        <div className="p-2">
+          {isOpen ? <X size={24} /> : <Menu size={24} />}
+        </div>
         <Image
           className="ml-2"
           src={isLoggedin ? fakeAvatar : defaultAvatar}
