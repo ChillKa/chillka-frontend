@@ -14,7 +14,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 
-type Props = {
+type HamburgerProps = {
   isLoggedin: boolean;
   onSignOut: () => void;
 };
@@ -28,7 +28,7 @@ type List = {
 const defaultAvatar = '/header__defaultAvatar.svg';
 const fakeAvatar = '/header__fakeAvatar.svg';
 
-const HamburgerBotton = ({ isLoggedin, onSignOut }: Props) => {
+const HamburgerBotton = ({ isLoggedin, onSignOut }: HamburgerProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
