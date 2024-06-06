@@ -17,6 +17,6 @@
         "killOnServerStop": false
       },
       "skipFiles": ["<node_internals>/**", "**/node_modules/**", "**/.next/**"]
-    },
+    }
   ]
 }

@@ -51,7 +51,7 @@ const HamburgerBotton = ({ isLoggedin, onSignOut }: Props) => {
             <>
               {userList.map((user: List) => (
                 <Link
-                  className="mb-4 flex justify-between px-8 py-2"
+                  className="mb-4 flex justify-between px-8 py-2 hover:bg-primary/[0.03]"
                   key={user.name}
                   href={user.url}
                 >
@@ -64,7 +64,7 @@ const HamburgerBotton = ({ isLoggedin, onSignOut }: Props) => {
             <>
               {registerAndLoginList.map((list: List) => (
                 <Link
-                  className="mb-4 flex justify-between px-8 py-2"
+                  className="mb-4 flex justify-between px-8 py-2 hover:bg-primary/[0.03]"
                   key={list.name}
                   href={list.url}
                 >
@@ -77,7 +77,7 @@ const HamburgerBotton = ({ isLoggedin, onSignOut }: Props) => {
           <Separator className="mb-4 h-[1px] bg-primary" />
           {SITEMAP.map((map: List) => (
             <Link
-              className="mb-4 flex justify-between px-8 py-2"
+              className="mb-4 flex justify-between px-8 py-2 hover:bg-primary/[0.03]"
               key={map.name}
               href={map.url}
             >
@@ -91,7 +91,7 @@ const HamburgerBotton = ({ isLoggedin, onSignOut }: Props) => {
               <Link href="/">
                 <button
                   type="button"
-                  className="block h-[76px] w-full px-8 py-0 text-start text-base"
+                  className="block h-[76px] w-full px-8 py-0 text-start text-base hover:bg-primary/[0.03]"
                   onClick={() => {
                     setIsOpen(false);
                     onSignOut?.();

@@ -72,7 +72,7 @@ const NotificationButton = () => {
           <Separator className="h-[1px] bg-primary" />
           <Link
             href="/"
-            className="flex h-[4.5rem] w-full items-center justify-center"
+            className="flex h-[4.5rem] w-full items-center justify-center hover:bg-primary/[0.03]"
           >
             查看所有通知
           </Link>
