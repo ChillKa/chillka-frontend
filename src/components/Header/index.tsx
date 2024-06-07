@@ -18,7 +18,7 @@ const Header = () => {
 
   return (
     <>
-      <header className="flex w-full justify-center bg-surface px-3">
+      <header className="flex w-full flex-col items-center bg-surface px-3">
         <div className="flex h-28 w-full max-w-[81rem] items-center justify-between bg-surface">
           <LogoButton />
           <div className="flex items-center justify-center">
