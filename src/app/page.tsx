@@ -12,15 +12,15 @@ const Home = () => {
   mySchema.parse('123');
 
   return (
-    <div className="mb-36 space-y-24 xl:space-y-36 ">
+    <>
       <HeroSection className="mx-auto xl:mt-14" />
-      <SearchBar className="mx-auto" />
-      <NearbyActivity />
-      <TopCategoryMenu className="mx-auto" />
-      <RecommendActivity />
-      <CallToActionSection className="mx-auto" />
-      <CommentSection className="mx-auto" />
-    </div>
+      <SearchBar className="mx-auto xl:mt-2" />
+      <NearbyActivity className="mx-auto mt-24 xl:mt-36" />
+      <TopCategoryMenu className="mx-auto mt-24 xl:mt-36" />
+      <RecommendActivity className="mx-auto mt-24 xl:mt-36" />
+      <CallToActionSection className="mx-auto mt-24 xl:mt-36" />
+      <CommentSection className="mx-auto my-24 xl:my-36" />
+    </>
   );
 };
 

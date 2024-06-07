@@ -10,7 +10,11 @@ import useMediaQuery from '@hooks/use-media-query';
 import cn from '@lib/utils';
 import { ArrowUpRight } from 'lucide-react';
 
-const NearbyActivity = () => {
+type NearbyActivityProps = {
+  className: string;
+};
+
+const NearbyActivity = ({ className }: NearbyActivityProps) => {
   const { matches: isDefault } = useMediaQuery();
 
   const result = {
@@ -122,7 +126,8 @@ const NearbyActivity = () => {
       className={cn(
         'mx-auto',
         'w-full p-[12.5px] text-primary',
-        'xl:w-[81rem] xl:p-0'
+        'xl:w-[81rem] xl:p-0',
+        className
       )}
     >
       <div className="flex w-full items-start justify-between">
