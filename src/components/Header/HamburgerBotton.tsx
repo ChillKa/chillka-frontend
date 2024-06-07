@@ -46,7 +46,7 @@ const HamburgerBotton = ({ isLoggedin, onSignOut }: HamburgerProps) => {
         />
       </PopoverTrigger>
       <PopoverContent className="h-0 w-0 border-none bg-transparent p-0">
-        <div className="no-scrollbar absolute right-[-56px] hidden h-fit max-h-[450px] w-[272px] overflow-scroll rounded-[32px] border-4 border-black bg-surface pt-6 xl:block">
+        <div className="no-scrollbar absolute right-[-56px] box-content hidden h-fit max-h-[462px] w-[272px] overflow-scroll rounded-[32px] border-4 border-black bg-surface pt-6 xl:block">
           {isLoggedin ? (
             <>
               {userList.map((user: List) => (
@@ -55,7 +55,7 @@ const HamburgerBotton = ({ isLoggedin, onSignOut }: HamburgerProps) => {
                   key={user.name}
                   href={user.url}
                 >
-                  <div className="text-xl font-semibold">{user.name}</div>
+                  <div className="text-xl font-bold">{user.name}</div>
                   {user.icon && user.icon}
                 </Link>
               ))}
@@ -68,7 +68,7 @@ const HamburgerBotton = ({ isLoggedin, onSignOut }: HamburgerProps) => {
                   key={list.name}
                   href={list.url}
                 >
-                  <div className="text-xl font-semibold">{list.name}</div>
+                  <div className="text-xl font-bold">{list.name}</div>
                   {list.icon && list.icon}
                 </Link>
               ))}
@@ -81,7 +81,7 @@ const HamburgerBotton = ({ isLoggedin, onSignOut }: HamburgerProps) => {
               key={map.name}
               href={map.url}
             >
-              <div className="text-base">{map.name}</div>
+              <div className="text-base leading-7">{map.name}</div>
             </Link>
           ))}
 
