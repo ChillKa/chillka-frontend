@@ -52,10 +52,9 @@ const EmailButton = () => {
       <PopoverTrigger className="ml-[3px] mr-[0.8125rem] rounded-full border border-primary p-5 data-[state=open]:ml-0 data-[state=open]:mr-[0.625rem] data-[state=open]:border-4">
         <Mail size={24} />
       </PopoverTrigger>
-
       <PopoverContent className="h-0 w-0 border-none bg-transparent p-0">
-        <div className="absolute right-[-30px] w-[636px] rounded-[32px] border-4 border-black bg-surface pt-6 ">
-          <h2 className="mb-4 px-8 text-3xl font-bold tracking-[-0.0140625rem]">
+        <div className="absolute right-[-30px] box-content w-[636px] rounded-[32px] border-4 border-black bg-surface pt-6 ">
+          <h2 className="mb-4 p-2 px-8 text-3xl font-bold tracking-[-0.0140625rem]">
             信箱
           </h2>
           {fakeData.map(
@@ -76,7 +75,7 @@ const EmailButton = () => {
                     <p className="mb-2 h-7 overflow-hidden text-base">
                       {message.content}
                     </p>
-                    <p className="h-[14px] text-sm font-semibold leading-[14px]">
+                    <p className="text-sm font-medium leading-[14px]">
                       {message.time}
                     </p>
                   </div>
