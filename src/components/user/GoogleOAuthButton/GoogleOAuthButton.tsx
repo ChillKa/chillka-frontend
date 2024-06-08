@@ -6,12 +6,12 @@ import { Separator } from '@components/ui/separator';
 import Image from 'next/image';
 import { useTransition } from 'react';
 
-type GoogleAccountButtonProps = {
+type GoogleOAuthButtonProps = {
   action: 'login' | 'register';
 };
 const googleIcon = '/logo__google.png';
 
-const GoogleAccountButton = ({ action }: GoogleAccountButtonProps) => {
+const GoogleOAuthButton = ({ action }: GoogleOAuthButtonProps) => {
   const [isPending, startTransition] = useTransition();
 
   const handleGoogleOAuth = () => {
@@ -44,4 +44,4 @@ const GoogleAccountButton = ({ action }: GoogleAccountButtonProps) => {
   );
 };
 
-export default GoogleAccountButton;
+export default GoogleOAuthButton;

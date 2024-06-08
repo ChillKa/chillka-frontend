@@ -12,7 +12,7 @@ import {
 import { Input } from '@components/ui/input';
 import { Small } from '@components/ui/typography';
 import { toast } from '@components/ui/use-toast';
-import GoogleAccountButton from '@components/user/GoogleAccountButton';
+import GoogleOAuthButton from '@components/user/GoogleOAuthButton';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { registerFormSchema } from '@lib/definitions';
 import Link from 'next/link';
@@ -138,7 +138,7 @@ const RegisterForm: React.FC = () => {
           </Link>
         </section>
       </form>
-      <GoogleAccountButton action="register" />
+      <GoogleOAuthButton action="register" />
     </Form>
   );
 };
