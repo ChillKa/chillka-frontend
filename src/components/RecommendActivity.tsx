@@ -7,7 +7,11 @@ import { H1 } from '@components/ui/typography';
 import cn from '@lib/utils';
 import { ArrowUpRight } from 'lucide-react';
 
-const RecommendActivity = () => {
+type RecommendActivityProps = {
+  className: string;
+};
+
+const RecommendActivity = ({ className }: RecommendActivityProps) => {
   const result = {
     status: 'success',
     data: [
@@ -68,7 +72,8 @@ const RecommendActivity = () => {
       className={cn(
         'mx-auto',
         'w-full p-[12.5px] text-primary',
-        'xl:w-[81rem] xl:p-0'
+        'xl:w-[81rem] xl:p-0',
+        className
       )}
     >
       <div className="flex w-full items-start justify-between">
