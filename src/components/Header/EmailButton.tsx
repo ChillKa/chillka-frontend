@@ -4,6 +4,7 @@ import {
   PopoverTrigger,
 } from '@components/ui/popover';
 import { Separator } from '@components/ui/separator';
+import useCloseOnClick from '@hooks/use-close-on-click';
 import { Mail } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -46,6 +47,7 @@ const fakeData = [
 
 const EmailButton = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const triggerRef = useCloseOnClick(isOpen, setIsOpen);
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
@@ -85,6 +87,7 @@ const EmailButton = () => {
           <Separator className="h-[0.0625rem] bg-primary" />
           <Link
             href="/"
+            ref={triggerRef as React.RefObject<HTMLAnchorElement>}
             className="flex h-[4.5rem] w-full items-center justify-center hover:bg-primary/[0.03]"
           >
             查看所有訊息

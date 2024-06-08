@@ -9,6 +9,7 @@ import {
   PopoverTrigger,
 } from '@components/ui/popover';
 import { Separator } from '@components/ui/separator';
+import useCloseOnClick from '@hooks/use-close-on-click';
 import { Menu, X } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -30,6 +31,7 @@ const fakeAvatar = '/header__fakeAvatar.svg';
 
 const HamburgerBotton = ({ isLoggedin, onSignOut }: HamburgerProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const triggerRef = useCloseOnClick(isOpen, setIsOpen);
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
@@ -45,7 +47,10 @@ const HamburgerBotton = ({ isLoggedin, onSignOut }: HamburgerProps) => {
           height={40}
         />
       </PopoverTrigger>
-      <PopoverContent className="h-0 w-0 border-none bg-transparent p-0 text-primary">
+      <PopoverContent
+        ref={triggerRef as React.RefObject<HTMLDivElement>}
+        className="h-0 w-0 border-none bg-transparent p-0 text-primary"
+      >
         <div className="no-scrollbar absolute right-[-3.5rem] box-content hidden h-fit max-h-[28.875rem] w-[17rem] overflow-scroll rounded-[2rem] border-4 border-primary bg-surface pt-6 xl:block">
           {isLoggedin ? (
             <>
