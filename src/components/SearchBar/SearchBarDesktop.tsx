@@ -13,7 +13,7 @@ import { motion } from 'framer-motion';
 import { LucideIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import MenuItemContainer from './MenuItemContainer';
 
 type SearchBarDesktopProps = {
@@ -58,6 +58,41 @@ const menuAnimationVariants = {
   }),
 };
 
+// <----------hook---------->
+
+const useStickyToFixed = (tagName: string) => {
+  const [isSticky, setIsSticky] = useState(false);
+
+  useEffect(() => {
+    const header = document.getElementsByTagName(tagName)[0];
+
+    if (!header) {
+      return undefined; // Early return if no header found
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsSticky(entry.isIntersecting);
+      },
+      {
+        root: null,
+        rootMargin: '15%', // Assuming this project won't change the height of header & hero section
+        threshold: 0.1,
+      }
+    );
+
+    observer.observe(header);
+
+    return () => {
+      if (header) {
+        observer.unobserve(header);
+      }
+    };
+  }, [tagName]);
+
+  return isSticky;
+};
+
 const SearchBarDesktop = ({
   className = '',
   activityPictures,
@@ -70,11 +105,15 @@ const SearchBarDesktop = ({
   const [isLocationMenuOpen, setLocationMenuOpen] = useState(false);
   const searchBarTriggerRef = useRef<HTMLButtonElement | null>(null);
   const searchBarInputRef = useRef<HTMLInputElement | null>(null);
+  const isSticky = useStickyToFixed('header');
 
   return (
     <section
       className={cn(
-        'fixed inset-x-0 bottom-0 z-20 mx-auto max-w-[81rem] space-y-6 border-t border-primary bg-surface py-6 text-primary',
+        'z-20 max-w-[81rem] space-y-6 border-t border-primary bg-surface py-6 text-primary',
+        isSticky
+          ? 'sticky top-[calc(100svh-12.1875rem)]'
+          : 'fixed inset-x-0 bottom-0',
         className
       )}
     >
