@@ -74,7 +74,7 @@ const EmailButton = () => {
                   </div>
                   <div>
                     <p className="mb-2 text-xl font-bold">{message.user}</p>
-                    <p className="mb-2 h-7 overflow-hidden text-base">
+                    <p className="mb-2 h-7 overflow-hidden text-base/7">
                       {message.content}
                     </p>
                     <p className="text-sm font-medium leading-[0.875rem]">

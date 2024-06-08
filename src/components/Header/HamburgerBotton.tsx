@@ -58,7 +58,7 @@ const HamburgerBotton = ({ isLoggedin, onSignOut }: HamburgerProps) => {
             <>
               {userList.map((user: List) => (
                 <Link
-                  className="mb-4 flex justify-between px-8 py-2 hover:bg-primary/[0.03]"
+                  className="mb-4 flex justify-between px-8 py-[0.625rem] hover:bg-primary/[0.03]"
                   key={user.name}
                   href={user.url}
                 >
@@ -71,7 +71,7 @@ const HamburgerBotton = ({ isLoggedin, onSignOut }: HamburgerProps) => {
             <>
               {registerAndLoginList.map((list: List) => (
                 <Link
-                  className="mb-4 flex justify-between px-8 py-2 hover:bg-primary/[0.03]"
+                  className="mb-4 flex justify-between px-8 py-[0.625rem] hover:bg-primary/[0.03]"
                   key={list.name}
                   href={list.url}
                 >
