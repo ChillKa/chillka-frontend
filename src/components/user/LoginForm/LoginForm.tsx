@@ -12,6 +12,7 @@ import {
 import { Input } from '@components/ui/input';
 import { Small } from '@components/ui/typography';
 import { toast } from '@components/ui/use-toast';
+import GoogleAccountButton from '@components/user/GoogleAccountButton';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginFormSchema } from '@lib/definitions';
 import { useAuthContext } from '@store/AuthProvider/AuthProvider';
@@ -95,6 +96,7 @@ const LoginForm: React.FC = () => {
           <Small>忘記密碼？</Small>
         </Link>
       </form>
+      <GoogleAccountButton action="login" />
     </Form>
   );
 };
