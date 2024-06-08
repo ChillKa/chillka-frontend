@@ -15,11 +15,13 @@ import { toast } from '@components/ui/use-toast';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { registerFormSchema } from '@lib/definitions';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { register } from 'src/action/auth';
 
 const RegisterForm: React.FC = () => {
+  const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
   const form = useForm({
@@ -27,6 +29,7 @@ const RegisterForm: React.FC = () => {
     defaultValues: {
       email: '',
       password: '',
+      confirmPassword: '',
       displayName: '',
     },
   });
@@ -40,6 +43,7 @@ const RegisterForm: React.FC = () => {
           variant: result?.status === 'success' ? 'default' : 'destructive',
         });
       }
+      if (result?.status === 'success') router.push('/auth/login');
     });
   });
 
@@ -101,7 +105,24 @@ const RegisterForm: React.FC = () => {
             </FormItem>
           )}
         />
-
+        <FormField
+          control={form.control}
+          name="confirmPassword"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>確認密碼</FormLabel>
+              <FormControl>
+                <Input
+                  className="bg-white placeholder:text-base placeholder:text-[#8F8A88]"
+                  type="password"
+                  placeholder="請輸入密碼"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <Button disabled={isPending} type="submit">
           註冊
         </Button>
