@@ -10,6 +10,7 @@
     "project": "./tsconfig.json"
   },
   "rules": {
+    "no-underscore-dangle": "off",
     "arrow-body-style": "off",
     "react/function-component-definition": [
       2,
