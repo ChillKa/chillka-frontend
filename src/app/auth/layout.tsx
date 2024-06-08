@@ -5,7 +5,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div
       className={cn(
-        'mt-20 flex min-h-[calc(100vh-var(--header-height)-var(--footer-height))] w-full justify-center'
+        'mt-6 flex min-h-[calc(100vh-var(--header-height)-var(--footer-height))] w-full justify-center xl:mt-20'
       )}
     >
       <div className="w-[23rem]">{children}</div>
