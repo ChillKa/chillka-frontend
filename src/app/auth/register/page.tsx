@@ -1,12 +1,13 @@
 import { Card, CardContent, CardHeader } from '@components/ui/card';
+import { H3 } from '@components/ui/typography';
 import RegisterForm from '@components/user/RegisterForm';
 
 const RegisterPage = () => {
   return (
-    <section className="flex w-full justify-center">
-      <Card className="mt-2 w-[40%]">
-        <CardHeader className="flex flex-col items-center justify-start">
-          <h1 className="text-2xl font-bold">註冊</h1>
+    <section>
+      <Card className="bg-surface">
+        <CardHeader className="text-center">
+          <H3 className="text-primary">註冊</H3>
         </CardHeader>
         <CardContent>
           <RegisterForm />

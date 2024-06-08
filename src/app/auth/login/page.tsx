@@ -1,12 +1,13 @@
 import { Card, CardContent, CardHeader } from '@components/ui/card';
+import { H3 } from '@components/ui/typography';
 import LoginForm from '@components/user/LoginForm';
 
 const LoginPage = () => {
   return (
-    <section className="flex w-full justify-center">
-      <Card className="mt-2 w-[50%]">
-        <CardHeader>
-          <h1 className="text-2xl font-bold">Login</h1>
+    <section>
+      <Card className="bg-surface">
+        <CardHeader className="text-center">
+          <H3 className="text-primary">登入</H3>
         </CardHeader>
         <CardContent>
           <LoginForm />
