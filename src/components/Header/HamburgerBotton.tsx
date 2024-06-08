@@ -51,7 +51,9 @@ const HamburgerBotton = ({ isLoggedin, onSignOut }: HamburgerProps) => {
         ref={triggerRef as React.RefObject<HTMLDivElement>}
         className="h-0 w-0 border-none bg-transparent p-0 text-primary"
       >
-        <div className="no-scrollbar absolute right-[-3.5rem] box-content hidden h-fit max-h-[28.875rem] w-[17rem] overflow-scroll rounded-[2rem] border-4 border-primary bg-surface pt-6 xl:block">
+        <div
+          className={`no-scrollbar absolute right-[-3.5rem] box-content hidden h-fit max-h-[28.875rem] w-[17rem] overflow-scroll rounded-[2rem] border-4 border-primary bg-surface pt-6 xl:block ${!isLoggedin && 'pb-2'}`}
+        >
           {isLoggedin ? (
             <>
               {userList.map((user: List) => (
@@ -89,7 +91,6 @@ const HamburgerBotton = ({ isLoggedin, onSignOut }: HamburgerProps) => {
               <div className="text-base leading-7">{map.name}</div>
             </Link>
           ))}
-
           {isLoggedin && (
             <>
               <Separator className="h-[0.0625rem] bg-primary" />
