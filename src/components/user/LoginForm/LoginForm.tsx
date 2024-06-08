@@ -10,10 +10,12 @@ import {
   FormMessage,
 } from '@components/ui/form';
 import { Input } from '@components/ui/input';
+import { Small } from '@components/ui/typography';
 import { toast } from '@components/ui/use-toast';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginFormSchema } from '@lib/definitions';
 import { useAuthContext } from '@store/AuthProvider/AuthProvider';
+import Link from 'next/link';
 import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -44,15 +46,22 @@ const LoginForm: React.FC = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={handleSubmitLogin} className="space-y-2">
+      <form
+        onSubmit={handleSubmitLogin}
+        className="flex w-full flex-col space-y-4 text-primary"
+      >
         <FormField
           control={form.control}
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>信箱</FormLabel>
               <FormControl>
-                <Input placeholder="Plesase Type Email" {...field} />
+                <Input
+                  className="bg-white placeholder:text-base placeholder:text-[#8F8A88]"
+                  placeholder="請輸入信箱"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -63,11 +72,12 @@ const LoginForm: React.FC = () => {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Password</FormLabel>
+              <FormLabel>密碼</FormLabel>
               <FormControl>
                 <Input
+                  className="bg-white placeholder:text-base placeholder:text-[#8F8A88]"
                   type="password"
-                  placeholder="Plesase Type Your Password"
+                  placeholder="請輸入密碼"
                   {...field}
                 />
               </FormControl>
@@ -75,10 +85,15 @@ const LoginForm: React.FC = () => {
             </FormItem>
           )}
         />
-        <div className="flex justify-end">忘記密碼？</div>
         <Button type="submit" disabled={isPending}>
           登入
         </Button>
+        <Link
+          className="flex justify-end text-primary transition hover:text-primary/70"
+          href="/auth/forgot-password"
+        >
+          <Small>忘記密碼？</Small>
+        </Link>
       </form>
     </Form>
   );
