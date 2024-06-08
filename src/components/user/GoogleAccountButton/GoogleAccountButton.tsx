@@ -1,15 +1,24 @@
 'use client';
 
+import { googleOAuth } from '@action/auth';
 import { Button } from '@components/ui/button';
 import { Separator } from '@components/ui/separator';
 import Image from 'next/image';
+import { useTransition } from 'react';
 
 type GoogleAccountButtonProps = {
   action: 'login' | 'register';
 };
+const googleIcon = '/logo__google.png';
 
 const GoogleAccountButton = ({ action }: GoogleAccountButtonProps) => {
-  const googleIcon = '/logo__google.png';
+  const [isPending, startTransition] = useTransition();
+
+  const handleGoogleOAuth = () => {
+    startTransition(async () => {
+      await googleOAuth();
+    });
+  };
 
   return (
     <div className="text-primary">
@@ -18,6 +27,8 @@ const GoogleAccountButton = ({ action }: GoogleAccountButtonProps) => {
         variant="outline"
         size="sm"
         className="w-full border-primary transition hover:bg-primary/10"
+        onClick={handleGoogleOAuth}
+        disabled={isPending}
       >
         <Image
           src={googleIcon}

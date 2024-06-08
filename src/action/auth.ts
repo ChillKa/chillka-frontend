@@ -1,10 +1,12 @@
 'use server';
 
 import {
+  endpoint,
   FormState,
   loginFormSchema,
   registerFormSchema,
 } from '@lib/definitions';
+import { redirect } from 'next/navigation';
 import { z } from 'zod';
 import {
   clearSessionCookie,
@@ -98,4 +100,8 @@ export async function getSession(): Promise<{
         token,
       }
     : null;
+}
+
+export async function googleOAuth(): Promise<void> {
+  redirect(`${endpoint}/google-oauth`);
 }
