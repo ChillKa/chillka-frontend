@@ -27,6 +27,7 @@ export const registerFormSchema = z.object({
     .max(50)
     .email(),
   password: z.string().min(8).max(50),
+  confirmPassword: z.string().min(8).max(50),
   displayName: z.string().min(1).max(50),
 });
 

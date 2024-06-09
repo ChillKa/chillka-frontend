@@ -10,15 +10,19 @@ import {
   FormMessage,
 } from '@components/ui/form';
 import { Input } from '@components/ui/input';
+import { Small } from '@components/ui/typography';
 import { toast } from '@components/ui/use-toast';
+import GoogleOAuthButton from '@components/user/GoogleOAuthButton';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { registerFormSchema } from '@lib/definitions';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { register } from 'src/action/auth';
 
 const RegisterForm: React.FC = () => {
+  const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
   const form = useForm({
@@ -26,6 +30,7 @@ const RegisterForm: React.FC = () => {
     defaultValues: {
       email: '',
       password: '',
+      confirmPassword: '',
       displayName: '',
     },
   });
@@ -39,6 +44,7 @@ const RegisterForm: React.FC = () => {
           variant: result?.status === 'success' ? 'default' : 'destructive',
         });
       }
+      if (result?.status === 'success') router.push('/auth/login');
     });
   });
 
@@ -46,16 +52,20 @@ const RegisterForm: React.FC = () => {
     <Form {...form}>
       <form
         onSubmit={handleSubmitRegister}
-        className="flex w-full flex-col justify-center space-y-2"
+        className="flex w-full flex-col space-y-4 text-primary"
       >
         <FormField
           control={form.control}
           name="displayName"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Username</FormLabel>
+              <FormLabel>使用者名稱</FormLabel>
               <FormControl>
-                <Input placeholder="Please Type Username" {...field} />
+                <Input
+                  className="bg-white placeholder:text-base placeholder:text-[#8F8A88]"
+                  placeholder="請輸入使用者名稱"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -66,9 +76,13 @@ const RegisterForm: React.FC = () => {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>信箱</FormLabel>
               <FormControl>
-                <Input placeholder="Plesase Type Email" {...field} />
+                <Input
+                  className="bg-white placeholder:text-base placeholder:text-[#8F8A88]"
+                  placeholder="請輸入信箱"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -79,11 +93,12 @@ const RegisterForm: React.FC = () => {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Password</FormLabel>
+              <FormLabel>密碼</FormLabel>
               <FormControl>
                 <Input
+                  className="bg-white placeholder:text-base placeholder:text-[#8F8A88]"
                   type="password"
-                  placeholder="Plesase Type Your Password"
+                  placeholder="請輸入密碼"
                   {...field}
                 />
               </FormControl>
@@ -91,17 +106,39 @@ const RegisterForm: React.FC = () => {
             </FormItem>
           )}
         />
-
+        <FormField
+          control={form.control}
+          name="confirmPassword"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>確認密碼</FormLabel>
+              <FormControl>
+                <Input
+                  className="bg-white placeholder:text-base placeholder:text-[#8F8A88]"
+                  type="password"
+                  placeholder="請輸入密碼"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <Button disabled={isPending} type="submit">
-          Submit
+          註冊
         </Button>
         <section className="flex items-center justify-center">
-          <p>已經有帳號?</p>
-          <Link href="/auth/login" replace>
-            <Button variant="ghost">登入</Button>
+          <Small className="mr-2 font-normal text-primary">已經有帳號？</Small>
+          <Link
+            href="/auth/login"
+            replace
+            className="text-primary transition hover:text-primary/70"
+          >
+            <Small>登入</Small>
           </Link>
         </section>
       </form>
+      <GoogleOAuthButton action="register" />
     </Form>
   );
 };
