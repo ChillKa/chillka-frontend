@@ -25,7 +25,7 @@ const GoogleOAuthButton = ({ action }: GoogleOAuthButtonProps) => {
       <Separator className="my-4 h-[0.0625rem] w-full" />
       <Button
         variant="outline"
-        className="w-full border-primary py-[0.625rem] transition hover:bg-primary/10"
+        className="w-full border-primary bg-[#F2F2F2] py-[0.625rem] text-[#1F1F1F]"
         onClick={handleGoogleOAuth}
         disabled={isPending}
       >
