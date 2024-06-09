@@ -13,6 +13,7 @@ import {
 import { Input } from '@components/ui/input';
 import { toast } from '@components/ui/use-toast';
 import { zodResolver } from '@hookform/resolvers/zod';
+import useCooldown from '@hooks/use-cool-down';
 import { forgotPasswordFormSchema } from '@lib/definitions';
 import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
@@ -20,6 +21,10 @@ import { z } from 'zod';
 
 const ForgotPasswordForm = () => {
   const [isPending, startTransition] = useTransition();
+  const { cooldownSeconds, startCooldown } = useCooldown(
+    'forgotPasswordCooldown',
+    0
+  );
 
   const form = useForm<z.output<typeof forgotPasswordFormSchema>>({
     resolver: zodResolver(forgotPasswordFormSchema),
@@ -37,6 +42,7 @@ const ForgotPasswordForm = () => {
           variant: result?.status === 'success' ? 'default' : 'destructive',
         });
       }
+      if (result?.status === 'success') startCooldown(60);
     });
   });
 
@@ -63,8 +69,8 @@ const ForgotPasswordForm = () => {
             </FormItem>
           )}
         />
-        <Button type="submit" disabled={isPending}>
-          送出
+        <Button type="submit" disabled={isPending || cooldownSeconds > 0}>
+          {cooldownSeconds > 0 ? `請稍候 ${cooldownSeconds} 秒再送出` : '送出'}
         </Button>
       </form>
     </Form>
