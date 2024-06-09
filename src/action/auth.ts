@@ -1,8 +1,9 @@
 'use server';
 
 import {
-  endpoint,
   FormState,
+  endpoint,
+  forgotPasswordFormSchema,
   loginFormSchema,
   registerFormSchema,
 } from '@lib/definitions';
@@ -104,4 +105,38 @@ export async function getSession(): Promise<{
 
 export async function googleOAuth(): Promise<void> {
   redirect(`${endpoint}/google-oauth`);
+}
+
+export async function forgotPassword(
+  data: z.infer<typeof forgotPasswordFormSchema>
+): Promise<FormState> {
+  try {
+    const validatedData = validateWithSchema(forgotPasswordFormSchema, data);
+
+    const response = await fetchAPI({
+      api: '/reset-password',
+      method: 'POST',
+      data: validatedData,
+    });
+
+    if (!response.ok) {
+      const errorMessage = await response.text();
+
+      return {
+        status: 'failed',
+        message: `${errorMessage ?? 'Email sending failed'} (${response.status})`,
+      };
+    }
+
+    return {
+      status: 'success',
+      message: '已寄送重設密碼信件，請至信箱查看。',
+    };
+  } catch (error) {
+    return {
+      status: 'failed',
+      message:
+        error instanceof Error ? error.message : 'An unknown error occurred',
+    };
+  }
 }

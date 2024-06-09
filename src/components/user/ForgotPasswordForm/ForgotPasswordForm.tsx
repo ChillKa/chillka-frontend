@@ -1,5 +1,6 @@
 'use client';
 
+import { forgotPassword } from '@action/auth';
 import { Button } from '@components/ui/button';
 import {
   Form,
@@ -10,12 +11,16 @@ import {
   FormMessage,
 } from '@components/ui/form';
 import { Input } from '@components/ui/input';
+import { toast } from '@components/ui/use-toast';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { forgotPasswordFormSchema } from '@lib/definitions';
+import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 const ForgotPasswordForm = () => {
+  const [isPending, startTransition] = useTransition();
+
   const form = useForm<z.output<typeof forgotPasswordFormSchema>>({
     resolver: zodResolver(forgotPasswordFormSchema),
     defaultValues: {
@@ -23,9 +28,17 @@ const ForgotPasswordForm = () => {
     },
   });
 
-  const handleSubmit = () => {
-    console.log('test');
-  };
+  const handleSubmit = form.handleSubmit(async (data) => {
+    startTransition(async () => {
+      const result = await forgotPassword(data);
+      if (result?.message !== '') {
+        toast({
+          title: result?.message ?? 'Unknown error',
+          variant: result?.status === 'success' ? 'default' : 'destructive',
+        });
+      }
+    });
+  });
 
   return (
     <Form {...form}>
@@ -50,7 +63,9 @@ const ForgotPasswordForm = () => {
             </FormItem>
           )}
         />
-        <Button type="submit">送出</Button>
+        <Button type="submit" disabled={isPending}>
+          送出
+        </Button>
       </form>
     </Form>
   );
