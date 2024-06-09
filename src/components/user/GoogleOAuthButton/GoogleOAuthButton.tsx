@@ -9,7 +9,7 @@ import { useTransition } from 'react';
 type GoogleOAuthButtonProps = {
   action: 'login' | 'register';
 };
-const googleIcon = '/logo__google.png';
+const googleIcon = '/logo__google.svg';
 
 const GoogleOAuthButton = ({ action }: GoogleOAuthButtonProps) => {
   const [isPending, startTransition] = useTransition();
@@ -25,18 +25,17 @@ const GoogleOAuthButton = ({ action }: GoogleOAuthButtonProps) => {
       <Separator className="my-4 h-[0.0625rem] w-full" />
       <Button
         variant="outline"
-        size="sm"
-        className="w-full border-primary transition hover:bg-primary/10"
+        className="w-full border-primary bg-[#F2F2F2] py-[0.625rem] text-[#1F1F1F] hover:bg-[#F2F2F2]"
         onClick={handleGoogleOAuth}
         disabled={isPending}
       >
         <Image
           src={googleIcon}
-          width={24}
-          height={24}
+          width={20}
+          height={20}
           loading="eager"
           alt="google"
-          className="mr-2"
+          className="mr-[0.625rem]"
         />
         使用 Google 帳號{action === 'login' ? '登入' : '註冊'}
       </Button>
