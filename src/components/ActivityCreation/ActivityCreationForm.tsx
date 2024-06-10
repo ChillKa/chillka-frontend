@@ -4,17 +4,18 @@ import { uploadImage } from '@action/upload';
 import { Button } from '@components/ui/button';
 import { Separator } from '@components/ui/separator';
 import { H3 } from '@components/ui/typography';
+import cn from '@lib/utils';
 import { useState } from 'react';
-import { useFormState } from 'react-dom';
 
-const FormComponent = () => {
+type ActivityCreationFormProps = {
+  className: string;
+};
+
+const ActivityCreationForm = ({ className }: ActivityCreationFormProps) => {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
-  const [state, formAction] = useFormState(uploadImage, null);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
-
-  console.log(state);
 
   // this function is build for route handlers
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -52,7 +53,7 @@ const FormComponent = () => {
   };
 
   return (
-    <>
+    <section className={cn('', className)}>
       {/* */}
       <form className="space-y-6" action={uploadImage}>
         <H3 className="text-primary">Server actions Method</H3>
@@ -94,11 +95,6 @@ const FormComponent = () => {
           Upload image
         </Button>
       </form>
-
-      {/* test `useFormState` for dealing error msg with server actions */}
-      <form className="bg-slate-500" action={formAction}>
-        {state}
-      </form>
       <Separator className="my-4" />
       {/* route handlers  */}
       <form onSubmit={handleSubmit} className="my-4 space-y-2">
@@ -110,8 +106,8 @@ const FormComponent = () => {
       </form>
       {error && <p style={{ color: 'red' }}>{error}</p>}
       {success && <p style={{ color: 'green' }}>{success}</p>}
-    </>
+    </section>
   );
 };
 
-export default FormComponent;
+export default ActivityCreationForm;
