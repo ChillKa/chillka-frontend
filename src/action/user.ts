@@ -13,14 +13,14 @@ export async function updateUser(data: UserData): Promise<FormState> {
 
     const payload = await getJwtPayload();
 
-    if (typeof payload?.id !== 'string') {
-      throw new Error('No payload id');
+    if (typeof payload?._id !== 'string') {
+      throw new Error('No payload _id');
     }
 
-    const userId = payload.id;
+    const userId = payload._id;
 
     const response = await fetchAPI({
-      api: `/user/${userId}`,
+      api: `/auth/user/${userId}`,
       method: 'PATCH',
       data: validatedData,
       shouldAuth: true,
@@ -59,13 +59,13 @@ export type UserFetchState =
 export async function fetchMe(): Promise<UserFetchState> {
   try {
     const payload = await getJwtPayload();
-    if (typeof payload?.id !== 'string') {
+    if (typeof payload?._id !== 'string') {
       throw new Error('No payload id');
     }
-    const userId = payload.id;
+    const userId = payload._id;
 
     const response = await fetchAPI({
-      api: `/user/${userId}`,
+      api: `/auth/user/${userId}`,
       method: 'GET',
       shouldAuth: true,
     });

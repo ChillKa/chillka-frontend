@@ -14,7 +14,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 
-type Props = {
+type HamburgerProps = {
   isLoggedin: boolean;
   onSignOut: () => void;
 };
@@ -28,13 +28,20 @@ type List = {
 const defaultAvatar = '/header__defaultAvatar.svg';
 const fakeAvatar = '/header__fakeAvatar.svg';
 
-const HamburgerBotton = ({ isLoggedin, onSignOut }: Props) => {
+const HamburgerBotton = ({ isLoggedin, onSignOut }: HamburgerProps) => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const handlePopoverClick = (event: React.MouseEvent) => {
+    const isLinkClick = (event.target as HTMLElement).closest('a');
+    if (isLinkClick) setIsOpen(false);
+  };
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
-      <PopoverTrigger className="mx-[3px] flex items-center justify-center rounded-full border border-primary p-3 data-[state=open]:mx-0 data-[state=open]:border-4">
-        {isOpen ? <X size={24} /> : <Menu size={24} />}
+      <PopoverTrigger className="mx-[0.1875rem] flex items-center justify-center rounded-full border border-primary p-3 data-[state=open]:mx-0 data-[state=open]:border-4">
+        <div className="p-2">
+          {isOpen ? <X size={24} /> : <Menu size={24} />}
+        </div>
         <Image
           className="ml-2"
           src={isLoggedin ? fakeAvatar : defaultAvatar}
@@ -43,17 +50,22 @@ const HamburgerBotton = ({ isLoggedin, onSignOut }: Props) => {
           height={40}
         />
       </PopoverTrigger>
-      <PopoverContent className="h-0 w-0 border-none bg-transparent p-0">
-        <div className="no-scrollbar absolute right-[-56px] hidden h-fit max-h-[450px] w-[272px] overflow-scroll rounded-[32px] border-4 border-black bg-surface pt-6 xl:block">
+      <PopoverContent
+        onClickCapture={handlePopoverClick}
+        className="h-0 w-0 border-none bg-transparent p-0 text-primary"
+      >
+        <div
+          className={`no-scrollbar absolute right-[-3.5rem] box-content hidden h-fit max-h-[28.875rem] w-[17rem] overflow-scroll rounded-[2rem] border-4 border-primary bg-surface pt-6 xl:block ${!isLoggedin && 'pb-2'}`}
+        >
           {isLoggedin ? (
             <>
               {userList.map((user: List) => (
                 <Link
-                  className="mb-4 flex justify-between px-8 py-2"
+                  className="mb-4 flex justify-between px-8 py-[0.625rem] hover:bg-primary/[0.03]"
                   key={user.name}
                   href={user.url}
                 >
-                  <div className="text-xl font-semibold">{user.name}</div>
+                  <div className="text-xl font-bold">{user.name}</div>
                   {user.icon && user.icon}
                 </Link>
               ))}
@@ -62,36 +74,34 @@ const HamburgerBotton = ({ isLoggedin, onSignOut }: Props) => {
             <>
               {registerAndLoginList.map((list: List) => (
                 <Link
-                  className="mb-4 flex justify-between px-8 py-2"
+                  className="mb-4 flex justify-between px-8 py-[0.625rem] hover:bg-primary/[0.03]"
                   key={list.name}
                   href={list.url}
                 >
-                  <div className="text-xl font-semibold">{list.name}</div>
+                  <div className="text-xl font-bold">{list.name}</div>
                   {list.icon && list.icon}
                 </Link>
               ))}
             </>
           )}
-          <Separator className="mb-4 h-[1px] bg-primary" />
+          <Separator className="mb-4 h-[0.00625rem] bg-primary" />
           {SITEMAP.map((map: List) => (
             <Link
-              className="mb-4 flex justify-between px-8 py-2"
+              className="mb-4 flex justify-between px-8 py-2 hover:bg-primary/[0.03]"
               key={map.name}
               href={map.url}
             >
-              <div className="text-base">{map.name}</div>
+              <div className="text-base leading-7">{map.name}</div>
             </Link>
           ))}
-
           {isLoggedin && (
             <>
-              <Separator className="h-[1px] bg-primary" />
+              <Separator className="h-[0.0625rem] bg-primary" />
               <Link href="/">
                 <button
                   type="button"
-                  className="block h-[76px] w-full px-8 py-0 text-start text-base"
+                  className="block h-[4.75rem] w-full px-8 py-0 text-start text-base hover:bg-primary/[0.03]"
                   onClick={() => {
-                    setIsOpen(false);
                     onSignOut?.();
                   }}
                 >

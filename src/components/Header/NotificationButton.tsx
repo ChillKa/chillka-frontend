@@ -39,14 +39,21 @@ const fakeData = [
 const NotificationButton = () => {
   const [isOpen, setIsOpen] = useState(false);
 
+  const handlePopoverClick = (event: React.MouseEvent) => {
+    const isLinkClick = (event.target as HTMLElement).closest('a');
+    if (isLinkClick) setIsOpen(false);
+  };
+
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
-      <PopoverTrigger className="ml-[3px] mr-[0.8125rem] rounded-full border border-primary p-5 data-[state=open]:ml-0 data-[state=open]:mr-[0.625rem] data-[state=open]:border-4">
+      <PopoverTrigger className="ml-[0.1875rem] mr-[0.8125rem] rounded-full border border-primary p-5 data-[state=open]:ml-0 data-[state=open]:mr-[0.625rem] data-[state=open]:border-4">
         <Bell size={24} />
       </PopoverTrigger>
-
-      <PopoverContent className="h-0 w-0 border-none bg-transparent p-0">
-        <div className="absolute right-[-30px] w-[636px] rounded-[32px] border-4 border-black bg-surface pt-6 ">
+      <PopoverContent
+        onClickCapture={handlePopoverClick}
+        className="h-0 w-0 border-none bg-transparent p-0 text-primary"
+      >
+        <div className="absolute right-[-1.875rem] box-content w-[39.75rem] rounded-[2rem] border-4 border-primary bg-surface pt-6 ">
           <h2 className="mb-4 px-8 text-3xl font-bold tracking-[-0.0140625rem]">
             通知
           </h2>
@@ -63,16 +70,16 @@ const NotificationButton = () => {
                   <p className="max-h-14 flex-1 overflow-hidden text-xl font-bold">
                     {message.content}
                   </p>
-                  <p className="ml-6 w-[84px] text-right text-sm">
+                  <p className="ml-6 w-[5rem] text-right text-sm font-medium leading-[0.875rem]">
                     {message.time}
                   </p>
                 </div>
               )
           )}
-          <Separator className="h-[1px] bg-primary" />
+          <Separator className="h-[0.0625rem] bg-primary" />
           <Link
             href="/"
-            className="flex h-[4.5rem] w-full items-center justify-center"
+            className="flex h-[4.5rem] w-full items-center justify-center hover:bg-primary/[0.03]"
           >
             查看所有通知
           </Link>

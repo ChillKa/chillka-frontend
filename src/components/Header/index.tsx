@@ -17,25 +17,19 @@ const Header = () => {
   };
 
   return (
-    <>
-      <header className="flex w-full justify-center bg-surface px-3">
-        <div className="flex h-28 w-full max-w-[81rem] items-center justify-between bg-surface">
-          <LogoButton />
-          <div className="flex items-center justify-center">
-            <div className="hidden xl:block">
-              <EmailButton />
-              <NotificationButton />
-            </div>
-            <HamburgerBotton
-              isLoggedin={isLoggedin}
-              onSignOut={handleSignOut}
-            />
+    <header className="flex w-full flex-col items-center bg-surface px-3">
+      <div className="flex h-28 w-full max-w-[81rem] items-center justify-between bg-surface">
+        <LogoButton />
+        <div className="flex items-center justify-center">
+          <div className="hidden xl:block">
+            <EmailButton />
+            <NotificationButton />
           </div>
+          <HamburgerBotton isLoggedin={isLoggedin} onSignOut={handleSignOut} />
         </div>
-        <div className="hidden h-14 bg-surface xl:block" />
-      </header>
-      <div className="border" />
-    </>
+      </div>
+      <div className="hidden h-[5.5rem] bg-surface xl:block" />
+    </header>
   );
 };
 
