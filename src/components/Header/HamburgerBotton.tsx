@@ -45,7 +45,10 @@ const HamburgerBotton = ({ isLoggedin, onSignOut }: HamburgerProps) => {
           height={40}
         />
       </PopoverTrigger>
-      <PopoverContent className="h-0 w-0 border-none bg-transparent p-0 text-primary">
+      <PopoverContent
+        onClickCapture={() => setIsOpen(false)}
+        className="h-0 w-0 border-none bg-transparent p-0 text-primary"
+      >
         <div
           className={`no-scrollbar absolute right-[-3.5rem] box-content hidden h-fit max-h-[28.875rem] w-[17rem] overflow-scroll rounded-[2rem] border-4 border-primary bg-surface pt-6 xl:block ${!isLoggedin && 'pb-2'}`}
         >
@@ -54,7 +57,6 @@ const HamburgerBotton = ({ isLoggedin, onSignOut }: HamburgerProps) => {
               {userList.map((user: List) => (
                 <Link
                   className="mb-4 flex justify-between px-8 py-[0.625rem] hover:bg-primary/[0.03]"
-                  onClick={() => setIsOpen(false)}
                   key={user.name}
                   href={user.url}
                 >
@@ -68,7 +70,6 @@ const HamburgerBotton = ({ isLoggedin, onSignOut }: HamburgerProps) => {
               {registerAndLoginList.map((list: List) => (
                 <Link
                   className="mb-4 flex justify-between px-8 py-[0.625rem] hover:bg-primary/[0.03]"
-                  onClick={() => setIsOpen(false)}
                   key={list.name}
                   href={list.url}
                 >
@@ -82,7 +83,6 @@ const HamburgerBotton = ({ isLoggedin, onSignOut }: HamburgerProps) => {
           {SITEMAP.map((map: List) => (
             <Link
               className="mb-4 flex justify-between px-8 py-2 hover:bg-primary/[0.03]"
-              onClick={() => setIsOpen(false)}
               key={map.name}
               href={map.url}
             >
@@ -97,7 +97,6 @@ const HamburgerBotton = ({ isLoggedin, onSignOut }: HamburgerProps) => {
                   type="button"
                   className="block h-[4.75rem] w-full px-8 py-0 text-start text-base hover:bg-primary/[0.03]"
                   onClick={() => {
-                    setIsOpen(false);
                     onSignOut?.();
                   }}
                 >

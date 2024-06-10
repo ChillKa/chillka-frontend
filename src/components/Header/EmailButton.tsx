@@ -52,7 +52,10 @@ const EmailButton = () => {
       <PopoverTrigger className="ml-[0.1875ren] mr-[0.8125rem] rounded-full border border-primary p-5 data-[state=open]:ml-0 data-[state=open]:mr-[0.625rem] data-[state=open]:border-4">
         <Mail size={24} />
       </PopoverTrigger>
-      <PopoverContent className="h-0 w-0 border-none bg-transparent p-0 text-primary">
+      <PopoverContent
+        onClickCapture={() => setIsOpen(false)}
+        className="h-0 w-0 border-none bg-transparent p-0 text-primary"
+      >
         <div className="absolute right-[-1.875rem] box-content w-[39.75rem] rounded-[2rem] border-4 border-primary bg-surface pt-6 ">
           <h2 className="mb-4 p-2 px-8 text-3xl font-bold tracking-[-0.0140625rem]">
             信箱
@@ -85,7 +88,6 @@ const EmailButton = () => {
           <Separator className="h-[0.0625rem] bg-primary" />
           <Link
             href="/"
-            onClick={() => setIsOpen(false)}
             className="flex h-[4.5rem] w-full items-center justify-center hover:bg-primary/[0.03]"
           >
             查看所有訊息
