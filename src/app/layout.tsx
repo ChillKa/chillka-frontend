@@ -28,7 +28,7 @@ const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => (
     >
       <AuthProvider>
         <Header />
-        <main className="debug min-h-[calc(100vh-var(--header-height)-var(--footer-height))]">
+        <main className="min-h-[calc(100vh-var(--header-height)-var(--footer-height))]">
           {children}
           <Toaster />
         </main>
