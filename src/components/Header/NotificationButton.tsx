@@ -39,13 +39,18 @@ const fakeData = [
 const NotificationButton = () => {
   const [isOpen, setIsOpen] = useState(false);
 
+  const handlePopoverClick = (event: React.MouseEvent) => {
+    const isLinkClick = (event.target as HTMLElement).closest('a');
+    if (isLinkClick) setIsOpen(false);
+  };
+
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger className="ml-[0.1875rem] mr-[0.8125rem] rounded-full border border-primary p-5 data-[state=open]:ml-0 data-[state=open]:mr-[0.625rem] data-[state=open]:border-4">
         <Bell size={24} />
       </PopoverTrigger>
       <PopoverContent
-        onClickCapture={() => setIsOpen(false)}
+        onClickCapture={handlePopoverClick}
         className="h-0 w-0 border-none bg-transparent p-0 text-primary"
       >
         <div className="absolute right-[-1.875rem] box-content w-[39.75rem] rounded-[2rem] border-4 border-primary bg-surface pt-6 ">

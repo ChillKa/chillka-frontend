@@ -31,6 +31,11 @@ const fakeAvatar = '/header__fakeAvatar.svg';
 const HamburgerBotton = ({ isLoggedin, onSignOut }: HamburgerProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
+  const handlePopoverClick = (event: React.MouseEvent) => {
+    const isLinkClick = (event.target as HTMLElement).closest('a');
+    if (isLinkClick) setIsOpen(false);
+  };
+
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger className="mx-[0.1875rem] flex items-center justify-center rounded-full border border-primary p-3 data-[state=open]:mx-0 data-[state=open]:border-4">
@@ -46,7 +51,7 @@ const HamburgerBotton = ({ isLoggedin, onSignOut }: HamburgerProps) => {
         />
       </PopoverTrigger>
       <PopoverContent
-        onClickCapture={() => setIsOpen(false)}
+        onClickCapture={handlePopoverClick}
         className="h-0 w-0 border-none bg-transparent p-0 text-primary"
       >
         <div
