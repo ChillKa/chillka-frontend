@@ -17,11 +17,11 @@ const FORM_LIST_DATA = [
   },
   {
     Icon: CircleDashedIcon,
-    text: '摘要及說明',
+    text: '形式與地點',
   },
   {
     Icon: CircleDashedIcon,
-    text: '封面與縮圖',
+    text: '摘要及說明',
   },
   {
     Icon: CircleDashedIcon,
