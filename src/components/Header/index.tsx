@@ -18,7 +18,7 @@ const Header = () => {
 
   return (
     <header className="flex w-full flex-col items-center bg-surface px-3">
-      <div className="flex h-28 w-full max-w-[81rem] items-center justify-between bg-surface">
+      <div className="flex h-28 w-full max-w-[81rem] items-center justify-between bg-surface xl:h-36">
         <LogoButton />
         <div className="flex items-center justify-center">
           <div className="hidden xl:block">
@@ -28,7 +28,6 @@ const Header = () => {
           <HamburgerBotton isLoggedin={isLoggedin} onSignOut={handleSignOut} />
         </div>
       </div>
-      <div className="hidden h-[5.5rem] bg-surface xl:block" />
     </header>
   );
 };
