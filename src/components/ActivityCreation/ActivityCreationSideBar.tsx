@@ -33,7 +33,7 @@ const ActivityCreationSideBar = ({
   className,
 }: ActivityCreationSideBarPrpos) => {
   return (
-    <aside className={cn('space-y-12', className)}>
+    <aside className={cn('sticky top-12 space-y-12 self-start', className)}>
       <H1>新增活動</H1>
       <div className="space-y-6">
         <H3 className="border-l-4 pl-6">活動內容1/5</H3>
