@@ -105,3 +105,8 @@ export async function getSession(): Promise<{
 export async function googleOAuth(): Promise<void> {
   redirect(`${endpoint}/google-oauth`);
 }
+
+export async function googleOAuthCallback(accessToken: string): Promise<void> {
+  setSessionCookie(accessToken, 3600);
+  redirect('/');
+}
