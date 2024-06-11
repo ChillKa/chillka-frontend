@@ -84,7 +84,7 @@ const HamburgerBotton = ({ isLoggedin, onSignOut }: HamburgerProps) => {
               ))}
             </>
           )}
-          <Separator className="mb-4 h-[0.00625rem] bg-primary" />
+          <Separator className="mb-4 h-[0.0625rem] bg-primary" />
           {SITEMAP.map((map: List) => (
             <Link
               className="mb-4 flex justify-between px-8 py-2 hover:bg-primary/[0.03]"
