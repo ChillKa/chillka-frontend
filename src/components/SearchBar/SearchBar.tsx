@@ -168,26 +168,26 @@ const SearchBar = ({ className = '' }: SearchBarProps) => {
 
   return (
     <Form {...form}>
-      {isMobile ? (
-        <SearchBarMobile
-          className=""
-          onSearchSubmit={handleSearchSubmit}
-          activityPictures={DUMMY_PICTURES}
-          activityKeywords={DUMMY_KEYWORDS}
-          locations={DUMMY_LOCATIONS}
-          categories={DUMMY_CATEGORIES}
-          debugMode={debugMode}
-        />
-      ) : (
-        <SearchBarDesktop
-          className={cn('', className)}
-          onSearchSubmit={handleSearchSubmit}
-          activityPictures={DUMMY_PICTURES}
-          activityKeywords={DUMMY_KEYWORDS}
-          locations={DUMMY_LOCATIONS}
-          categories={DUMMY_CATEGORIES}
-        />
-      )}
+      <form onSubmit={handleSearchSubmit}>
+        {isMobile ? (
+          <SearchBarMobile
+            className=""
+            activityPictures={DUMMY_PICTURES}
+            activityKeywords={DUMMY_KEYWORDS}
+            locations={DUMMY_LOCATIONS}
+            categories={DUMMY_CATEGORIES}
+            debugMode={debugMode}
+          />
+        ) : (
+          <SearchBarDesktop
+            className={cn('', className)}
+            activityPictures={DUMMY_PICTURES}
+            activityKeywords={DUMMY_KEYWORDS}
+            locations={DUMMY_LOCATIONS}
+            categories={DUMMY_CATEGORIES}
+          />
+        )}
+      </form>
     </Form>
   );
 };
