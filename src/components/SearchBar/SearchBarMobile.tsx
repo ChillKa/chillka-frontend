@@ -91,9 +91,11 @@ const SearchBarMobile = ({
 
   const handleCategorySelect = (category: Category['text']) => {
     setValue('category', category);
+    setIsCategoryMenuOpen(false);
   };
   const handleLocationSelect = (category: Category['text']) => {
     setValue('location', category);
+    setIsLocationMenuOpen(false);
   };
 
   return (
