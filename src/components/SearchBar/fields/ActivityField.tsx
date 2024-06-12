@@ -1,5 +1,6 @@
 'use client';
 
+import { FormField } from '@components/ui/form';
 import { Input } from '@components/ui/input';
 import { Small } from '@components/ui/typography';
 import cn from '@lib/utils';
@@ -12,6 +13,7 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Dispatch, SetStateAction, useRef } from 'react';
+import { useFormContext } from 'react-hook-form';
 import menuAnimationVariants from './utils';
 
 type ActivityFieldProps = {
@@ -41,6 +43,7 @@ const ActivityField = ({
   const searchBarTriggerRef = useRef<HTMLButtonElement | null>(null);
   const searchBarInputRef = useRef<HTMLInputElement | null>(null);
 
+  const { control } = useFormContext();
   return (
     <Popover open={isSearchBarMenuOpen}>
       <PopoverTrigger
@@ -60,20 +63,25 @@ const ActivityField = ({
         >
           <div className="space-y-2 border-x border-primary px-4">
             <p className="font-bold">活動</p>
-            <Input
-              type="text"
-              className="h-fit w-full border-none p-0 text-base placeholder:text-primary focus-visible:ring-0 focus-visible:ring-offset-0"
-              placeholder="搜尋關鍵字"
-              onFocus={() => {
-                setIsSearchBarMenuOpen(() => true);
-                setIsCategoryMenuOpen(() => false);
-                setIsLocationMenuOpen(() => false);
-              }}
-              onInput={() => {
-                // TODO: debouncing method & search method
-              }}
+            <FormField
+              control={control}
               name="keyword"
-              ref={searchBarInputRef}
+              render={({ field }) => (
+                <Input
+                  type="text"
+                  className="h-fit w-full border-none p-0 text-base placeholder:text-primary focus-visible:ring-0 focus-visible:ring-offset-0"
+                  placeholder="搜尋關鍵字"
+                  onFocus={() => {
+                    setIsSearchBarMenuOpen(() => true);
+                    setIsCategoryMenuOpen(() => false);
+                    setIsLocationMenuOpen(() => false);
+                  }}
+                  onInput={() => {
+                    // TODO: debouncing method & search method
+                  }}
+                  {...field}
+                />
+              )}
             />
           </div>
         </div>

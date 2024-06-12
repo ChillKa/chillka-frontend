@@ -8,6 +8,8 @@ import {
 } from '@radix-ui/react-popover';
 import { motion } from 'framer-motion';
 import { Dispatch, SetStateAction } from 'react';
+import { useFormContext } from 'react-hook-form';
+import { Category } from './CategoryFieldMenu';
 import MenuItemContainer from './MenuItemContainer';
 import menuAnimationVariants from './utils';
 
@@ -27,6 +29,13 @@ const LocationFieldMenu = ({
   setIsLocationMenuOpen,
   locations,
 }: LocationFieldMenuProps) => {
+  const { setValue, watch } = useFormContext();
+
+  const handleSelect = (category: Category['text']) => {
+    setValue('category', category);
+  };
+  const currentSelect = watch('category');
+
   return (
     <Popover onOpenChange={(e) => setIsLocationMenuOpen(() => e)}>
       <PopoverTrigger asChild>
@@ -41,7 +50,9 @@ const LocationFieldMenu = ({
             type="button"
           >
             <p className="font-bold">地區</p>
-            <p className="text-base text-primary">選擇活動地區</p>
+            <p className="text-base text-primary">
+              {currentSelect || '選擇活動地區'}
+            </p>
           </button>
         </div>
       </PopoverTrigger>
@@ -59,7 +70,7 @@ const LocationFieldMenu = ({
           animate={isLocationMenuOpen ? 'open' : 'closed'}
           custom={{ size: 1000, locationX: 128, locationY: 362 }}
         >
-          <MenuItemContainer data={locations} />
+          <MenuItemContainer data={locations} onSelect={handleSelect} />
         </motion.div>
       </PopoverContent>
     </Popover>

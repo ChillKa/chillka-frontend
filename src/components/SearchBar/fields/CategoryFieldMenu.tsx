@@ -9,6 +9,7 @@ import {
 import { motion } from 'framer-motion';
 import { LucideIcon } from 'lucide-react';
 import { Dispatch, SetStateAction } from 'react';
+import { useFormContext } from 'react-hook-form';
 import MenuItemContainer from './MenuItemContainer';
 import menuAnimationVariants from './utils';
 
@@ -29,6 +30,13 @@ const CategoryFieldMenu = ({
   setIsCategoryMenuOpen,
   categories,
 }: CategoryFieldMenuProps) => {
+  const { setValue, watch } = useFormContext();
+
+  const handleSelect = (category: Category['text']) => {
+    setValue('location', category);
+  };
+  const currentSelect = watch('location');
+
   return (
     <Popover onOpenChange={(e) => setIsCategoryMenuOpen(() => e)}>
       <PopoverTrigger asChild>
@@ -43,7 +51,9 @@ const CategoryFieldMenu = ({
             type="button"
           >
             <p className="font-bold">類型</p>
-            <p className="text-base text-primary">選擇活動類型</p>
+            <p className="text-base text-primary">
+              {currentSelect || '選擇活動類型'}
+            </p>
           </button>
         </div>
       </PopoverTrigger>
@@ -61,7 +71,7 @@ const CategoryFieldMenu = ({
           animate={isCategoryMenuOpen ? 'open' : 'closed'}
           custom={{ size: 1000, locationX: 128, locationY: 362 }}
         >
-          <MenuItemContainer data={categories} />
+          <MenuItemContainer data={categories} onSelect={handleSelect} />
         </motion.div>
       </PopoverContent>
     </Popover>

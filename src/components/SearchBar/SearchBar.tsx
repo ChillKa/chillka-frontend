@@ -156,7 +156,7 @@ const SearchBar = ({ className = '' }: SearchBarProps) => {
 
   const form = useForm({
     defaultValues: {
-      activity: '',
+      keyword: '',
       location: '',
       category: '',
     },
