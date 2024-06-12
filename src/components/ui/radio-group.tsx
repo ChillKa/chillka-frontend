@@ -1,10 +1,26 @@
 'use client';
 
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group';
+import { cva, type VariantProps } from 'class-variance-authority';
 import { Circle } from 'lucide-react';
 import * as React from 'react';
 
 import cn from '@lib/utils';
+
+const radioItemVariants = cva(
+  'aspect-square h-4 w-4 rounded-full border text-primary ring-offset-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
+  {
+    variants: {
+      variant: {
+        default: 'border-primary',
+        form: 'border-primary-super-light bg-white',
+      },
+    },
+    defaultVariants: {
+      variant: 'default',
+    },
+  }
+);
 
 const RadioGroup = React.forwardRef<
   React.ElementRef<typeof RadioGroupPrimitive.Root>,
@@ -20,17 +36,19 @@ const RadioGroup = React.forwardRef<
 });
 RadioGroup.displayName = RadioGroupPrimitive.Root.displayName;
 
+export interface RadioItemProps
+  extends React.InputHTMLAttributes<HTMLInputElement>,
+    VariantProps<typeof radioItemVariants> {}
+
 const RadioGroupItem = React.forwardRef<
   React.ElementRef<typeof RadioGroupPrimitive.Item>,
-  React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item>
->(({ className, ...props }, ref) => {
+  React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item> &
+    RadioItemProps
+>(({ className, variant, ...props }, ref) => {
   return (
     <RadioGroupPrimitive.Item
       ref={ref}
-      className={cn(
-        'aspect-square h-4 w-4 rounded-full border border-primary text-primary ring-offset-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
-        className
-      )}
+      className={cn(radioItemVariants({ variant, className }))}
       {...props}
     >
       <RadioGroupPrimitive.Indicator className="flex items-center justify-center">
