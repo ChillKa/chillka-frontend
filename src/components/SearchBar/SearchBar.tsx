@@ -16,6 +16,7 @@
 
 'use client';
 
+import { Form } from '@components/ui/form';
 import useMediaQuery from '@hooks/use-media-query';
 import cn from '@lib/utils';
 import {
@@ -28,6 +29,7 @@ import {
   PartyPopperIcon,
   TreesIcon,
 } from 'lucide-react';
+import { useForm } from 'react-hook-form';
 import SearchBarDesktop from './SearchBarDesktop';
 import SearchBarMobile from './SearchBarMobile';
 
@@ -151,24 +153,41 @@ type SearchBarProps = {
 
 const SearchBar = ({ className = '' }: SearchBarProps) => {
   const { matches: isMobile } = useMediaQuery();
+  const form = useForm({
+    defaultValues: {
+      keyword: '',
+      location: '',
+      category: '',
+    },
+  });
 
-  return isMobile ? (
-    <SearchBarMobile
-      className=""
-      activityPictures={DUMMY_PICTURES}
-      activityKeywords={DUMMY_KEYWORDS}
-      locations={DUMMY_LOCATIONS}
-      categories={DUMMY_CATEGORIES}
-      debugMode={debugMode}
-    />
-  ) : (
-    <SearchBarDesktop
-      className={cn('', className)}
-      activityPictures={DUMMY_PICTURES}
-      activityKeywords={DUMMY_KEYWORDS}
-      locations={DUMMY_LOCATIONS}
-      categories={DUMMY_CATEGORIES}
-    />
+  const handleSearchSubmit = form.handleSubmit(async (data) => {
+    console.log(data);
+  });
+
+  return (
+    <Form {...form}>
+      {isMobile ? (
+        <SearchBarMobile
+          className=""
+          activityPictures={DUMMY_PICTURES}
+          activityKeywords={DUMMY_KEYWORDS}
+          locations={DUMMY_LOCATIONS}
+          categories={DUMMY_CATEGORIES}
+          onSearchSubmit={handleSearchSubmit}
+          debugMode={debugMode}
+        />
+      ) : (
+        <SearchBarDesktop
+          className={cn('', className)}
+          activityPictures={DUMMY_PICTURES}
+          activityKeywords={DUMMY_KEYWORDS}
+          locations={DUMMY_LOCATIONS}
+          onSearchSubmit={handleSearchSubmit}
+          categories={DUMMY_CATEGORIES}
+        />
+      )}
+    </Form>
   );
 };
 
