@@ -1,13 +1,28 @@
 'use client';
 
+import { zhTW } from 'date-fns/locale';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import * as React from 'react';
-import { DayPicker } from 'react-day-picker';
+import { CaptionProps, DayPicker } from 'react-day-picker';
 
 import cn from '@lib/utils';
 import { buttonVariants } from 'src/components/ui/button';
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker>;
+
+function CustomCaption({ displayMonth }: CaptionProps) {
+  const month = displayMonth.toLocaleString('zh-tw', {
+    month: 'numeric',
+  });
+  const year = displayMonth.getFullYear();
+
+  return (
+    <div className="flex items-center justify-between p-2">
+      <span>{year}年</span>
+      <span>{month}</span>
+    </div>
+  );
+}
 
 function Calendar({
   className,
@@ -17,13 +32,14 @@ function Calendar({
 }: CalendarProps) {
   return (
     <DayPicker
+      locale={zhTW}
       showOutsideDays={showOutsideDays}
       className={cn('p-3', className)}
       classNames={{
         months: 'flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0',
         month: 'space-y-4',
         caption: 'flex justify-center pt-1 relative items-center',
-        caption_label: 'text-sm font-medium',
+        caption_label: 'text-base font-medium',
         nav: 'space-x-1 flex items-center',
         nav_button: cn(
           buttonVariants({ variant: 'outline' }),
@@ -54,8 +70,9 @@ function Calendar({
         ...classNames,
       }}
       components={{
-        IconLeft: ({ ...props }) => <ChevronLeft className="h-4 w-4" />,
-        IconRight: ({ ...props }) => <ChevronRight className="h-4 w-4" />,
+        CaptionLabel: CustomCaption,
+        IconLeft: ({ ...props }) => <ChevronLeft className="size-4" />,
+        IconRight: ({ ...props }) => <ChevronRight className="size-4" />,
       }}
       {...props}
     />
