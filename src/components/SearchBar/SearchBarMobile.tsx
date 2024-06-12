@@ -78,8 +78,8 @@ const SearchBarMobile = ({
   onSearchSubmit,
   debugMode,
 }: SearchBarMobileProps) => {
-  const [isCategoryMenuOpen, setCategoryMenuOpen] = useState(false);
-  const [isLocationMenuOpen, setLocationMenuOpen] = useState(false);
+  const [isCategoryMenuOpen, setIsCategoryMenuOpen] = useState(false);
+  const [isLocationMenuOpen, setIsLocationMenuOpen] = useState(false);
   const containerRef = useRef(null);
   const { height, width } = useDimensions(containerRef);
 
@@ -120,8 +120,8 @@ const SearchBarMobile = ({
                 <DialogClose
                   className="bg-primary p-7"
                   onClick={() => {
-                    setLocationMenuOpen(() => false);
-                    setCategoryMenuOpen(() => false);
+                    setIsLocationMenuOpen(() => false);
+                    setIsCategoryMenuOpen(() => false);
                   }}
                 >
                   <XIcon className="size-6 stroke-white" />
@@ -226,10 +226,10 @@ const SearchBarMobile = ({
                   className="h-fit w-full gap-2 py-6 data-[state=open]:bg-surface data-[state=open]:text-primary"
                   type="button"
                   onClick={() => {
-                    setLocationMenuOpen(
+                    setIsLocationMenuOpen(
                       (isCurrentLocationMenuOpen) => !isCurrentLocationMenuOpen
                     );
-                    setCategoryMenuOpen(() => false);
+                    setIsCategoryMenuOpen(() => false);
                   }}
                 >
                   <MapIcon className="size-6" />
@@ -243,10 +243,10 @@ const SearchBarMobile = ({
                   className="h-fit w-full gap-2 py-6 data-[state=open]:bg-surface data-[state=open]:text-primary"
                   type="button"
                   onClick={() => {
-                    setCategoryMenuOpen(
+                    setIsCategoryMenuOpen(
                       (isCurrentCategoryMenuOpen) => !isCurrentCategoryMenuOpen
                     );
-                    setLocationMenuOpen(() => false);
+                    setIsLocationMenuOpen(() => false);
                   }}
                 >
                   <HashIcon className="size-6" />
