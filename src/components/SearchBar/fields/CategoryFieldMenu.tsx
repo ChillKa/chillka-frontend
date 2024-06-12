@@ -9,7 +9,7 @@ import {
 import { motion } from 'framer-motion';
 import { LucideIcon } from 'lucide-react';
 import { Dispatch, SetStateAction } from 'react';
-import MenuItemContainer from '../MenuItemContainer';
+import MenuItemContainer from './MenuItemContainer';
 import menuAnimationVariants from './utils';
 
 export type Category = {

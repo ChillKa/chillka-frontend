@@ -19,7 +19,7 @@ import { HashIcon, LucideIcon, MapIcon, SearchIcon, XIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FormEventHandler, useRef, useState } from 'react';
-import MenuItemContainer from './MenuItemContainer';
+import MenuItemContainer from './fields/MenuItemContainer';
 
 type SearchBarMobileProps = {
   className: string;

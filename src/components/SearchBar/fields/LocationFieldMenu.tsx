@@ -8,7 +8,7 @@ import {
 } from '@radix-ui/react-popover';
 import { motion } from 'framer-motion';
 import { Dispatch, SetStateAction } from 'react';
-import MenuItemContainer from '../MenuItemContainer';
+import MenuItemContainer from './MenuItemContainer';
 import menuAnimationVariants from './utils';
 
 export type Location = {
