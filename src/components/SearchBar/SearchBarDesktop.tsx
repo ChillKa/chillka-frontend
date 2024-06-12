@@ -3,13 +3,14 @@
 import { Button } from '@components/ui/button';
 import { H3 } from '@components/ui/typography';
 import cn from '@lib/utils';
-import { useEffect, useState } from 'react';
+import { FormEventHandler, useEffect, useState } from 'react';
 import ActivityField from './fields/ActivityField';
 import CategoryFieldMenu, { Category } from './fields/CategoryFieldMenu';
 import LocationFieldMenu, { Location } from './fields/LocationFieldMenu';
 
 type SearchBarDesktopProps = {
   className: string;
+  onSearchSubmit: FormEventHandler<HTMLFormElement> | undefined;
   activityPictures: Array<{
     thumbnail: string;
     url: string;
@@ -80,6 +81,7 @@ const useStickyToFixed = (tagName: string) => {
 
 const SearchBarDesktop = ({
   className = '',
+  onSearchSubmit,
   activityPictures,
   activityKeywords,
   locations,
@@ -89,6 +91,11 @@ const SearchBarDesktop = ({
   const [isCategoryMenuOpen, setIsCategoryMenuOpen] = useState(false);
   const [isLocationMenuOpen, setIsLocationMenuOpen] = useState(false);
   const isSticky = useStickyToFixed('header');
+
+  const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
+    event.preventDefault();
+    onSearchSubmit?.(event);
+  };
 
   return (
     <section
@@ -101,13 +108,7 @@ const SearchBarDesktop = ({
       )}
     >
       <H3>依照需求搜尋適合你的活動</H3>
-      <form
-        className="flex gap-2"
-        action={(formData) => {
-          // TODO: server action for search data
-          console.log(formData);
-        }}
-      >
+      <form onSubmit={handleSubmit} className="flex gap-2">
         <div className="flex grow">
           <ActivityField
             activityKeywords={activityKeywords}
@@ -128,7 +129,10 @@ const SearchBarDesktop = ({
             locations={locations}
           />
         </div>
-        <Button className="flex h-auto self-auto px-20 text-xl font-bold">
+        <Button
+          type="submit"
+          className="flex h-auto self-auto px-20 text-xl font-bold"
+        >
           搜尋活動
         </Button>
       </form>
