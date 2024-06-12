@@ -8,6 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@components/ui/dialog';
+import { FormField } from '@components/ui/form';
 import { Input } from '@components/ui/input';
 import { Popover, PopoverTrigger } from '@components/ui/popover';
 import { H2, Small } from '@components/ui/typography';
@@ -19,6 +20,8 @@ import { HashIcon, LucideIcon, MapIcon, SearchIcon, XIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRef, useState } from 'react';
+import { useFormContext } from 'react-hook-form';
+import { Category } from './fields/CategoryFieldMenu';
 import MenuItemContainer from './fields/MenuItemContainer';
 
 type SearchBarMobileProps = {
@@ -77,6 +80,15 @@ const SearchBarMobile = ({
   const containerRef = useRef(null);
   const { height, width } = useDimensions(containerRef);
 
+  const { setValue, control } = useFormContext();
+
+  const handleCategorySelect = (category: Category['text']) => {
+    setValue('category', category);
+  };
+  const handleLocationSelect = (category: Category['text']) => {
+    setValue('location', category);
+  };
+
   return (
     <Dialog defaultOpen={debugMode}>
       <DialogTrigger
@@ -111,21 +123,21 @@ const SearchBarMobile = ({
         </DialogHeader>
         <div className="flex flex-col justify-between text-primary">
           <div className="mx-3 mt-10 flex border-0 border-b border-primary pb-4 pt-2">
-            <Input
-              type="text"
-              placeholder="搜尋活動關鍵字"
-              className="h-fit w-full border-none p-0 text-base placeholder:text-primary/50 focus-visible:ring-0 focus-visible:ring-offset-0"
-              onChange={() => {
-                /* TODO: add debounce and fetch data form API later */
-              }}
+            <FormField
+              control={control}
+              name="keyword"
+              render={({ field }) => (
+                <Input
+                  type="text"
+                  placeholder="搜尋活動關鍵字"
+                  className="h-fit w-full border-none p-0 text-base placeholder:text-primary/50 focus-visible:ring-0 focus-visible:ring-offset-0"
+                  {...field}
+                />
+              )}
             />
             <button
               className="px-3"
               type="submit"
-              // onClick={() => {
-              //   /* TODO: add search method */
-              //   router.push('/');
-              // }}
               aria-label="Search activities button"
             >
               <SearchIcon className="size-6" />
@@ -177,7 +189,7 @@ const SearchBarMobile = ({
             locationY: height,
           }}
         >
-          <MenuItemContainer data={locations} />
+          <MenuItemContainer data={locations} onSelect={handleLocationSelect} />
         </motion.div>
         {/* categories menu animation */}
         <motion.div
@@ -191,7 +203,10 @@ const SearchBarMobile = ({
             locationY: height,
           }}
         >
-          <MenuItemContainer data={categories} />
+          <MenuItemContainer
+            data={categories}
+            onSelect={handleCategorySelect}
+          />
         </motion.div>
         <DialogFooter className="absolute bottom-0 left-0 right-0 flex flex-row gap-[1px] font-medium">
           <Popover open={isLocationMenuOpen}>
