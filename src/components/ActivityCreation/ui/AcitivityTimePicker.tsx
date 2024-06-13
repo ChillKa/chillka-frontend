@@ -8,7 +8,7 @@ import {
   DropdownMenuTrigger,
 } from '@components/ui/dropdown-menu';
 import { Input } from '@components/ui/input';
-import { Clock3Icon } from 'lucide-react';
+import { TimerIcon } from 'lucide-react';
 import { useState } from 'react';
 
 const ActivityTimePicker = () => {
@@ -51,7 +51,7 @@ const ActivityTimePicker = () => {
             value={`${selectedTime.hour}:${selectedTime.minute}`}
             readOnly
           />
-          <Clock3Icon className="-mr-1 ml-2 h-5 w-5" aria-hidden="true" />
+          <TimerIcon className="-mr-1 ml-2 h-5 w-5" aria-hidden="true" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
