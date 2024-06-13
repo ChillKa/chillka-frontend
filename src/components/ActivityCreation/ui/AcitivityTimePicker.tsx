@@ -70,7 +70,7 @@ const ActivityTimePicker = () => {
                 key={hour}
                 onSelect={() => handleHourSelect(hour)}
                 textValue={hour}
-                className="focus:bg-primary-super-light data-[state=checked]:bg-primary-super-light"
+                className="stroke-2 font-medium focus:bg-primary-super-light data-[state=checked]:bg-primary-super-light"
               >
                 {hour}
               </DropdownMenuCheckboxItem>
@@ -88,7 +88,7 @@ const ActivityTimePicker = () => {
                 key={minute}
                 onSelect={() => handleMinuteSelect(minute)}
                 textValue={minute}
-                className="focus:bg-primary-super-light data-[state=checked]:bg-primary-super-light"
+                className="font-medium focus:bg-primary-super-light data-[state=checked]:bg-primary-super-light"
               >
                 {minute}
               </DropdownMenuCheckboxItem>
