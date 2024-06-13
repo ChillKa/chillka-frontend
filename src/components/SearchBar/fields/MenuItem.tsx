@@ -2,7 +2,6 @@ import { Button } from '@components/ui/button';
 import { Lead } from '@components/ui/typography';
 import { motion } from 'framer-motion';
 import { LucideIcon } from 'lucide-react';
-import { useRouter } from 'next/navigation';
 
 // this is setting up animation for each item
 const variants = {
@@ -39,14 +38,12 @@ type MenuItemProps = {
 const MenuItem = ({ data, onSelect }: MenuItemProps) => {
   //   const style = { border: `2px solid ${colors[index]}` };
   const Icon = data.icon;
-  const router = useRouter();
   return (
     <Button
       asChild
       className="flex h-fit items-center justify-between gap-2.5 bg-surface px-4 py-2.5 transition-colors duration-300 ease-out hover:bg-primary/[0.03]"
       onClick={() => {
         onSelect(data.text);
-        router.push(data.url);
       }}
     >
       <motion.li
