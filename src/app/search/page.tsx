@@ -31,13 +31,23 @@ const SearchPage = ({ searchParams }: SearchPageProps) => {
   const filteredParams = getSearchFilter(searchParams);
   console.log(filteredParams);
 
+  // TODO: Create the action to fetch result
+  // const result = await getActivitiesByFilter(filteredParams);
+
   return (
     <>
       <section id="search">
         <SearchBar className="" />
       </section>
       <section id="result">
-        <div>Search Section</div>
+        <div>
+          {/* TODO: map by result */}
+          result section
+        </div>
+        <div>
+          {/* TODO: get by result */}
+          result map section
+        </div>
       </section>
     </>
   );
