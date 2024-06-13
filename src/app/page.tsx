@@ -1,6 +1,3 @@
-'use client';
-
-import { googleOAuthCallback } from '@action/auth';
 import CallToActionSection from '@components/CallToActionSection';
 import CommentSection from '@components/CommentSection';
 import HeroSection from '@components/HeroSection';
@@ -8,25 +5,11 @@ import NearbyActivity from '@components/NearbyActivity';
 import RecommendActivity from '@components/RecommendActivity';
 import SearchBar from '@components/SearchBar';
 import TopCategoryMenu from '@components/TopCategoryMenu';
-import { useSearchParams } from 'next/navigation';
-import { useEffect } from 'react';
 import { z } from 'zod';
 
 const Home = () => {
-  const searchParams = useSearchParams();
-  const accessToken = searchParams.get('accessToken');
   const mySchema = z.string();
   mySchema.parse('123');
-
-  useEffect(() => {
-    const handleGoogleOAuth = async () => {
-      if (typeof accessToken === 'string') {
-        await googleOAuthCallback(accessToken);
-      }
-    };
-
-    handleGoogleOAuth();
-  }, [accessToken]);
 
   return (
     <>
