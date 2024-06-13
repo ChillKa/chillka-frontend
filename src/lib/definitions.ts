@@ -39,6 +39,11 @@ export const forgotPasswordFormSchema = z.object({
     .email({ message: '請輸入有效的電子郵件地址' }),
 });
 
+export const resetPasswordFormSchema = z.object({
+  password: z.string().min(8).max(50),
+  confirmPassword: z.string().min(8).max(50),
+});
+
 export const userFormSchema = z.object({
   displayName: z
     .string()

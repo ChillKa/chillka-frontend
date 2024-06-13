@@ -6,6 +6,7 @@ import {
   forgotPasswordFormSchema,
   loginFormSchema,
   registerFormSchema,
+  resetPasswordFormSchema,
 } from '@lib/definitions';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
@@ -124,13 +125,51 @@ export async function forgotPassword(
 
       return {
         status: 'failed',
-        message: `${errorMessage ?? 'Email sending failed'} (${response.status})`,
+        message: `${errorMessage ?? '發送重設密碼信件失敗，請重新再試。'} (${response.status})`,
       };
     }
 
     return {
       status: 'success',
       message: '已寄送重設密碼信件，請至信箱查看。',
+    };
+  } catch (error) {
+    return {
+      status: 'failed',
+      message:
+        error instanceof Error ? error.message : 'An unknown error occurred',
+    };
+  }
+}
+
+export async function resetPassword(
+  token: string,
+  data: z.infer<typeof resetPasswordFormSchema>
+): Promise<FormState> {
+  try {
+    const validatedData = validateWithSchema(resetPasswordFormSchema, data);
+
+    const response = await fetchAPI({
+      api: '/reset-password',
+      method: 'PATCH',
+      data: {
+        token,
+        ...validatedData,
+      },
+    });
+
+    if (!response.ok) {
+      const errorMessage = await response.text();
+
+      return {
+        status: 'failed',
+        message: `${errorMessage ?? '重設密碼失敗，請重新再試。'} (${response.status})`,
+      };
+    }
+
+    return {
+      status: 'success',
+      message: '密碼重設成功，請重新登入。',
     };
   } catch (error) {
     return {
