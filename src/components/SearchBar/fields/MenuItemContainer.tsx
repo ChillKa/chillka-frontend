@@ -20,17 +20,20 @@ type MenuItemDataType = {
 
 type MenuItemContainerProps = {
   data: MenuItemDataType[];
+  onSelect: (item: MenuItemDataType['text']) => void;
 };
 
-const MenuItemContainer = ({ data }: MenuItemContainerProps) => (
-  <motion.ul
-    variants={variants}
-    className="no-scrollbar h-[calc(100%-4.5rem)] space-y-4 overflow-auto px-4 py-6 xl:h-full xl:py-4"
-  >
-    {data.map((item) => (
-      <MenuItem data={item} key={item.text} />
-    ))}
-  </motion.ul>
-);
+const MenuItemContainer = ({ data, onSelect }: MenuItemContainerProps) => {
+  return (
+    <motion.ul
+      variants={variants}
+      className="no-scrollbar h-[calc(100%-4.5rem)] space-y-4 overflow-auto px-4 py-6 xl:h-full xl:py-4"
+    >
+      {data.map((item) => (
+        <MenuItem data={item} key={item.text} onSelect={onSelect} />
+      ))}
+    </motion.ul>
+  );
+};
 
 export default MenuItemContainer;

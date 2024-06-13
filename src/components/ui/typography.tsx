@@ -1,12 +1,16 @@
 import cn from '@lib/utils';
+import { Slot } from '@radix-ui/react-slot';
 import React, { forwardRef } from 'react';
 
 const H1 = forwardRef<
   HTMLHeadingElement,
-  React.HTMLAttributes<HTMLHeadingElement>
->(({ className, ...props }, ref) => {
+  React.HTMLAttributes<HTMLHeadingElement> & {
+    asChild?: boolean;
+  }
+>(({ className, asChild = false, ...props }, ref) => {
+  const Comp = asChild ? Slot : 'h1';
   return (
-    <h1
+    <Comp
       ref={ref}
       className={cn('text-5xl font-bold -tracking-[0.012em]', className)}
       {...props}
@@ -19,10 +23,13 @@ export { H1 };
 
 const H2 = forwardRef<
   HTMLHeadingElement,
-  React.HTMLAttributes<HTMLHeadingElement>
->(({ className, ...props }, ref) => {
+  React.HTMLAttributes<HTMLHeadingElement> & {
+    asChild?: boolean;
+  }
+>(({ className, asChild = false, ...props }, ref) => {
+  const Comp = asChild ? Slot : 'h2';
   return (
-    <h2
+    <Comp
       ref={ref}
       className={cn('text-3xl font-bold -tracking-[0.0075em]', className)}
       {...props}
@@ -35,10 +42,13 @@ export { H2 };
 
 const H3 = forwardRef<
   HTMLHeadingElement,
-  React.HTMLAttributes<HTMLHeadingElement>
->(({ className, ...props }, ref) => {
+  React.HTMLAttributes<HTMLHeadingElement> & {
+    asChild?: boolean;
+  }
+>(({ className, asChild = false, ...props }, ref) => {
+  const Comp = asChild ? Slot : 'h3';
   return (
-    <h3
+    <Comp
       ref={ref}
       className={cn('text-2xl font-bold -tracking-[0.006em]', className)}
       {...props}
@@ -51,10 +61,13 @@ export { H3 };
 
 const H4 = forwardRef<
   HTMLHeadingElement,
-  React.HTMLAttributes<HTMLHeadingElement>
->(({ className, ...props }, ref) => {
+  React.HTMLAttributes<HTMLHeadingElement> & {
+    asChild?: boolean;
+  }
+>(({ className, asChild = false, ...props }, ref) => {
+  const Comp = asChild ? Slot : 'h4';
   return (
-    <h4
+    <Comp
       ref={ref}
       className={cn('text-xl font-bold -tracking-[0.005em]', className)}
       {...props}
@@ -67,10 +80,13 @@ export { H4 };
 
 const P = forwardRef<
   HTMLParagraphElement,
-  React.HTMLAttributes<HTMLParagraphElement>
->(({ className, ...props }, ref) => {
+  React.HTMLAttributes<HTMLParagraphElement> & {
+    asChild?: boolean;
+  }
+>(({ className, asChild, ...props }, ref) => {
+  const Comp = asChild ? Slot : 'p';
   return (
-    <p
+    <Comp
       ref={ref}
       className={cn('text-base/7 font-normal', className)}
       {...props}
@@ -83,10 +99,13 @@ export { P };
 
 const Blockquote = forwardRef<
   HTMLQuoteElement,
-  React.HTMLAttributes<HTMLQuoteElement>
->(({ className, ...props }, ref) => {
+  React.HTMLAttributes<HTMLQuoteElement> & {
+    asChild?: boolean;
+  }
+>(({ className, asChild = false, ...props }, ref) => {
+  const Comp = asChild ? Slot : 'blockquote';
   return (
-    <blockquote
+    <Comp
       ref={ref}
       className={cn(
         'mt-6 border-l-2 pl-6 font-normal italic text-muted-foreground',
@@ -102,10 +121,13 @@ export { Blockquote };
 
 const Lead = forwardRef<
   HTMLParagraphElement,
-  React.HTMLAttributes<HTMLParagraphElement>
->(({ className, ...props }, ref) => {
+  React.HTMLAttributes<HTMLParagraphElement> & {
+    asChild?: boolean;
+  }
+>(({ className, asChild = false, ...props }, ref) => {
+  const Comp = asChild ? Slot : 'p';
   return (
-    <p ref={ref} className={cn('text-xl font-bold', className)} {...props} />
+    <Comp ref={ref} className={cn('text-xl font-bold', className)} {...props} />
   );
 });
 
@@ -114,10 +136,13 @@ export { Lead };
 
 const Large = forwardRef<
   HTMLParagraphElement,
-  React.HTMLAttributes<HTMLParagraphElement>
->(({ className, ...props }, ref) => {
+  React.HTMLAttributes<HTMLParagraphElement> & {
+    asChild?: boolean;
+  }
+>(({ className, asChild, ...props }, ref) => {
+  const Comp = asChild ? Slot : 'p';
   return (
-    <p ref={ref} className={cn('text-lg font-bold', className)} {...props} />
+    <Comp ref={ref} className={cn('text-lg font-bold', className)} {...props} />
   );
 });
 
@@ -126,10 +151,13 @@ export { Large };
 
 const Small = forwardRef<
   HTMLParagraphElement,
-  React.HTMLAttributes<HTMLParagraphElement>
->(({ className, ...props }, ref) => {
+  React.HTMLAttributes<HTMLParagraphElement> & {
+    asChild?: boolean;
+  }
+>(({ className, asChild = false, ...props }, ref) => {
+  const Comp = asChild ? Slot : 'p';
   return (
-    <p
+    <Comp
       ref={ref}
       className={cn('text-sm font-medium leading-none', className)}
       {...props}
@@ -142,10 +170,13 @@ export { Small };
 
 const Subtle = forwardRef<
   HTMLParagraphElement,
-  React.HTMLAttributes<HTMLParagraphElement>
->(({ className, ...props }, ref) => {
+  React.HTMLAttributes<HTMLParagraphElement> & {
+    asChild?: boolean;
+  }
+>(({ className, asChild = false, ...props }, ref) => {
+  const Comp = asChild ? Slot : 'p';
   return (
-    <p
+    <Comp
       ref={ref}
       className={cn('text-sm text-slate-500', className)}
       {...props}
@@ -159,10 +190,13 @@ export { Subtle };
 //designer didn't add the style on figma
 const Muted = forwardRef<
   HTMLSpanElement,
-  React.HTMLAttributes<HTMLSpanElement>
->(({ className, ...props }, ref) => {
+  React.HTMLAttributes<HTMLSpanElement> & {
+    asChild?: boolean;
+  }
+>(({ className, asChild = false, ...props }, ref) => {
+  const Comp = asChild ? Slot : 'span';
   return (
-    <span
+    <Comp
       ref={ref}
       className={cn('text-sm text-muted-foreground', className)}
       {...props}
@@ -176,10 +210,13 @@ export { Muted };
 //designer didn't change the style on figma
 const InlineCode = forwardRef<
   HTMLSpanElement,
-  React.HTMLAttributes<HTMLSpanElement>
->(({ className, ...props }, ref) => {
+  React.HTMLAttributes<HTMLSpanElement> & {
+    asChild?: boolean;
+  }
+>(({ className, asChild = false, ...props }, ref) => {
+  const Comp = asChild ? Slot : 'code';
   return (
-    <code
+    <Comp
       ref={ref}
       className={cn(
         'relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-bold',

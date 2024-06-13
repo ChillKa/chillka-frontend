@@ -33,9 +33,10 @@ type MenuItemDataType = {
 
 type MenuItemProps = {
   data: MenuItemDataType;
+  onSelect: (item: MenuItemDataType['text']) => void;
 };
 
-const MenuItem = ({ data }: MenuItemProps) => {
+const MenuItem = ({ data, onSelect }: MenuItemProps) => {
   //   const style = { border: `2px solid ${colors[index]}` };
   const Icon = data.icon;
   const router = useRouter();
@@ -44,6 +45,7 @@ const MenuItem = ({ data }: MenuItemProps) => {
       asChild
       className="flex h-fit items-center justify-between gap-2.5 bg-surface px-4 py-2.5 transition-colors duration-300 ease-out hover:bg-primary/[0.03]"
       onClick={() => {
+        onSelect(data.text);
         router.push(data.url);
       }}
     >
