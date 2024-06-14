@@ -13,7 +13,7 @@ import {
   TreesIcon,
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 
 type SearchPageProps = {
   searchParams: { [key: string]: string | string[] | undefined };
@@ -76,6 +76,24 @@ const SearchPage = ({ searchParams }: SearchPageProps) => {
       ...filteredParams,
     },
   });
+  const location = useWatch({
+    control: form.control,
+    name: 'location',
+  });
+
+  const category = useWatch({
+    control: form.control,
+    name: 'category',
+  });
+
+  if (location || category) {
+    const queryString = createQueryString({
+      keyword: form.getValues('keyword'),
+      location: location || '',
+      category: category || '',
+    });
+    router.replace(`/search?${queryString}`);
+  }
 
   const handleSearchSubmit = form.handleSubmit(async (data) => {
     const queryString = createQueryString(data);
@@ -161,7 +179,7 @@ const SearchPage = ({ searchParams }: SearchPageProps) => {
           />
         </Form>
       </section>
-      <section id="result">
+      <section id="result" className="flex flex-row">
         <div>
           {/* TODO: map by result */}
           result section
