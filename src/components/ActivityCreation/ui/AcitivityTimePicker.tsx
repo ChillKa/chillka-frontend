@@ -57,6 +57,9 @@ const ActivityTimePicker = () => {
       <DropdownMenuContent
         align="start"
         sideOffset={6}
+        onInteractOutside={() => {
+          setIsMenuOpen(() => false);
+        }}
         className="grid grid-cols-2 gap-1.5 rounded-[0.375rem] border border-primary-super-light bg-white p-1.5 text-primary shadow-lg ring-1 ring-black ring-opacity-5"
       >
         <div className="col-span-1 w-16">
