@@ -13,6 +13,7 @@ import {
   PaletteIcon,
   PartyPopperIcon,
   TreesIcon,
+  XSquare,
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -23,6 +24,7 @@ import DateFieldMenu from './fields/DateFieldMenu';
 import DistanceFieldMenu from './fields/DistanceFieldMenu';
 import EventTypeFieldMenu from './fields/EventTypeFieldMenu';
 import LocationFieldMenu from './fields/LocationFieldMenu';
+import SortFieldMenu from './fields/SortFieldMenu';
 
 type AdvancedSearchBarProps = {
   filteredParams: Partial<SearchParams>;
@@ -47,6 +49,7 @@ const AdvancedSearchBar = ({ filteredParams }: AdvancedSearchBarProps) => {
   const [isDateMenuOpen, setIsDateMenuOpen] = useState(false);
   const [isEventTypeMenuOpen, setIsEventTypeMenuOpen] = useState(false);
   const [isDistanceMenuOpen, setIsDistanceMenuOpen] = useState(false);
+  const [isSortMenuOpen, setIsSortMenuOpen] = useState(false);
 
   const router = useRouter();
   const form = useForm<SearchParams>({
@@ -260,6 +263,17 @@ const AdvancedSearchBar = ({ filteredParams }: AdvancedSearchBarProps) => {
                 setIsDistanceMenuOpen={setIsDistanceMenuOpen}
                 distances={[]}
               />
+              <section className="flex min-w-64 flex-row items-center justify-center gap-2 pl-4">
+                <SortFieldMenu
+                  isSortMenuOpen={isSortMenuOpen}
+                  setIsSortMenuOpen={setIsSortMenuOpen}
+                  sorts={[]}
+                />
+                <Button className="rounded-[0.375rem] border bg-surface text-primary">
+                  <XSquare />
+                  清除條件
+                </Button>
+              </section>
             </div>
           </div>
         </section>
