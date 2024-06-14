@@ -90,12 +90,12 @@ const AdvancedSearchBar = ({ filteredParams }: AdvancedSearchBarProps) => {
       sort: sort || '',
       date: date || '',
     });
-    router.replace(`/search?${queryString}`);
+    router.push(`/search?${queryString}`);
   }
 
   const handleSearchSubmit = form.handleSubmit(async (data) => {
     const queryString = createQueryString(data);
-    router.replace(`/search?${queryString}`);
+    router.push(`/search?${queryString}`);
   });
 
   return (
@@ -176,9 +176,7 @@ const AdvancedSearchBar = ({ filteredParams }: AdvancedSearchBarProps) => {
             </div>
           </div>
           <div
-            className={cn(
-              'z-20 h-[5.5rem]  space-y-6 bg-surface pb-6 text-primary'
-            )}
+            className={cn('h-[5.5rem]  space-y-6 bg-surface pb-6 text-primary')}
           >
             <div className={cn('flex grow border-b border-primary py-4')}>
               <div className="flex w-[8.125rem] flex-row items-center justify-center border-x border-primary px-4">
