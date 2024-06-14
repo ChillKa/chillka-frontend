@@ -4,6 +4,7 @@ import EmailButton from '@components/Header/EmailButton';
 import HamburgerBotton from '@components/Header/HamburgerBotton';
 import LogoButton from '@components/Header/LogoButton';
 import NotificationButton from '@components/Header/NotificationButton';
+import Sidebar from '@components/Sidebar';
 import { useAuthContext } from 'src/store/AuthProvider/AuthProvider';
 
 export type UserProfileButtonProps = {
@@ -25,7 +26,15 @@ const Header = () => {
             <EmailButton />
             <NotificationButton />
           </div>
-          <HamburgerBotton isLoggedin={isLoggedin} onSignOut={handleSignOut} />
+          <div className="hidden xl:block">
+            <HamburgerBotton
+              isLoggedin={isLoggedin}
+              onSignOut={handleSignOut}
+            />
+          </div>
+          <div className="xl:hidden">
+            <Sidebar isLoggedin={isLoggedin} onSignOut={handleSignOut} />
+          </div>
         </div>
       </div>
     </header>
