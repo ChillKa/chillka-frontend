@@ -1,5 +1,6 @@
 'use client';
 
+import { SearchParams, getActivitiesByFilter } from '@action/activity';
 import SearchBarDesktop from '@components/SearchBar/SearchBarDesktop';
 import { Form } from '@components/ui/form';
 import {
@@ -18,17 +19,6 @@ import { useForm, useWatch } from 'react-hook-form';
 type SearchPageProps = {
   searchParams: { [key: string]: string | string[] | undefined };
 };
-
-interface SearchParams {
-  keyword: string;
-  location: string;
-  category: string;
-  date: string;
-  distance: string;
-  sort: string;
-  limit: string;
-  page: string;
-}
 
 const createQueryString = (data: {
   keyword: string;
@@ -100,8 +90,7 @@ const SearchPage = ({ searchParams }: SearchPageProps) => {
     router.replace(`/search?${queryString}`);
   });
 
-  // TODO: Create the action to fetch result
-  // const result = await getActivitiesByFilter(filteredParams);
+  const result = getActivitiesByFilter(filteredParams);
 
   return (
     <>
@@ -179,10 +168,16 @@ const SearchPage = ({ searchParams }: SearchPageProps) => {
           />
         </Form>
       </section>
-      <section id="result" className="flex flex-row">
-        <div>
-          {/* TODO: map by result */}
-          result section
+      <section id="result" className="flex flex-row gap-2">
+        <div className="flex flex-col gap-2">
+          {result.map((activity) => (
+            <div key={activity.id} className="debug w-[600px]">
+              <h1>{activity.name}</h1>
+              <p>
+                {activity.startDate}-{activity.endDate}
+              </p>
+            </div>
+          ))}
         </div>
         <div>
           {/* TODO: get by result */}
