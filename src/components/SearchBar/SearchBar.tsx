@@ -29,6 +29,7 @@ import {
   PartyPopperIcon,
   TreesIcon,
 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import SearchBarDesktop from './SearchBarDesktop';
 import SearchBarMobile from './SearchBarMobile';
@@ -151,8 +152,21 @@ type SearchBarProps = {
   className: string;
 };
 
+const createQueryString = (data: {
+  keyword: string;
+  location: string;
+  category: string;
+}) => {
+  const params = new URLSearchParams();
+  Object.entries(data).forEach(([key, value]) => {
+    params.set(key, value);
+  });
+  return params.toString();
+};
+
 const SearchBar = ({ className = '' }: SearchBarProps) => {
   const { matches: isMobile } = useMediaQuery();
+  const router = useRouter();
   const form = useForm({
     defaultValues: {
       keyword: '',
@@ -162,7 +176,8 @@ const SearchBar = ({ className = '' }: SearchBarProps) => {
   });
 
   const handleSearchSubmit = form.handleSubmit(async (data) => {
-    console.log(data);
+    const queryString = createQueryString(data);
+    router.push(`/search?${queryString}`);
   });
 
   return (
