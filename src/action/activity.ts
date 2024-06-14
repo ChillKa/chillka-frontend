@@ -1,3 +1,5 @@
+'use server';
+
 export interface SearchParams {
   keyword: string;
   location: string;
@@ -32,9 +34,9 @@ export interface Activity {
   continuous: ContinuousActivity;
 }
 
-export function getActivitiesByFilter(
+export async function getActivitiesByFilter(
   params: Partial<SearchParams>
-): Activity[] {
+): Promise<Activity[]> {
   console.log(params);
   return [
     {
