@@ -19,20 +19,11 @@
 import { Form } from '@components/ui/form';
 import useMediaQuery from '@hooks/use-media-query';
 import cn from '@lib/utils';
-import {
-  BotIcon,
-  DumbbellIcon,
-  Gamepad2Icon,
-  HazeIcon,
-  HeartIcon,
-  PaletteIcon,
-  PartyPopperIcon,
-  TreesIcon,
-} from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import SearchBarDesktop from './SearchBarDesktop';
 import SearchBarMobile from './SearchBarMobile';
+import { categories, locations } from './fields/utils';
 
 //
 const debugMode = false;
@@ -81,73 +72,6 @@ const DUMMY_KEYWORDS = [
   },
 ];
 
-const DUMMY_LOCATIONS = [
-  {
-    url: '/',
-    text: '北部',
-  },
-  {
-    url: '/',
-    text: '中部',
-  },
-  {
-    url: '/',
-    text: '南部',
-  },
-  {
-    url: '/',
-    text: '東部',
-  },
-  {
-    url: '/',
-    text: '離島',
-  },
-];
-
-// TODO: url would be setting up for query activities type
-const DUMMY_CATEGORIES = [
-  {
-    icon: TreesIcon,
-    url: 'https://www.google.com/',
-    text: '戶外踏青',
-  },
-  {
-    icon: PartyPopperIcon,
-    url: '/',
-    text: '社交活動',
-  },
-  {
-    icon: HeartIcon,
-    url: '/',
-    text: '興趣嗜好',
-  },
-  {
-    icon: DumbbellIcon,
-    url: '/',
-    text: '運動健身',
-  },
-  {
-    icon: HazeIcon,
-    url: '/',
-    text: '健康生活',
-  },
-  {
-    icon: BotIcon,
-    url: '/',
-    text: '科技玩物',
-  },
-  {
-    icon: PaletteIcon,
-    url: '/',
-    text: '藝術文化',
-  },
-  {
-    icon: Gamepad2Icon,
-    url: '/',
-    text: '遊戲',
-  },
-];
-
 type SearchBarProps = {
   className: string;
 };
@@ -187,8 +111,8 @@ const SearchBar = ({ className = '' }: SearchBarProps) => {
           className=""
           activityPictures={DUMMY_PICTURES}
           activityKeywords={DUMMY_KEYWORDS}
-          locations={DUMMY_LOCATIONS}
-          categories={DUMMY_CATEGORIES}
+          locations={locations}
+          categories={categories}
           onSearchSubmit={handleSearchSubmit}
           debugMode={debugMode}
         />
@@ -197,9 +121,9 @@ const SearchBar = ({ className = '' }: SearchBarProps) => {
           className={cn('', className)}
           activityPictures={DUMMY_PICTURES}
           activityKeywords={DUMMY_KEYWORDS}
-          locations={DUMMY_LOCATIONS}
+          locations={locations}
+          categories={categories}
           onSearchSubmit={handleSearchSubmit}
-          categories={DUMMY_CATEGORIES}
         />
       )}
     </Form>

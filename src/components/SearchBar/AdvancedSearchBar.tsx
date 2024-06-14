@@ -4,17 +4,7 @@ import { SearchParams } from '@action/activity';
 import { Button } from '@components/ui/button';
 import { Form } from '@components/ui/form';
 import cn from '@lib/utils';
-import {
-  BotIcon,
-  DumbbellIcon,
-  Gamepad2Icon,
-  HazeIcon,
-  HeartIcon,
-  PaletteIcon,
-  PartyPopperIcon,
-  TreesIcon,
-  XSquare,
-} from 'lucide-react';
+import { XSquare } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
@@ -25,6 +15,7 @@ import DistanceFieldMenu from './fields/DistanceFieldMenu';
 import EventTypeFieldMenu from './fields/EventTypeFieldMenu';
 import LocationFieldMenu from './fields/LocationFieldMenu';
 import SortFieldMenu from './fields/SortFieldMenu';
+import { categories, locations } from './fields/utils';
 
 type AdvancedSearchBarProps = {
   filteredParams: Partial<SearchParams>;
@@ -169,74 +160,12 @@ const AdvancedSearchBar = ({ filteredParams }: AdvancedSearchBarProps) => {
               <CategoryFieldMenu
                 isCategoryMenuOpen={isCategoryMenuOpen}
                 setIsCategoryMenuOpen={setIsCategoryMenuOpen}
-                categories={[
-                  {
-                    icon: TreesIcon,
-                    url: 'https://www.google.com/',
-                    text: '戶外踏青',
-                  },
-                  {
-                    icon: PartyPopperIcon,
-                    url: '/',
-                    text: '社交活動',
-                  },
-                  {
-                    icon: HeartIcon,
-                    url: '/',
-                    text: '興趣嗜好',
-                  },
-                  {
-                    icon: DumbbellIcon,
-                    url: '/',
-                    text: '運動健身',
-                  },
-                  {
-                    icon: HazeIcon,
-                    url: '/',
-                    text: '健康生活',
-                  },
-                  {
-                    icon: BotIcon,
-                    url: '/',
-                    text: '科技玩物',
-                  },
-                  {
-                    icon: PaletteIcon,
-                    url: '/',
-                    text: '藝術文化',
-                  },
-                  {
-                    icon: Gamepad2Icon,
-                    url: '/',
-                    text: '遊戲',
-                  },
-                ]}
+                categories={categories}
               />
               <LocationFieldMenu
                 isLocationMenuOpen={isLocationMenuOpen}
                 setIsLocationMenuOpen={setIsLocationMenuOpen}
-                locations={[
-                  {
-                    url: '/',
-                    text: '北部',
-                  },
-                  {
-                    url: '/',
-                    text: '中部',
-                  },
-                  {
-                    url: '/',
-                    text: '南部',
-                  },
-                  {
-                    url: '/',
-                    text: '東部',
-                  },
-                  {
-                    url: '/',
-                    text: '離島',
-                  },
-                ]}
+                locations={locations}
               />
               <Button
                 type="submit"
