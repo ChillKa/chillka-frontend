@@ -20,6 +20,7 @@ import { useForm, useWatch } from 'react-hook-form';
 import ActivityField from './fields/ActivityField';
 import CategoryFieldMenu from './fields/CategoryFieldMenu';
 import DateFieldMenu from './fields/DateFieldMenu';
+import EventTypeFieldMenu from './fields/EventTypeFieldMenu';
 import LocationFieldMenu from './fields/LocationFieldMenu';
 
 type AdvancedSearchBarProps = {
@@ -43,6 +44,7 @@ const AdvancedSearchBar = ({ filteredParams }: AdvancedSearchBarProps) => {
   const [isCategoryMenuOpen, setIsCategoryMenuOpen] = useState(false);
   const [isLocationMenuOpen, setIsLocationMenuOpen] = useState(false);
   const [isDateMenuOpen, setIsDateMenuOpen] = useState(false);
+  const [isEventTypeMenuOpen, setIsEventTypeMenuOpen] = useState(false);
 
   const router = useRouter();
   const form = useForm<SearchParams>({
@@ -245,6 +247,11 @@ const AdvancedSearchBar = ({ filteredParams }: AdvancedSearchBarProps) => {
                 isDateMenuOpen={isDateMenuOpen}
                 setIsDateMenuOpen={setIsDateMenuOpen}
                 dates={[]}
+              />
+              <EventTypeFieldMenu
+                isEventTypeMenuOpen={isEventTypeMenuOpen}
+                setIsEventTypeMenuOpen={setIsEventTypeMenuOpen}
+                events={[]}
               />
             </div>
           </div>
