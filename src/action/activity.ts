@@ -38,6 +38,11 @@ export async function getActivitiesByFilter(
   params: Partial<SearchParams>
 ): Promise<Activity[]> {
   console.log(params);
+
+  await new Promise((resolve) => {
+    setTimeout(resolve, 4000);
+  });
+
   return [
     {
       id: '1',
