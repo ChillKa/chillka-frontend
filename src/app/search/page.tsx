@@ -51,10 +51,9 @@ const SearchPage = ({ searchParams }: SearchPageProps) => {
   const filteredParams = getSearchFilter(searchParams);
 
   return (
-    <>
-      <section>
-        <AdvancedSearchBar filteredParams={filteredParams} />
-      </section>
+    <section className="flex flex-col gap-2">
+      <AdvancedSearchBar filteredParams={filteredParams} />
+
       <section id="result" className="flex flex-row gap-2">
         <div className="flex w-[70%] flex-col gap-2">
           <Suspense fallback={<div>Loading...</div>}>
@@ -66,7 +65,7 @@ const SearchPage = ({ searchParams }: SearchPageProps) => {
           result map section
         </div>
       </section>
-    </>
+    </section>
   );
 };
 

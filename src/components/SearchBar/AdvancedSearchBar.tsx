@@ -19,6 +19,7 @@ import { useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import ActivityField from './fields/ActivityField';
 import CategoryFieldMenu from './fields/CategoryFieldMenu';
+import DateFieldMenu from './fields/DateFieldMenu';
 import LocationFieldMenu from './fields/LocationFieldMenu';
 
 type AdvancedSearchBarProps = {
@@ -41,6 +42,7 @@ const AdvancedSearchBar = ({ filteredParams }: AdvancedSearchBarProps) => {
   const [isSearchBarMenuOpen, setIsSearchBarMenuOpen] = useState(false);
   const [isCategoryMenuOpen, setIsCategoryMenuOpen] = useState(false);
   const [isLocationMenuOpen, setIsLocationMenuOpen] = useState(false);
+  const [isDateMenuOpen, setIsDateMenuOpen] = useState(false);
 
   const router = useRouter();
   const form = useForm<SearchParams>({
@@ -216,14 +218,11 @@ const AdvancedSearchBar = ({ filteredParams }: AdvancedSearchBarProps) => {
           </div>
           <div
             className={cn(
-              'z-20 h-[5.5rem] max-w-[8.125rem] space-y-6 bg-surface pb-6 text-primary',
-              'flex gap-2'
+              'z-20 h-[5.5rem]  space-y-6 bg-surface pb-6 text-primary'
             )}
           >
-            <div
-              className={cn('mt-[1px] flex grow border-b border-primary py-4')}
-            >
-              <div className="flex w-full flex-row items-center justify-center border-x border-primary px-4">
+            <div className={cn('flex grow border-b border-primary py-4')}>
+              <div className="flex w-[8.125rem] flex-row items-center justify-center border-x border-primary px-4">
                 {['活動', '團體'].map((item) => (
                   <button
                     type="button"
@@ -242,6 +241,11 @@ const AdvancedSearchBar = ({ filteredParams }: AdvancedSearchBarProps) => {
                   </button>
                 ))}
               </div>
+              <DateFieldMenu
+                isDateMenuOpen={isDateMenuOpen}
+                setIsDateMenuOpen={setIsDateMenuOpen}
+                dates={[]}
+              />
             </div>
           </div>
         </section>
