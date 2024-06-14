@@ -35,7 +35,7 @@ export async function login(
 
       return {
         status: 'failed',
-        message: `${errorMessage ?? 'Login failed'} (${response.status})`,
+        message: `${errorMessage ?? '登入失敗，請稍後重新再試。'} (${response.status})`,
       };
     }
 
@@ -44,7 +44,7 @@ export async function login(
 
     return {
       status: 'success',
-      message: 'Successfully logged in',
+      message: '登入成功，歡迎回到 chillka！',
     };
   } catch (error) {
     return {
@@ -69,15 +69,16 @@ export async function register(
 
     if (!response.ok) {
       const errorMessage = await response.text();
+
       return {
         status: 'failed',
-        message: `${errorMessage ?? 'Register failed'} (${response.status})`,
+        message: `${errorMessage ?? '註冊失敗，請稍後重新再試。'} (${response.status})`,
       };
     }
 
     return {
       status: 'success',
-      message: 'success register',
+      message: '註冊成功，歡迎加入 chillka！',
     };
   } catch (error) {
     return {
@@ -125,7 +126,7 @@ export async function forgotPassword(
 
       return {
         status: 'failed',
-        message: `${errorMessage ?? '發送重設密碼信件失敗，請重新再試。'} (${response.status})`,
+        message: `${errorMessage ?? '發送重設密碼信件失敗，請稍後重新再試。'} (${response.status})`,
       };
     }
 
@@ -163,7 +164,7 @@ export async function resetPassword(
 
       return {
         status: 'failed',
-        message: `${errorMessage ?? '重設密碼失敗，請重新再試。'} (${response.status})`,
+        message: `${errorMessage ?? '重設密碼失敗，請稍後重新再試。'} (${response.status})`,
       };
     }
 
