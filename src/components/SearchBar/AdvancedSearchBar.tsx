@@ -20,6 +20,7 @@ import { useForm, useWatch } from 'react-hook-form';
 import ActivityField from './fields/ActivityField';
 import CategoryFieldMenu from './fields/CategoryFieldMenu';
 import DateFieldMenu from './fields/DateFieldMenu';
+import DistanceFieldMenu from './fields/DistanceFieldMenu';
 import EventTypeFieldMenu from './fields/EventTypeFieldMenu';
 import LocationFieldMenu from './fields/LocationFieldMenu';
 
@@ -45,6 +46,7 @@ const AdvancedSearchBar = ({ filteredParams }: AdvancedSearchBarProps) => {
   const [isLocationMenuOpen, setIsLocationMenuOpen] = useState(false);
   const [isDateMenuOpen, setIsDateMenuOpen] = useState(false);
   const [isEventTypeMenuOpen, setIsEventTypeMenuOpen] = useState(false);
+  const [isDistanceMenuOpen, setIsDistanceMenuOpen] = useState(false);
 
   const router = useRouter();
   const form = useForm<SearchParams>({
@@ -252,6 +254,11 @@ const AdvancedSearchBar = ({ filteredParams }: AdvancedSearchBarProps) => {
                 isEventTypeMenuOpen={isEventTypeMenuOpen}
                 setIsEventTypeMenuOpen={setIsEventTypeMenuOpen}
                 events={[]}
+              />
+              <DistanceFieldMenu
+                isDistanceMenuOpen={isDistanceMenuOpen}
+                setIsDistanceMenuOpen={setIsDistanceMenuOpen}
+                distances={[]}
               />
             </div>
           </div>
