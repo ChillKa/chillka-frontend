@@ -34,6 +34,10 @@ const createQueryString = (data: {
   keyword: string;
   location: string;
   category: string;
+  date: string;
+  type: string;
+  distance: string;
+  sort: string;
 }) => {
   const params = new URLSearchParams();
   Object.entries(data).forEach(([key, value]) => {
@@ -64,17 +68,36 @@ const AdvancedSearchBar = ({ filteredParams }: AdvancedSearchBarProps) => {
     control: form.control,
     name: 'location',
   });
-
   const category = useWatch({
     control: form.control,
     name: 'category',
   });
+  const type = useWatch({
+    control: form.control,
+    name: 'type',
+  });
+  const distance = useWatch({
+    control: form.control,
+    name: 'distance',
+  });
+  const sort = useWatch({
+    control: form.control,
+    name: 'sort',
+  });
+  const date = useWatch({
+    control: form.control,
+    name: 'date',
+  });
 
-  if (location || category) {
+  if (location || category || type || sort || distance || date) {
     const queryString = createQueryString({
       keyword: form.getValues('keyword'),
       location: location || '',
       category: category || '',
+      type: type || '',
+      distance: distance || '',
+      sort: sort || '',
+      date: date || '',
     });
     router.replace(`/search?${queryString}`);
   }

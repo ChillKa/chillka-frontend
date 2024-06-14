@@ -5,6 +5,7 @@ export interface SearchParams {
   location: string;
   category: string;
   date: string;
+  type: string;
   distance: string;
   sort: string;
   limit: string;
