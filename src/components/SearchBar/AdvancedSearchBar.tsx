@@ -6,6 +6,7 @@ import { Form } from '@components/ui/form';
 import cn from '@lib/utils';
 import { XSquare } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import ActivityField from './fields/ActivityField';
 import CategoryFieldMenu from './fields/CategoryFieldMenu';
@@ -71,18 +72,20 @@ const AdvancedSearchBar = ({ filteredParams }: AdvancedSearchBarProps) => {
     name: 'date',
   });
 
-  if (location || category || type || sort || distance || date) {
-    const queryString = createQueryString({
-      keyword: form.getValues('keyword'),
-      location: location || '',
-      category: category || '',
-      type: type || '',
-      distance: distance || '',
-      sort: sort || '',
-      date: date || '',
-    });
-    router.push(`/search?${queryString}`);
-  }
+  useEffect(() => {
+    if (location || category || type || sort || distance || date) {
+      const queryString = createQueryString({
+        keyword: form.getValues('keyword'),
+        location: location || '',
+        category: category || '',
+        type: type || '',
+        distance: distance || '',
+        sort: sort || '',
+        date: date || '',
+      });
+      router.push(`/search?${queryString}`);
+    }
+  }, [location, category, type, distance, sort, date, form, router]);
 
   const handleSearchSubmit = form.handleSubmit(async (data) => {
     const queryString = createQueryString(data);

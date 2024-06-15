@@ -34,9 +34,9 @@ const LocationFieldMenu = ({
 
   const handleSelect = (category: Category['text']) => {
     setIsMenuOpen(false);
-    setValue('category', category);
+    setValue('location', category);
   };
-  const currentSelect = watch('category');
+  const currentSelect = watch('location');
 
   const handleOpenChange = (e: boolean) => {
     if (onMenuOpen) {
