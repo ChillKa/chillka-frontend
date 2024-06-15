@@ -6,7 +6,6 @@ import { Form } from '@components/ui/form';
 import cn from '@lib/utils';
 import { XSquare } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import ActivityField from './fields/ActivityField';
 import CategoryFieldMenu from './fields/CategoryFieldMenu';
@@ -38,14 +37,6 @@ const createQueryString = (data: {
 };
 
 const AdvancedSearchBar = ({ filteredParams }: AdvancedSearchBarProps) => {
-  const [isSearchBarMenuOpen, setIsSearchBarMenuOpen] = useState(false);
-  const [isCategoryMenuOpen, setIsCategoryMenuOpen] = useState(false);
-  const [isLocationMenuOpen, setIsLocationMenuOpen] = useState(false);
-  const [isDateMenuOpen, setIsDateMenuOpen] = useState(false);
-  const [isEventTypeMenuOpen, setIsEventTypeMenuOpen] = useState(false);
-  const [isDistanceMenuOpen, setIsDistanceMenuOpen] = useState(false);
-  const [isSortMenuOpen, setIsSortMenuOpen] = useState(false);
-
   const router = useRouter();
   const form = useForm<SearchParams>({
     defaultValues: {
@@ -152,21 +143,9 @@ const AdvancedSearchBar = ({ filteredParams }: AdvancedSearchBarProps) => {
                     description: '極光露營體驗',
                   },
                 ]}
-                isSearchBarMenuOpen={isSearchBarMenuOpen}
-                setIsCategoryMenuOpen={setIsCategoryMenuOpen}
-                setIsLocationMenuOpen={setIsLocationMenuOpen}
-                setIsSearchBarMenuOpen={setIsSearchBarMenuOpen}
               />
-              <CategoryFieldMenu
-                isCategoryMenuOpen={isCategoryMenuOpen}
-                setIsCategoryMenuOpen={setIsCategoryMenuOpen}
-                categories={categories}
-              />
-              <LocationFieldMenu
-                isLocationMenuOpen={isLocationMenuOpen}
-                setIsLocationMenuOpen={setIsLocationMenuOpen}
-                locations={locations}
-              />
+              <CategoryFieldMenu categories={categories} />
+              <LocationFieldMenu locations={locations} />
               <Button
                 type="submit"
                 className="flex h-auto self-auto px-20 text-xl font-bold"
@@ -198,27 +177,11 @@ const AdvancedSearchBar = ({ filteredParams }: AdvancedSearchBarProps) => {
                   </button>
                 ))}
               </div>
-              <DateFieldMenu
-                isDateMenuOpen={isDateMenuOpen}
-                setIsDateMenuOpen={setIsDateMenuOpen}
-                dates={[]}
-              />
-              <EventTypeFieldMenu
-                isEventTypeMenuOpen={isEventTypeMenuOpen}
-                setIsEventTypeMenuOpen={setIsEventTypeMenuOpen}
-                events={[]}
-              />
-              <DistanceFieldMenu
-                isDistanceMenuOpen={isDistanceMenuOpen}
-                setIsDistanceMenuOpen={setIsDistanceMenuOpen}
-                distances={[]}
-              />
+              <DateFieldMenu dates={[]} />
+              <EventTypeFieldMenu events={[]} />
+              <DistanceFieldMenu distances={[]} />
               <section className="flex min-w-64 flex-row items-center justify-center gap-2 pl-4">
-                <SortFieldMenu
-                  isSortMenuOpen={isSortMenuOpen}
-                  setIsSortMenuOpen={setIsSortMenuOpen}
-                  sorts={[]}
-                />
+                <SortFieldMenu sorts={[]} />
                 <Button className="rounded-[0.375rem] border bg-surface text-primary">
                   <XSquare />
                   清除條件

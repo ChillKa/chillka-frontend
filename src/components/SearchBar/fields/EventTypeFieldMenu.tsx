@@ -7,7 +7,7 @@ import {
   PopoverTrigger,
 } from '@radix-ui/react-popover';
 import { motion } from 'framer-motion';
-import { Dispatch, SetStateAction } from 'react';
+import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { Category } from './CategoryFieldMenu';
 import MenuItemContainer from './MenuItemContainer';
@@ -19,30 +19,39 @@ export type Event = {
 };
 
 export type EventTypeFieldMenuProps = {
-  isEventTypeMenuOpen: boolean;
-  setIsEventTypeMenuOpen: Dispatch<SetStateAction<boolean>>;
+  menuOpen?: boolean;
+  onMenuOpen?: (isOpen: boolean) => void;
   events: Event[];
 };
 
 const EventTypeFieldMenu = ({
-  isEventTypeMenuOpen,
-  setIsEventTypeMenuOpen,
+  menuOpen = false,
+  onMenuOpen,
   events: dates,
 }: EventTypeFieldMenuProps) => {
   const { setValue, watch } = useFormContext();
+  const [isMenuOpen, setIsMenuOpen] = useState(menuOpen);
 
   const handleSelect = (category: Category['text']) => {
     setValue('events', category);
   };
   const currentSelect = watch('events');
 
+  const handleOpenChange = (e: boolean) => {
+    if (onMenuOpen) {
+      onMenuOpen(e);
+    } else {
+      setIsMenuOpen(e);
+    }
+  };
+
   return (
-    <Popover onOpenChange={(e) => setIsEventTypeMenuOpen(() => e)}>
+    <Popover onOpenChange={handleOpenChange}>
       <PopoverTrigger asChild>
         <div
           className={cn(
             'min-w-64 border-r border-primary pl-4 hover:cursor-pointer',
-            `${!isEventTypeMenuOpen && 'mt-0 '}`
+            `${!isMenuOpen && 'mt-0 '}`
           )}
         >
           <button
@@ -67,7 +76,7 @@ const EventTypeFieldMenu = ({
           className="absolute inset-0 border-x border-t border-primary bg-surface"
           variants={menuAnimationVariants}
           initial="closed"
-          animate={isEventTypeMenuOpen ? 'open' : 'closed'}
+          animate={isMenuOpen ? 'open' : 'closed'}
           custom={{ size: 1000, locationX: 128, locationY: 362 }}
         >
           <MenuItemContainer data={dates} onSelect={handleSelect} />

@@ -87,9 +87,6 @@ const SearchBarDesktop = ({
   categories,
   onSearchSubmit,
 }: SearchBarDesktopProps) => {
-  const [isSearchBarMenuOpen, setIsSearchBarMenuOpen] = useState(false);
-  const [isCategoryMenuOpen, setIsCategoryMenuOpen] = useState(false);
-  const [isLocationMenuOpen, setIsLocationMenuOpen] = useState(false);
   const isSticky = useStickyToFixed('header');
 
   const handleSearchSubmit: FormEventHandler<HTMLFormElement> = (e) => {
@@ -112,21 +109,9 @@ const SearchBarDesktop = ({
           <ActivityField
             activityKeywords={activityKeywords}
             activityPictures={activityPictures}
-            isSearchBarMenuOpen={isSearchBarMenuOpen}
-            setIsCategoryMenuOpen={setIsCategoryMenuOpen}
-            setIsLocationMenuOpen={setIsLocationMenuOpen}
-            setIsSearchBarMenuOpen={setIsSearchBarMenuOpen}
           />
-          <CategoryFieldMenu
-            isCategoryMenuOpen={isCategoryMenuOpen}
-            setIsCategoryMenuOpen={setIsCategoryMenuOpen}
-            categories={categories}
-          />
-          <LocationFieldMenu
-            isLocationMenuOpen={isLocationMenuOpen}
-            setIsLocationMenuOpen={setIsLocationMenuOpen}
-            locations={locations}
-          />
+          <CategoryFieldMenu categories={categories} />
+          <LocationFieldMenu locations={locations} />
           <Button
             type="submit"
             className="flex h-auto self-auto px-20 text-xl font-bold"

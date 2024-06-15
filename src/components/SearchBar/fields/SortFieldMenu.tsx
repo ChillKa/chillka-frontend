@@ -8,7 +8,7 @@ import {
 } from '@radix-ui/react-popover';
 import { motion } from 'framer-motion';
 import { ArrowUpDown } from 'lucide-react';
-import { Dispatch, SetStateAction } from 'react';
+import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { Category } from './CategoryFieldMenu';
 import MenuItemContainer from './MenuItemContainer';
@@ -20,25 +20,34 @@ export type Sorts = {
 };
 
 export type SortFieldMenuProps = {
-  isSortMenuOpen: boolean;
-  setIsSortMenuOpen: Dispatch<SetStateAction<boolean>>;
+  menuOpen?: boolean;
+  onMenuOpen?: (isOpen: boolean) => void;
   sorts: Sorts[];
 };
 
 const SortFieldMenu = ({
-  isSortMenuOpen,
-  setIsSortMenuOpen,
+  menuOpen = false,
+  onMenuOpen,
   sorts,
 }: SortFieldMenuProps) => {
   const { setValue, watch } = useFormContext();
+  const [isMenuOpen, setIsMenuOpen] = useState(menuOpen);
 
   const handleSelect = (category: Category['text']) => {
     setValue('sort', category);
   };
   const currentSelect = watch('sort');
 
+  const handleOpenChange = (e: boolean) => {
+    if (onMenuOpen) {
+      onMenuOpen(e);
+    } else {
+      setIsMenuOpen(e);
+    }
+  };
+
   return (
-    <Popover onOpenChange={(e) => setIsSortMenuOpen(() => e)}>
+    <Popover onOpenChange={handleOpenChange}>
       <PopoverTrigger asChild>
         <Button className="rounded-[0.375rem] border bg-surface text-primary">
           <ArrowUpDown />
@@ -56,7 +65,7 @@ const SortFieldMenu = ({
           className="absolute inset-0 border-x border-t border-primary bg-surface"
           variants={menuAnimationVariants}
           initial="closed"
-          animate={isSortMenuOpen ? 'open' : 'closed'}
+          animate={isMenuOpen ? 'open' : 'closed'}
           custom={{ size: 1000, locationX: 128, locationY: 362 }}
         >
           <MenuItemContainer data={sorts} onSelect={handleSelect} />

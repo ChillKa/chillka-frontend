@@ -12,7 +12,7 @@ import {
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Dispatch, SetStateAction, useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import menuAnimationVariants from './utils';
 
@@ -26,26 +26,28 @@ type ActivityFieldProps = {
     url: string;
     description: string;
   }[];
-  isSearchBarMenuOpen: boolean;
-  setIsCategoryMenuOpen: Dispatch<SetStateAction<boolean>>;
-  setIsLocationMenuOpen: Dispatch<SetStateAction<boolean>>;
-  setIsSearchBarMenuOpen: Dispatch<SetStateAction<boolean>>;
+  menuOpen?: boolean;
+  onMenuOpen?: (isOpen: boolean) => void;
 };
 
 const ActivityField = ({
   activityKeywords,
   activityPictures,
-  isSearchBarMenuOpen,
-  setIsCategoryMenuOpen,
-  setIsLocationMenuOpen,
-  setIsSearchBarMenuOpen,
+  menuOpen = false,
+  onMenuOpen,
 }: ActivityFieldProps) => {
+  const [isMenuOpen, setIsMenuOpen] = useState(menuOpen);
   const searchBarTriggerRef = useRef<HTMLButtonElement | null>(null);
   const searchBarInputRef = useRef<HTMLInputElement | null>(null);
 
   const { control } = useFormContext();
+
+  const handleOpenChange = (open: boolean) => {
+    onMenuOpen?.(open);
+  };
+
   return (
-    <Popover open={isSearchBarMenuOpen}>
+    <Popover open={isMenuOpen} onOpenChange={handleOpenChange}>
       <PopoverTrigger
         ref={searchBarTriggerRef}
         asChild
@@ -58,7 +60,7 @@ const ActivityField = ({
         <div
           className={cn(
             'mt-[1px] grow border-b border-primary py-4 hover:cursor-pointer data-[state=open]:hover:cursor-default',
-            `${!isSearchBarMenuOpen && ' mt-0 border-t'}`
+            `${!isMenuOpen && ' mt-0 border-t'}`
           )}
         >
           <div className="space-y-2 border-x border-primary px-4">
@@ -72,9 +74,7 @@ const ActivityField = ({
                   className="h-fit w-full border-none p-0 text-base placeholder:text-primary focus-visible:ring-0 focus-visible:ring-offset-0"
                   placeholder="搜尋關鍵字"
                   onFocus={() => {
-                    setIsSearchBarMenuOpen(() => true);
-                    setIsCategoryMenuOpen(() => false);
-                    setIsLocationMenuOpen(() => false);
+                    setIsMenuOpen(() => true);
                   }}
                   onInput={() => {
                     // TODO: debouncing method & search method
@@ -94,9 +94,9 @@ const ActivityField = ({
         className="mx-auto min-w-[81rem]"
         onPointerDownOutside={(e) => {
           const open = searchBarTriggerRef.current?.contains(e.target as Node);
-          setIsSearchBarMenuOpen(!!open);
+          setIsMenuOpen(!!open);
         }}
-        onEscapeKeyDown={() => setIsSearchBarMenuOpen(() => false)}
+        onEscapeKeyDown={() => setIsMenuOpen(() => false)}
         // prevent auto focusing for input text
         onOpenAutoFocus={(e) => e.preventDefault()}
         onInteractOutside={(e) => e.preventDefault()}
@@ -105,7 +105,7 @@ const ActivityField = ({
           className="border-x border-t border-primary bg-surface py-12"
           variants={menuAnimationVariants}
           initial="closed"
-          animate={isSearchBarMenuOpen ? 'open' : 'closed'}
+          animate={isMenuOpen ? 'open' : 'closed'}
           custom={{ size: 2500, locationX: 0, locationY: 500 }}
         >
           <p className="ml-4 text-base font-bold">推薦活動</p>

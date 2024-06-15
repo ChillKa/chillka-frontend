@@ -8,7 +8,7 @@ import {
 } from '@radix-ui/react-popover';
 import { motion } from 'framer-motion';
 import { LucideIcon } from 'lucide-react';
-import { Dispatch, SetStateAction } from 'react';
+import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import MenuItemContainer from './MenuItemContainer';
 import menuAnimationVariants from './utils';
@@ -20,30 +20,40 @@ export type Category = {
 };
 
 export type CategoryFieldMenuProps = {
-  isCategoryMenuOpen: boolean;
-  setIsCategoryMenuOpen: Dispatch<SetStateAction<boolean>>;
+  menuOpen?: boolean;
+  onMenuOpen?: (isOpen: boolean) => void;
   categories: Category[];
 };
 
 const CategoryFieldMenu = ({
-  isCategoryMenuOpen,
-  setIsCategoryMenuOpen,
+  menuOpen = false,
+  onMenuOpen,
   categories,
 }: CategoryFieldMenuProps) => {
   const { setValue, watch } = useFormContext();
+  const [isMenuOpen, setIsMenuOpen] = useState(menuOpen);
 
   const handleSelect = (category: Category['text']) => {
+    setIsMenuOpen(false);
     setValue('location', category);
   };
   const currentSelect = watch('location');
 
+  const handleOpenChange = (e: boolean) => {
+    if (onMenuOpen) {
+      onMenuOpen(e);
+    } else {
+      setIsMenuOpen(e);
+    }
+  };
+
   return (
-    <Popover onOpenChange={(e) => setIsCategoryMenuOpen(() => e)}>
+    <Popover onOpenChange={handleOpenChange}>
       <PopoverTrigger asChild>
         <div
           className={cn(
             'mt-[1px] min-w-64 border-b border-primary py-4 pl-4  hover:cursor-pointer',
-            `${!isCategoryMenuOpen && ' mt-0 border-t'}`
+            `${!isMenuOpen && ' mt-0 border-t'}`
           )}
         >
           <button
@@ -68,7 +78,7 @@ const CategoryFieldMenu = ({
           className="absolute inset-0 border-x border-t border-primary bg-surface"
           variants={menuAnimationVariants}
           initial="closed"
-          animate={isCategoryMenuOpen ? 'open' : 'closed'}
+          animate={isMenuOpen ? 'open' : 'closed'}
           custom={{ size: 1000, locationX: 128, locationY: 362 }}
         >
           <MenuItemContainer data={categories} onSelect={handleSelect} />
