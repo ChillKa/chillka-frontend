@@ -20,12 +20,14 @@ export type Category = {
 };
 
 export type CategoryFieldMenuProps = {
+  side?: 'top' | 'bottom';
   menuOpen?: boolean;
   onMenuOpen?: (isOpen: boolean) => void;
   categories: Category[];
 };
 
 const CategoryFieldMenu = ({
+  side = 'top',
   menuOpen = false,
   onMenuOpen,
   categories,
@@ -50,32 +52,37 @@ const CategoryFieldMenu = ({
   return (
     <Popover onOpenChange={handleOpenChange}>
       <PopoverTrigger asChild>
-        <div
+        <button
           className={cn(
-            'mt-[1px] min-w-64 border-b border-primary py-4 pl-4  hover:cursor-pointer',
-            `${!isMenuOpen && ' mt-0 border-t'}`
+            'mt-0 min-w-64 border-y border-primary py-4 pl-4 hover:cursor-pointer',
+            {
+              'mb-[1px] border-b-0': side === 'bottom' && isMenuOpen,
+              'mt-[1px] border-t-0': side === 'top' && isMenuOpen,
+            }
           )}
+          type="button"
         >
-          <button
-            className="block w-full space-y-2 border-r border-primary px-4 text-left"
-            type="button"
-          >
+          <div className="block w-full space-y-2 border-r border-primary px-4 text-left">
             <p className="font-bold">類型</p>
             <p className="text-base text-primary">
               {currentSelect || '選擇活動類型'}
             </p>
-          </button>
-        </div>
+          </div>
+        </button>
       </PopoverTrigger>
       <PopoverContent
         sticky="always"
-        side="top"
+        side={side}
         align="start"
         sideOffset={0}
-        className="h-[22.625rem] w-64"
+        className={cn(
+          'relative h-[22.625rem] w-64 border-y',
+          `${side === 'bottom' && 'border-t-0'}`,
+          `${side === 'top' && 'border-b-0'}`
+        )}
       >
         <motion.div
-          className="absolute inset-0 border-x border-t border-primary bg-surface"
+          className="absolute inset-0 border-x border-primary bg-surface"
           variants={menuAnimationVariants}
           initial="closed"
           animate={isMenuOpen ? 'open' : 'closed'}

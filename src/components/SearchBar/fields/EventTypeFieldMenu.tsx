@@ -19,12 +19,14 @@ export type Event = {
 };
 
 export type EventTypeFieldMenuProps = {
+  side?: 'top' | 'bottom';
   menuOpen?: boolean;
   onMenuOpen?: (isOpen: boolean) => void;
   events: Event[];
 };
 
 const EventTypeFieldMenu = ({
+  side = 'top',
   menuOpen = false,
   onMenuOpen,
   events: dates,
@@ -48,32 +50,37 @@ const EventTypeFieldMenu = ({
   return (
     <Popover onOpenChange={handleOpenChange}>
       <PopoverTrigger asChild>
-        <div
+        <button
           className={cn(
             'min-w-64 border-r border-primary pl-4 hover:cursor-pointer',
-            `${!isMenuOpen && 'mt-0 '}`
+            {
+              'mb-[1px] border-b-0': side === 'bottom' && isMenuOpen,
+              'mt-[1px] border-t-0': side === 'top' && isMenuOpen,
+            }
           )}
+          type="button"
         >
-          <button
-            className="block w-full space-y-2 border-primary px-4 text-left"
-            type="button"
-          >
+          <div className="block w-full space-y-2 border-primary px-4 text-left">
             <p className="font-bold">形式</p>
             <p className="text-base text-primary">
               {currentSelect || '任何形式'}
             </p>
-          </button>
-        </div>
+          </div>
+        </button>
       </PopoverTrigger>
       <PopoverContent
         sticky="always"
-        side="top"
+        side={side}
         align="start"
         sideOffset={0}
-        className="relative h-[22.625rem] w-64"
+        className={cn(
+          'relative h-[22.625rem] w-64',
+          `${side === 'bottom' && 'border-b border-t-0'}`,
+          `${side === 'top' && 'border-b-0 border-t'}`
+        )}
       >
         <motion.div
-          className="absolute inset-0 border-x border-t border-primary bg-surface"
+          className="absolute inset-0 border-x border-primary bg-surface"
           variants={menuAnimationVariants}
           initial="closed"
           animate={isMenuOpen ? 'open' : 'closed'}

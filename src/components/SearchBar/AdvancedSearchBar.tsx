@@ -104,6 +104,7 @@ const AdvancedSearchBar = ({ filteredParams }: AdvancedSearchBarProps) => {
           >
             <div className="flex grow">
               <ActivityField
+                side="bottom"
                 activityKeywords={[
                   {
                     url: 'https://www.google.com',
@@ -147,8 +148,8 @@ const AdvancedSearchBar = ({ filteredParams }: AdvancedSearchBarProps) => {
                   },
                 ]}
               />
-              <CategoryFieldMenu categories={categories} />
-              <LocationFieldMenu locations={locations} />
+              <CategoryFieldMenu categories={categories} side="bottom" />
+              <LocationFieldMenu locations={locations} side="bottom" />
               <Button
                 type="submit"
                 className="flex h-auto self-auto px-20 text-xl font-bold"
@@ -180,9 +181,9 @@ const AdvancedSearchBar = ({ filteredParams }: AdvancedSearchBarProps) => {
                   </button>
                 ))}
               </div>
-              <DateFieldMenu dates={[]} />
-              <EventTypeFieldMenu events={[]} />
-              <DistanceFieldMenu distances={[]} />
+              <DateFieldMenu dates={[]} side="bottom" />
+              <EventTypeFieldMenu events={[]} side="bottom" />
+              <DistanceFieldMenu distances={[]} side="bottom" />
               <section className="flex min-w-64 flex-row items-center justify-center gap-2 pl-4">
                 <SortFieldMenu sorts={[]} />
                 <Button className="rounded-[0.375rem] border bg-surface text-primary">

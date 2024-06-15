@@ -17,6 +17,7 @@ import { useFormContext } from 'react-hook-form';
 import menuAnimationVariants from './utils';
 
 type ActivityFieldProps = {
+  side?: 'top' | 'bottom';
   activityKeywords: {
     url: string;
     keyword: string;
@@ -31,6 +32,7 @@ type ActivityFieldProps = {
 };
 
 const ActivityField = ({
+  side = 'top',
   activityKeywords,
   activityPictures,
   menuOpen = false,
@@ -59,8 +61,11 @@ const ActivityField = ({
       >
         <div
           className={cn(
-            'mt-[1px] grow border-b border-primary py-4 hover:cursor-pointer data-[state=open]:hover:cursor-default',
-            `${!isMenuOpen && ' mt-0 border-t'}`
+            'mt-0 grow border-y border-primary py-4 hover:cursor-pointer data-[state=open]:hover:cursor-default',
+            {
+              'mb-[1px] border-b-0': side === 'bottom' && isMenuOpen,
+              'mt-[1px] border-t-0': side === 'top' && isMenuOpen,
+            }
           )}
         >
           <div className="space-y-2 border-x border-primary px-4">
@@ -88,10 +93,14 @@ const ActivityField = ({
       </PopoverTrigger>
       <PopoverContent
         sticky="always"
-        side="top"
+        side={side}
         align="start"
         sideOffset={0}
-        className="mx-auto min-w-[81rem]"
+        className={cn(
+          'mx-auto min-w-[81rem]',
+          `${side === 'bottom' && 'border-b border-t-0'}`,
+          `${side === 'top' && 'border-b-0 border-t'}`
+        )}
         onPointerDownOutside={(e) => {
           const open = searchBarTriggerRef.current?.contains(e.target as Node);
           setIsMenuOpen(!!open);
@@ -102,7 +111,7 @@ const ActivityField = ({
         onInteractOutside={(e) => e.preventDefault()}
       >
         <motion.div
-          className="border-x border-t border-primary bg-surface py-12"
+          className="border-x border-primary bg-surface py-12"
           variants={menuAnimationVariants}
           initial="closed"
           animate={isMenuOpen ? 'open' : 'closed'}
