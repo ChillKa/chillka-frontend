@@ -58,11 +58,10 @@ const SortFieldMenu = ({
         sticky="always"
         side="top"
         align="start"
-        sideOffset={0}
         className="relative h-[22.625rem] w-64"
       >
         <motion.div
-          className="absolute inset-0 border-x border-t border-primary bg-surface"
+          className="absolute inset-0 border-[1px] border-primary bg-surface"
           variants={menuAnimationVariants}
           initial="closed"
           animate={isMenuOpen ? 'open' : 'closed'}
