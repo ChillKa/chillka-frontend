@@ -195,11 +195,106 @@ const AdvancedSearchBar = ({ filteredParams }: AdvancedSearchBarProps) => {
                   ))}
                 </div>
               </div>
-              <DateFieldMenu dates={[]} side="bottom" />
-              <EventTypeFieldMenu events={[]} side="bottom" />
-              <DistanceFieldMenu distances={[]} side="bottom" />
+              <DateFieldMenu
+                dates={[
+                  {
+                    url: '/',
+                    text: '即將開始',
+                  },
+                  {
+                    url: '/',
+                    text: '今天',
+                  },
+                  {
+                    url: '/',
+                    text: '明天',
+                  },
+                  {
+                    url: '/',
+                    text: '本周',
+                  },
+                  {
+                    url: '/',
+                    text: '下周',
+                  },
+                  {
+                    url: '/',
+                    text: '本周末',
+                  },
+                  {
+                    url: '/',
+                    text: '下一周',
+                  },
+                  {
+                    url: '/',
+                    text: '今天',
+                  },
+                  {
+                    url: '/',
+                    text: '自訂日期',
+                  },
+                ]}
+                side="bottom"
+              />
+              <EventTypeFieldMenu
+                events={[
+                  {
+                    url: '/',
+                    text: '線上聚會',
+                  },
+                  {
+                    url: '/',
+                    text: '實體聚會/室內',
+                  },
+                  {
+                    url: '/',
+                    text: '實體聚會/室外',
+                  },
+                ]}
+                side="bottom"
+              />
+              <DistanceFieldMenu
+                distances={[
+                  {
+                    url: '/',
+                    text: '2公里',
+                  },
+                  {
+                    url: '/',
+                    text: '5公里',
+                  },
+                  {
+                    url: '/',
+                    text: '10公里',
+                  },
+                  {
+                    url: '/',
+                    text: '25公里',
+                  },
+                  {
+                    url: '/',
+                    text: '50公里',
+                  },
+                  {
+                    url: '/',
+                    text: '100公里',
+                  },
+                ]}
+                side="bottom"
+              />
               <section className="flex min-w-64 flex-row items-center justify-center gap-2 pl-4">
-                <SortFieldMenu sorts={[]} />
+                <SortFieldMenu
+                  sorts={[
+                    {
+                      url: '/',
+                      text: '日期',
+                    },
+                    {
+                      url: '/',
+                      text: '相關性',
+                    },
+                  ]}
+                />
                 <Button className="rounded-[0.375rem] border bg-surface text-primary">
                   <XSquare />
                   清除條件
