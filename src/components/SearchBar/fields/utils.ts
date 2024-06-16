@@ -115,4 +115,20 @@ export const menuMobileAnimationVariants = {
   }),
 };
 
+export const createQueryString = (data: {
+  keyword: string;
+  location: string;
+  category: string;
+  date: string;
+  type: string;
+  distance: string;
+  sort: string;
+}) => {
+  const params = new URLSearchParams();
+  Object.entries(data).forEach(([key, value]) => {
+    params.set(key, value);
+  });
+  return params.toString();
+};
+
 export default menuAnimationVariants;
