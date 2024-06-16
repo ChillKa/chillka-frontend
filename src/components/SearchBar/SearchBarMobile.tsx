@@ -22,7 +22,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { FormEventHandler, useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { Category } from './fields/CategoryFieldMenu';
 import MenuItemContainer from './fields/MenuItemContainer';
 
 type SearchBarMobileProps = {
@@ -89,12 +88,12 @@ const SearchBarMobile = ({
     onSearchSubmit?.(e);
   };
 
-  const handleCategorySelect = (category: Category['text']) => {
-    setValue('category', category);
+  const handleCategorySelect = (selected: string | number) => {
+    setValue('category', selected);
     setIsCategoryMenuOpen(false);
   };
-  const handleLocationSelect = (category: Category['text']) => {
-    setValue('location', category);
+  const handleLocationSelect = (selected: string | number) => {
+    setValue('location', selected);
     setIsLocationMenuOpen(false);
   };
 
