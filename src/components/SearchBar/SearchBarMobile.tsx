@@ -200,7 +200,7 @@ const SearchBarMobile = ({
             }}
           >
             <MenuItemContainer
-              data={locations}
+              items={locations}
               onSelect={handleLocationSelect}
             />
           </motion.div>
@@ -217,7 +217,7 @@ const SearchBarMobile = ({
             }}
           >
             <MenuItemContainer
-              data={categories}
+              items={categories}
               onSelect={handleCategorySelect}
             />
           </motion.div>

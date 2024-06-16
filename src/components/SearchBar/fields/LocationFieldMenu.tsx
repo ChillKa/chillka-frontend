@@ -7,9 +7,8 @@ import {
   PopoverTrigger,
 } from '@radix-ui/react-popover';
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { Category } from './CategoryFieldMenu';
 import MenuItemContainer from './MenuItemContainer';
 import menuAnimationVariants from './utils';
 
@@ -34,9 +33,9 @@ const LocationFieldMenu = ({
   const { setValue, watch } = useFormContext();
   const [isMenuOpen, setIsMenuOpen] = useState(menuOpen);
 
-  const handleSelect = (category: Category['text']) => {
+  const handleSelect = (selected: ReactNode) => {
     setIsMenuOpen(false);
-    setValue('location', category);
+    setValue('location', selected);
   };
   const currentSelect = watch('location');
 
@@ -87,7 +86,7 @@ const LocationFieldMenu = ({
           animate={isMenuOpen ? 'open' : 'closed'}
           custom={{ size: 1000, locationX: 128, locationY: 362 }}
         >
-          <MenuItemContainer data={locations} onSelect={handleSelect} />
+          <MenuItemContainer items={locations} onSelect={handleSelect} />
         </motion.div>
       </PopoverContent>
     </Popover>

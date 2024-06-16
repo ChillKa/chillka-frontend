@@ -7,9 +7,8 @@ import {
   PopoverTrigger,
 } from '@radix-ui/react-popover';
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { Category } from './CategoryFieldMenu';
 import MenuItemContainer from './MenuItemContainer';
 import menuAnimationVariants from './utils';
 
@@ -34,8 +33,9 @@ const DistanceFieldMenu = ({
   const { setValue, watch } = useFormContext();
   const [isMenuOpen, setIsMenuOpen] = useState(menuOpen);
 
-  const handleSelect = (category: Category['text']) => {
-    setValue('distance', category);
+  const handleSelect = (selected: ReactNode) => {
+    setIsMenuOpen(false);
+    setValue('distance', selected);
   };
   const currentSelect = watch('distance');
 
@@ -83,7 +83,7 @@ const DistanceFieldMenu = ({
           animate={isMenuOpen ? 'open' : 'closed'}
           custom={{ size: 1000, locationX: 128, locationY: 362 }}
         >
-          <MenuItemContainer data={distances} onSelect={handleSelect} />
+          <MenuItemContainer items={distances} onSelect={handleSelect} />
         </motion.div>
       </PopoverContent>
     </Popover>

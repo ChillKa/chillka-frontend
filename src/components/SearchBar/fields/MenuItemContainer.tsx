@@ -1,6 +1,8 @@
+import { Lead } from '@components/ui/typography';
 import { motion } from 'framer-motion';
 import { LucideIcon } from 'lucide-react';
-import MenuItem from './MenuItem';
+import { ReactNode, createElement } from 'react';
+import MenuItem, { MenuItemProps } from './MenuItem';
 
 // this is setting up animation for items on client stage.
 const variants = {
@@ -14,23 +16,40 @@ const variants = {
 
 type MenuItemDataType = {
   icon?: LucideIcon;
+  startElement?: ReactNode;
+  endElement?: ReactNode;
   url: string;
   text: string;
 };
 
 type MenuItemContainerProps = {
-  data: MenuItemDataType[];
-  onSelect: (item: MenuItemDataType['text']) => void;
+  items: MenuItemDataType[];
+  onSelect: MenuItemProps['onSelect'];
 };
 
-const MenuItemContainer = ({ data, onSelect }: MenuItemContainerProps) => {
+const MenuItemContainer = ({ items, onSelect }: MenuItemContainerProps) => {
   return (
     <motion.ul
       variants={variants}
       className="no-scrollbar h-[calc(100%-4.5rem)] space-y-4 overflow-auto px-4 py-6 xl:h-full xl:py-4"
     >
-      {data.map((item) => (
-        <MenuItem data={item} key={item.text} onSelect={onSelect} />
+      {items.map((item) => (
+        <MenuItem
+          key={item.text}
+          value={item.text}
+          startElement={item.startElement}
+          item={
+            <>
+              <Lead className="text-primary">{item.text}</Lead>
+              {item.icon &&
+                createElement(item.icon, {
+                  className: 'size-6 stroke-primary',
+                })}
+            </>
+          }
+          endElement={item.endElement}
+          onSelect={onSelect}
+        />
       ))}
     </motion.ul>
   );

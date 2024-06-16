@@ -8,7 +8,7 @@ import {
 } from '@radix-ui/react-popover';
 import { motion } from 'framer-motion';
 import { LucideIcon } from 'lucide-react';
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import MenuItemContainer from './MenuItemContainer';
 import menuAnimationVariants from './utils';
@@ -35,9 +35,9 @@ const CategoryFieldMenu = ({
   const { setValue, watch } = useFormContext();
   const [isMenuOpen, setIsMenuOpen] = useState(menuOpen);
 
-  const handleSelect = (category: Category['text']) => {
+  const handleSelect = (slected: ReactNode) => {
     setIsMenuOpen(false);
-    setValue('category', category);
+    setValue('category', slected);
   };
   const currentSelect = watch('category');
 
@@ -88,7 +88,7 @@ const CategoryFieldMenu = ({
           animate={isMenuOpen ? 'open' : 'closed'}
           custom={{ size: 1000, locationX: 128, locationY: 362 }}
         >
-          <MenuItemContainer data={categories} onSelect={handleSelect} />
+          <MenuItemContainer items={categories} onSelect={handleSelect} />
         </motion.div>
       </PopoverContent>
     </Popover>
