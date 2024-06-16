@@ -5,7 +5,7 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@radix-ui/react-popover';
+} from '@components/ui/popover';
 import { motion } from 'framer-motion';
 import { ArrowUpDown } from 'lucide-react';
 import { useState } from 'react';
@@ -55,13 +55,11 @@ const SortFieldMenu = ({
         </Button>
       </PopoverTrigger>
       <PopoverContent
-        sticky="always"
-        side="top"
         align="start"
-        className="relative h-[22.625rem] w-64"
+        className="relative h-[22.625rem] w-64 rounded"
       >
         <motion.div
-          className="absolute inset-0 border-[1px] border-primary bg-surface"
+          className="absolute inset-0 rounded bg-surface"
           variants={menuAnimationVariants}
           initial="closed"
           animate={isMenuOpen ? 'open' : 'closed'}
