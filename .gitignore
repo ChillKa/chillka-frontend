@@ -36,5 +36,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# for tiptap por extensions
+# for tiptap pro extensions
 .npmrc
