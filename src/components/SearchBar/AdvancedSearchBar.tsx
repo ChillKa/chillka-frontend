@@ -161,25 +161,39 @@ const AdvancedSearchBar = ({ filteredParams }: AdvancedSearchBarProps) => {
           <div
             className={cn('h-[5.5rem]  space-y-6 bg-surface pb-6 text-primary')}
           >
-            <div className={cn('flex grow border-b border-primary py-4')}>
-              <div className="flex w-[8.125rem] flex-row items-center justify-center border-x border-primary px-4">
-                {['活動', '團體'].map((item) => (
-                  <button
-                    type="button"
-                    disabled={item === '團體'}
-                    key={item}
-                    className="h-full w-full space-y-2 border-primary "
-                  >
-                    <p
-                      className={cn(
-                        'font-bold',
-                        item === '團體' ? 'text-muted-foreground' : ''
-                      )}
+            <div className={cn('flex grow border-b border-primary')}>
+              <div className="flex w-[8.125rem] flex-row items-center justify-center">
+                <div className="flex h-full w-full justify-between gap-2 border-primary py-4">
+                  {[
+                    {
+                      key: 1,
+                      name: '活動',
+                    },
+                    {
+                      key: 2,
+                      name: '團體',
+                    },
+                  ].map((item) => (
+                    <button
+                      type="button"
+                      disabled={item.name === '團體'}
+                      key={item.key}
+                      className={cn('h-full w-full space-y-2 border-primary', {
+                        'border-l pl-2': item.key === 1,
+                        'border-r pr-2': item.key === 2,
+                      })}
                     >
-                      {item}
-                    </p>
-                  </button>
-                ))}
+                      <p
+                        className={cn(
+                          'font-bold',
+                          item.name === '團體' ? 'text-muted-foreground' : ''
+                        )}
+                      >
+                        {item.name}
+                      </p>
+                    </button>
+                  ))}
+                </div>
               </div>
               <DateFieldMenu dates={[]} side="bottom" />
               <EventTypeFieldMenu events={[]} side="bottom" />

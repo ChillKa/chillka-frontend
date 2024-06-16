@@ -51,16 +51,13 @@ const DistanceFieldMenu = ({
     <Popover onOpenChange={handleOpenChange}>
       <PopoverTrigger asChild>
         <button
-          className={cn(
-            'min-w-64 border-r border-primary pl-4 hover:cursor-pointer',
-            {
-              'mb-[1px] border-b-0': side === 'bottom' && isMenuOpen,
-              'mt-[1px] border-t-0': side === 'top' && isMenuOpen,
-            }
-          )}
+          className={cn('min-w-64  pl-4 hover:cursor-pointer', {
+            'mb-[1px] border-b-0': side === 'bottom' && isMenuOpen,
+            'mt-[1px] border-t-0': side === 'top' && isMenuOpen,
+          })}
           type="button"
         >
-          <div className="block w-full space-y-2 border-primary px-4 text-left">
+          <div className="block w-full space-y-2 border-r border-primary px-4 text-left">
             <p className="font-bold">距離</p>
             <p className="text-base text-primary">
               {currentSelect || '任何距離'}
