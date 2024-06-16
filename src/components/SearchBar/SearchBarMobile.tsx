@@ -10,19 +10,15 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@components/ui/dialog';
-import { FormField } from '@components/ui/form';
-import { Input } from '@components/ui/input';
 import { Popover, PopoverTrigger } from '@components/ui/popover';
-import { H2, Small } from '@components/ui/typography';
+import { H2 } from '@components/ui/typography';
 import useDimensions from '@hooks/use-dimensions';
 import cn from '@lib/utils';
-import { motion } from 'framer-motion';
 import { HashIcon, LucideIcon, MapIcon, SearchIcon, XIcon } from 'lucide-react';
-import Image from 'next/image';
-import Link from 'next/link';
 import { FormEventHandler, useRef, useState } from 'react';
-import { useFormContext } from 'react-hook-form';
-import MenuItemContainer from './fields/MenuItemContainer';
+import ActivityMobileField from './fields/ActivityMobileField';
+import CategoryMobileFieldMenu from './fields/CategoryMobileFieldMenu';
+import LocationMobileFieldMenu from './fields/LocationMobileFieldMenu';
 
 type SearchBarMobileProps = {
   className: string;
@@ -48,26 +44,6 @@ type SearchBarMobileProps = {
   onSearchSubmit: FormEventHandler<HTMLFormElement> | null;
 };
 
-const menuAnimationVariants = {
-  open: ({ size = 3000, locationX = 0, locationY = 800 }) => ({
-    clipPath: `circle(${size >= 0 ? 1000 : size}px at ${locationX}px ${locationY >= 0 ? 800 : locationY}px)`,
-    transition: {
-      type: 'spring',
-      stiffness: 30,
-      restDelta: 2,
-    },
-  }),
-  closed: ({ locationX = 0, locationY = 800 }) => ({
-    clipPath: `circle(0px at ${locationX}px ${locationY >= 0 ? 800 : locationY}px)`,
-    transition: {
-      delay: 0.5,
-      type: 'spring',
-      stiffness: 400,
-      damping: 40,
-    },
-  }),
-};
-
 const SearchBarMobile = ({
   className,
   activityPictures,
@@ -82,19 +58,8 @@ const SearchBarMobile = ({
   const containerRef = useRef(null);
   const { height, width } = useDimensions(containerRef);
 
-  const { setValue, control } = useFormContext();
-
   const handleSearchSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     onSearchSubmit?.(e);
-  };
-
-  const handleCategorySelect = (selected: string | number) => {
-    setValue('category', selected);
-    setIsCategoryMenuOpen(false);
-  };
-  const handleLocationSelect = (selected: string | number) => {
-    setValue('location', selected);
-    setIsLocationMenuOpen(false);
   };
 
   return (
@@ -130,96 +95,28 @@ const SearchBarMobile = ({
               </div>
             </DialogTitle>
           </DialogHeader>
-          <div className="flex flex-col justify-between text-primary">
-            <div className="mx-3 mt-10 flex border-0 border-b border-primary pb-4 pt-2">
-              <FormField
-                control={control}
-                name="keyword"
-                render={({ field }) => (
-                  <Input
-                    type="text"
-                    placeholder="搜尋活動關鍵字"
-                    className="h-fit w-full border-none p-0 text-base placeholder:text-primary/50 focus-visible:ring-0 focus-visible:ring-offset-0"
-                    {...field}
-                  />
-                )}
-              />
-              <button
-                className="px-3"
-                type="submit"
-                aria-label="Search activities button"
-              >
-                <SearchIcon className="size-6" />
-              </button>
-            </div>
-            <div className="mt-4">
-              <p className="ml-3 text-base font-bold">推薦活動</p>
-              <div className="no-scrollbar mt-6 flex gap-4 overflow-x-auto overflow-y-hidden px-3">
-                {activityPictures.map((item) => (
-                  <div className="min-w-fit space-y-2" key={item.description}>
-                    {/* TODO: link to search page */}
-                    <Image
-                      src={item.thumbnail}
-                      alt={item.description}
-                      width={200}
-                      height={100}
-                      className="h-[6.25rem] w-[12.5rem] object-cover"
-                    />
-                    <Small>{item.description}</Small>
-                  </div>
-                ))}
-              </div>
-              <div className="mt-10 px-3">
-                <p className="text-base font-bold">熱門關鍵字</p>
-                <div className="mt-6 flex flex-wrap gap-2 overflow-x-auto overflow-y-hidden">
-                  {/* TODO: link to search page */}
-                  {activityKeywords.map((item) => (
-                    <Link
-                      href={item.url}
-                      className="w-fit rounded-2xl border px-4 py-2 font-medium"
-                      key={item.keyword}
-                    >
-                      {item.keyword}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
+          <ActivityMobileField
+            activityKeywords={activityKeywords}
+            activityPictures={activityPictures}
+          />
           {/* locations menu animation */}
-          <motion.div
-            className="absolute bottom-0 left-0 right-0 top-20 border-t border-primary bg-surface"
-            variants={menuAnimationVariants}
-            initial="closed"
-            animate={isLocationMenuOpen ? 'open' : 'closed'}
-            custom={{
-              size: height * 2,
-              locationX: width / 4,
-              locationY: height,
-            }}
-          >
-            <MenuItemContainer
-              items={locations}
-              onSelect={handleLocationSelect}
-            />
-          </motion.div>
+          <LocationMobileFieldMenu
+            locations={locations}
+            height={height}
+            width={width}
+            menuOpen={isLocationMenuOpen}
+            onSelected={(isOpen) => setIsLocationMenuOpen(isOpen)}
+          />
+
           {/* categories menu animation */}
-          <motion.div
-            initial="closed"
-            animate={isCategoryMenuOpen ? 'open' : 'closed'}
-            className="absolute bottom-0 left-0 right-0 top-20 border-t border-primary bg-surface"
-            variants={menuAnimationVariants}
-            custom={{
-              size: height * 2,
-              locationX: (width * 3) / 4,
-              locationY: height,
-            }}
-          >
-            <MenuItemContainer
-              items={categories}
-              onSelect={handleCategorySelect}
-            />
-          </motion.div>
+          <CategoryMobileFieldMenu
+            categories={categories}
+            height={height}
+            width={width}
+            menuOpen={isCategoryMenuOpen}
+            onSelected={(isOpen) => setIsCategoryMenuOpen(isOpen)}
+          />
+
           <DialogFooter className="absolute bottom-0 left-0 right-0 flex flex-row gap-[1px] font-medium">
             <Popover open={isLocationMenuOpen}>
               <PopoverTrigger asChild>

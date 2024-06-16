@@ -95,4 +95,24 @@ const menuAnimationVariants = {
   }),
 };
 
+export const menuMobileAnimationVariants = {
+  open: ({ size = 3000, locationX = 0, locationY = 800 }) => ({
+    clipPath: `circle(${size >= 0 ? 1000 : size}px at ${locationX}px ${locationY >= 0 ? 800 : locationY}px)`,
+    transition: {
+      type: 'spring',
+      stiffness: 30,
+      restDelta: 2,
+    },
+  }),
+  closed: ({ locationX = 0, locationY = 800 }) => ({
+    clipPath: `circle(0px at ${locationX}px ${locationY >= 0 ? 800 : locationY}px)`,
+    transition: {
+      delay: 0.5,
+      type: 'spring',
+      stiffness: 400,
+      damping: 40,
+    },
+  }),
+};
+
 export default menuAnimationVariants;
