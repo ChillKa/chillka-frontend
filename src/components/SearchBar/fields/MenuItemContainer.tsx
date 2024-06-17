@@ -18,7 +18,7 @@ type MenuItemDataType = {
   icon?: LucideIcon;
   startElement?: ReactNode;
   endElement?: ReactNode;
-  url: string;
+  url?: string;
   text: string;
 };
 
