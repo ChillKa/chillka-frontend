@@ -1,5 +1,6 @@
 import { SearchParams, getActivitiesByFilter } from '@action/activity';
 import AdvancedSearchBar from '@components/SearchBar/AdvancedSearchBar';
+import SearchContentSection from '@components/SearchContentSection';
 import { Suspense } from 'react';
 
 const getSearchFilter = (params: SearchPageProps['searchParams']) => {
@@ -32,7 +33,7 @@ const ActivitiesList = async ({ filteredParams }: ActivitiesListProps) => {
   return (
     <>
       {result.map((activity) => (
-        <div key={activity.id} className="debug w-[600px]">
+        <div key={activity.id} className="debug w-full">
           <h1>{activity.name}</h1>
           <p>
             {activity.startDate}-{activity.endDate}
@@ -51,20 +52,16 @@ const SearchPage = ({ searchParams }: SearchPageProps) => {
   const filteredParams = getSearchFilter(searchParams);
 
   return (
-    <section className="flex flex-col gap-2">
+    <section className="mx-auto flex max-w-[81rem] flex-col gap-2">
       <AdvancedSearchBar filteredParams={filteredParams} />
 
-      <section id="result" className="flex flex-row gap-2">
-        <div className="flex w-[70%] flex-col gap-2">
-          <Suspense fallback={<div>Loading...</div>}>
+      <SearchContentSection
+        results={
+          <Suspense fallback={<div className="w-full">Loading...</div>}>
             <ActivitiesList filteredParams={filteredParams} />
           </Suspense>
-        </div>
-        <div>
-          {/* TODO: get by result */}
-          result map section
-        </div>
-      </section>
+        }
+      />
     </section>
   );
 };
