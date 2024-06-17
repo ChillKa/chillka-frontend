@@ -13,13 +13,13 @@ import { ToggleGroup, ToggleGroupItem } from '@components/ui/toggle-group';
 import { H2, H4 } from '@components/ui/typography';
 import cn from '@lib/utils';
 import { XIcon } from 'lucide-react';
-import AdvancedActivityMobileField from './fields/AdvancedActivityMobileField';
-import AdvancedCategoryMobileField from './fields/AdvancedCategoryMobileField';
-import AdvancedDateMobileField from './fields/AdvancedDateMobileField';
-import AdvancedDistanceMobileField from './fields/AdvancedDistanceMobileField';
-import AdvancedEventTypeMobileField from './fields/AdvancedEventTypeMobileField';
-import AdvancedLocationMobileField from './fields/AdvancedLocationMobileField';
-import AdvancedSortMobileField from './fields/AdvancedSortMobileField';
+import { AdvancedActivityMobileField } from './fields/ActivityField';
+import { AdvancedCategoryMobileField } from './fields/CategoryFieldMenu';
+import { AdvancedDateMobileField } from './fields/DateFieldMenu';
+import { AdvancedDistanceMobileField } from './fields/DistanceFieldMenu';
+import { AdvancedEventTypeMobileField } from './fields/EventTypeFieldMenu';
+import { AdvancedLocationMobileField } from './fields/LocationFieldMenu';
+import { AdvancedSortMobileField } from './fields/SortFieldMenu';
 
 const AdvancedSearchBarMobile = () => {
   return (

@@ -1,5 +1,11 @@
 'use client';
 
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@components/ui/accordion';
 import cn from '@lib/utils';
 import {
   Popover,
@@ -9,12 +15,13 @@ import {
 import { motion } from 'framer-motion';
 import { ReactNode, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
-import MenuItemContainer from './MenuItemContainer';
-import menuAnimationVariants from './utils';
+import MenuItemContainer, { MenuItemContainerProps } from './MenuItemContainer';
+import menuAnimationVariants, { menuMobileAnimationVariants } from './utils';
 
 export type Location = {
-  url: string;
+  url?: string;
   text: string;
+  endElement?: ReactNode;
 };
 
 export type LocationFieldMenuProps = {
@@ -92,4 +99,82 @@ const LocationFieldMenu = ({
     </Popover>
   );
 };
+
+export type LocationMobileFieldMenuProps = {
+  locations: {
+    url: string;
+    text: string;
+  }[];
+  height: number;
+  menuOpen?: boolean;
+  onSelected?: (isOpen: boolean) => void;
+  width: number;
+};
+
+export const LocationMobileFieldMenu = ({
+  locations,
+  height,
+  menuOpen = false,
+  onSelected,
+  width,
+}: LocationMobileFieldMenuProps) => {
+  const { setValue } = useFormContext();
+
+  const handleSelect = (selected: ReactNode) => {
+    setValue('location', selected);
+    onSelected?.(false);
+  };
+
+  return (
+    <motion.div
+      className="absolute bottom-0 left-0 right-0 top-20 border-t border-primary bg-surface"
+      variants={menuMobileAnimationVariants}
+      initial="closed"
+      animate={menuOpen ? 'open' : 'closed'}
+      custom={{
+        size: height * 2,
+        locationX: width / 4,
+        locationY: height,
+      }}
+    >
+      <MenuItemContainer items={locations} onSelect={handleSelect} />
+    </motion.div>
+  );
+};
+
+export type AdvancedLocationMobileFieldProps = {
+  locations: Location[];
+  onSelect?: (value: string | number) => void;
+};
+
+export const AdvancedLocationMobileField = ({
+  locations,
+  onSelect,
+}: AdvancedLocationMobileFieldProps) => {
+  const { setValue } = useFormContext();
+
+  const handleSelect: MenuItemContainerProps['onSelect'] = (selected) => {
+    setValue('location', selected);
+    onSelect?.(selected);
+  };
+
+  return (
+    <Accordion type="single" collapsible>
+      <AccordionItem value="item-1">
+        <AccordionTrigger
+          className={cn(
+            ' bg-surface px-3 py-6',
+            'min-w-[21.9375rem] border-0 text-xl font-bold '
+          )}
+        >
+          地區
+        </AccordionTrigger>
+        <AccordionContent className="">
+          <MenuItemContainer items={locations} onSelect={handleSelect} />
+        </AccordionContent>
+      </AccordionItem>
+    </Accordion>
+  );
+};
+
 export default LocationFieldMenu;

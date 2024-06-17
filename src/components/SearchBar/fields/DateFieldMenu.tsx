@@ -1,5 +1,11 @@
 'use client';
 
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@components/ui/accordion';
 import cn from '@lib/utils';
 import {
   Popover,
@@ -9,12 +15,13 @@ import {
 import { motion } from 'framer-motion';
 import { ReactNode, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
-import MenuItemContainer from './MenuItemContainer';
+import MenuItemContainer, { MenuItemContainerProps } from './MenuItemContainer';
 import menuAnimationVariants from './utils';
 
 export type Date = {
-  url: string;
+  url?: string;
   text: string;
+  endElement?: ReactNode;
 };
 
 export type DateFieldMenuProps = {
@@ -89,4 +96,40 @@ const DateFieldMenu = ({
     </Popover>
   );
 };
+
+export type AdvancedDateMobileFieldProps = {
+  dates: Date[];
+  onSelect?: (value: string | number) => void;
+};
+
+export const AdvancedDateMobileField = ({
+  dates,
+  onSelect,
+}: AdvancedDateMobileFieldProps) => {
+  const { setValue } = useFormContext();
+
+  const handleSelect: MenuItemContainerProps['onSelect'] = (selected) => {
+    setValue('date', selected);
+    onSelect?.(selected);
+  };
+
+  return (
+    <Accordion type="single" collapsible>
+      <AccordionItem value="item-1">
+        <AccordionTrigger
+          className={cn(
+            ' bg-surface px-3 py-6',
+            'min-w-[21.9375rem] border-0 text-xl font-bold '
+          )}
+        >
+          日期
+        </AccordionTrigger>
+        <AccordionContent className="">
+          <MenuItemContainer items={dates} onSelect={handleSelect} />
+        </AccordionContent>
+      </AccordionItem>
+    </Accordion>
+  );
+};
+
 export default DateFieldMenu;

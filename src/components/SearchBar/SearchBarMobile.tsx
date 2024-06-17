@@ -16,9 +16,9 @@ import useDimensions from '@hooks/use-dimensions';
 import cn from '@lib/utils';
 import { HashIcon, LucideIcon, MapIcon, SearchIcon, XIcon } from 'lucide-react';
 import { FormEventHandler, useRef, useState } from 'react';
-import ActivityMobileField from './fields/ActivityMobileField';
-import CategoryMobileFieldMenu from './fields/CategoryMobileFieldMenu';
-import LocationMobileFieldMenu from './fields/LocationMobileFieldMenu';
+import { ActivityMobileField } from './fields/ActivityField';
+import { CategoryMobileFieldMenu } from './fields/CategoryFieldMenu';
+import { LocationMobileFieldMenu } from './fields/LocationFieldMenu';
 
 type SearchBarMobileProps = {
   className: string;

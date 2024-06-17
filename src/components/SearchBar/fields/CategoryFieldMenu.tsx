@@ -1,5 +1,11 @@
 'use client';
 
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@components/ui/accordion';
 import cn from '@lib/utils';
 import {
   Popover,
@@ -10,12 +16,12 @@ import { motion } from 'framer-motion';
 import { LucideIcon } from 'lucide-react';
 import { ReactNode, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
-import MenuItemContainer from './MenuItemContainer';
-import menuAnimationVariants from './utils';
+import MenuItemContainer, { MenuItemContainerProps } from './MenuItemContainer';
+import menuAnimationVariants, { menuMobileAnimationVariants } from './utils';
 
 export type Category = {
-  icon: LucideIcon;
-  url: string;
+  icon?: LucideIcon;
+  endElement?: ReactNode;
   text: string;
 };
 
@@ -94,4 +100,79 @@ const CategoryFieldMenu = ({
     </Popover>
   );
 };
+
+export type CategoryMobileFieldMenuProps = {
+  categories: Category[];
+  height: number;
+  menuOpen?: boolean;
+  onSelected?: (isOpen: boolean) => void;
+  width: number;
+};
+
+export const CategoryMobileFieldMenu = ({
+  categories,
+  height,
+  menuOpen = false,
+  onSelected,
+  width,
+}: CategoryMobileFieldMenuProps) => {
+  const { setValue } = useFormContext();
+
+  const handleSelect = (selected: ReactNode) => {
+    setValue('category', selected);
+    onSelected?.(false);
+  };
+
+  return (
+    <motion.div
+      initial="closed"
+      animate={menuOpen ? 'open' : 'closed'}
+      className="absolute bottom-0 left-0 right-0 top-20 border-t border-primary bg-surface"
+      variants={menuMobileAnimationVariants}
+      custom={{
+        size: height * 2,
+        locationX: (width * 3) / 4,
+        locationY: height,
+      }}
+    >
+      <MenuItemContainer items={categories} onSelect={handleSelect} />
+    </motion.div>
+  );
+};
+
+export type AdvancedCategoryMobileFieldProps = {
+  categories: Category[];
+  onSelect?: (value: string | number) => void;
+};
+
+export const AdvancedCategoryMobileField = ({
+  categories,
+  onSelect,
+}: AdvancedCategoryMobileFieldProps) => {
+  const { setValue } = useFormContext();
+
+  const handleSelect: MenuItemContainerProps['onSelect'] = (selected) => {
+    setValue('category', selected);
+    onSelect?.(selected);
+  };
+
+  return (
+    <Accordion type="single" collapsible>
+      <AccordionItem value="item-1">
+        <AccordionTrigger
+          className={cn(
+            ' bg-surface px-3 py-6',
+            'min-w-[21.9375rem] border-0 text-xl font-bold '
+          )}
+        >
+          類型
+        </AccordionTrigger>
+        <AccordionContent className="">
+          <MenuItemContainer items={categories} onSelect={handleSelect} />
+        </AccordionContent>
+      </AccordionItem>
+    </Accordion>
+  );
+};
+
 export default CategoryFieldMenu;
