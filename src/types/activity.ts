@@ -1,0 +1,1 @@
+export type CoverType = string[];
