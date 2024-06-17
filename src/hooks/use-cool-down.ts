@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 /**
  * A custom hook that manages a cooldown timer. The cooldown state is saved in localStorage,
@@ -16,12 +16,29 @@ import { useEffect, useState } from 'react';
  */
 
 const useCooldown = (storageKey: string, initialCooldown: number = 0) => {
-  const [cooldownSeconds, setCooldownSeconds] = useState(() => {
-    const savedCooldown = localStorage.getItem(storageKey);
-    return savedCooldown ? parseInt(savedCooldown, 10) : initialCooldown;
-  });
+  const isBrowser = typeof window !== 'undefined';
+
+  const getInitialCooldown = useCallback(() => {
+    if (isBrowser) {
+      const savedCooldown = localStorage.getItem(storageKey);
+      return savedCooldown ? parseInt(savedCooldown, 10) : initialCooldown;
+    }
+    return initialCooldown;
+  }, [isBrowser, storageKey, initialCooldown]);
+
+  const [cooldownSeconds, setCooldownSeconds] = useState(0);
+  const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
+    if (isBrowser) {
+      const savedCooldown = getInitialCooldown();
+      setCooldownSeconds(savedCooldown);
+      setInitialized(true);
+    }
+  }, [isBrowser, getInitialCooldown]);
+
+  useEffect(() => {
+    if (!isBrowser || !initialized || cooldownSeconds <= 0) return;
     if (cooldownSeconds > 0) {
       const timer = setInterval(() => {
         setCooldownSeconds((prevCooldownSeconds) => {
@@ -34,7 +51,7 @@ const useCooldown = (storageKey: string, initialCooldown: number = 0) => {
     }
     localStorage.removeItem(storageKey);
     return () => {};
-  }, [cooldownSeconds, storageKey]);
+  }, [cooldownSeconds, storageKey, isBrowser, initialized]);
 
   const startCooldown = (seconds: number) => {
     setCooldownSeconds(seconds);
