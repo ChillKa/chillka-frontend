@@ -33,16 +33,21 @@ const CoverSection = ({ className, covers }: CoverSectionProps) => {
         <CarouselContent className="relative m-0 w-full">
           {covers.map((cover) => {
             return (
-              <CarouselItem key={cover} className="w-full p-0">
+              <CarouselItem
+                key={cover}
+                className="h-[23.4375rem] w-full p-0 xl:h-[50rem]"
+              >
                 <Image
                   src={cover}
                   width={200}
                   height={160}
                   sizes="100vw"
                   loading="eager"
-                  className="h-[23.4375rem] w-full xl:h-[50rem]"
+                  className="h-full w-full"
                   alt={cover}
-                  objectFit="cover"
+                  style={{
+                    objectFit: 'cover',
+                  }}
                 />
               </CarouselItem>
             );
