@@ -6,6 +6,7 @@ import {
 } from '@components/ui/accordion';
 import cn from '@lib/utils';
 import { ReactNode } from 'react';
+import { useFormContext } from 'react-hook-form';
 import MenuItemContainer, { MenuItemContainerProps } from './MenuItemContainer';
 
 export type Distance = {
@@ -22,8 +23,11 @@ const AdvancedDistanceMobileField = ({
   distances,
   onSelect,
 }: AdvancedDistanceMobileFieldProps) => {
-  const handleSelect: MenuItemContainerProps['onSelect'] = (value) => {
-    onSelect?.(value);
+  const { setValue } = useFormContext();
+
+  const handleSelect: MenuItemContainerProps['onSelect'] = (selected) => {
+    setValue('distance', selected);
+    onSelect?.(selected);
   };
 
   return (

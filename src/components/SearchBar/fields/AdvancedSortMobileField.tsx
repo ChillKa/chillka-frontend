@@ -1,18 +1,26 @@
 import { ToggleGroup, ToggleGroupItem } from '@components/ui/toggle-group';
 import { H4 } from '@components/ui/typography';
 import cn from '@lib/utils';
+import { useFormContext } from 'react-hook-form';
 
 const AdvancedSortMobileField = () => {
+  const { setValue } = useFormContext();
+
+  const handleChange = (value: string) => {
+    setValue('sort', value);
+  };
+
   return (
     <div id="sort" className="flex flex-col items-start gap-4 px-3 py-6">
       <H4>排序</H4>
       <ToggleGroup
-        defaultValue="relative"
+        defaultValue=""
+        onValueChange={handleChange}
         type="single"
         className="flex w-full gap-0"
       >
         <ToggleGroupItem
-          value="relative"
+          value="相關性"
           aria-label="Toggle relevance"
           asChild
           className={cn(
@@ -26,7 +34,7 @@ const AdvancedSortMobileField = () => {
         </ToggleGroupItem>
         <div className="absolute left-1/2 z-10 h-12 -translate-x-1/2 transform border-l border-primary" />
         <ToggleGroupItem
-          value="date"
+          value="日期"
           aria-label="Toggle underline"
           asChild
           className={cn(

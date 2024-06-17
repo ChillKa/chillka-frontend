@@ -6,6 +6,7 @@ import {
 } from '@components/ui/accordion';
 import cn from '@lib/utils';
 import { ReactNode } from 'react';
+import { useFormContext } from 'react-hook-form';
 import MenuItemContainer, { MenuItemContainerProps } from './MenuItemContainer';
 
 export type Category = {
@@ -22,8 +23,11 @@ const AdvancedCategoryMobileField = ({
   categories,
   onSelect,
 }: AdvancedCategoryMobileFieldProps) => {
-  const handleSelect: MenuItemContainerProps['onSelect'] = (value) => {
-    onSelect?.(value);
+  const { setValue } = useFormContext();
+
+  const handleSelect: MenuItemContainerProps['onSelect'] = (selected) => {
+    setValue('category', selected);
+    onSelect?.(selected);
   };
 
   return (

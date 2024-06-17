@@ -6,6 +6,7 @@ import {
 } from '@components/ui/accordion';
 import cn from '@lib/utils';
 import { ReactNode } from 'react';
+import { useFormContext } from 'react-hook-form';
 import MenuItemContainer, { MenuItemContainerProps } from './MenuItemContainer';
 
 export type EventType = {
@@ -22,9 +23,13 @@ const AdvancedEventTypeMobileField = ({
   events,
   onSelect,
 }: AdvancedEventTypeMobileFieldProps) => {
-  const handleSelect: MenuItemContainerProps['onSelect'] = (value) => {
-    onSelect?.(value);
+  const { setValue } = useFormContext();
+
+  const handleSelect: MenuItemContainerProps['onSelect'] = (selected) => {
+    setValue('type', selected);
+    onSelect?.(selected);
   };
+
   return (
     <Accordion type="single" collapsible>
       <AccordionItem value="item-1">

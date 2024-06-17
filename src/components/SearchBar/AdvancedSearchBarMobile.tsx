@@ -145,10 +145,6 @@ const AdvancedSearchBarMobile = () => {
                 endElement: <Checkbox />,
               },
               {
-                text: '今天',
-                endElement: <Checkbox />,
-              },
-              {
                 text: '自訂日期',
                 endElement: <Checkbox />,
               },
