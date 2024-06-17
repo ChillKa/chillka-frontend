@@ -22,7 +22,7 @@ type MenuItemDataType = {
   text: string;
 };
 
-type MenuItemContainerProps = {
+export type MenuItemContainerProps = {
   items: MenuItemDataType[];
   onSelect: MenuItemProps['onSelect'];
 };
