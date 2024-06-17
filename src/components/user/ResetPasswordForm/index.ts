@@ -1,3 +1,3 @@
-import ResetPasswordForm from './ResetPasswordForm';
+import ResetPasswordFormWrapper from './ResetPasswordFormWrapper';
 
-export default ResetPasswordForm;
+export default ResetPasswordFormWrapper;
