@@ -35,9 +35,9 @@ const EventTypeFieldMenu = ({
 
   const handleSelect = (selected: ReactNode) => {
     setIsMenuOpen(false);
-    setValue('events', selected);
+    setValue('type', selected);
   };
-  const currentSelect = watch('events');
+  const currentSelect = watch('type');
 
   const handleOpenChange = (e: boolean) => {
     if (onMenuOpen) {

@@ -126,7 +126,9 @@ export const createQueryString = (data: {
 }) => {
   const params = new URLSearchParams();
   Object.entries(data).forEach(([key, value]) => {
-    params.set(key, value);
+    if (value) {
+      params.set(key, value);
+    }
   });
   return params.toString();
 };
