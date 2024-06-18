@@ -37,6 +37,7 @@ export type ActivityType = {
   noEndDate: boolean;
   isPrivate: boolean;
   displayRemainingTickets: boolean;
+  participantNumber: number;
   status: string;
   createdAt: string;
   updatedAt: string;

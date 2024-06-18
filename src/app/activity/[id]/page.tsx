@@ -1,9 +1,14 @@
+import ActivitySection from '@components/AcitivyPage/ActivitySection';
 import CoverSection from '@components/AcitivyPage/CoverSection';
+import MapSection from '@components/AcitivyPage/MapSection';
+import OrganizerSection from '@components/AcitivyPage/OrganizerSection';
+import QuestionsSetcion from '@components/AcitivyPage/QuestionsSetcion';
+import TicketSection from '@components/AcitivyPage/TicketSection';
 
 const DUMMY_DATA = {
   activity: {
     organizer: {
-      profilePicture: 'https://loremflickr.com/640/480?lock=7694210111111168',
+      profilePicture: 'https://picsum.photos/id/237/500/500',
       name: 'Mr. Alan Jerde',
       contactName: 'Leona Spencer',
       contactPhone: '244.960.8178 x08518',
@@ -15,6 +20,7 @@ const DUMMY_DATA = {
       updatedAt: '2024-06-03T01:22:48.209Z',
     },
     name: 'Miss Kelly Dare',
+    participantNumber: 0,
     cover: [
       'https://picsum.photos/id/13/1920/1920',
       'https://picsum.photos/id/19/1920/1920',
@@ -126,9 +132,22 @@ function page() {
   return (
     <>
       <CoverSection className="" covers={DUMMY_DATA.activity.cover} />
-      <div className="mx-auto mt-6 flex justify-between xl:mt-12 xl:max-w-[81rem]">
-        <div className="border">我是活動內容</div>
-        <div className="border">456</div>
+      <div className="mx-auto mb-24 mt-6 xl:mb-[3.5625rem] xl:mt-12 xl:flex xl:max-w-[81rem] xl:justify-between xl:space-x-[7.75rem]">
+        <div className="border">
+          <ActivitySection />
+          <OrganizerSection />
+          <MapSection />
+          <QuestionsSetcion />
+        </div>
+
+        <TicketSection
+          className=""
+          organizer={DUMMY_DATA.activity.organizer.name}
+          profilePicture={DUMMY_DATA.activity.organizer.profilePicture}
+          name={DUMMY_DATA.activity.name}
+          type={DUMMY_DATA.activity.type}
+          participantNumber={DUMMY_DATA.activity.participantNumber}
+        />
       </div>
     </>
   );
