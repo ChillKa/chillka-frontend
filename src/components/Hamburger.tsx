@@ -36,14 +36,14 @@ const Hamburger = ({ isOpen, isLoggedin, className = '' }: HamburgerProps) => {
         <svg width="24" height="24" viewBox="0 0 24 24">
           <Path
             variants={{
-              closed: { d: 'M 3 6 L 21 6' },
-              open: { d: 'M 3 18 L 21 6' },
+              closed: { d: 'M 4 6 L 20 6' },
+              open: { d: 'M 6 18 L 18 6' },
             }}
             initial={false}
             animate={isOpen ? 'open' : 'closed'}
           />
           <Path
-            d="M 3 12 L 21 12"
+            d="M 4 12 L 20 12"
             variants={{
               closed: { opacity: 1 },
               open: { opacity: 0 },
@@ -54,8 +54,8 @@ const Hamburger = ({ isOpen, isLoggedin, className = '' }: HamburgerProps) => {
           />
           <Path
             variants={{
-              closed: { d: 'M 3 18 L 21 18' },
-              open: { d: 'M 3 6 L 21 18' },
+              closed: { d: 'M 4 18 L 20 18' },
+              open: { d: 'M 6 6 L 18 18' },
             }}
             initial={false}
             animate={isOpen ? 'open' : 'closed'}

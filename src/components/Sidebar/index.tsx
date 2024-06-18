@@ -99,7 +99,7 @@ const Sidebar = ({ isLoggedin, onSignOut }: SidebarProps) => {
                   {userList.map((user: List) => (
                     <motion.li
                       variants={menuAnimation}
-                      whileHover={{ scale: 1.1 }}
+                      whileHover={{ scale: 1.025 }}
                       whileTap={{ scale: 0.95 }}
                       key={user.name}
                     >
@@ -115,7 +115,7 @@ const Sidebar = ({ isLoggedin, onSignOut }: SidebarProps) => {
                   {phoneList.map((mobile: List) => (
                     <motion.li
                       variants={menuAnimation}
-                      whileHover={{ scale: 1.1 }}
+                      whileHover={{ scale: 1.025 }}
                       whileTap={{ scale: 0.95 }}
                       key={mobile.name}
                     >
@@ -134,7 +134,7 @@ const Sidebar = ({ isLoggedin, onSignOut }: SidebarProps) => {
                   {registerAndLoginList.map((list: List) => (
                     <motion.li
                       variants={menuAnimation}
-                      whileHover={{ scale: 1.1 }}
+                      whileHover={{ scale: 1.025 }}
                       whileTap={{ scale: 0.95 }}
                       key={list.name}
                     >
@@ -149,17 +149,13 @@ const Sidebar = ({ isLoggedin, onSignOut }: SidebarProps) => {
                   ))}
                 </>
               )}
-              <motion.div
-                variants={menuAnimation}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-              >
+              <motion.div variants={menuAnimation}>
                 <Separator className="mb-4 h-[0.0625rem] bg-primary" />
               </motion.div>
               {SITEMAP.map((map: List) => (
                 <motion.li
                   variants={menuAnimation}
-                  whileHover={{ scale: 1.1 }}
+                  whileHover={{ scale: 1.025 }}
                   whileTap={{ scale: 0.95 }}
                   key={map.name}
                 >
@@ -173,17 +169,13 @@ const Sidebar = ({ isLoggedin, onSignOut }: SidebarProps) => {
               ))}
               {isLoggedin && (
                 <>
-                  <motion.div
-                    variants={menuAnimation}
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
+                  <motion.div variants={menuAnimation}>
                     <Separator className="mb-4 h-[0.0625rem] bg-primary" />
                   </motion.div>
                   <Link href="/">
                     <motion.li
                       variants={menuAnimation}
-                      whileHover={{ scale: 1.1 }}
+                      whileHover={{ scale: 1.025 }}
                       whileTap={{ scale: 0.95 }}
                     >
                       <button

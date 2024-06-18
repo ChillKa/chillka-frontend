@@ -82,7 +82,7 @@ const HamburgerBotton = ({ isLoggedin, onSignOut }: HamburgerProps) => {
                 {userList.map((user: List) => (
                   <motion.li
                     variants={menuAnimation}
-                    whileHover={{ scale: 1.1 }}
+                    whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     key={user.name}
                   >
@@ -102,7 +102,7 @@ const HamburgerBotton = ({ isLoggedin, onSignOut }: HamburgerProps) => {
                 {registerAndLoginList.map((list: List) => (
                   <motion.li
                     variants={menuAnimation}
-                    whileHover={{ scale: 1.1 }}
+                    whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     key={list.name}
                   >
@@ -117,17 +117,13 @@ const HamburgerBotton = ({ isLoggedin, onSignOut }: HamburgerProps) => {
                 ))}
               </>
             )}
-            <motion.li
-              variants={menuAnimation}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-            >
+            <motion.li variants={menuAnimation}>
               <Separator className="mb-4 h-[0.0625rem] bg-primary" />
             </motion.li>
             {SITEMAP.map((map: List) => (
               <motion.li
                 variants={menuAnimation}
-                whileHover={{ scale: 1.1 }}
+                whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 key={map.name}
               >
@@ -143,14 +139,14 @@ const HamburgerBotton = ({ isLoggedin, onSignOut }: HamburgerProps) => {
               <>
                 <motion.li
                   variants={menuAnimation}
-                  whileHover={{ scale: 1.1 }}
+                  whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
                   <Separator className="h-[0.0625rem] bg-primary" />
                 </motion.li>
                 <motion.li
                   variants={menuAnimation}
-                  whileHover={{ scale: 1.1 }}
+                  whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
                   <Link href="/">
