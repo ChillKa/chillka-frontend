@@ -40,10 +40,27 @@ const Path = (props: SVGMotionProps<SVGPathElement>) => (
   />
 );
 
+const menuAnimation = {
+  open: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      y: { stiffness: 1000, velocity: -100 },
+    },
+  },
+  closed: {
+    y: 50,
+    opacity: 0,
+    transition: {
+      y: { stiffness: 1000 },
+    },
+  },
+};
+
 const Sidebar = ({ isLoggedin, onSignOut }: SidebarProps) => {
   const [isOpen, toggleOpen] = useCycle(false, true);
 
-  const handlePopoverClick = (event: React.MouseEvent) => {
+  const handleDialogClick = (event: React.MouseEvent) => {
     const isLinkClick = (event.target as HTMLElement).closest('a');
     if (isLinkClick) toggleOpen();
   };
@@ -104,7 +121,7 @@ const Sidebar = ({ isLoggedin, onSignOut }: SidebarProps) => {
         <DialogContent
           hideCloseButton
           className="block h-svh w-svw"
-          onClickCapture={handlePopoverClick}
+          onClickCapture={handleDialogClick}
         >
           <DialogClose asChild>
             <button
@@ -114,59 +131,108 @@ const Sidebar = ({ isLoggedin, onSignOut }: SidebarProps) => {
             />
           </DialogClose>
           <div className="no-scrollbar mt-[7rem] h-[calc(100svh-7rem)] overflow-scroll">
-            {isLoggedin ? (
-              <>
-                {userList.map((user: List) => (
-                  <Link
-                    className="mb-4 flex justify-between px-[1.5rem] py-[0.375rem] text-xl font-bold hover:bg-primary/[0.03]"
-                    key={user.name}
-                    href={user.url}
-                  >
-                    <p>{user.name}</p>
-                    {user.icon && user.icon}
-                  </Link>
-                ))}
-              </>
-            ) : (
-              <>
-                {registerAndLoginList.map((list: List) => (
-                  <Link
-                    className="mb-4 flex justify-between px-[1.5rem] py-[0.375rem] text-xl font-bold hover:bg-primary/[0.03]"
-                    key={list.name}
-                    href={list.url}
-                  >
-                    <p>{list.name}</p>
-                    {list.icon && list.icon}
-                  </Link>
-                ))}
-              </>
-            )}
-            <Separator className="mb-4 h-[0.0625rem] bg-primary" />
-            {SITEMAP.map((map: List) => (
-              <Link
-                className="mb-4 flex justify-between px-[1.5rem] py-[0.5rem] text-base/7 hover:bg-primary/[0.03]"
-                key={map.name}
-                href={map.url}
+            <motion.ul
+              initial="closed"
+              animate={isOpen ? 'open' : 'closed'}
+              variants={{
+                open: {
+                  transition: { staggerChildren: 0.07, delayChildren: 0.2 },
+                },
+                closed: {
+                  transition: { staggerChildren: 0.05, staggerDirection: -1 },
+                },
+              }}
+            >
+              {isLoggedin ? (
+                <>
+                  {userList.map((user: List) => (
+                    <motion.li
+                      variants={menuAnimation}
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.95 }}
+                      key={user.name}
+                    >
+                      <Link
+                        className="mb-4 flex justify-between px-[1.5rem] py-[0.375rem] text-xl font-bold hover:bg-primary/[0.03]"
+                        href={user.url}
+                      >
+                        <p>{user.name}</p>
+                        {user.icon && user.icon}
+                      </Link>
+                    </motion.li>
+                  ))}
+                </>
+              ) : (
+                <>
+                  {registerAndLoginList.map((list: List) => (
+                    <motion.li
+                      variants={menuAnimation}
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.95 }}
+                      key={list.name}
+                    >
+                      <Link
+                        className="mb-4 flex justify-between px-[1.5rem] py-[0.375rem] text-xl font-bold hover:bg-primary/[0.03]"
+                        href={list.url}
+                      >
+                        <p>{list.name}</p>
+                        {list.icon && list.icon}
+                      </Link>
+                    </motion.li>
+                  ))}
+                </>
+              )}
+              <motion.div
+                variants={menuAnimation}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
               >
-                <div>{map.name}</div>
-              </Link>
-            ))}
-            {isLoggedin && (
-              <>
-                <Separator className="h-[0.0625rem] bg-primary" />
-                <Link href="/">
-                  <button
-                    type="button"
-                    className="block h-[4.75rem] w-full px-8 py-0 text-start text-base hover:bg-primary/[0.03]"
-                    onClick={() => {
-                      onSignOut?.();
-                    }}
+                <Separator className="mb-4 h-[0.0625rem] bg-primary" />
+              </motion.div>
+              {SITEMAP.map((map: List) => (
+                <motion.li
+                  variants={menuAnimation}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                  key={map.name}
+                >
+                  <Link
+                    className="mb-4 flex justify-between px-[1.5rem] py-[0.5rem] text-base/7 hover:bg-primary/[0.03]"
+                    href={map.url}
                   >
-                    登出
-                  </button>
-                </Link>
-              </>
-            )}
+                    <div>{map.name}</div>
+                  </Link>
+                </motion.li>
+              ))}
+              {isLoggedin && (
+                <>
+                  <motion.div
+                    variants={menuAnimation}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <Separator className="mb-4 h-[0.0625rem] bg-primary" />
+                  </motion.div>
+                  <Link href="/">
+                    <motion.li
+                      variants={menuAnimation}
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <button
+                        type="button"
+                        className="block h-[4.75rem] w-full px-8 py-0 text-start text-base hover:bg-primary/[0.03]"
+                        onClick={() => {
+                          onSignOut?.();
+                        }}
+                      >
+                        登出
+                      </button>
+                    </motion.li>
+                  </Link>
+                </>
+              )}
+            </motion.ul>
           </div>
         </DialogContent>
       </motion.nav>
