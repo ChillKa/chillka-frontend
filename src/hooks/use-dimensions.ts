@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef } from 'react';
+import { useCallback, useLayoutEffect, useRef } from 'react';
 
 type Dimensions = {
   width: number;
@@ -14,12 +14,12 @@ type Dimensions = {
 const useDimensions = (ref: React.RefObject<HTMLElement>) => {
   const dimensions = useRef<Dimensions>({ width: 0, height: 0 });
 
-  const measure = () => {
+  const measure = useCallback(() => {
     if (ref.current) {
       dimensions.current.width = ref.current.offsetWidth;
       dimensions.current.height = ref.current.offsetHeight;
     }
-  };
+  }, [ref]);
 
   useLayoutEffect(() => {
     measure(); // Measure initially
@@ -28,7 +28,7 @@ const useDimensions = (ref: React.RefObject<HTMLElement>) => {
     return () => {
       window.removeEventListener('resize', measure);
     };
-  }, [ref.current]);
+  }, [measure]);
 
   return dimensions.current;
 };
