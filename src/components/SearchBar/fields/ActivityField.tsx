@@ -23,12 +23,12 @@ import { useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import menuAnimationVariants from './utils';
 
-type ActivityKeyword = {
+export type ActivityKeyword = {
   url: string;
   keyword: string;
 };
 
-type ActivityPicture = {
+export type ActivityPicture = {
   thumbnail: string;
   url: string;
   description: string;

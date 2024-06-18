@@ -202,7 +202,7 @@ const AdvancedSearchBarMobile = () => {
             <ToggleGroup
               defaultValue="relative"
               type="single"
-              className="flex w-full gap-0"
+              className="relative flex w-full gap-0"
             >
               <ToggleGroupItem
                 value="relative"
@@ -217,7 +217,7 @@ const AdvancedSearchBarMobile = () => {
               >
                 <button type="button">活動</button>
               </ToggleGroupItem>
-              <div className="absolute left-1/2 z-10 h-12 -translate-x-1/2 transform border-l border-primary" />
+              <div className="absolute left-1/2 h-12 -translate-x-1/2 border-[1px] border-solid border-primary" />
               <ToggleGroupItem
                 value="date"
                 aria-label="Toggle underline"

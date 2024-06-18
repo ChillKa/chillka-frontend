@@ -4,21 +4,17 @@ import { Button } from '@components/ui/button';
 import { H3 } from '@components/ui/typography';
 import cn from '@lib/utils';
 import { FormEventHandler, useEffect, useState } from 'react';
-import ActivityField from './fields/ActivityField';
+import ActivityField, {
+  ActivityKeyword,
+  ActivityPicture,
+} from './fields/ActivityField';
 import CategoryFieldMenu, { Category } from './fields/CategoryFieldMenu';
 import LocationFieldMenu, { Location } from './fields/LocationFieldMenu';
 
 type SearchBarDesktopProps = {
   className: string;
-  activityPictures: Array<{
-    thumbnail: string;
-    url: string;
-    description: string;
-  }>;
-  activityKeywords: Array<{
-    url: string;
-    keyword: string;
-  }>;
+  activityPictures: ActivityPicture[];
+  activityKeywords: ActivityKeyword[];
   locations: Location[];
   categories: Category[];
   onSearchSubmit: FormEventHandler<HTMLFormElement> | null;

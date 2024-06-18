@@ -16,21 +16,18 @@ import useDimensions from '@hooks/use-dimensions';
 import cn from '@lib/utils';
 import { HashIcon, MapIcon, SearchIcon, XIcon } from 'lucide-react';
 import { FormEventHandler, useRef, useState } from 'react';
-import { ActivityMobileField } from './fields/ActivityField';
+import {
+  ActivityKeyword,
+  ActivityMobileField,
+  ActivityPicture,
+} from './fields/ActivityField';
 import { Category, CategoryMobileFieldMenu } from './fields/CategoryFieldMenu';
 import { Location, LocationMobileFieldMenu } from './fields/LocationFieldMenu';
 
 type SearchBarMobileProps = {
   className: string;
-  activityPictures: Array<{
-    thumbnail: string;
-    url: string;
-    description: string;
-  }>;
-  activityKeywords: Array<{
-    url: string;
-    keyword: string;
-  }>;
+  activityPictures: ActivityPicture[];
+  activityKeywords: ActivityKeyword[];
   locations: Location[];
   categories: Category[];
   debugMode: boolean;

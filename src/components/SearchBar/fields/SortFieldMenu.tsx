@@ -89,7 +89,7 @@ export const AdvancedSortMobileField = () => {
         defaultValue=""
         onValueChange={handleChange}
         type="single"
-        className="flex w-full gap-0"
+        className="relative flex w-full gap-0"
       >
         <ToggleGroupItem
           value="相關性"
@@ -104,7 +104,7 @@ export const AdvancedSortMobileField = () => {
         >
           <button type="button">相關性</button>
         </ToggleGroupItem>
-        <div className="absolute left-1/2 z-10 h-12 -translate-x-1/2 transform border-l border-primary" />
+        <div className="absolute left-1/2 h-12 -translate-x-1/2 border-[1px] border-solid border-primary" />
         <ToggleGroupItem
           value="日期"
           aria-label="Toggle underline"
