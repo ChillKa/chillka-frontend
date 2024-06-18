@@ -13,14 +13,12 @@ import {
   PopoverTrigger,
 } from '@radix-ui/react-popover';
 import { motion } from 'framer-motion';
-import { LucideIcon } from 'lucide-react';
 import { ReactNode, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import MenuItemContainer, { MenuItemContainerProps } from './MenuItemContainer';
 import menuAnimationVariants, { menuMobileAnimationVariants } from './utils';
 
 export type Category = {
-  icon?: LucideIcon;
   endElement?: ReactNode;
   text: string;
 };

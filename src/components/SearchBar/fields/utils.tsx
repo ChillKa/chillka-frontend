@@ -29,36 +29,36 @@ export const locations = [
 
 export const categories = [
   {
-    endComponent: TreesIcon,
     text: '戶外踏青',
+    endElement: <TreesIcon className="size-6 stroke-primary" />,
   },
   {
-    endComponent: PartyPopperIcon,
     text: '社交活動',
+    endElement: <PartyPopperIcon className="size-6 stroke-primary" />,
   },
   {
-    endComponent: HeartIcon,
     text: '興趣嗜好',
+    endElement: <HeartIcon className="size-6 stroke-primary" />,
   },
   {
-    endComponent: DumbbellIcon,
     text: '運動健身',
+    endElement: <DumbbellIcon className="size-6 stroke-primary" />,
   },
   {
-    endComponent: HazeIcon,
     text: '健康生活',
+    endElement: <HazeIcon className="size-6 stroke-primary" />,
   },
   {
-    endComponent: BotIcon,
     text: '科技玩物',
+    endElement: <BotIcon className="size-6 stroke-primary" />,
   },
   {
-    endComponent: PaletteIcon,
     text: '藝術文化',
+    endElement: <PaletteIcon className="size-6 stroke-primary" />,
   },
   {
-    endComponent: Gamepad2Icon,
     text: '遊戲',
+    endElement: <Gamepad2Icon className="size-6 stroke-primary" />,
   },
 ];
 
