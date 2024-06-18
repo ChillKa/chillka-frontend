@@ -14,11 +14,11 @@ import { Popover, PopoverTrigger } from '@components/ui/popover';
 import { H2 } from '@components/ui/typography';
 import useDimensions from '@hooks/use-dimensions';
 import cn from '@lib/utils';
-import { HashIcon, LucideIcon, MapIcon, SearchIcon, XIcon } from 'lucide-react';
+import { HashIcon, MapIcon, SearchIcon, XIcon } from 'lucide-react';
 import { FormEventHandler, useRef, useState } from 'react';
 import { ActivityMobileField } from './fields/ActivityField';
-import { CategoryMobileFieldMenu } from './fields/CategoryFieldMenu';
-import { LocationMobileFieldMenu } from './fields/LocationFieldMenu';
+import { Category, CategoryMobileFieldMenu } from './fields/CategoryFieldMenu';
+import { Location, LocationMobileFieldMenu } from './fields/LocationFieldMenu';
 
 type SearchBarMobileProps = {
   className: string;
@@ -31,15 +31,8 @@ type SearchBarMobileProps = {
     url: string;
     keyword: string;
   }>;
-  locations: Array<{
-    url: string;
-    text: string;
-  }>;
-  categories: Array<{
-    icon: LucideIcon;
-    url: string;
-    text: string;
-  }>;
+  locations: Location[];
+  categories: Category[];
   debugMode: boolean;
   onSearchSubmit: FormEventHandler<HTMLFormElement> | null;
 };

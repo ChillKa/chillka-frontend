@@ -29,35 +29,35 @@ export const locations = [
 
 export const categories = [
   {
-    icon: TreesIcon,
+    endComponent: TreesIcon,
     text: '戶外踏青',
   },
   {
-    icon: PartyPopperIcon,
+    endComponent: PartyPopperIcon,
     text: '社交活動',
   },
   {
-    icon: HeartIcon,
+    endComponent: HeartIcon,
     text: '興趣嗜好',
   },
   {
-    icon: DumbbellIcon,
+    endComponent: DumbbellIcon,
     text: '運動健身',
   },
   {
-    icon: HazeIcon,
+    endComponent: HazeIcon,
     text: '健康生活',
   },
   {
-    icon: BotIcon,
+    endComponent: BotIcon,
     text: '科技玩物',
   },
   {
-    icon: PaletteIcon,
+    endComponent: PaletteIcon,
     text: '藝術文化',
   },
   {
-    icon: Gamepad2Icon,
+    endComponent: Gamepad2Icon,
     text: '遊戲',
   },
 ];

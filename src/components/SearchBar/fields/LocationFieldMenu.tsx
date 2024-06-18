@@ -101,10 +101,7 @@ const LocationFieldMenu = ({
 };
 
 export type LocationMobileFieldMenuProps = {
-  locations: {
-    url: string;
-    text: string;
-  }[];
+  locations: Location[];
   height: number;
   menuOpen?: boolean;
   onSelected?: (isOpen: boolean) => void;
