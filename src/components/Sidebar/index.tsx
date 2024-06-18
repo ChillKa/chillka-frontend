@@ -3,6 +3,7 @@
 import Hamburger from '@components/Hamburger';
 import {
   SITEMAP,
+  phoneList,
   registerAndLoginList,
   userList,
 } from '@components/Header/menu';
@@ -108,6 +109,22 @@ const Sidebar = ({ isLoggedin, onSignOut }: SidebarProps) => {
                       >
                         <p>{user.name}</p>
                         {user.icon && user.icon}
+                      </Link>
+                    </motion.li>
+                  ))}
+                  {phoneList.map((mobile: List) => (
+                    <motion.li
+                      variants={menuAnimation}
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.95 }}
+                      key={mobile.name}
+                    >
+                      <Link
+                        className="mb-4 flex justify-between px-[1.5rem] py-[0.375rem] text-xl font-bold hover:bg-primary/[0.03]"
+                        href={mobile.url}
+                      >
+                        <p>{mobile.name}</p>
+                        {mobile.icon && mobile.icon}
                       </Link>
                     </motion.li>
                   ))}
