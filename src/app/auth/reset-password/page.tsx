@@ -1,20 +1,20 @@
 import { Card, CardContent, CardHeader } from '@components/ui/card';
 import { H3 } from '@components/ui/typography';
-import ForgotPasswordForm from '@components/user/ForgotPasswordForm';
+import ResetPasswordForm from '@components/user/ResetPasswordForm';
 
-const ForgotPasswordPage = () => {
+const ResetPasswordPage = () => {
   return (
     <section>
       <Card className="bg-surface">
         <CardHeader className="text-center">
-          <H3 className="text-primary">忘記密碼</H3>
+          <H3 className="text-primary">重設密碼</H3>
         </CardHeader>
         <CardContent>
-          <ForgotPasswordForm />
+          <ResetPasswordForm />
         </CardContent>
       </Card>
     </section>
   );
 };
 
-export default ForgotPasswordPage;
+export default ResetPasswordPage;
