@@ -1,10 +1,12 @@
 'use server';
 
 import {
-  endpoint,
   FormState,
+  endpoint,
+  forgotPasswordFormSchema,
   loginFormSchema,
   registerFormSchema,
+  resetPasswordFormSchema,
 } from '@lib/definitions';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
@@ -33,7 +35,7 @@ export async function login(
 
       return {
         status: 'failed',
-        message: `${errorMessage ?? 'Login failed'} (${response.status})`,
+        message: `${errorMessage ?? '登入失敗，請稍後重新再試。'} (${response.status})`,
       };
     }
 
@@ -42,7 +44,7 @@ export async function login(
 
     return {
       status: 'success',
-      message: 'Successfully logged in',
+      message: '登入成功，歡迎回到 chillka！',
     };
   } catch (error) {
     return {
@@ -67,15 +69,16 @@ export async function register(
 
     if (!response.ok) {
       const errorMessage = await response.text();
+
       return {
         status: 'failed',
-        message: `${errorMessage ?? 'Register failed'} (${response.status})`,
+        message: `${errorMessage ?? '註冊失敗，請稍後重新再試。'} (${response.status})`,
       };
     }
 
     return {
       status: 'success',
-      message: 'success register',
+      message: '註冊成功，歡迎加入 chillka！',
     };
   } catch (error) {
     return {
@@ -104,4 +107,76 @@ export async function getSession(): Promise<{
 
 export async function googleOAuth(): Promise<void> {
   redirect(`${endpoint}/google-oauth`);
+}
+
+export async function forgotPassword(
+  data: z.infer<typeof forgotPasswordFormSchema>
+): Promise<FormState> {
+  try {
+    const validatedData = validateWithSchema(forgotPasswordFormSchema, data);
+
+    const response = await fetchAPI({
+      api: '/reset-password',
+      method: 'POST',
+      data: validatedData,
+    });
+
+    if (!response.ok) {
+      const errorMessage = await response.text();
+
+      return {
+        status: 'failed',
+        message: `${errorMessage ?? '發送重設密碼信件失敗，請稍後重新再試。'} (${response.status})`,
+      };
+    }
+
+    return {
+      status: 'success',
+      message: '已寄送重設密碼信件，請至信箱查看。',
+    };
+  } catch (error) {
+    return {
+      status: 'failed',
+      message:
+        error instanceof Error ? error.message : 'An unknown error occurred',
+    };
+  }
+}
+
+export async function resetPassword(
+  token: string,
+  data: z.infer<typeof resetPasswordFormSchema>
+): Promise<FormState> {
+  try {
+    const validatedData = validateWithSchema(resetPasswordFormSchema, data);
+
+    const response = await fetchAPI({
+      api: '/reset-password',
+      method: 'PATCH',
+      data: {
+        token,
+        ...validatedData,
+      },
+    });
+
+    if (!response.ok) {
+      const errorMessage = await response.text();
+
+      return {
+        status: 'failed',
+        message: `${errorMessage ?? '重設密碼失敗，請稍後重新再試。'} (${response.status})`,
+      };
+    }
+
+    return {
+      status: 'success',
+      message: '密碼重設成功，請重新登入。',
+    };
+  } catch (error) {
+    return {
+      status: 'failed',
+      message:
+        error instanceof Error ? error.message : 'An unknown error occurred',
+    };
+  }
 }
