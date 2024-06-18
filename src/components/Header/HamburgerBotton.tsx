@@ -1,3 +1,4 @@
+import Hamburger from '@components/Hamburger';
 import {
   SITEMAP,
   registerAndLoginList,
@@ -9,8 +10,6 @@ import {
   PopoverTrigger,
 } from '@components/ui/popover';
 import { Separator } from '@components/ui/separator';
-import { Menu, X } from 'lucide-react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 
@@ -25,9 +24,6 @@ type List = {
   url: string;
 };
 
-const defaultAvatar = '/header__defaultAvatar.svg';
-const fakeAvatar = '/header__fakeAvatar.svg';
-
 const HamburgerBotton = ({ isLoggedin, onSignOut }: HamburgerProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -38,17 +34,8 @@ const HamburgerBotton = ({ isLoggedin, onSignOut }: HamburgerProps) => {
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
-      <PopoverTrigger className="mx-[0.1875rem] flex items-center justify-center rounded-full border border-primary p-3 data-[state=open]:mx-0 data-[state=open]:border-4">
-        <div className="p-2">
-          {isOpen ? <X size={24} /> : <Menu size={24} />}
-        </div>
-        <Image
-          className="ml-2"
-          src={isLoggedin ? fakeAvatar : defaultAvatar}
-          alt="user"
-          width={40}
-          height={40}
-        />
+      <PopoverTrigger>
+        <Hamburger isOpen={isOpen} isLoggedin={isLoggedin} />
       </PopoverTrigger>
       <PopoverContent
         onClickCapture={handlePopoverClick}
