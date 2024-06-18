@@ -10,11 +10,10 @@ import {
 import cn from '@lib/utils';
 import Autoplay from 'embla-carousel-autoplay';
 import Image from 'next/image';
-import { CoverType } from 'src/types/activity';
 
 type CoverSectionProps = {
   className: string;
-  covers: CoverType;
+  covers: string[];
 };
 
 const CoverSection = ({ className, covers }: CoverSectionProps) => {
