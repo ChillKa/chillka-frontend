@@ -13,14 +13,15 @@ const DUMMY_DATA = {
       contactName: 'Leona Spencer',
       contactPhone: '244.960.8178 x08518',
       contactEmail: 'Bell.Nitzsche@gmail.com',
-      websiteName: 'these-human.org',
-      websiteURL: 'https://peaceful-plier.org/',
+      websiteName: '我是 google',
+      websiteURL: 'https://www.google.com',
       _id: '665d1ae831c4b1ab99f575f1',
       createdAt: '2024-06-03T01:22:48.209Z',
       updatedAt: '2024-06-03T01:22:48.209Z',
     },
     name: 'Miss Kelly Dare',
     participantNumber: 0,
+    participantCapacity: 5,
     cover: [
       'https://picsum.photos/id/13/1920/1920',
       'https://picsum.photos/id/19/1920/1920',
@@ -33,7 +34,8 @@ const DUMMY_DATA = {
     link: 'https://defensive-mineshaft.net',
     location: 'North Woodrow',
     address: '8412 Albany Road',
-    summary: 'Bestia desidero comprehendo votum attollo aggero.',
+    summary:
+      '本工作坊將帶領學員探索AI如何應用於創意寫作。Bard將分享其生成文字、翻譯語言、編寫不同類型創意內容的經驗，並示範如何使用AI工具激發靈感、克服寫作瓶頸。工作坊後半段將安排實作練習，學員將運用所學嘗試使用AI進行創意寫作。',
     details:
       'Urbanus abstergo vitiosus ipsum patria coaegresco. Derideo approbo valde vigilo odit torrens curriculum ocer vitae. Degero vergo vespillo adinventitias blandior beneficium abduco.',
     isRecurring: true,
@@ -133,10 +135,22 @@ function page() {
     <>
       <CoverSection className="" covers={DUMMY_DATA.activity.cover} />
       <div className="mx-auto mb-24 mt-6 xl:mb-[3.5625rem] xl:mt-12 xl:flex xl:max-w-[81rem] xl:justify-between xl:space-x-[7.75rem]">
-        <div className="border">
-          <ActivitySection />
-          <OrganizerSection />
+        <div className="grow px-3 xl:px-0">
+          <ActivitySection
+            className=""
+            type={DUMMY_DATA.activity.type}
+            category={DUMMY_DATA.activity.category}
+            name={DUMMY_DATA.activity.name}
+            location={DUMMY_DATA.activity.location}
+            address={DUMMY_DATA.activity.address}
+            participantCapacity={DUMMY_DATA.activity.participantCapacity}
+            websiteName={DUMMY_DATA.activity.organizer.websiteName}
+            websiteURL={DUMMY_DATA.activity.organizer.websiteURL}
+            summary={DUMMY_DATA.activity.summary}
+            details={DUMMY_DATA.activity.details}
+          />
           <MapSection />
+          <OrganizerSection />
           <QuestionsSetcion />
         </div>
 

@@ -41,6 +41,7 @@ export type ActivityType = {
   status: string;
   createdAt: string;
   updatedAt: string;
+  participantCapacity: number;
   __v: number;
 };
 
