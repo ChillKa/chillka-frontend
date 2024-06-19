@@ -52,7 +52,12 @@ const SortFieldMenu = ({
   return (
     <Popover onOpenChange={handleOpenChange}>
       <PopoverTrigger asChild>
-        <Button className="rounded-[0.375rem] border bg-surface text-primary">
+        <Button
+          className={cn(
+            'rounded-[0.375rem] border bg-surface text-primary',
+            'hover:bg-primary hover:text-white'
+          )}
+        >
           <ArrowUpDown />
           排序性:<span>{currentSelect}</span>
         </Button>

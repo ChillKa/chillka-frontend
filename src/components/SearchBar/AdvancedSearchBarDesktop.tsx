@@ -226,7 +226,12 @@ const AdvancedSearchBarDesktop = ({
                   },
                 ]}
               />
-              <Button className="rounded-[0.375rem] border bg-surface text-primary">
+              <Button
+                className={cn(
+                  'rounded-[0.375rem] border bg-surface text-primary',
+                  'hover:bg-primary hover:text-white'
+                )}
+              >
                 <XSquare />
                 清除條件
               </Button>
