@@ -67,16 +67,32 @@ const AdvancedSearchBar = ({ filteredParams }: AdvancedSearchBarProps) => {
     }
   }, [location, category, type, distance, sort, date, form, router]);
 
-  const handleSearchSubmit = form.handleSubmit(async (data) => {
+  const handleSearchSubmit = async (data: {
+    keyword: string;
+    location: string;
+    category: string;
+    date: string;
+    type: string;
+    distance: string;
+    sort: string;
+  }) => {
     const queryString = createQueryString(data);
     router.push(`/search?${queryString}`);
-  });
+  };
+  const handleClearFilter = () => {
+    form.reset();
+  };
 
   return (
     <Form {...form}>
       {isMobile ? (
         <section className="borrder-primary fixed bottom-0 left-0 right-0 z-10 flex justify-between gap-2 border-t bg-surface px-3 py-4">
-          <AdvancedSearchBarMobile />
+          <AdvancedSearchBarMobile
+            onSearchSubmit={(data) => {
+              handleSearchSubmit(data);
+            }}
+            onClearFilter={handleClearFilter}
+          />
           <button
             type="button"
             aria-label="Map button"
@@ -86,7 +102,10 @@ const AdvancedSearchBar = ({ filteredParams }: AdvancedSearchBarProps) => {
           </button>
         </section>
       ) : (
-        <AdvancedSearchBarDesktop onSearchSubmit={handleSearchSubmit} />
+        <AdvancedSearchBarDesktop
+          onSearchSubmit={form.handleSubmit(handleSearchSubmit)}
+          onClearFilter={handleClearFilter}
+        />
       )}
     </Form>
   );

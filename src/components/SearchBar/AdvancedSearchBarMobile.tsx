@@ -13,6 +13,8 @@ import { ToggleGroup, ToggleGroupItem } from '@components/ui/toggle-group';
 import { H2, H4 } from '@components/ui/typography';
 import cn from '@lib/utils';
 import { XIcon } from 'lucide-react';
+import { MouseEventHandler } from 'react';
+import { useFormContext } from 'react-hook-form';
 import { AdvancedActivityMobileField } from './fields/ActivityField';
 import { AdvancedCategoryMobileField } from './fields/CategoryFieldMenu';
 import { AdvancedDateMobileField } from './fields/DateFieldMenu';
@@ -21,7 +23,40 @@ import { AdvancedEventTypeMobileField } from './fields/EventTypeFieldMenu';
 import { AdvancedLocationMobileField } from './fields/LocationFieldMenu';
 import { AdvancedSortMobileField } from './fields/SortFieldMenu';
 
-const AdvancedSearchBarMobile = () => {
+export type AdvancedSearchBarMobileProps = {
+  onSearchSubmit?: (value: {
+    keyword: string;
+    location: string;
+    category: string;
+    date: string;
+    type: string;
+    distance: string;
+    sort: string;
+  }) => void;
+  onClearFilter?: () => void;
+};
+
+const AdvancedSearchBarMobile = ({
+  onSearchSubmit,
+  onClearFilter,
+}: AdvancedSearchBarMobileProps) => {
+  const { getValues } = useFormContext<{
+    keyword: string;
+    location: string;
+    category: string;
+    date: string;
+    type: string;
+    distance: string;
+    sort: string;
+  }>();
+  const handleSearchSubmit: MouseEventHandler<HTMLButtonElement> = () => {
+    const values = getValues();
+    onSearchSubmit?.(values);
+  };
+  const handleClearFilter: MouseEventHandler<HTMLButtonElement> = () => {
+    onClearFilter?.();
+  };
+
   return (
     <Dialog defaultOpen={false}>
       <DialogTrigger
@@ -236,13 +271,18 @@ const AdvancedSearchBarMobile = () => {
         </section>
 
         <DialogFooter className="absolute bottom-0 left-0 right-0 flex w-full flex-row bg-surface px-3 py-4 font-medium">
-          <div className="flex flex-1 items-center justify-center">
+          <Button
+            variant="ghost"
+            onClick={handleClearFilter}
+            className="flex flex-1 items-center justify-center"
+          >
             清除條件
-          </div>
+          </Button>
           <Button
             type="submit"
             className="min-w-[175.5px] flex-1"
             variant="default"
+            onClick={handleSearchSubmit}
           >
             搜尋活動
           </Button>

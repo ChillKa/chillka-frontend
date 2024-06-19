@@ -3,7 +3,7 @@
 import { Button } from '@components/ui/button';
 import cn from '@lib/utils';
 import { XSquare } from 'lucide-react';
-import { FormEventHandler } from 'react';
+import { FormEventHandler, MouseEventHandler } from 'react';
 import ActivityField from './fields/ActivityField';
 import CategoryFieldMenu from './fields/CategoryFieldMenu';
 import DateFieldMenu from './fields/DateFieldMenu';
@@ -14,14 +14,19 @@ import SortFieldMenu from './fields/SortFieldMenu';
 import { categories, locations } from './fields/utils';
 
 export type AdvancedSearchBarDesktopProps = {
-  onSearchSubmit: FormEventHandler<HTMLFormElement> | null;
+  onSearchSubmit?: FormEventHandler<HTMLFormElement>;
+  onClearFilter?: () => void;
 };
 
 const AdvancedSearchBarDesktop = ({
   onSearchSubmit,
+  onClearFilter,
 }: AdvancedSearchBarDesktopProps) => {
   const handleSearchSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     onSearchSubmit?.(e);
+  };
+  const handleClearFilter: MouseEventHandler<HTMLButtonElement> = () => {
+    onClearFilter?.();
   };
 
   return (
@@ -227,6 +232,7 @@ const AdvancedSearchBarDesktop = ({
                 ]}
               />
               <Button
+                onClick={handleClearFilter}
                 className={cn(
                   'rounded-[0.375rem] border bg-surface text-primary',
                   'hover:bg-primary hover:text-white'
