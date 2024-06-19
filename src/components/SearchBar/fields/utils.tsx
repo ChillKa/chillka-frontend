@@ -8,6 +8,7 @@ import {
   PartyPopperIcon,
   TreesIcon,
 } from 'lucide-react';
+import { z } from 'zod';
 
 export const locations = [
   {
@@ -102,15 +103,21 @@ export const menuMobileAnimationVariants = {
   }),
 };
 
-export const createQueryString = (data: {
-  keyword: string;
-  location: string;
-  category: string;
-  date: string;
-  type: string;
-  distance: string;
-  sort: string;
-}) => {
+export const SearchParamsSchema = z.object({
+  keyword: z.string().optional(),
+  location: z.string().optional(),
+  category: z.string().optional(),
+  date: z.string().optional(),
+  type: z.string().optional(),
+  distance: z.string().optional(),
+  sort: z.string().optional(),
+  limit: z.string().optional(),
+  page: z.string().optional(),
+});
+
+export type SearchParams = z.infer<typeof SearchParamsSchema>;
+
+export const createQueryString = (data: SearchParams) => {
   const params = new URLSearchParams();
   Object.entries(data).forEach(([key, value]) => {
     if (value) {

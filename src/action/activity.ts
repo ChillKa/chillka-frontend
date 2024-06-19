@@ -1,16 +1,7 @@
 'use server';
 
-export interface SearchParams {
-  keyword: string;
-  location: string;
-  category: string;
-  date: string;
-  type: string;
-  distance: string;
-  sort: string;
-  limit: string;
-  page: string;
-}
+import { SearchParams } from '@components/SearchBar/fields/utils';
+
 interface ContinuousActivity {
   period: string;
   week: string;

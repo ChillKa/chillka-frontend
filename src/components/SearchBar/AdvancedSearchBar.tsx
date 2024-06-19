@@ -1,7 +1,7 @@
 'use client';
 
-import { SearchParams } from '@action/activity';
 import { Form } from '@components/ui/form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import useMediaQuery from '@hooks/use-media-query';
 import { Map } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -9,7 +9,11 @@ import { useEffect } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import AdvancedSearchBarDesktop from './AdvancedSearchBarDesktop';
 import AdvancedSearchBarMobile from './AdvancedSearchBarMobile';
-import { createQueryString } from './fields/utils';
+import {
+  SearchParams,
+  SearchParamsSchema,
+  createQueryString,
+} from './fields/utils';
 
 type AdvancedSearchBarProps = {
   filteredParams: Partial<SearchParams>;
@@ -20,6 +24,7 @@ const AdvancedSearchBar = ({ filteredParams }: AdvancedSearchBarProps) => {
 
   const router = useRouter();
   const form = useForm<SearchParams>({
+    resolver: zodResolver(SearchParamsSchema),
     defaultValues: {
       keyword: '',
       location: '',
@@ -51,9 +56,26 @@ const AdvancedSearchBar = ({ filteredParams }: AdvancedSearchBarProps) => {
     control: form.control,
     name: 'date',
   });
+  const page = useWatch({
+    control: form.control,
+    name: 'page',
+  });
+  const limit = useWatch({
+    control: form.control,
+    name: 'limit',
+  });
 
   useEffect(() => {
-    if (location || category || type || sort || distance || date) {
+    if (
+      location ||
+      category ||
+      type ||
+      sort ||
+      distance ||
+      date ||
+      page ||
+      limit
+    ) {
       const queryString = createQueryString({
         keyword: form.getValues('keyword'),
         location: location || '',
@@ -62,20 +84,14 @@ const AdvancedSearchBar = ({ filteredParams }: AdvancedSearchBarProps) => {
         distance: distance || '',
         sort: sort || '',
         date: date || '',
+        page: page || '',
+        limit: limit || '',
       });
       router.push(`/search?${queryString}`);
     }
   }, [location, category, type, distance, sort, date, form, router]);
 
-  const handleSearchSubmit = async (data: {
-    keyword: string;
-    location: string;
-    category: string;
-    date: string;
-    type: string;
-    distance: string;
-    sort: string;
-  }) => {
+  const handleSearchSubmit = async (data: SearchParams) => {
     const queryString = createQueryString(data);
     router.push(`/search?${queryString}`);
   };

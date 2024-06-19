@@ -22,17 +22,10 @@ import { AdvancedDistanceMobileField } from './fields/DistanceFieldMenu';
 import { AdvancedEventTypeMobileField } from './fields/EventTypeFieldMenu';
 import { AdvancedLocationMobileField } from './fields/LocationFieldMenu';
 import { AdvancedSortMobileField } from './fields/SortFieldMenu';
+import { SearchParams } from './fields/utils';
 
 export type AdvancedSearchBarMobileProps = {
-  onSearchSubmit?: (value: {
-    keyword: string;
-    location: string;
-    category: string;
-    date: string;
-    type: string;
-    distance: string;
-    sort: string;
-  }) => void;
+  onSearchSubmit?: (value: SearchParams) => void;
   onClearFilter?: () => void;
 };
 
@@ -40,15 +33,7 @@ const AdvancedSearchBarMobile = ({
   onSearchSubmit,
   onClearFilter,
 }: AdvancedSearchBarMobileProps) => {
-  const { getValues } = useFormContext<{
-    keyword: string;
-    location: string;
-    category: string;
-    date: string;
-    type: string;
-    distance: string;
-    sort: string;
-  }>();
+  const { getValues } = useFormContext<SearchParams>();
   const handleSearchSubmit: MouseEventHandler<HTMLButtonElement> = () => {
     const values = getValues();
     onSearchSubmit?.(values);
