@@ -32,7 +32,7 @@ const TicketSection = ({
   const { matches: isMobile } = useMediaQuery();
 
   useEffect(() => {
-    if (!isMobile) return;
+    if (!isMobile) return setIsVisible(true);
 
     const handleScroll = () => {
       setIsVisible(false);
@@ -58,7 +58,7 @@ const TicketSection = ({
   return (
     <section
       className={cn(
-        'fixed bottom-0 h-fit w-full bg-surface xl:relative xl:min-w-[26rem]',
+        'fixed bottom-0 h-fit w-full bg-surface xl:relative xl:max-w-[26rem]',
         'bg-surface text-primary transition-opacity',
         'z-10 space-y-4 border-t border-primary px-3 py-4 xl:border xl:px-8 xl:py-6',
         'xl:sticky xl:top-12',
