@@ -1,5 +1,6 @@
 import ActivitySection from '@components/AcitivyPage/ActivitySection';
 import CoverSection from '@components/AcitivyPage/CoverSection';
+import LinkSection from '@components/AcitivyPage/LinkSection';
 import MapSection from '@components/AcitivyPage/MapSection';
 import OrganizerSection from '@components/AcitivyPage/OrganizerSection';
 import QuestionsSetcion from '@components/AcitivyPage/QuestionsSetcion';
@@ -149,7 +150,16 @@ function page() {
             summary={DUMMY_DATA.activity.summary}
             details={DUMMY_DATA.activity.details}
           />
-          <MapSection />
+          {DUMMY_DATA.activity.type === '線下' ? (
+            <MapSection
+              className=""
+              location={DUMMY_DATA.activity.location}
+              address={DUMMY_DATA.activity.address}
+            />
+          ) : (
+            <LinkSection className="" />
+          )}
+
           <OrganizerSection />
           <QuestionsSetcion />
         </div>
