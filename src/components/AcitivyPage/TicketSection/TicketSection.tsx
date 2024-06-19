@@ -2,7 +2,7 @@
 
 import FavoriteButton from '@components/AcitivyPage/TicketSection/FavoriteButton';
 import SignUpButton from '@components/AcitivyPage/TicketSection/SignUpButton';
-import { H3, H4 } from '@components/ui/typography';
+import { H3 } from '@components/ui/typography';
 import useMediaQuery from '@hooks/use-media-query';
 import cn from '@lib/utils';
 import { CalendarDays, MapPin, User } from 'lucide-react';
@@ -80,11 +80,9 @@ const TicketSection = ({
             }}
           />
         </div>
-        {isMobile ? (
-          <H4 className="ml-4 w-full">{organizer}</H4>
-        ) : (
-          <H3 className="ml-4 w-full">{organizer}</H3>
-        )}
+        <div className="ml-4 w-full text-xl font-bold -tracking-[0.005em] xl:text-2xl xl:-tracking-[0.006em]">
+          {organizer}
+        </div>
       </div>
       <H3>{name}</H3>
       <div className="space-y-2">
