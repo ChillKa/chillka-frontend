@@ -78,18 +78,29 @@ const AdvancedSearchBar = ({ filteredParams }: AdvancedSearchBarProps) => {
     ) {
       const queryString = createQueryString({
         keyword: form.getValues('keyword'),
-        location: location || '',
-        category: category || '',
-        type: type || '',
-        distance: distance || '',
-        sort: sort || '',
-        date: date || '',
-        page: page || '',
-        limit: limit || '',
+        location: location ?? '',
+        category: category ?? '',
+        type: type ?? '',
+        distance: distance ?? '',
+        sort: sort ?? '',
+        date: date ?? '',
+        page: page ?? '',
+        limit: limit ?? '',
       });
       router.push(`/search?${queryString}`);
     }
-  }, [location, category, type, distance, sort, date, form, router]);
+  }, [
+    location,
+    category,
+    type,
+    distance,
+    sort,
+    date,
+    form,
+    router,
+    page,
+    limit,
+  ]);
 
   const handleSearchSubmit = async (data: SearchParams) => {
     const queryString = createQueryString(data);
