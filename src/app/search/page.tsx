@@ -1,5 +1,6 @@
-import { SearchParams, getActivitiesByFilter } from '@action/activity';
+import { getActivitiesByFilter } from '@action/activity';
 import AdvancedSearchBar from '@components/SearchBar/AdvancedSearchBar';
+import { SearchParams } from '@components/SearchBar/fields/utils';
 import SearchContentSection from '@components/SearchContentSection';
 import { Suspense } from 'react';
 
