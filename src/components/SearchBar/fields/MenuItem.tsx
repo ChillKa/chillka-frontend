@@ -41,7 +41,7 @@ const MenuItem = ({
   return (
     <Button
       asChild
-      className="flex h-fit items-center justify-between gap-2.5 bg-surface px-4 py-2.5 transition-colors duration-300 ease-out hover:bg-primary/[0.03]"
+      className="flex h-fit items-center justify-between gap-2.5 bg-surface px-4 py-2.5 transition-colors duration-300 ease-out hover:cursor-pointer hover:bg-primary/[0.03]"
       onClick={() => {
         onSelect?.(value);
       }}
