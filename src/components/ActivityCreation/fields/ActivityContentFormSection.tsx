@@ -184,24 +184,15 @@ const ActivityContentFormSection = ({
             <FormItem className="space-y-1.5">
               <FormLabel>活動隱私</FormLabel>
               <FormControl>
-                <RadioGroup
-                  onValueChange={field.onChange}
-                  defaultValue={`${field.value}`}
-                  className="flex"
-                >
-                  <FormItem className="flex items-center gap-2">
-                    <FormControl>
-                      <RadioGroupItem variant="form" value="false" />
-                    </FormControl>
-                    <FormLabel>公開</FormLabel>
-                  </FormItem>
-                  <FormItem className="flex items-center gap-2">
-                    <FormControl>
-                      <RadioGroupItem variant="form" value="true" />
-                    </FormControl>
-                    <FormLabel>私人</FormLabel>
-                  </FormItem>
-                </RadioGroup>
+                <div className="flex items-center gap-2">
+                  <Switch
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                  <Label htmlFor="airplane-mode">
+                    {field.value ? '私人' : '公開'}
+                  </Label>
+                </div>
               </FormControl>
               <FormDescription className="text-primary-light">
                 設定活動為私人時，將不會在平台上顯示
@@ -217,24 +208,15 @@ const ActivityContentFormSection = ({
             <FormItem className="space-y-1.5">
               <FormLabel>剩餘票券/名額顯示</FormLabel>
               <FormControl>
-                <RadioGroup
-                  onValueChange={field.onChange}
-                  defaultValue={`${field.value}`}
-                  className="flex"
-                >
-                  <FormItem className="flex items-center gap-2">
-                    <FormControl>
-                      <RadioGroupItem variant="form" value="true" />
-                    </FormControl>
-                    <FormLabel>顯示</FormLabel>
-                  </FormItem>
-                  <FormItem className="flex items-center gap-2">
-                    <FormControl>
-                      <RadioGroupItem variant="form" value="false" />
-                    </FormControl>
-                    <FormLabel>不顯示</FormLabel>
-                  </FormItem>
-                </RadioGroup>
+                <div className="flex items-center gap-2">
+                  <Switch
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                  <Label htmlFor="airplane-mode">
+                    {field.value ? '顯示' : '不顯示'}
+                  </Label>
+                </div>
               </FormControl>
               <FormDescription className="text-primary-light">
                 是否在活動頁面上顯示剩餘票券數量或可報名名額的資訊

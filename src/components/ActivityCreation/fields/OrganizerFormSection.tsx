@@ -9,7 +9,7 @@ import {
   FormMessage,
 } from '@components/ui/form';
 import { Input } from '@components/ui/input';
-import { H2 } from '@components/ui/typography';
+import { H2, H4 } from '@components/ui/typography';
 import { createActivityFormSchema } from '@lib/definitions';
 import { UseFormReturn } from 'react-hook-form';
 import { z } from 'zod';
@@ -23,7 +23,8 @@ type OrganizerFormSectionProps = {
 const OrganizerFormSection = ({ form }: OrganizerFormSectionProps) => {
   return (
     <div className="max-w-[26rem] space-y-6">
-      <H2>你的自我介紹</H2>
+      <H2>主辦方資訊</H2>
+      <H4>你的自我介紹</H4>
       <FormField
         control={form.control}
         name="organizer.name"
@@ -44,7 +45,7 @@ const OrganizerFormSection = ({ form }: OrganizerFormSectionProps) => {
           </FormItem>
         )}
       />
-      <H2>聯絡資訊</H2>
+      <H4>聯絡資訊</H4>
       <FormField
         control={form.control}
         name="organizer.contactName"
@@ -98,7 +99,7 @@ const OrganizerFormSection = ({ form }: OrganizerFormSectionProps) => {
           </FormItem>
         )}
       />
-      <H2>相關連結</H2>
+      <H4>相關連結</H4>
       <FormField
         control={form.control}
         name="organizer.websiteName"

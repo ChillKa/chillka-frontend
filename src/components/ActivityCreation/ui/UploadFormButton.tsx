@@ -4,7 +4,7 @@ import { Button } from '@components/ui/button';
 import { ReactNode } from 'react';
 import { useFormStatus } from 'react-dom';
 
-export type UploadFormButtonProps = {
+type UploadFormButtonProps = {
   children: ReactNode;
 };
 
