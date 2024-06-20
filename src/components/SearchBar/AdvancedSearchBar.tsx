@@ -82,7 +82,7 @@ const AdvancedSearchBar = ({ filteredParams }: AdvancedSearchBarProps) => {
         category: category ?? '',
         type: type ?? '',
         distance: distance ?? '',
-        sort: sort ?? '',
+        sort: sort ?? '相關性',
         date: date ?? '',
         page: page ?? '',
         limit: limit ?? '',

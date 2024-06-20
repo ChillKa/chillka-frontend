@@ -110,7 +110,7 @@ export const SearchParamsSchema = z.object({
   date: z.string().optional(),
   type: z.string().optional(),
   distance: z.string().optional(),
-  sort: z.string().optional(),
+  sort: z.enum(['相關性', '日期']).default('相關性').optional(),
   limit: z.string().optional(),
   page: z.string().optional(),
 });
