@@ -64,3 +64,49 @@ export async function fetchActivity(data: string): Promise<ActivityFetchState> {
     };
   }
 }
+
+export type FavoriteActivityState =
+  | {
+      status: 'success';
+      message: string;
+    }
+  | {
+      status: 'failed';
+      message: string;
+    };
+
+export async function toggleFavoriteActivity(
+  activityId: string
+): Promise<FavoriteActivityState> {
+  try {
+    const response = await fetchAPI({
+      api: `/auth/saved-activities/${activityId}`,
+      method: 'POST',
+      shouldAuth: true,
+    });
+
+    if (!response.ok) {
+      const errorMessage = await response.text();
+
+      return {
+        status: 'failed',
+        message: `${errorMessage ?? '更新活動收藏狀態失敗，請稍後重新再試。'} (${response.status})`,
+      };
+    }
+
+    return {
+      status: 'success',
+      message: '成功更新此活動收藏狀態！',
+    };
+  } catch (error) {
+    return {
+      status: 'failed',
+      message:
+        error instanceof Error ? error.message : 'An unknown error occurred',
+    };
+  }
+}
+
+// export function createQuestion
+// export function deleteQuestion
+// export function createReply
