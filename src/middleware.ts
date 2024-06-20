@@ -35,6 +35,10 @@ const middleware = (req: NextRequest) => {
     }
   }
 
+  if (pathname === '/member-center') {
+    return NextResponse.redirect(new URL('/member-center/ticket-inquiry', url));
+  }
+
   return NextResponse.next();
 };
 
