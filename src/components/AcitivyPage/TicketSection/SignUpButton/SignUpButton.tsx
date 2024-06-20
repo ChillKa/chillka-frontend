@@ -2,26 +2,33 @@
 
 import { Button } from '@components/ui/button';
 import cn from '@lib/utils';
+import { useActivityContext } from '@store/ActivityProvider/ActivityProvider';
 
 type SignUpButtonProps = {
   className: string;
-  participantCapacity: number;
-  participated: boolean;
 };
 
-const SignUpButton = ({
-  className,
-  participated,
-  participantCapacity,
-}: SignUpButtonProps) => {
+const SignUpButton = ({ className }: SignUpButtonProps) => {
+  const { data } = useActivityContext();
+
+  if (!data) {
+    return null;
+  }
+
   return (
     <Button
       className={cn('h-10 w-full text-base xl:h-14', className)}
-      disabled={participated || participantCapacity === 0}
+      disabled={
+        data.activity.participated || data.activity.participantCapacity === 0
+      }
     >
-      {participantCapacity === 0 && '已額滿'}
-      {participated && '已報名'}
-      {!participated && participantCapacity !== 0 && '立即報名'}
+      {data.activity.participantCapacity === 0 &&
+        !data.activity.participated &&
+        '已額滿'}
+      {data.activity.participated && '已報名'}
+      {!data.activity.participated &&
+        data.activity.participantCapacity !== 0 &&
+        '立即報名'}
     </Button>
   );
 };

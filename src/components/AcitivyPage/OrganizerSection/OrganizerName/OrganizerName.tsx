@@ -1,23 +1,24 @@
 import cn from '@lib/utils';
+import { useActivityContext } from '@store/ActivityProvider/ActivityProvider';
 import Image from 'next/image';
 
 type OrganizerNameProps = {
   className: string;
-  profilePicture: string;
-  organizer: string;
 };
 
-const OrganizerName = ({
-  className,
-  profilePicture,
-  organizer,
-}: OrganizerNameProps) => {
+const OrganizerName = ({ className }: OrganizerNameProps) => {
+  const { data } = useActivityContext();
+
+  if (!data) {
+    return null;
+  }
+
   return (
     <div className={cn('flex h-full items-center', className)}>
       {' '}
       <div className="h-12 w-12 xl:h-20 xl:min-w-20">
         <Image
-          src={profilePicture}
+          src={data.activity.organizer.profilePicture}
           width={80}
           height={80}
           loading="eager"
@@ -29,7 +30,7 @@ const OrganizerName = ({
         />
       </div>
       <div className="ml-4 w-full text-xl font-bold -tracking-[0.005em] xl:text-2xl xl:-tracking-[0.006em]">
-        {organizer}
+        {data.activity.organizer.name}
       </div>
     </div>
   );

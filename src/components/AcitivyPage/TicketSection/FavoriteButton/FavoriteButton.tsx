@@ -2,14 +2,20 @@
 
 import { Button } from '@components/ui/button';
 import cn from '@lib/utils';
+import { useActivityContext } from '@store/ActivityProvider/ActivityProvider';
 import { Bookmark, Check } from 'lucide-react';
 
 type FavoriteButtonProps = {
   className: string;
-  isFavorited: boolean;
 };
 
-const FavoriteButton = ({ className, isFavorited }: FavoriteButtonProps) => {
+const FavoriteButton = ({ className }: FavoriteButtonProps) => {
+  const { data } = useActivityContext();
+
+  if (!data) {
+    return null;
+  }
+
   return (
     <Button
       className={cn(
@@ -19,7 +25,7 @@ const FavoriteButton = ({ className, isFavorited }: FavoriteButtonProps) => {
         className
       )}
     >
-      {isFavorited ? <Check size={16} /> : <Bookmark size={16} />}
+      {data.activity.saved ? <Check size={16} /> : <Bookmark size={16} />}
     </Button>
   );
 };

@@ -1,13 +1,18 @@
 import { P } from '@components/ui/typography';
 import cn from '@lib/utils';
+import { useActivityContext } from '@store/ActivityProvider/ActivityProvider';
 
 type MapSectionProps = {
   className: string;
-  location: string;
-  address: string;
 };
 
-const MapSection = ({ className, location, address }: MapSectionProps) => {
+const MapSection = ({ className }: MapSectionProps) => {
+  const { data } = useActivityContext();
+
+  if (!data) {
+    return null;
+  }
+
   return (
     <section
       className={cn(
@@ -19,7 +24,7 @@ const MapSection = ({ className, location, address }: MapSectionProps) => {
       <div className="text-2xl font-bold -tracking-[0.006em] xl:text-3xl xl:-tracking-[0.0075em]">
         活動地點
       </div>
-      <P>{`${address}（${location}）`}</P>
+      <P>{`${data.activity.address}（${data.activity.location}）`}</P>
       <div className="h-[23.3125rem] w-full bg-primary text-white">map</div>
     </section>
   );

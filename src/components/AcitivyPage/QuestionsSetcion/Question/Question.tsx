@@ -3,6 +3,7 @@ import { Button } from '@components/ui/button';
 import { Large, Lead, Small } from '@components/ui/typography';
 import formatDateTime from '@lib/dateUtils';
 import cn from '@lib/utils';
+import { useActivityContext } from '@store/ActivityProvider/ActivityProvider';
 import { Trash2 } from 'lucide-react';
 import Image from 'next/image';
 import { QuestionType } from 'src/types/activity';
@@ -10,11 +11,15 @@ import { QuestionType } from 'src/types/activity';
 type QuestionProps = {
   className: string;
   question: QuestionType;
-  creatorId: string;
 };
 
-const Question = ({ className, question, creatorId }: QuestionProps) => {
+const Question = ({ className, question }: QuestionProps) => {
   const createdAt = formatDateTime(question.createdAt);
+  const { data } = useActivityContext();
+
+  if (!data) {
+    return null;
+  }
 
   return (
     <div className={cn('py-6', className)}>
@@ -47,7 +52,7 @@ const Question = ({ className, question, creatorId }: QuestionProps) => {
       {question.replies.length !== 0 && (
         <ReplyArea
           className=""
-          creatorId={creatorId}
+          questionUserId={question.userId}
           replies={question.replies}
         />
       )}

@@ -1,44 +1,27 @@
 import { Large, P } from '@components/ui/typography';
 import cn from '@lib/utils';
+import { useActivityContext } from '@store/ActivityProvider/ActivityProvider';
 import { CalendarDays, Link as LinkIcon, MapPin, User } from 'lucide-react';
 import Link from 'next/link';
 
 type ActivitySectionProps = {
   className: string;
-  category: string;
-  name: string;
-  type: string;
-  location: string;
-  address: string;
-  unlimitedQuantity: boolean;
-  participantCapacity: number;
-  websiteName: string;
-  websiteURL: string;
-  summary: string;
-  details: string;
 };
 
-const ActivitySection = ({
-  className,
-  category,
-  name,
-  type,
-  location,
-  address,
-  unlimitedQuantity,
-  participantCapacity,
-  websiteName,
-  websiteURL,
-  summary,
-  details,
-}: ActivitySectionProps) => {
+const ActivitySection = ({ className }: ActivitySectionProps) => {
+  const { data } = useActivityContext();
+
+  if (!data) {
+    return null;
+  }
+
   return (
     <section className={cn('w-full text-primary', className)}>
       <div className="mb-4 w-fit bg-primary px-2 py-1 text-xs/5 font-medium text-white xl:mb-6">
-        {category}
+        {data.activity.category}
       </div>
       <div className="text-3xl font-bold -tracking-[0.0075em] xl:text-5xl xl:-tracking-[0.012em]">
-        {name}
+        {data.activity.name}
       </div>
       <div className="mt-6 space-y-6 border-y py-6 xl:mt-12 xl:space-y-8 xl:py-12">
         <div className="flex">
@@ -60,11 +43,13 @@ const ActivitySection = ({
               舉辦位置
             </div>
             <div className="mt-2 text-base font-medium xl:text-lg xl:font-bold">
-              {type === '線上' ? '線上活動' : `${address}（${location}）`}
+              {data.activity.type === '線上'
+                ? '線上活動'
+                : `${data.activity.address}（${data?.activity.location}）`}
             </div>
           </div>
         </div>
-        {!unlimitedQuantity && (
+        {!data.activity.unlimitedQuantity && (
           <div className="flex">
             <User className="h-8 w-8 xl:h-12 xl:w-12" />
             <div className="ml-6 xl:ml-10">
@@ -72,7 +57,7 @@ const ActivitySection = ({
                 活動人數
               </div>
               <div className="mt-2 text-base font-medium xl:text-lg xl:font-bold">
-                {participantCapacity}人
+                {data.activity.participantCapacity}人
               </div>
             </div>
           </div>
@@ -85,24 +70,24 @@ const ActivitySection = ({
             </div>
             <div className="mt-2 text-base font-medium xl:text-lg xl:font-bold">
               <Link
-                href={websiteURL}
+                href={data.activity.organizer.websiteURL}
                 target="_blank"
                 className="underline underline-offset-2"
               >
-                {websiteName}
+                {data?.activity.organizer.websiteName}
               </Link>
             </div>
           </div>
         </div>
       </div>
       <div className="border-b py-6 xl:py-12">
-        <Large>{summary}</Large>
+        <Large>{data.activity.summary}</Large>
       </div>
       <div className="py-6 xl:py-12">
         <div className="text-2xl font-bold -tracking-[0.006em] xl:text-3xl xl:-tracking-[0.0075em]">
           活動說明
         </div>
-        <P className="mt-4 xl:mt-6">{details}</P>
+        <P className="mt-4 xl:mt-6">{data.activity.details}</P>
       </div>
     </section>
   );

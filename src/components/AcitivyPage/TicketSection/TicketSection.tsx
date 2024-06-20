@@ -6,40 +6,19 @@ import SignUpButton from '@components/AcitivyPage/TicketSection/SignUpButton';
 import { H3 } from '@components/ui/typography';
 import useMediaQuery from '@hooks/use-media-query';
 import cn from '@lib/utils';
+import { useActivityContext } from '@store/ActivityProvider/ActivityProvider';
 import { CalendarDays, MapPin, User } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
 type TicketSectionProps = {
   className: string;
-  organizer: string;
-  profilePicture: string;
-  name: string;
-  type: string;
-  unlimitedQuantity: boolean;
-  participantCapacity: number;
-  saved: boolean;
-  participated: boolean;
-  displayRemainingTickets: boolean;
-  remainingTickets: number;
 };
 
-const TicketSection = ({
-  className,
-  organizer,
-  profilePicture,
-  name,
-  type,
-  unlimitedQuantity,
-  participantCapacity,
-  saved,
-  participated,
-  displayRemainingTickets,
-  remainingTickets,
-  // dataTime
-}: TicketSectionProps) => {
+const TicketSection = ({ className }: TicketSectionProps) => {
   const [isVisible, setIsVisible] = useState(true);
   const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
   const { matches: isMobile } = useMediaQuery();
+  const { data } = useActivityContext();
 
   useEffect(() => {
     if (!isMobile) return setIsVisible(true);
@@ -65,6 +44,10 @@ const TicketSection = ({
     };
   }, [isMobile]);
 
+  if (!data) {
+    return null;
+  }
+
   return (
     <section
       className={cn(
@@ -76,12 +59,8 @@ const TicketSection = ({
         className
       )}
     >
-      <OrganizerName
-        className=""
-        profilePicture={profilePicture}
-        organizer={organizer}
-      />
-      <H3>{name}</H3>
+      <OrganizerName className="" />
+      <H3>{data.activity.name}</H3>
       <div className="space-y-2">
         <div className="flex items-center">
           <CalendarDays />
@@ -92,25 +71,24 @@ const TicketSection = ({
         </div>
         <div className="flex items-center">
           <MapPin />
-          <div className="ml-4 text-base font-medium">{type}活動</div>
+          <div className="ml-4 text-base font-medium">
+            {data.activity.type}活動
+          </div>
         </div>
-        {!unlimitedQuantity && (
+        {!data.activity.unlimitedQuantity && (
           <div className="flex items-center">
             <User />
             <div className="ml-4 text-base font-medium">
-              {participantCapacity}人
-              {displayRemainingTickets && `（剩餘名額：${remainingTickets}）`}
+              {data.activity.participantCapacity}人
+              {data.activity.displayRemainingTickets &&
+                `（剩餘名額：${data.activity.remainingTickets}）`}
             </div>
           </div>
         )}
       </div>
       <div className="mt-4 flex xl:mt-0">
-        <SignUpButton
-          className=""
-          participantCapacity={participantCapacity}
-          participated={participated}
-        />
-        <FavoriteButton className="" isFavorited={saved} />
+        <SignUpButton className="" />
+        <FavoriteButton className="" />
       </div>
     </section>
   );

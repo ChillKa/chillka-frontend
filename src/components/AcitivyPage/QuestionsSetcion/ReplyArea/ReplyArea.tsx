@@ -1,15 +1,22 @@
 import Comment from '@components/AcitivyPage/QuestionsSetcion/Comment';
 import ReplyCard from '@components/AcitivyPage/QuestionsSetcion/ReplyArea/ReplyCard';
 import cn from '@lib/utils';
+import { useActivityContext } from '@store/ActivityProvider/ActivityProvider';
 import { ReplyType } from 'src/types/activity';
 
 type ReplyAreaProps = {
   className: string;
-  creatorId: string;
+  questionUserId: string;
   replies: ReplyType[];
 };
 
-const ReplyArea = ({ className, creatorId, replies }: ReplyAreaProps) => {
+const ReplyArea = ({ className, questionUserId, replies }: ReplyAreaProps) => {
+  const { userId, data } = useActivityContext();
+
+  if (!data) {
+    return null;
+  }
+
   return (
     <div
       className={cn(
@@ -19,7 +26,7 @@ const ReplyArea = ({ className, creatorId, replies }: ReplyAreaProps) => {
       )}
     >
       {replies.map((reply, index) => {
-        const isOrganizer = creatorId === reply.userId;
+        const isOrganizer = data.activity.creatorId === reply.userId;
         const isLast = index === replies.length - 1;
 
         return (
@@ -31,7 +38,7 @@ const ReplyArea = ({ className, creatorId, replies }: ReplyAreaProps) => {
           />
         );
       })}
-      <Comment className="mt-4" action="reply" />
+      {userId === questionUserId && <Comment className="mt-4" action="reply" />}
     </div>
   );
 };
