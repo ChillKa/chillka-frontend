@@ -73,3 +73,7 @@ export const userFormSchema = z.object({
     .min(2, { message: MIN_LENGTH_MESSAGE(2) })
     .max(50, { message: MAX_LENGTH_MESSAGE(50) }),
 });
+
+export const userCommentSchema = z.object({
+  content: z.string().min(1, { message: MIN_LENGTH_MESSAGE(1) }),
+});

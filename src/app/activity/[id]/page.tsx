@@ -135,7 +135,7 @@ function page() {
   return (
     <>
       <CoverSection className="" covers={DUMMY_DATA.activity.cover} />
-      <div className="mx-auto mb-24 mt-6 xl:mb-[3.5625rem] xl:mt-12 xl:flex xl:max-w-[81rem] xl:justify-between xl:space-x-[7.75rem]">
+      <div className="mx-auto mb-24 mt-6 xl:mt-12 xl:flex xl:max-w-[81rem] xl:justify-between xl:space-x-[7.75rem]">
         <div className="grow px-3 xl:px-0">
           <ActivitySection
             className=""
@@ -168,7 +168,7 @@ function page() {
             contactPhone={DUMMY_DATA.activity.organizer.contactPhone}
             contactEmail={DUMMY_DATA.activity.organizer.contactEmail}
           />
-          <QuestionsSetcion />
+          <QuestionsSetcion className="" />
         </div>
 
         <TicketSection
