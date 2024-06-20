@@ -176,15 +176,11 @@ const AdvancedSearchBarDesktop = ({
               events={[
                 {
                   url: '/',
-                  text: '線上聚會',
+                  text: '線上',
                 },
                 {
                   url: '/',
-                  text: '實體聚會/室內',
-                },
-                {
-                  url: '/',
-                  text: '實體聚會/室外',
+                  text: '線下',
                 },
               ]}
               side="bottom"
