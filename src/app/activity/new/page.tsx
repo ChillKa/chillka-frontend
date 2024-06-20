@@ -6,6 +6,7 @@
     - [] don't forget redirect
   - [] build the mobile view
     - [] might be implemented with stepper
+  - TODO: stucking on image upload
 */
 
 import ActivityCreationForm from '@components/ActivityCreation/ActivityCreationForm';

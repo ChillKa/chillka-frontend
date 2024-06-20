@@ -87,7 +87,7 @@ const RichTextEditor = () => {
 
   return (
     <div>
-      <EditorContent editor={editor} />
+      <EditorContent editor={editor} name="details" />
       {editor ? <RichTextEditorToolbar editor={editor} /> : null}
     </div>
   );
