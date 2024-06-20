@@ -15,13 +15,16 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@radix-ui/react-popover';
+import { format } from 'date-fns';
 import { motion } from 'framer-motion';
 import { ReactNode, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
-import MenuItemContainer, { MenuItemContainerProps } from './MenuItemContainer';
+import CalendarDialog from './CalendarDialog';
+import MenuItem from './MenuItem';
+import { MenuItemContainerProps } from './MenuItemContainer';
 import menuAnimationVariants from './utils';
 
-export type Date = {
+export type DateItem = {
   url?: string;
   text: string;
   endElement?: ReactNode;
@@ -31,7 +34,7 @@ export type DateFieldMenuProps = {
   side?: 'top' | 'bottom';
   menuOpen?: boolean;
   onMenuOpen?: (isOpen: boolean) => void;
-  dates: Date[];
+  dates: DateItem[];
 };
 
 const DateFieldMenu = ({
@@ -42,6 +45,7 @@ const DateFieldMenu = ({
 }: DateFieldMenuProps) => {
   const { setValue, watch } = useFormContext();
   const [isMenuOpen, setIsMenuOpen] = useState(menuOpen);
+  const [customDate, setCustomDate] = useState<Date | undefined>(undefined);
 
   const handleSelect = (selected: ReactNode) => {
     setIsMenuOpen(false);
@@ -54,6 +58,14 @@ const DateFieldMenu = ({
       onMenuOpen(e);
     } else {
       setIsMenuOpen(e);
+    }
+  };
+
+  const handleCustomDateSelect = (date?: Date) => {
+    if (date) {
+      setCustomDate(date);
+      const formattedDate = format(date, 'PPP');
+      setValue('date', formattedDate);
     }
   };
 
@@ -93,7 +105,38 @@ const DateFieldMenu = ({
           animate={isMenuOpen ? 'open' : 'closed'}
           custom={{ size: 1000, locationX: 128, locationY: 362 }}
         >
-          <MenuItemContainer items={dates} onSelect={handleSelect} />
+          <motion.ul
+            variants={{
+              open: {
+                transition: { staggerChildren: 0.07, delayChildren: 0.6 },
+              },
+              closed: {
+                transition: { staggerChildren: 0.05, staggerDirection: -1 },
+              },
+            }}
+            className="no-scrollbar h-[calc(100%-4.5rem)] space-y-4 overflow-auto px-4 py-6 xl:h-full xl:py-4"
+          >
+            {dates.map((date) => {
+              if (date.text === '自訂日期') {
+                return (
+                  <CalendarDialog
+                    key={date.text}
+                    selectedDate={customDate}
+                    onSelect={handleCustomDateSelect}
+                  />
+                );
+              }
+              return (
+                <MenuItem
+                  key={date.text}
+                  value={date.text}
+                  item={<Lead className="text-primary">{date.text}</Lead>}
+                  endElement={date.endElement}
+                  onSelect={handleSelect}
+                />
+              );
+            })}
+          </motion.ul>
         </motion.div>
       </PopoverContent>
     </Popover>
@@ -101,7 +144,7 @@ const DateFieldMenu = ({
 };
 
 export type AdvancedDateMobileFieldProps = {
-  dates: Date[];
+  dates: DateItem[];
   onSelect?: (value: string | number) => void;
 };
 
