@@ -55,7 +55,7 @@ const SortFieldMenu = ({
       <PopoverTrigger asChild>
         <Button
           className={cn(
-            'w-[11.5rem] rounded-[0.375rem] border bg-surface text-primary shadow-[0px_4px_20px_0px_rgba(0,0,0,0.15)]',
+            'w-[11.5rem] rounded-[0.375rem] border bg-surface text-primary',
             'hover:bg-primary hover:text-white'
           )}
         >
@@ -65,7 +65,7 @@ const SortFieldMenu = ({
       </PopoverTrigger>
       <PopoverContent
         align="start"
-        className="relative h-[8.5rem] w-64 rounded border-0"
+        className="relative h-[8.5rem] w-64 rounded border-0 shadow-[0px_4px_20px_0px_rgba(0,0,0,0.15)]"
       >
         <motion.div
           className="absolute inset-0 rounded bg-surface"
