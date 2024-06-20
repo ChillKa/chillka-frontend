@@ -78,7 +78,6 @@ export type ReplyType = {
   displayName: string;
   type: string;
   content: string;
-  replies: ReplyType[];
   createdAt: string;
   updatedAt: string;
   __v: number;
