@@ -17,7 +17,7 @@ import {
 } from '@radix-ui/react-popover';
 import { format } from 'date-fns';
 import { motion } from 'framer-motion';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import CalendarDialog from './CalendarDialog';
 import MenuItem from './MenuItem';
@@ -52,6 +52,12 @@ const DateFieldMenu = ({
     setValue('date', selected);
   };
   const currentSelect = watch('date');
+
+  useEffect(() => {
+    if (!currentSelect) {
+      setCustomDate(undefined);
+    }
+  }, [currentSelect]);
 
   const handleOpenChange = (e: boolean) => {
     if (onMenuOpen) {
@@ -121,6 +127,42 @@ const DateFieldMenu = ({
                 return (
                   <CalendarDialog
                     key={date.text}
+                    triggerElement={
+                      <Button
+                        variant="outline"
+                        className="w-[280px] justify-start text-left font-normal"
+                      >
+                        <motion.li
+                          variants={{
+                            open: {
+                              y: 0,
+                              opacity: 1,
+                              transition: {
+                                y: { stiffness: 1000, velocity: -100 },
+                              },
+                            },
+                            closed: {
+                              y: 30,
+                              opacity: 0,
+                              transition: {
+                                y: { stiffness: 1000 },
+                              },
+                            },
+                          }}
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          className="flex w-full items-center justify-between"
+                        >
+                          {customDate ? (
+                            <Lead className="text-primary">
+                              {format(customDate, 'PPP')}
+                            </Lead>
+                          ) : (
+                            <Lead className="text-primary">自訂日期</Lead>
+                          )}
+                        </motion.li>
+                      </Button>
+                    }
                     selectedDate={customDate}
                     onSelect={handleCustomDateSelect}
                   />
@@ -153,12 +195,27 @@ export const AdvancedDateMobileField = ({
   onSelect,
 }: AdvancedDateMobileFieldProps) => {
   const { setValue, watch } = useFormContext();
-  const currentDate = watch('date', '');
+  const currentSelect = watch('date', '');
+  const [customDate, setCustomDate] = useState<Date | undefined>(undefined);
+
+  useEffect(() => {
+    if (!currentSelect) {
+      setCustomDate(undefined);
+    }
+  }, [currentSelect]);
 
   const handleSelect: MenuItemContainerProps['onSelect'] = (selected) => {
-    const newValue = currentDate === selected ? '' : selected;
+    const newValue = currentSelect === selected ? '' : selected;
     setValue('date', newValue);
     onSelect?.(newValue);
+  };
+
+  const handleCustomDateSelect = (date?: Date) => {
+    if (date) {
+      setCustomDate(date);
+      const formattedDate = format(date, 'PPP');
+      setValue('date', formattedDate);
+    }
   };
 
   return (
@@ -175,10 +232,40 @@ export const AdvancedDateMobileField = ({
         <AccordionContent className="">
           <RadioGroup
             className="flex flex-col gap-4"
-            value={currentDate}
+            value={currentSelect}
             onValueChange={handleSelect}
           >
             {dates.map((date) => {
+              if (date.text === '自訂日期') {
+                return (
+                  <CalendarDialog
+                    key={date.text}
+                    triggerElement={
+                      <Button
+                        asChild
+                        className="flex h-fit items-center justify-between gap-2.5 bg-surface px-4 py-2.5 transition-colors duration-300 ease-out hover:bg-primary/[0.03]"
+                      >
+                        <div className="flex w-full items-center justify-between">
+                          {customDate ? (
+                            <Lead className="text-primary">
+                              {format(customDate, 'PPP')}
+                            </Lead>
+                          ) : (
+                            <Lead className="text-primary">自訂日期</Lead>
+                          )}
+                          <RadioGroupItem
+                            value={date.text}
+                            id={`radio-${date.text}`}
+                          />
+                        </div>
+                      </Button>
+                    }
+                    selectedDate={customDate}
+                    onSelect={handleCustomDateSelect}
+                  />
+                );
+              }
+
               return (
                 <Button
                   key={date.text}
