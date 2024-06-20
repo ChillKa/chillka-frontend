@@ -19,8 +19,26 @@ const getSearchFilter = (params: SearchPageProps['searchParams']) => {
   return Object.keys(params).reduce<Partial<SearchParams>>((acc, key) => {
     if (allowedParams.includes(key as keyof SearchParams)) {
       const value = params[key];
-      if (typeof value === 'string') {
-        acc[key as keyof SearchParams] = value;
+      switch (key) {
+        case 'keyword':
+        case 'category':
+        case 'location':
+        case 'date':
+        case 'type':
+        case 'distance':
+        case 'limit':
+        case 'page':
+          if (typeof value === 'string') {
+            acc[key as keyof Omit<SearchParams, 'sort'>] = value;
+          }
+          break;
+        case 'sort':
+          if (value === '相關性' || value === '日期') {
+            acc[key as 'sort'] = value;
+          }
+          break;
+        default:
+          break;
       }
     }
     return acc;
