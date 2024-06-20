@@ -54,7 +54,7 @@ const SortFieldMenu = ({
       <PopoverTrigger asChild>
         <Button
           className={cn(
-            'rounded-[0.375rem] border bg-surface text-primary',
+            'w-[11.5rem] rounded-[0.375rem] border bg-surface text-primary',
             'hover:bg-primary hover:text-white'
           )}
         >

@@ -218,7 +218,7 @@ const AdvancedSearchBarDesktop = ({
               ]}
               side="bottom"
             />
-            <section className="flex min-w-64 flex-row items-center justify-center gap-2 pl-4">
+            <section className="flex min-w-64 flex-row items-center justify-center gap-4 pl-4">
               <SortFieldMenu
                 sorts={[
                   {
@@ -234,7 +234,7 @@ const AdvancedSearchBarDesktop = ({
               <Button
                 onClick={handleClearFilter}
                 className={cn(
-                  'rounded-[0.375rem] border bg-surface text-primary',
+                  'w-[11.5rem] rounded-[0.375rem] border bg-surface text-primary',
                   'hover:bg-primary hover:text-white'
                 )}
               >
