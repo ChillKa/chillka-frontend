@@ -19,22 +19,22 @@ export const userList = [
   {
     name: '收藏活動',
     icon: <Bookmark size={24} />,
-    url: '',
+    url: '/member-center/favorite-event',
   },
   {
     name: '查詢票券',
     icon: <Ticket size={24} />,
-    url: '',
+    url: '/member-center/ticket-inquiry',
   },
   {
     name: '管理活動',
     icon: <ClipboardList size={24} />,
-    url: '',
+    url: '/member-center/manage-event',
   },
   {
     name: '帳號',
     icon: <User size={24} />,
-    url: '',
+    url: '/member-center/account',
   },
 ];
 
@@ -42,7 +42,7 @@ export const phoneList = [
   {
     name: '信箱',
     icon: <Mail size={24} />,
-    url: '',
+    url: '/member-center/email',
   },
   {
     name: '通知',

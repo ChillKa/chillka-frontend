@@ -1,3 +1,5 @@
+import Navbar from '@components/Navbar';
+
 type MemberCenterLayoutProps = {
   children: React.ReactNode;
 };
@@ -5,7 +7,7 @@ type MemberCenterLayoutProps = {
 const MemberCenterLayout = ({ children }: MemberCenterLayoutProps) => {
   return (
     <div>
-      <p>layout</p>
+      <Navbar />
       {children}
     </div>
   );
