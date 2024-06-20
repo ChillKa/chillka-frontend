@@ -5,8 +5,9 @@ import MapSection from '@components/AcitivyPage/MapSection';
 import OrganizerSection from '@components/AcitivyPage/OrganizerSection';
 import QuestionsSetcion from '@components/AcitivyPage/QuestionsSetcion';
 import TicketSection from '@components/AcitivyPage/TicketSection';
+import { AcitivityResponseType } from 'src/types/activity';
 
-const DUMMY_DATA = {
+const DUMMY_DATA: AcitivityResponseType = {
   activity: {
     _id: '667371860c810e86ea0c36bc',
     creatorId: '667371860c810e86ea0c36a8',
@@ -57,7 +58,7 @@ const DUMMY_DATA = {
     saved: false,
     participated: false,
     participantCapacity: 56,
-    unlimitedQuantity: true,
+    unlimitedQuantity: false,
     __v: 0,
     createdAt: '2024-06-20T00:02:14.565Z',
     updatedAt: '2024-06-20T00:02:14.565Z',
@@ -166,7 +167,6 @@ function page() {
           ) : (
             <LinkSection className="" />
           )}
-
           <OrganizerSection
             className=""
             organizer={DUMMY_DATA.activity.organizer.name}
@@ -181,15 +181,18 @@ function page() {
             creatorId={DUMMY_DATA.activity.creatorId}
           />
         </div>
-
         <TicketSection
           className=""
+          participated={DUMMY_DATA.activity?.participated ?? false}
+          saved={DUMMY_DATA.activity?.saved ?? false}
           organizer={DUMMY_DATA.activity.organizer.name}
           profilePicture={DUMMY_DATA.activity.organizer.profilePicture}
           name={DUMMY_DATA.activity.name}
           type={DUMMY_DATA.activity.type}
           unlimitedQuantity={DUMMY_DATA.activity.unlimitedQuantity}
           participantCapacity={DUMMY_DATA.activity.participantCapacity}
+          displayRemainingTickets={DUMMY_DATA.activity.displayRemainingTickets}
+          remainingTickets={DUMMY_DATA.activity.remainingTickets}
         />
       </div>
     </>

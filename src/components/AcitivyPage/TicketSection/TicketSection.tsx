@@ -17,6 +17,10 @@ type TicketSectionProps = {
   type: string;
   unlimitedQuantity: boolean;
   participantCapacity: number;
+  saved: boolean;
+  participated: boolean;
+  displayRemainingTickets: boolean;
+  remainingTickets: number;
 };
 
 const TicketSection = ({
@@ -27,6 +31,10 @@ const TicketSection = ({
   type,
   unlimitedQuantity,
   participantCapacity,
+  saved,
+  participated,
+  displayRemainingTickets,
+  remainingTickets,
   // dataTime
 }: TicketSectionProps) => {
   const [isVisible, setIsVisible] = useState(true);
@@ -91,6 +99,7 @@ const TicketSection = ({
             <User />
             <div className="ml-4 text-base font-medium">
               {participantCapacity}人
+              {displayRemainingTickets && `（剩餘名額：${remainingTickets}）`}
             </div>
           </div>
         )}
@@ -98,10 +107,10 @@ const TicketSection = ({
       <div className="mt-4 flex xl:mt-0">
         <SignUpButton
           className=""
-          isSignedUp={false}
           participantCapacity={participantCapacity}
+          participated={participated}
         />
-        <FavoriteButton className="" isFavorited={false} />
+        <FavoriteButton className="" isFavorited={saved} />
       </div>
     </section>
   );

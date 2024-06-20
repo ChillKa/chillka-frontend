@@ -45,8 +45,8 @@ export type ActivityType = {
   participantCapacity: number;
   lat: number;
   lng: number;
-  saved: boolean;
-  participated: boolean;
+  saved?: boolean;
+  participated?: boolean;
   unlimitedQuantity: boolean;
   remainingTickets: number;
   __v: number;
