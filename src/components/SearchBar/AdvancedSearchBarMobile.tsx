@@ -138,35 +138,27 @@ const AdvancedSearchBarMobile = ({
             dates={[
               {
                 text: '即將開始',
-                endElement: <Checkbox />,
               },
               {
                 text: '今天',
-                endElement: <Checkbox />,
               },
               {
                 text: '明天',
-                endElement: <Checkbox />,
               },
               {
                 text: '本周',
-                endElement: <Checkbox />,
               },
               {
                 text: '下周',
-                endElement: <Checkbox />,
               },
               {
                 text: '本周末',
-                endElement: <Checkbox />,
               },
               {
                 text: '下一周',
-                endElement: <Checkbox />,
               },
               {
                 text: '自訂日期',
-                endElement: <Checkbox />,
               },
             ]}
           />
@@ -174,15 +166,9 @@ const AdvancedSearchBarMobile = ({
             events={[
               {
                 text: '線上聚會',
-                endElement: <Checkbox />,
               },
               {
-                text: '實體聚會/室內',
-                endElement: <Checkbox />,
-              },
-              {
-                text: '實體聚會/室外',
-                endElement: <Checkbox />,
+                text: '線下聚會',
               },
             ]}
           />
@@ -190,27 +176,21 @@ const AdvancedSearchBarMobile = ({
             distances={[
               {
                 text: '2公里',
-                endElement: <Checkbox />,
               },
               {
                 text: '5公里',
-                endElement: <Checkbox />,
               },
               {
                 text: '10公里',
-                endElement: <Checkbox />,
               },
               {
                 text: '25公里',
-                endElement: <Checkbox />,
               },
               {
                 text: '50公里',
-                endElement: <Checkbox />,
               },
               {
                 text: '100公里',
-                endElement: <Checkbox />,
               },
             ]}
           />

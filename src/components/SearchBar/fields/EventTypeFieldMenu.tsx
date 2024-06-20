@@ -6,6 +6,9 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@components/ui/accordion';
+import { Button } from '@components/ui/button';
+import { RadioGroup, RadioGroupItem } from '@components/ui/radio-group';
+import { Lead } from '@components/ui/typography';
 import cn from '@lib/utils';
 import {
   Popover,
@@ -105,11 +108,13 @@ export const AdvancedEventTypeMobileField = ({
   events,
   onSelect,
 }: AdvancedEventTypeMobileFieldProps) => {
-  const { setValue } = useFormContext();
+  const { setValue, watch } = useFormContext();
+  const currentEventType = watch('type', '');
 
   const handleSelect: MenuItemContainerProps['onSelect'] = (selected) => {
-    setValue('type', selected);
-    onSelect?.(selected);
+    const newValue = currentEventType === selected ? '' : selected;
+    setValue('type', newValue);
+    onSelect?.(newValue);
   };
 
   return (
@@ -124,7 +129,30 @@ export const AdvancedEventTypeMobileField = ({
           形式
         </AccordionTrigger>
         <AccordionContent className="">
-          <MenuItemContainer items={events} onSelect={handleSelect} />
+          <RadioGroup
+            className="flex flex-col gap-4"
+            value={currentEventType}
+            onValueChange={handleSelect}
+          >
+            {events.map((event) => {
+              return (
+                <Button
+                  key={event.text}
+                  asChild
+                  className="flex h-fit items-center justify-between gap-2.5 bg-surface px-4 py-2.5 transition-colors duration-300 ease-out hover:bg-primary/[0.03]"
+                  onClick={() => handleSelect(event.text)}
+                >
+                  <div className="flex w-full items-center justify-between">
+                    <Lead className="text-primary">{event.text}</Lead>
+                    <RadioGroupItem
+                      value={event.text}
+                      id={`radio-${event.text}`}
+                    />
+                  </div>
+                </Button>
+              );
+            })}
+          </RadioGroup>
         </AccordionContent>
       </AccordionItem>
     </Accordion>

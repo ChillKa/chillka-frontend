@@ -6,6 +6,9 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@components/ui/accordion';
+import { Button } from '@components/ui/button';
+import { RadioGroup, RadioGroupItem } from '@components/ui/radio-group';
+import { Lead } from '@components/ui/typography';
 import cn from '@lib/utils';
 import {
   Popover,
@@ -106,11 +109,13 @@ export const AdvancedDateMobileField = ({
   dates,
   onSelect,
 }: AdvancedDateMobileFieldProps) => {
-  const { setValue } = useFormContext();
+  const { setValue, watch } = useFormContext();
+  const currentDate = watch('date', '');
 
   const handleSelect: MenuItemContainerProps['onSelect'] = (selected) => {
-    setValue('date', selected);
-    onSelect?.(selected);
+    const newValue = currentDate === selected ? '' : selected;
+    setValue('date', newValue);
+    onSelect?.(newValue);
   };
 
   return (
@@ -125,7 +130,30 @@ export const AdvancedDateMobileField = ({
           日期
         </AccordionTrigger>
         <AccordionContent className="">
-          <MenuItemContainer items={dates} onSelect={handleSelect} />
+          <RadioGroup
+            className="flex flex-col gap-4"
+            value={currentDate}
+            onValueChange={handleSelect}
+          >
+            {dates.map((date) => {
+              return (
+                <Button
+                  key={date.text}
+                  asChild
+                  className="flex h-fit items-center justify-between gap-2.5 bg-surface px-4 py-2.5 transition-colors duration-300 ease-out hover:bg-primary/[0.03]"
+                  onClick={() => handleSelect(date.text)}
+                >
+                  <div className="flex w-full items-center justify-between">
+                    <Lead className="text-primary">{date.text}</Lead>
+                    <RadioGroupItem
+                      value={date.text}
+                      id={`radio-${date.text}`}
+                    />
+                  </div>
+                </Button>
+              );
+            })}
+          </RadioGroup>
         </AccordionContent>
       </AccordionItem>
     </Accordion>
