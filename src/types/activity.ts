@@ -18,6 +18,8 @@ export type RecurringType = {
 };
 
 export type ActivityType = {
+  startDateTime: string;
+  endDateTime: string;
   organizer: OrganizerType;
   name: string;
   cover: string[];
@@ -37,11 +39,16 @@ export type ActivityType = {
   noEndDate: boolean;
   isPrivate: boolean;
   displayRemainingTickets: boolean;
-  participantNumber: number;
   status: string;
   createdAt: string;
   updatedAt: string;
   participantCapacity: number;
+  lat: number;
+  lng: number;
+  saved: boolean;
+  participated: boolean;
+  unlimitedQuantity: boolean;
+  remainingTickets: number;
   __v: number;
 };
 
@@ -90,7 +97,7 @@ export type QuestionType = {
   __v: number;
 };
 
-export type ApiResponse = {
+export type AcitivityResponseType = {
   activity: ActivityType;
   tickets: TicketType[];
   questions: QuestionType[];

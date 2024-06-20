@@ -15,7 +15,8 @@ type TicketSectionProps = {
   profilePicture: string;
   name: string;
   type: string;
-  participantNumber: number;
+  unlimitedQuantity: boolean;
+  participantCapacity: number;
 };
 
 const TicketSection = ({
@@ -24,7 +25,8 @@ const TicketSection = ({
   profilePicture,
   name,
   type,
-  participantNumber,
+  unlimitedQuantity,
+  participantCapacity,
   // dataTime
 }: TicketSectionProps) => {
   const [isVisible, setIsVisible] = useState(true);
@@ -84,11 +86,11 @@ const TicketSection = ({
           <MapPin />
           <div className="ml-4 text-base font-medium">{type}活動</div>
         </div>
-        {participantNumber > 0 && (
+        {!unlimitedQuantity && (
           <div className="flex items-center">
             <User />
             <div className="ml-4 text-base font-medium">
-              {participantNumber}人
+              {participantCapacity}人
             </div>
           </div>
         )}
@@ -97,7 +99,7 @@ const TicketSection = ({
         <SignUpButton
           className=""
           isSignedUp={false}
-          participantNumber={participantNumber}
+          participantCapacity={participantCapacity}
         />
         <FavoriteButton className="" isFavorited={false} />
       </div>

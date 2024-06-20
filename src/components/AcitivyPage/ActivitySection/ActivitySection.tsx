@@ -10,6 +10,7 @@ type ActivitySectionProps = {
   type: string;
   location: string;
   address: string;
+  unlimitedQuantity: boolean;
   participantCapacity: number;
   websiteName: string;
   websiteURL: string;
@@ -24,6 +25,7 @@ const ActivitySection = ({
   type,
   location,
   address,
+  unlimitedQuantity,
   participantCapacity,
   websiteName,
   websiteURL,
@@ -62,17 +64,19 @@ const ActivitySection = ({
             </div>
           </div>
         </div>
-        <div className="flex">
-          <User className="h-8 w-8 xl:h-12 xl:w-12" />
-          <div className="ml-6 xl:ml-10">
-            <div className="text-xl font-bold -tracking-[0.005em] xl:text-2xl xl:-tracking-[0.006em]">
-              活動人數
-            </div>
-            <div className="mt-2 text-base font-medium xl:text-lg xl:font-bold">
-              {participantCapacity}人
+        {!unlimitedQuantity && (
+          <div className="flex">
+            <User className="h-8 w-8 xl:h-12 xl:w-12" />
+            <div className="ml-6 xl:ml-10">
+              <div className="text-xl font-bold -tracking-[0.005em] xl:text-2xl xl:-tracking-[0.006em]">
+                活動人數
+              </div>
+              <div className="mt-2 text-base font-medium xl:text-lg xl:font-bold">
+                {participantCapacity}人
+              </div>
             </div>
           </div>
-        </div>
+        )}
         <div className="flex">
           <LinkIcon className="h-8 w-8 xl:h-12 xl:w-12" />
           <div className="ml-6 xl:ml-10">
