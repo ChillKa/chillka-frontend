@@ -141,11 +141,5 @@ const OrganizerFormSection = ({ form }: OrganizerFormSectionProps) => {
       />
     </div>
   );
-
-  return (
-    <FormDescription>
-      We love you, we will called you first name
-    </FormDescription>
-  );
 };
 export default OrganizerFormSection;
