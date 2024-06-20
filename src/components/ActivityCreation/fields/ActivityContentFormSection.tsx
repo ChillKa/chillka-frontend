@@ -125,19 +125,19 @@ const ActivityContentFormSection = ({
                   defaultValue={field.value}
                   className="flex"
                 >
-                  <FormItem className="flex items-center gap-2">
+                  <FormItem className="flex items-center gap-2 space-y-0">
                     <FormControl>
                       <RadioGroupItem variant="form" value="線上" />
                     </FormControl>
                     <FormLabel>線上活動</FormLabel>
                   </FormItem>
-                  <FormItem className="flex items-center gap-2">
+                  <FormItem className="flex items-center gap-2 space-y-0">
                     <FormControl>
                       <RadioGroupItem variant="form" value="室內" />
                     </FormControl>
                     <FormLabel>線下室內</FormLabel>
                   </FormItem>
-                  <FormItem className="flex items-center gap-2">
+                  <FormItem className="flex items-center gap-2 space-y-0">
                     <FormControl>
                       <RadioGroupItem variant="form" value="室外" />
                     </FormControl>
@@ -184,15 +184,24 @@ const ActivityContentFormSection = ({
             <FormItem className="space-y-1.5">
               <FormLabel>活動隱私</FormLabel>
               <FormControl>
-                <div className="flex items-center gap-2">
-                  <Switch
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                  />
-                  <Label htmlFor="airplane-mode">
-                    {field.value ? '私人' : '公開'}
-                  </Label>
-                </div>
+                <RadioGroup
+                  onValueChange={field.onChange}
+                  defaultValue={`${field.value}`}
+                  className="flex"
+                >
+                  <FormItem className="flex items-center gap-2 space-y-0">
+                    <FormControl>
+                      <RadioGroupItem variant="form" value="false" />
+                    </FormControl>
+                    <FormLabel>公開</FormLabel>
+                  </FormItem>
+                  <FormItem className="flex items-center gap-2 space-y-0">
+                    <FormControl>
+                      <RadioGroupItem variant="form" value="true" />
+                    </FormControl>
+                    <FormLabel>私人</FormLabel>
+                  </FormItem>
+                </RadioGroup>
               </FormControl>
               <FormDescription className="text-primary-light">
                 設定活動為私人時，將不會在平台上顯示

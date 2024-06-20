@@ -16,6 +16,7 @@ import { z } from 'zod';
 import OrganizerFormSection from './fields/OrganizerFormSection';
 /* TODO: Fix typo ActivityTimePicker */
 import ActivityContentFormSection from './fields/ActivityContentFormSection';
+import TicketFormSection from './fields/TicketFormSection';
 import UploadFormButton from './ui/UploadFormButton';
 
 type ActivityCreationFormProps = {
@@ -188,6 +189,7 @@ const ActivityCreationForm = ({ className }: ActivityCreationFormProps) => {
         <form className="mt-12 space-y-12" action={uploadActivity}>
           <OrganizerFormSection form={form} />
           <ActivityContentFormSection form={form} />
+          <TicketFormSection form={form} />
           <UploadFormButton>送出</UploadFormButton>
         </form>
       </Form>
