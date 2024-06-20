@@ -82,7 +82,7 @@ const DUMMY_DATA = {
         {
           _id: '6667c0c7659348e1534c7080',
           activityId: '665d19b812b31b3aae335a25',
-          userId: '6657215724e60320ddf55189',
+          userId: '6656060a066cd51095906678',
           questionId: '6667b94392675f737af4e43c',
           displayName: 'chillka2',
           type: '回覆',
@@ -124,8 +124,8 @@ const DUMMY_DATA = {
       displayName: 'chillka2',
       type: '提問',
       content: 'question3',
-      createdAt: '2024-06-11T02:41:10.606Z',
-      updatedAt: '2024-06-11T02:41:10.606Z',
+      createdAt: '2024-06-16T08:20:10.606Z',
+      updatedAt: '2024-06-16T02:41:10.606Z',
       __v: 0,
     },
   ],
@@ -168,7 +168,11 @@ function page() {
             contactPhone={DUMMY_DATA.activity.organizer.contactPhone}
             contactEmail={DUMMY_DATA.activity.organizer.contactEmail}
           />
-          <QuestionsSetcion className="" />
+          <QuestionsSetcion
+            className="border-primary"
+            questions={DUMMY_DATA.questions}
+            creatorId={DUMMY_DATA.activity.creatorId}
+          />
         </div>
 
         <TicketSection

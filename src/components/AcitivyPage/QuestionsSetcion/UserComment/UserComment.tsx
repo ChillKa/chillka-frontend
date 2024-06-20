@@ -9,7 +9,7 @@ const UserComment = () => {
   const { isLoggedin } = useAuthContext();
 
   return (
-    <div>
+    <div className="mt-4 xl:mt-6">
       {isLoggedin ? (
         <div className="flex gap-4 xl:gap-6">
           <Image
@@ -23,7 +23,7 @@ const UserComment = () => {
               objectFit: 'cover',
             }}
           />
-          <Comment />
+          <Comment className="" action="comment" />
         </div>
       ) : (
         <P>需登入才能提問</P>
