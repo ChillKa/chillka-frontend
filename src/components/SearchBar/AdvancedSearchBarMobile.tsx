@@ -207,6 +207,7 @@ const AdvancedSearchBarMobile = ({
               <ToggleGroupItem
                 value="relative"
                 aria-label="Toggle bold"
+                disabled
                 asChild
                 className={cn(
                   'h-12 w-full min-w-[163.5px] flex-1 rounded-l-[0.5rem] border-[1px] border-r-0 border-primary',
@@ -217,7 +218,6 @@ const AdvancedSearchBarMobile = ({
               >
                 <button type="button">活動</button>
               </ToggleGroupItem>
-              <div className="absolute left-1/2 h-12 -translate-x-1/2 border-[1px] border-solid border-primary" />
               <ToggleGroupItem
                 value="date"
                 aria-label="Toggle underline"
