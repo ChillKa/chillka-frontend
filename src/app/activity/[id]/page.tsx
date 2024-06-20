@@ -160,7 +160,14 @@ function page() {
             <LinkSection className="" />
           )}
 
-          <OrganizerSection />
+          <OrganizerSection
+            className=""
+            organizer={DUMMY_DATA.activity.organizer.name}
+            profilePicture={DUMMY_DATA.activity.organizer.profilePicture}
+            contactName={DUMMY_DATA.activity.organizer.contactName}
+            contactPhone={DUMMY_DATA.activity.organizer.contactPhone}
+            contactEmail={DUMMY_DATA.activity.organizer.contactEmail}
+          />
           <QuestionsSetcion />
         </div>
 

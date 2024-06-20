@@ -1,12 +1,12 @@
 'use client';
 
+import OrganizerName from '@components/AcitivyPage/OrganizerSection/OrganizerName';
 import FavoriteButton from '@components/AcitivyPage/TicketSection/FavoriteButton';
 import SignUpButton from '@components/AcitivyPage/TicketSection/SignUpButton';
 import { H3 } from '@components/ui/typography';
 import useMediaQuery from '@hooks/use-media-query';
 import cn from '@lib/utils';
 import { CalendarDays, MapPin, User } from 'lucide-react';
-import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 
 type TicketSectionProps = {
@@ -66,24 +66,11 @@ const TicketSection = ({
         className
       )}
     >
-      <div className=" flex h-full items-center">
-        <div className="h-12 w-12 xl:h-20 xl:min-w-20">
-          <Image
-            src={profilePicture}
-            width={80}
-            height={80}
-            loading="eager"
-            className="h-full w-full rounded-2xl"
-            alt="Organizer"
-            style={{
-              objectFit: 'cover',
-            }}
-          />
-        </div>
-        <div className="ml-4 w-full text-xl font-bold -tracking-[0.005em] xl:text-2xl xl:-tracking-[0.006em]">
-          {organizer}
-        </div>
-      </div>
+      <OrganizerName
+        className=""
+        profilePicture={profilePicture}
+        organizer={organizer}
+      />
       <H3>{name}</H3>
       <div className="space-y-2">
         <div className="flex items-center">
