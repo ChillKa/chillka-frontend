@@ -2,7 +2,7 @@
 
 import { acitivityResponseSchema } from '@lib/definitions';
 import { z } from 'zod';
-import { fetchAPI } from './utils';
+import { fetchAPI, getJwtPayload } from './utils';
 
 export type ActivityData = z.infer<typeof acitivityResponseSchema>;
 
@@ -10,6 +10,7 @@ export type ActivityFetchState =
   | {
       status: 'success';
       data: ActivityData;
+      userId: string;
     }
   | {
       status: 'failed';
@@ -18,8 +19,17 @@ export type ActivityFetchState =
 
 export async function fetchActivity(data: string): Promise<ActivityFetchState> {
   try {
+    const payload = await getJwtPayload();
+    let userId = '';
+    let userIdParam = '';
+
+    if (payload && typeof payload._id === 'string') {
+      userId = payload._id;
+      userIdParam = `?userId=${payload._id}`;
+    }
+
     const response = await fetchAPI({
-      api: `/activities/${data}`,
+      api: `/activities/${data}${userIdParam}`,
       method: 'GET',
     });
 
@@ -45,6 +55,7 @@ export async function fetchActivity(data: string): Promise<ActivityFetchState> {
     return {
       status: 'success',
       data: validatedData.data,
+      userId,
     };
   } catch (error) {
     return {
