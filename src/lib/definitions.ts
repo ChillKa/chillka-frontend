@@ -111,10 +111,10 @@ export const createActivityFormSchema = z.object({
     .string({ required_error: '請填寫活動詳情' })
     .min(20, { message: '請至少填寫20個字以上' }),
   isPrivate: z.coerce.boolean({ required_error: 'IsPrivate is required' }),
-  displayRemainingTickets: z.boolean({
+  displayRemainingTickets: z.coerce.boolean({
     required_error: 'DisplayRemainingTickets is required',
   }),
-  isRecurring: z.boolean({ required_error: 'IsRecurring is required' }),
+  isRecurring: z.coerce.boolean({ required_error: 'IsRecurring is required' }),
   recurring: z
     .object({
       period: z.string(),

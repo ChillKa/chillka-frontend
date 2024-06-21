@@ -225,6 +225,7 @@ const ActivityContentFormSection = ({
                   <Label htmlFor="airplane-mode">
                     {field.value ? '顯示' : '不顯示'}
                   </Label>
+                  <input readOnly className="size-0" value={`${field.value}`} />
                 </div>
               </FormControl>
               <FormDescription className="text-primary-light">
@@ -249,6 +250,7 @@ const ActivityContentFormSection = ({
                   <Label htmlFor="airplane-mode">
                     {field.value ? '啟用' : '不啟用'}
                   </Label>
+                  <input readOnly className="size-0" value={`${field.value}`} />
                 </div>
               </FormControl>
               <FormDescription className="text-primary-light">
