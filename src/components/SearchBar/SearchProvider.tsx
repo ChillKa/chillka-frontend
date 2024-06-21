@@ -52,12 +52,14 @@ export type SearchFieldProps<T extends FieldValues> = {
     value: any;
     onChange: (value: any) => void;
   }) => ReactNode;
+  className?: string;
 };
 
 export const SearchField = <T extends FieldValues>({
   name,
   rules,
   children,
+  className,
 }: SearchFieldProps<T>) => {
   const methods = useSearch<T>();
 
@@ -68,7 +70,7 @@ export const SearchField = <T extends FieldValues>({
       rules={rules}
       render={({ field }) => {
         return (
-          <FormItem>
+          <FormItem className={className}>
             {children({ value: field.value, onChange: field.onChange })}
           </FormItem>
         );

@@ -105,51 +105,49 @@ const SearchBarDesktop = ({
       )}
     >
       <H3>依照需求搜尋適合你的活動</H3>
-      <div className="flex gap-2">
-        <form onSubmit={handleSearchSubmit} className="flex grow">
-          <SearchField name="keyword">
-            {({ value, onChange }) => (
-              <ActivityField
-                activityKeywords={activityKeywords}
-                activityPictures={activityPictures}
-                value={value}
-                onChange={onChange}
-              />
-            )}
-          </SearchField>
-          <SearchField name="category">
-            {({ value, onChange }) => (
-              <CategoryFieldMenu
-                categories={categories}
-                value={value}
-                onChange={(val) => {
-                  onChange(val);
-                  handleSearchSubmit();
-                }}
-              />
-            )}
-          </SearchField>
-          <SearchField name="location">
-            {({ value, onChange }) => (
-              <LocationFieldMenu
-                locations={locations}
-                value={value}
-                onChange={(val) => {
-                  onChange(val);
-                  handleSearchSubmit();
-                }}
-              />
-            )}
-          </SearchField>
+      <form onSubmit={handleSearchSubmit} className="flex grow">
+        <SearchField name="keyword" className="grow">
+          {({ value, onChange }) => (
+            <ActivityField
+              activityKeywords={activityKeywords}
+              activityPictures={activityPictures}
+              value={value}
+              onChange={onChange}
+            />
+          )}
+        </SearchField>
+        <SearchField name="category" className="min-w-64">
+          {({ value, onChange }) => (
+            <CategoryFieldMenu
+              categories={categories}
+              value={value}
+              onChange={(val) => {
+                onChange(val);
+                handleSearchSubmit();
+              }}
+            />
+          )}
+        </SearchField>
+        <SearchField name="location" className="min-w-64">
+          {({ value, onChange }) => (
+            <LocationFieldMenu
+              locations={locations}
+              value={value}
+              onChange={(val) => {
+                onChange(val);
+                handleSearchSubmit();
+              }}
+            />
+          )}
+        </SearchField>
 
-          <Button
-            type="submit"
-            className="flex h-auto self-auto px-20 text-xl font-bold"
-          >
-            搜尋活動
-          </Button>
-        </form>
-      </div>
+        <Button
+          type="submit"
+          className="flex h-auto self-auto px-20 text-xl font-bold"
+        >
+          搜尋活動
+        </Button>
+      </form>
     </section>
   );
 };

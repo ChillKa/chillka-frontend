@@ -109,8 +109,8 @@ const DateFieldMenu = ({
         sideOffset={0}
         className={cn(
           'relative h-[22.625rem] w-64 border-y',
-          `${side === 'bottom' && 'border-b border-t-0'}`,
-          `${side === 'top' && 'border-b-0 border-t'}`
+          `${side === 'bottom' && 'mt-[-0.5rem] border-b border-t-0'}`,
+          `${side === 'top' && 'mb-[0.5rem] border-b-0 border-t'}`
         )}
       >
         <motion.div

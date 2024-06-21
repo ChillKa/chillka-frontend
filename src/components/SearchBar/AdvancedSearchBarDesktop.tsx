@@ -50,7 +50,7 @@ const AdvancedSearchBarDesktop = ({
           )}
         >
           <div className="flex grow">
-            <SearchField name="keyword">
+            <SearchField name="keyword" className="grow">
               {({ value, onChange }) => (
                 <ActivityField
                   side="bottom"
@@ -62,7 +62,7 @@ const AdvancedSearchBarDesktop = ({
               )}
             </SearchField>
 
-            <SearchField name="category">
+            <SearchField name="category" className="min-w-64">
               {({ value, onChange }) => (
                 <CategoryFieldMenu
                   categories={categories}
@@ -75,7 +75,7 @@ const AdvancedSearchBarDesktop = ({
                 />
               )}
             </SearchField>
-            <SearchField name="location">
+            <SearchField name="location" className="min-w-64">
               {({ value, onChange }) => (
                 <LocationFieldMenu
                   locations={locations}
@@ -133,7 +133,7 @@ const AdvancedSearchBarDesktop = ({
                 ))}
               </div>
             </div>
-            <SearchField name="date">
+            <SearchField name="date" className="min-w-64">
               {({ value, onChange }) => (
                 <DateFieldMenu
                   dates={dates}
@@ -147,7 +147,7 @@ const AdvancedSearchBarDesktop = ({
               )}
             </SearchField>
 
-            <SearchField name="type">
+            <SearchField name="type" className="min-w-64">
               {({ value, onChange }) => (
                 <EventTypeFieldMenu
                   events={[

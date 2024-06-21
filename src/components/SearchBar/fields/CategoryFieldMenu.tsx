@@ -87,8 +87,8 @@ const CategoryFieldMenu = ({
         sideOffset={0}
         className={cn(
           'relative h-[22.625rem] w-64 border-y',
-          `${side === 'bottom' && 'border-t-0'}`,
-          `${side === 'top' && 'border-b-0'}`
+          `${side === 'bottom' && 'mt-[-0.5rem] border-t-0'}`,
+          `${side === 'top' && 'mb-[0.5rem] border-b-0'}`
         )}
       >
         <motion.div

@@ -101,8 +101,8 @@ const ActivityField = ({
         sideOffset={0}
         className={cn(
           'mx-auto min-w-[81rem]',
-          `${side === 'bottom' && 'border-b border-t-0'}`,
-          `${side === 'top' && 'border-b-0 border-t'}`
+          `${side === 'bottom' && 'mt-[-0.5rem] border-b border-t-0'}`,
+          `${side === 'top' && 'mb-[0.5rem] border-b-0 border-t'}`
         )}
         onPointerDownOutside={(e) => {
           const open = searchBarTriggerRef.current?.contains(e.target as Node);
