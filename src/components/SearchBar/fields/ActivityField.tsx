@@ -6,7 +6,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@components/ui/accordion';
-import { FormField } from '@components/ui/form';
 import { Input } from '@components/ui/input';
 import { Small } from '@components/ui/typography';
 import cn from '@lib/utils';
@@ -20,7 +19,6 @@ import { SearchIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRef, useState } from 'react';
-import { useFormContext } from 'react-hook-form';
 import menuAnimationVariants from './utils';
 
 export type ActivityKeyword = {
@@ -38,6 +36,8 @@ export type ActivityFieldProps = {
   side?: 'top' | 'bottom';
   activityKeywords: ActivityKeyword[];
   activityPictures: ActivityPicture[];
+  value: string;
+  onChange: (value: string) => void;
   menuOpen?: boolean;
   onMenuOpen?: (isOpen: boolean) => void;
 };
@@ -46,14 +46,14 @@ const ActivityField = ({
   side = 'top',
   activityKeywords,
   activityPictures,
+  value,
+  onChange,
   menuOpen = false,
   onMenuOpen,
 }: ActivityFieldProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(menuOpen);
   const searchBarTriggerRef = useRef<HTMLButtonElement | null>(null);
   const searchBarInputRef = useRef<HTMLInputElement | null>(null);
-
-  const { control } = useFormContext();
 
   const handleOpenChange = (open: boolean) => {
     onMenuOpen?.(open);
@@ -81,23 +81,15 @@ const ActivityField = ({
         >
           <div className="space-y-2 border-x border-primary px-4">
             <p className="font-bold">活動</p>
-            <FormField
-              control={control}
-              name="keyword"
-              render={({ field }) => (
-                <Input
-                  type="text"
-                  className="h-fit w-full border-none p-0 text-base placeholder:text-primary focus-visible:ring-0 focus-visible:ring-offset-0"
-                  placeholder="搜尋關鍵字"
-                  onFocus={() => {
-                    setIsMenuOpen(() => true);
-                  }}
-                  onInput={() => {
-                    // TODO: debouncing method & search method
-                  }}
-                  {...field}
-                />
-              )}
+            <Input
+              type="text"
+              className="h-fit w-full border-none p-0 text-base placeholder:text-primary focus-visible:ring-0 focus-visible:ring-offset-0"
+              placeholder="搜尋關鍵字"
+              value={value}
+              onChange={(e) => onChange(e.target.value)}
+              onFocus={() => {
+                setIsMenuOpen(() => true);
+              }}
             />
           </div>
         </div>
@@ -168,28 +160,25 @@ const ActivityField = ({
 export type ActivityMobileFieldProps = {
   activityKeywords: ActivityKeyword[];
   activityPictures: ActivityPicture[];
+  value: string;
+  onChange: (value: string) => void;
 };
 
 export const ActivityMobileField = ({
   activityKeywords,
   activityPictures,
+  value,
+  onChange,
 }: ActivityMobileFieldProps) => {
-  const { control } = useFormContext();
-
   return (
     <div className="flex flex-col justify-between text-primary">
       <div className="mx-3 mt-10 flex border-0 border-b border-primary pb-4 pt-2">
-        <FormField
-          control={control}
-          name="keyword"
-          render={({ field }) => (
-            <Input
-              type="text"
-              placeholder="搜尋活動關鍵字"
-              className="h-fit w-full border-none p-0 text-base placeholder:text-primary/50 focus-visible:ring-0 focus-visible:ring-offset-0"
-              {...field}
-            />
-          )}
+        <Input
+          type="text"
+          placeholder="搜尋活動關鍵字"
+          className="h-fit w-full border-none p-0 text-base placeholder:text-primary/50 focus-visible:ring-0 focus-visible:ring-offset-0"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
         />
         <button
           className="px-3"
@@ -239,11 +228,15 @@ export const ActivityMobileField = ({
 export type AdvancedActivityMobileFieldProps = {
   activityKeywords: ActivityKeyword[];
   activityPictures: ActivityPicture[];
+  value: string;
+  onChange: (value: string) => void;
 };
 
 export const AdvancedActivityMobileField = ({
   activityKeywords,
   activityPictures,
+  value,
+  onChange,
 }: AdvancedActivityMobileFieldProps) => {
   return (
     <Accordion type="single" collapsible>
@@ -260,6 +253,8 @@ export const AdvancedActivityMobileField = ({
           <ActivityMobileField
             activityKeywords={activityKeywords}
             activityPictures={activityPictures}
+            value={value}
+            onChange={onChange}
           />
         </AccordionContent>
       </AccordionItem>

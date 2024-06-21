@@ -7,7 +7,6 @@ import {
   AccordionTrigger,
 } from '@components/ui/accordion';
 import { Button } from '@components/ui/button';
-import { RadioGroup, RadioGroupItem } from '@components/ui/radio-group';
 import { Lead } from '@components/ui/typography';
 import cn from '@lib/utils';
 import {
@@ -15,13 +14,17 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@radix-ui/react-popover';
+import {
+  RadioGroup,
+  RadioGroupIndicator,
+  RadioGroupItem,
+} from '@radix-ui/react-radio-group';
 import { format } from 'date-fns';
 import { motion } from 'framer-motion';
+import { Circle } from 'lucide-react';
 import { ReactNode, useEffect, useState } from 'react';
-import { useFormContext } from 'react-hook-form';
 import CalendarDialog from './CalendarDialog';
 import MenuItem from './MenuItem';
-import { MenuItemContainerProps } from './MenuItemContainer';
 import menuAnimationVariants from './utils';
 
 export type DateItem = {
@@ -35,6 +38,8 @@ export type DateFieldMenuProps = {
   menuOpen?: boolean;
   onMenuOpen?: (isOpen: boolean) => void;
   dates: DateItem[];
+  value: string;
+  onChange: (value: string) => void;
 };
 
 const DateFieldMenu = ({
@@ -42,22 +47,28 @@ const DateFieldMenu = ({
   menuOpen = false,
   onMenuOpen,
   dates,
+  value,
+  onChange,
 }: DateFieldMenuProps) => {
-  const { setValue, watch } = useFormContext();
   const [isMenuOpen, setIsMenuOpen] = useState(menuOpen);
   const [customDate, setCustomDate] = useState<Date | undefined>(undefined);
 
-  const handleSelect = (selected: ReactNode) => {
-    setIsMenuOpen(false);
-    setValue('date', selected);
-  };
-  const currentSelect = watch('date');
-
   useEffect(() => {
-    if (!currentSelect) {
+    if (!value || value === '自訂日期') {
       setCustomDate(undefined);
+    } else {
+      const parsedDate = new Date(value);
+      if (!Number.isNaN(parsedDate.getTime())) {
+        setCustomDate(parsedDate);
+      }
     }
-  }, [currentSelect]);
+  }, [value]);
+
+  const handleSelect = (selected: string) => {
+    setIsMenuOpen(false);
+    const newValue = value === selected ? '' : selected;
+    onChange(newValue);
+  };
 
   const handleOpenChange = (e: boolean) => {
     if (onMenuOpen) {
@@ -71,7 +82,7 @@ const DateFieldMenu = ({
     if (date) {
       setCustomDate(date);
       const formattedDate = format(date, 'PPP');
-      setValue('date', formattedDate);
+      onChange(formattedDate);
     }
   };
 
@@ -87,9 +98,7 @@ const DateFieldMenu = ({
         >
           <div className="block w-full space-y-2  border-r border-primary px-4 text-left">
             <p className="font-bold">日期</p>
-            <p className="text-base text-primary">
-              {currentSelect || '任何日期'}
-            </p>
+            <p className="text-base text-primary">{value || '任何日期'}</p>
           </div>
         </button>
       </PopoverTrigger>
@@ -187,35 +196,35 @@ const DateFieldMenu = ({
 
 export type AdvancedDateMobileFieldProps = {
   dates: DateItem[];
-  onSelect?: (value: string | number) => void;
+  value: string;
+  onChange: (value: string) => void;
 };
 
 export const AdvancedDateMobileField = ({
   dates,
-  onSelect,
+  value,
+  onChange,
 }: AdvancedDateMobileFieldProps) => {
-  const { setValue, watch } = useFormContext();
-  const currentSelect = watch('date', '');
   const [customDate, setCustomDate] = useState<Date | undefined>(undefined);
 
   useEffect(() => {
-    if (!currentSelect) {
+    if (!value) {
       setCustomDate(undefined);
     }
-  }, [currentSelect]);
+  }, [value]);
 
-  const handleSelect: MenuItemContainerProps['onSelect'] = (selected) => {
-    const newValue = currentSelect === selected ? '' : selected;
-    setValue('date', newValue);
-    onSelect?.(newValue);
+  const handleSelect = (selected: string) => {
+    const newValue = value === selected ? '' : selected;
+    onChange(newValue);
   };
 
   const handleCustomDateSelect = (date?: Date) => {
-    if (date) {
-      setCustomDate(date);
-      const formattedDate = format(date, 'PPP');
-      setValue('date', formattedDate);
+    if (!date) {
+      return;
     }
+    setCustomDate(date);
+    const formattedDate = format(date, 'PPP');
+    onChange(formattedDate);
   };
 
   return (
@@ -232,7 +241,7 @@ export const AdvancedDateMobileField = ({
         <AccordionContent className="">
           <RadioGroup
             className="flex flex-col gap-4"
-            value={currentSelect}
+            value={value}
             onValueChange={handleSelect}
           >
             {dates.map((date) => {
@@ -241,9 +250,11 @@ export const AdvancedDateMobileField = ({
                   <CalendarDialog
                     key={date.text}
                     triggerElement={
-                      <Button
-                        asChild
+                      <RadioGroupItem
+                        key={date.text}
+                        id={`radio-${date.text}`}
                         className="flex h-fit items-center justify-between gap-2.5 bg-surface px-4 py-2.5 transition-colors duration-300 ease-out hover:bg-primary/[0.03]"
+                        value={date.text}
                       >
                         <div className="flex w-full items-center justify-between">
                           {customDate ? (
@@ -253,12 +264,13 @@ export const AdvancedDateMobileField = ({
                           ) : (
                             <Lead className="text-primary">自訂日期</Lead>
                           )}
-                          <RadioGroupItem
-                            value={date.text}
-                            id={`radio-${date.text}`}
-                          />
                         </div>
-                      </Button>
+                        <div className="flex aspect-square h-4 w-4 items-center justify-center rounded-full border border-primary text-primary ring-offset-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
+                          <RadioGroupIndicator asChild>
+                            <Circle className="h-2.5 w-2.5 fill-current text-current" />
+                          </RadioGroupIndicator>
+                        </div>
+                      </RadioGroupItem>
                     }
                     selectedDate={customDate}
                     onSelect={handleCustomDateSelect}
@@ -267,20 +279,21 @@ export const AdvancedDateMobileField = ({
               }
 
               return (
-                <Button
+                <RadioGroupItem
                   key={date.text}
-                  asChild
+                  id={`radio-${date.text}`}
                   className="flex h-fit items-center justify-between gap-2.5 bg-surface px-4 py-2.5 transition-colors duration-300 ease-out hover:bg-primary/[0.03]"
-                  onClick={() => handleSelect(date.text)}
+                  value={date.text}
                 >
                   <div className="flex w-full items-center justify-between">
                     <Lead className="text-primary">{date.text}</Lead>
-                    <RadioGroupItem
-                      value={date.text}
-                      id={`radio-${date.text}`}
-                    />
                   </div>
-                </Button>
+                  <div className="flex aspect-square h-4 w-4 items-center justify-center rounded-full border border-primary text-primary ring-offset-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
+                    <RadioGroupIndicator asChild>
+                      <Circle className="h-2.5 w-2.5 fill-current text-current" />
+                    </RadioGroupIndicator>
+                  </div>
+                </RadioGroupItem>
               );
             })}
           </RadioGroup>

@@ -3,7 +3,9 @@
 import { Button } from '@components/ui/button';
 import { H3 } from '@components/ui/typography';
 import cn from '@lib/utils';
-import { FormEventHandler, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { FieldValues } from 'react-hook-form';
+import { SearchField, useSearch } from './SearchProvider';
 import ActivityField, {
   ActivityKeyword,
   ActivityPicture,
@@ -17,7 +19,7 @@ type SearchBarDesktopProps = {
   activityKeywords: ActivityKeyword[];
   locations: Location[];
   categories: Category[];
-  onSearchSubmit: FormEventHandler<HTMLFormElement> | null;
+  onSearchSubmit?: (data: FieldValues) => Promise<void>;
 };
 
 export const menuAnimationVariants = {
@@ -85,9 +87,12 @@ const SearchBarDesktop = ({
 }: SearchBarDesktopProps) => {
   const isSticky = useStickyToFixed('header');
 
-  const handleSearchSubmit: FormEventHandler<HTMLFormElement> = (e) => {
-    onSearchSubmit?.(e);
-  };
+  const { handleSubmit } = useSearch();
+  const handleSearchSubmit = handleSubmit(async (data) => {
+    if (onSearchSubmit) {
+      await onSearchSubmit(data);
+    }
+  });
 
   return (
     <section
@@ -102,12 +107,41 @@ const SearchBarDesktop = ({
       <H3>依照需求搜尋適合你的活動</H3>
       <div className="flex gap-2">
         <form onSubmit={handleSearchSubmit} className="flex grow">
-          <ActivityField
-            activityKeywords={activityKeywords}
-            activityPictures={activityPictures}
-          />
-          <CategoryFieldMenu categories={categories} />
-          <LocationFieldMenu locations={locations} />
+          <SearchField name="keyword">
+            {({ value, onChange }) => (
+              <ActivityField
+                activityKeywords={activityKeywords}
+                activityPictures={activityPictures}
+                value={value}
+                onChange={onChange}
+              />
+            )}
+          </SearchField>
+          <SearchField name="category">
+            {({ value, onChange }) => (
+              <CategoryFieldMenu
+                categories={categories}
+                value={value}
+                onChange={(val) => {
+                  onChange(val);
+                  handleSearchSubmit();
+                }}
+              />
+            )}
+          </SearchField>
+          <SearchField name="location">
+            {({ value, onChange }) => (
+              <LocationFieldMenu
+                locations={locations}
+                value={value}
+                onChange={(val) => {
+                  onChange(val);
+                  handleSearchSubmit();
+                }}
+              />
+            )}
+          </SearchField>
+
           <Button
             type="submit"
             className="flex h-auto self-auto px-20 text-xl font-bold"

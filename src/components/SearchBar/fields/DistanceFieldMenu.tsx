@@ -6,8 +6,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@components/ui/accordion';
-import { Button } from '@components/ui/button';
-import { RadioGroup, RadioGroupItem } from '@components/ui/radio-group';
 import { Lead } from '@components/ui/typography';
 import cn from '@lib/utils';
 import {
@@ -15,10 +13,15 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@radix-ui/react-popover';
+import {
+  RadioGroup,
+  RadioGroupIndicator,
+  RadioGroupItem,
+} from '@radix-ui/react-radio-group';
 import { motion } from 'framer-motion';
+import { Circle } from 'lucide-react';
 import { ReactNode, useState } from 'react';
-import { useFormContext } from 'react-hook-form';
-import MenuItemContainer, { MenuItemContainerProps } from './MenuItemContainer';
+import MenuItemContainer from './MenuItemContainer';
 import menuAnimationVariants from './utils';
 
 export type Distance = {
@@ -32,6 +35,8 @@ export type DistanceFieldMenuProps = {
   menuOpen?: boolean;
   onMenuOpen?: (isOpen: boolean) => void;
   distances: Distance[];
+  value: string;
+  onChange: (value: string) => void;
 };
 
 const DistanceFieldMenu = ({
@@ -39,15 +44,15 @@ const DistanceFieldMenu = ({
   menuOpen = false,
   onMenuOpen,
   distances,
+  value,
+  onChange,
 }: DistanceFieldMenuProps) => {
-  const { setValue, watch } = useFormContext();
   const [isMenuOpen, setIsMenuOpen] = useState(menuOpen);
 
-  const handleSelect = (selected: ReactNode) => {
+  const handleSelect = (selected: string) => {
     setIsMenuOpen(false);
-    setValue('distance', selected);
+    onChange(selected);
   };
-  const currentSelect = watch('distance');
 
   const handleOpenChange = (e: boolean) => {
     if (onMenuOpen) {
@@ -69,9 +74,7 @@ const DistanceFieldMenu = ({
         >
           <div className="block w-full space-y-2 border-r border-primary px-4 text-left">
             <p className="font-bold">距離</p>
-            <p className="text-base text-primary">
-              {currentSelect || '任何距離'}
-            </p>
+            <p className="text-base text-primary">{value || '任何距離'}</p>
           </div>
         </button>
       </PopoverTrigger>
@@ -102,20 +105,18 @@ const DistanceFieldMenu = ({
 
 export type AdvancedDistanceMobileFieldProps = {
   distances: Distance[];
-  onSelect?: (value: string | number) => void;
+  value: string;
+  onChange: (value: string) => void;
 };
 
 export const AdvancedDistanceMobileField = ({
   distances,
-  onSelect,
+  value,
+  onChange,
 }: AdvancedDistanceMobileFieldProps) => {
-  const { setValue, watch } = useFormContext();
-  const currentDistance = watch('distance', '');
-
-  const handleSelect: MenuItemContainerProps['onSelect'] = (selected) => {
-    const newValue = currentDistance === selected ? '' : selected;
-    setValue('distance', newValue);
-    onSelect?.(newValue);
+  const handleSelect = (selected: string) => {
+    const newValue = value === selected ? '' : selected;
+    onChange(newValue);
   };
 
   return (
@@ -132,25 +133,26 @@ export const AdvancedDistanceMobileField = ({
         <AccordionContent className="">
           <RadioGroup
             className="flex flex-col gap-4"
-            value={currentDistance}
+            value={value}
             onValueChange={handleSelect}
           >
             {distances.map((distance) => {
               return (
-                <Button
+                <RadioGroupItem
                   key={distance.text}
-                  asChild
+                  id={`radio-${distance.text}`}
                   className="flex h-fit items-center justify-between gap-2.5 bg-surface px-4 py-2.5 transition-colors duration-300 ease-out hover:bg-primary/[0.03]"
-                  onClick={() => handleSelect(distance.text)}
+                  value={distance.text}
                 >
                   <div className="flex w-full items-center justify-between">
                     <Lead className="text-primary">{distance.text}</Lead>
-                    <RadioGroupItem
-                      value={distance.text}
-                      id={`radio-${distance.text}`}
-                    />
                   </div>
-                </Button>
+                  <div className="flex aspect-square h-4 w-4 items-center justify-center rounded-full border border-primary text-primary ring-offset-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
+                    <RadioGroupIndicator asChild>
+                      <Circle className="h-2.5 w-2.5 fill-current text-current" />
+                    </RadioGroupIndicator>
+                  </div>
+                </RadioGroupItem>
               );
             })}
           </RadioGroup>

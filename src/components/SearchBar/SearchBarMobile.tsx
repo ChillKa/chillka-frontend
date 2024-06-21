@@ -15,7 +15,9 @@ import { H2 } from '@components/ui/typography';
 import useDimensions from '@hooks/use-dimensions';
 import cn from '@lib/utils';
 import { HashIcon, MapIcon, SearchIcon, XIcon } from 'lucide-react';
-import { FormEventHandler, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
+import { FieldValues } from 'react-hook-form';
+import { SearchField, useSearch } from './SearchProvider';
 import {
   ActivityKeyword,
   ActivityMobileField,
@@ -31,7 +33,7 @@ type SearchBarMobileProps = {
   locations: Location[];
   categories: Category[];
   debugMode: boolean;
-  onSearchSubmit: FormEventHandler<HTMLFormElement> | null;
+  onSearchSubmit?: (data: FieldValues) => Promise<void>;
 };
 
 const SearchBarMobile = ({
@@ -48,9 +50,12 @@ const SearchBarMobile = ({
   const containerRef = useRef(null);
   const { height, width } = useDimensions(containerRef);
 
-  const handleSearchSubmit: FormEventHandler<HTMLFormElement> = (e) => {
-    onSearchSubmit?.(e);
-  };
+  const { handleSubmit } = useSearch();
+  const handleSearchSubmit = handleSubmit(async (data) => {
+    if (onSearchSubmit) {
+      await onSearchSubmit(data);
+    }
+  });
 
   return (
     <Dialog defaultOpen={debugMode}>
@@ -85,27 +90,49 @@ const SearchBarMobile = ({
               </div>
             </DialogTitle>
           </DialogHeader>
-          <ActivityMobileField
-            activityKeywords={activityKeywords}
-            activityPictures={activityPictures}
-          />
+          <SearchField name="keyword">
+            {({ value, onChange }) => (
+              <ActivityMobileField
+                activityKeywords={activityKeywords}
+                activityPictures={activityPictures}
+                value={value}
+                onChange={onChange}
+              />
+            )}
+          </SearchField>
           {/* locations menu animation */}
-          <LocationMobileFieldMenu
-            locations={locations}
-            height={height}
-            width={width}
-            menuOpen={isLocationMenuOpen}
-            onSelected={(isOpen) => setIsLocationMenuOpen(isOpen)}
-          />
+          <SearchField name="location">
+            {({ onChange }) => (
+              <LocationMobileFieldMenu
+                locations={locations}
+                height={height}
+                width={width}
+                menuOpen={isLocationMenuOpen}
+                onSelected={(isOpen) => setIsLocationMenuOpen(isOpen)}
+                onChange={(val) => {
+                  onChange(val);
+                  handleSearchSubmit();
+                }}
+              />
+            )}
+          </SearchField>
 
           {/* categories menu animation */}
-          <CategoryMobileFieldMenu
-            categories={categories}
-            height={height}
-            width={width}
-            menuOpen={isCategoryMenuOpen}
-            onSelected={(isOpen) => setIsCategoryMenuOpen(isOpen)}
-          />
+          <SearchField name="category">
+            {({ onChange }) => (
+              <CategoryMobileFieldMenu
+                categories={categories}
+                height={height}
+                width={width}
+                menuOpen={isCategoryMenuOpen}
+                onSelected={(isOpen) => setIsCategoryMenuOpen(isOpen)}
+                onChange={(val) => {
+                  onChange(val);
+                  handleSearchSubmit();
+                }}
+              />
+            )}
+          </SearchField>
 
           <DialogFooter className="absolute bottom-0 left-0 right-0 flex flex-row gap-[1px] font-medium">
             <Popover open={isLocationMenuOpen}>

@@ -11,8 +11,7 @@ import { H4, Lead } from '@components/ui/typography';
 import cn from '@lib/utils';
 import { motion } from 'framer-motion';
 import { ArrowUpDown } from 'lucide-react';
-import { ReactNode, useState } from 'react';
-import { useFormContext } from 'react-hook-form';
+import { useState } from 'react';
 import MenuItem from './MenuItem';
 import menuAnimationVariants from './utils';
 
@@ -25,22 +24,23 @@ export type SortFieldMenuProps = {
   menuOpen?: boolean;
   onMenuOpen?: (isOpen: boolean) => void;
   sorts: Sorts[];
+  value: string;
+  onChange: (value: string) => void;
 };
 
 const SortFieldMenu = ({
   menuOpen = false,
   onMenuOpen,
   sorts,
+  value,
+  onChange,
 }: SortFieldMenuProps) => {
-  const { setValue, watch } = useFormContext();
   const [isMenuOpen, setIsMenuOpen] = useState(menuOpen);
 
-  const handleSelect = (selected: ReactNode) => {
-    const newValue = selected === '相關性' ? '相關性' : '日期';
-    setValue('sort', newValue);
+  const handleSelect = (selected: string) => {
     setIsMenuOpen(false);
+    onChange(selected);
   };
-  const currentSelect = watch('sort', '相關性');
 
   const handleOpenChange = (e: boolean) => {
     if (onMenuOpen) {
@@ -60,7 +60,7 @@ const SortFieldMenu = ({
           )}
         >
           <ArrowUpDown />
-          排序性:<span>{currentSelect}</span>
+          排序性:<span>{value}</span>
         </Button>
       </PopoverTrigger>
       <PopoverContent
@@ -102,21 +102,25 @@ const SortFieldMenu = ({
   );
 };
 
-export const AdvancedSortMobileField = () => {
-  const { setValue, watch } = useFormContext();
-  const currentSort = watch('sort', '相關性');
+export type AdvancedSortMobileFieldProps = {
+  value: string;
+  onChange: (value: string) => void;
+};
 
+export const AdvancedSortMobileField = ({
+  value,
+  onChange,
+}: AdvancedSortMobileFieldProps) => {
   const handleChange = () => {
-    const newValue = currentSort === '相關性' ? '日期' : '相關性';
-    setValue('sort', newValue);
+    const newValue = value === '相關性' ? '日期' : '相關性';
+    onChange(newValue);
   };
 
   return (
     <div id="sort" className="flex flex-col items-start gap-4 px-3 py-6">
       <H4>排序</H4>
       <ToggleGroup
-        defaultValue="相關性"
-        value={currentSort}
+        value={value}
         onValueChange={handleChange}
         type="single"
         className="relative flex w-full gap-0"

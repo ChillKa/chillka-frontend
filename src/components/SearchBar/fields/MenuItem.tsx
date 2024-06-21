@@ -25,10 +25,10 @@ const variants = {
 
 export type MenuItemProps = {
   item: ReactNode;
-  value: string | number;
+  value: string;
   startElement?: ReactNode;
   endElement?: ReactNode;
-  onSelect?: (value: string | number) => void;
+  onSelect?: (value: string) => void;
 };
 
 const MenuItem = ({

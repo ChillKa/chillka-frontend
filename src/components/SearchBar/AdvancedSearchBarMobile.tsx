@@ -14,8 +14,7 @@ import { H2, H4 } from '@components/ui/typography';
 import cn from '@lib/utils';
 import { XIcon } from 'lucide-react';
 import { MouseEventHandler } from 'react';
-import { useFormContext } from 'react-hook-form';
-import { AdvancedActivityMobileField } from './fields/ActivityField';
+import { SearchField, useSearch } from './SearchProvider';
 import { AdvancedCategoryMobileField } from './fields/CategoryFieldMenu';
 import { AdvancedDateMobileField } from './fields/DateFieldMenu';
 import { AdvancedDistanceMobileField } from './fields/DistanceFieldMenu';
@@ -26,20 +25,20 @@ import { SearchParams } from './fields/utils';
 
 export type AdvancedSearchBarMobileProps = {
   onSearchSubmit?: (value: SearchParams) => void;
-  onClearFilter?: () => void;
 };
 
 const AdvancedSearchBarMobile = ({
   onSearchSubmit,
-  onClearFilter,
 }: AdvancedSearchBarMobileProps) => {
-  const { getValues } = useFormContext<SearchParams>();
-  const handleSearchSubmit: MouseEventHandler<HTMLButtonElement> = () => {
-    const values = getValues();
-    onSearchSubmit?.(values);
-  };
+  const { handleSubmit, reset } = useSearch<SearchParams>();
+  const handleSearchSubmit = handleSubmit(async (data) => {
+    if (onSearchSubmit) {
+      await onSearchSubmit(data);
+    }
+  });
+
   const handleClearFilter: MouseEventHandler<HTMLButtonElement> = () => {
-    onClearFilter?.();
+    reset();
   };
 
   return (
@@ -53,205 +52,276 @@ const AdvancedSearchBarMobile = ({
         <p>篩選條件</p>
       </DialogTrigger>
       <DialogContent hideCloseButton className="block h-svh w-screen">
-        <DialogHeader>
-          <DialogTitle asChild className="flex items-end justify-between">
-            <div>
-              <H2 className="mb-1 ml-3 text-primary">篩選條件</H2>
-              <DialogClose className="bg-primary p-7" onClick={() => {}}>
-                <XIcon className="size-6 stroke-white" />
-              </DialogClose>
-            </div>
-          </DialogTitle>
-        </DialogHeader>
+        <form>
+          <DialogHeader>
+            <DialogTitle asChild className="flex items-end justify-between">
+              <div>
+                <H2 className="mb-1 ml-3 text-primary">篩選條件</H2>
+                <DialogClose className="bg-primary p-7" onClick={() => {}}>
+                  <XIcon className="size-6 stroke-white" />
+                </DialogClose>
+              </div>
+            </DialogTitle>
+          </DialogHeader>
 
-        {/* TODO - Fixed the content height */}
-        <section
-          id="content"
-          className="no-scrollbar max-h-[80vh] overflow-y-scroll px-3 py-10"
-        >
-          <AdvancedActivityMobileField
-            activityKeywords={[]}
-            activityPictures={[]}
-          />
-          <AdvancedLocationMobileField
-            locations={[
-              {
-                text: '北部',
-                endElement: <Checkbox />,
-              },
-              {
-                text: '中部',
-                endElement: <Checkbox />,
-              },
-              {
-                text: '南部',
-                endElement: <Checkbox />,
-              },
-              {
-                text: '東部',
-                endElement: <Checkbox />,
-              },
-              {
-                text: '離島',
-                endElement: <Checkbox />,
-              },
-            ]}
-          />
-          <AdvancedCategoryMobileField
-            categories={[
-              {
-                text: '戶外踏青',
-                endElement: <Checkbox />,
-              },
-              {
-                text: '社交活動',
-                endElement: <Checkbox />,
-              },
-              {
-                text: '興趣嗜好',
-                endElement: <Checkbox />,
-              },
-              {
-                text: '運動健身',
-                endElement: <Checkbox />,
-              },
-              {
-                text: '健康生活',
-                endElement: <Checkbox />,
-              },
-              {
-                text: '科技玩物',
-                endElement: <Checkbox />,
-              },
-              {
-                text: '藝術文化',
-                endElement: <Checkbox />,
-              },
-              {
-                text: '遊戲',
-                endElement: <Checkbox />,
-              },
-            ]}
-          />
+          {/* TODO - Fixed the content height */}
+          <section
+            id="content"
+            className="no-scrollbar max-h-[80vh] overflow-y-scroll px-3 py-10"
+          >
+            {/* <SearchField name="keyword">
+              {({ value, onChange }) => (
+                <AdvancedActivityMobileField
+                  activityKeywords={[]}
+                  activityPictures={[]}
+                  value={value}
+                  onChange={onChange}
+                />
+              )}
+            </SearchField> */}
 
-          <AdvancedDateMobileField
-            dates={[
-              {
-                text: '即將開始',
-              },
-              {
-                text: '今天',
-              },
-              {
-                text: '明天',
-              },
-              {
-                text: '本周',
-              },
-              {
-                text: '下周',
-              },
-              {
-                text: '本周末',
-              },
-              {
-                text: '下一周',
-              },
-              {
-                text: '自訂日期',
-              },
-            ]}
-          />
-          <AdvancedEventTypeMobileField
-            events={[
-              {
-                text: '線上聚會',
-              },
-              {
-                text: '線下聚會',
-              },
-            ]}
-          />
-          <AdvancedDistanceMobileField
-            distances={[
-              {
-                text: '2公里',
-              },
-              {
-                text: '5公里',
-              },
-              {
-                text: '10公里',
-              },
-              {
-                text: '25公里',
-              },
-              {
-                text: '50公里',
-              },
-              {
-                text: '100公里',
-              },
-            ]}
-          />
+            <SearchField name="location">
+              {({ value, onChange }) => {
+                return (
+                  <AdvancedLocationMobileField
+                    locations={[
+                      {
+                        text: '北部',
+                        endElement: <Checkbox />,
+                      },
+                      {
+                        text: '中部',
+                        endElement: <Checkbox />,
+                      },
+                      {
+                        text: '南部',
+                        endElement: <Checkbox />,
+                      },
+                      {
+                        text: '東部',
+                        endElement: <Checkbox />,
+                      },
+                      {
+                        text: '離島',
+                        endElement: <Checkbox />,
+                      },
+                    ]}
+                    value={value}
+                    onChange={(val) => {
+                      onChange(val);
+                      handleSearchSubmit();
+                    }}
+                  />
+                );
+              }}
+            </SearchField>
 
-          <AdvancedSortMobileField />
+            <SearchField name="category">
+              {({ value, onChange }) => (
+                <AdvancedCategoryMobileField
+                  categories={[
+                    {
+                      text: '戶外踏青',
+                      endElement: <Checkbox />,
+                    },
+                    {
+                      text: '社交活動',
+                      endElement: <Checkbox />,
+                    },
+                    {
+                      text: '興趣嗜好',
+                      endElement: <Checkbox />,
+                    },
+                    {
+                      text: '運動健身',
+                      endElement: <Checkbox />,
+                    },
+                    {
+                      text: '健康生活',
+                      endElement: <Checkbox />,
+                    },
+                    {
+                      text: '科技玩物',
+                      endElement: <Checkbox />,
+                    },
+                    {
+                      text: '藝術文化',
+                      endElement: <Checkbox />,
+                    },
+                    {
+                      text: '遊戲',
+                      endElement: <Checkbox />,
+                    },
+                  ]}
+                  value={value}
+                  onChange={(val) => {
+                    onChange(val);
+                    handleSearchSubmit();
+                  }}
+                />
+              )}
+            </SearchField>
 
-          <div id="show" className="flex flex-col items-start gap-4 px-3 py-6">
-            <H4>顯示</H4>
-            <ToggleGroup
-              defaultValue="relative"
-              type="single"
-              className="relative flex w-full gap-0"
+            <SearchField name="date">
+              {({ value, onChange }) => (
+                <AdvancedDateMobileField
+                  dates={[
+                    {
+                      text: '即將開始',
+                    },
+                    {
+                      text: '今天',
+                    },
+                    {
+                      text: '明天',
+                    },
+                    {
+                      text: '本周',
+                    },
+                    {
+                      text: '下周',
+                    },
+                    {
+                      text: '本周末',
+                    },
+                    {
+                      text: '下一周',
+                    },
+                    {
+                      text: '自訂日期',
+                    },
+                  ]}
+                  value={value}
+                  onChange={(val) => {
+                    onChange(val);
+                    handleSearchSubmit();
+                  }}
+                />
+              )}
+            </SearchField>
+
+            <SearchField name="type">
+              {({ value, onChange }) => (
+                <AdvancedEventTypeMobileField
+                  events={[
+                    {
+                      text: '線上聚會',
+                    },
+                    {
+                      text: '線下聚會',
+                    },
+                  ]}
+                  value={value}
+                  onChange={(val) => {
+                    onChange(val);
+                    handleSearchSubmit();
+                  }}
+                />
+              )}
+            </SearchField>
+            <SearchField name="distance">
+              {({ value, onChange }) => (
+                <AdvancedDistanceMobileField
+                  distances={[
+                    {
+                      text: '2公里',
+                    },
+                    {
+                      text: '5公里',
+                    },
+                    {
+                      text: '10公里',
+                    },
+                    {
+                      text: '25公里',
+                    },
+                    {
+                      text: '50公里',
+                    },
+                    {
+                      text: '100公里',
+                    },
+                  ]}
+                  value={value}
+                  onChange={(val) => {
+                    onChange(val);
+                    handleSearchSubmit();
+                  }}
+                />
+              )}
+            </SearchField>
+
+            <SearchField name="sort">
+              {({ value, onChange }) => (
+                <AdvancedSortMobileField
+                  value={value}
+                  onChange={(val) => {
+                    onChange(val);
+                    handleSearchSubmit();
+                  }}
+                />
+              )}
+            </SearchField>
+
+            <div
+              id="show"
+              className="flex flex-col items-start gap-4 px-3 py-6"
             >
-              <ToggleGroupItem
-                value="relative"
-                aria-label="Toggle bold"
-                disabled
-                asChild
-                className={cn(
-                  'h-12 w-full min-w-[163.5px] flex-1 rounded-l-[0.5rem] border-[1px] border-r-0 border-primary',
-                  'font-bold',
-                  'data-[state=on]:bg-primary data-[state=on]:text-white',
-                  'data-[state=off]:bg-surface data-[state=off]:text-primary'
-                )}
+              <H4>顯示</H4>
+              <ToggleGroup
+                defaultValue="relative"
+                type="single"
+                className="relative flex w-full gap-0"
               >
-                <button type="button">活動</button>
-              </ToggleGroupItem>
-              <ToggleGroupItem
-                value="date"
-                aria-label="Toggle underline"
-                asChild
-                className={cn(
-                  'h-12 w-full min-w-[163.5px] flex-1 rounded-r-[0.5rem] border-[1px] border-l-0 border-primary',
-                  'font-bold',
-                  'data-[state=on]:bg-primary data-[state=on]:text-white',
-                  'data-[state=off]:bg-surface data-[state=off]:text-primary'
-                )}
-              >
-                <button type="button">團體</button>
-              </ToggleGroupItem>
-            </ToggleGroup>
-          </div>
-        </section>
+                <ToggleGroupItem
+                  value="relative"
+                  aria-label="Toggle bold"
+                  disabled
+                  asChild
+                  className={cn(
+                    'h-12 w-full min-w-[163.5px] flex-1 rounded-l-[0.5rem] border-[1px] border-r-0 border-primary',
+                    'font-bold',
+                    'data-[state=on]:bg-primary data-[state=on]:text-white',
+                    'data-[state=off]:bg-surface data-[state=off]:text-primary'
+                  )}
+                >
+                  <button type="button">活動</button>
+                </ToggleGroupItem>
+                <ToggleGroupItem
+                  value="date"
+                  aria-label="Toggle underline"
+                  asChild
+                  className={cn(
+                    'h-12 w-full min-w-[163.5px] flex-1 rounded-r-[0.5rem] border-[1px] border-l-0 border-primary',
+                    'font-bold',
+                    'data-[state=on]:bg-primary data-[state=on]:text-white',
+                    'data-[state=off]:bg-surface data-[state=off]:text-primary'
+                  )}
+                >
+                  <button type="button">團體</button>
+                </ToggleGroupItem>
+              </ToggleGroup>
+            </div>
+          </section>
 
-        <DialogFooter className="absolute bottom-0 left-0 right-0 flex w-full flex-row bg-surface px-3 py-4 font-medium">
-          <Button
-            variant="ghost"
-            onClick={handleClearFilter}
-            className="flex flex-1 items-center justify-center"
-          >
-            清除條件
-          </Button>
-          <Button
-            type="submit"
-            className="min-w-[175.5px] flex-1"
-            variant="default"
-            onClick={handleSearchSubmit}
-          >
-            搜尋活動
-          </Button>
-        </DialogFooter>
+          <DialogFooter className="absolute bottom-0 left-0 right-0 flex w-full flex-row bg-surface px-3 py-4 font-medium">
+            <Button
+              variant="ghost"
+              onClick={handleClearFilter}
+              className="flex flex-1 items-center justify-center"
+            >
+              清除條件
+            </Button>
+            <Button
+              type="submit"
+              className="min-w-[175.5px] flex-1"
+              variant="default"
+              onClick={handleSearchSubmit}
+            >
+              搜尋活動
+            </Button>
+          </DialogFooter>
+        </form>
       </DialogContent>
     </Dialog>
   );

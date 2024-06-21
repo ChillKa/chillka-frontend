@@ -7,7 +7,6 @@ import {
   FormProvider,
   RegisterOptions,
   Resolver,
-  SubmitHandler,
   UseFormReturn,
   useForm,
 } from 'react-hook-form';
@@ -15,7 +14,6 @@ import {
 export type SearchProviderProps<T extends FieldValues> = {
   children: ReactNode;
   defaultValues: DefaultValues<T>;
-  onSubmit: SubmitHandler<T>;
   resolver?: Resolver<T>;
 };
 
@@ -28,16 +26,13 @@ const SearchContext = createContext<SearchContextProps<any> | undefined>(
 const SearchProvider = <T extends FieldValues>({
   children,
   defaultValues,
-  onSubmit,
   resolver,
 }: SearchProviderProps<T>) => {
   const methods = useForm<T>({ defaultValues, resolver });
 
   return (
     <SearchContext.Provider value={methods}>
-      <FormProvider {...methods}>
-        <form onSubmit={methods.handleSubmit(onSubmit)}>{children}</form>
-      </FormProvider>
+      <FormProvider {...methods}>{children}</FormProvider>
     </SearchContext.Provider>
   );
 };

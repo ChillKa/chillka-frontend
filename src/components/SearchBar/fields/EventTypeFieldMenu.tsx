@@ -6,8 +6,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@components/ui/accordion';
-import { Button } from '@components/ui/button';
-import { RadioGroup, RadioGroupItem } from '@components/ui/radio-group';
 import { Lead } from '@components/ui/typography';
 import cn from '@lib/utils';
 import {
@@ -15,10 +13,15 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@radix-ui/react-popover';
+import {
+  RadioGroup,
+  RadioGroupIndicator,
+  RadioGroupItem,
+} from '@radix-ui/react-radio-group';
 import { motion } from 'framer-motion';
+import { Circle } from 'lucide-react';
 import { ReactNode, useState } from 'react';
-import { useFormContext } from 'react-hook-form';
-import MenuItemContainer, { MenuItemContainerProps } from './MenuItemContainer';
+import MenuItemContainer from './MenuItemContainer';
 import menuAnimationVariants from './utils';
 
 export type Event = {
@@ -32,6 +35,8 @@ export type EventTypeFieldMenuProps = {
   menuOpen?: boolean;
   onMenuOpen?: (isOpen: boolean) => void;
   events: Event[];
+  value: string;
+  onChange: (value: string) => void;
 };
 
 const EventTypeFieldMenu = ({
@@ -39,15 +44,15 @@ const EventTypeFieldMenu = ({
   menuOpen = false,
   onMenuOpen,
   events: dates,
+  value,
+  onChange,
 }: EventTypeFieldMenuProps) => {
-  const { setValue, watch } = useFormContext();
   const [isMenuOpen, setIsMenuOpen] = useState(menuOpen);
 
-  const handleSelect = (selected: ReactNode) => {
+  const handleSelect = (selected: string) => {
     setIsMenuOpen(false);
-    setValue('type', selected);
+    onChange(selected);
   };
-  const currentSelect = watch('type');
 
   const handleOpenChange = (e: boolean) => {
     if (onMenuOpen) {
@@ -69,9 +74,7 @@ const EventTypeFieldMenu = ({
         >
           <div className="block w-full space-y-2 border-r border-primary px-4 text-left">
             <p className="font-bold">形式</p>
-            <p className="text-base text-primary">
-              {currentSelect || '任何形式'}
-            </p>
+            <p className="text-base text-primary">{value || '任何形式'}</p>
           </div>
         </button>
       </PopoverTrigger>
@@ -102,19 +105,17 @@ const EventTypeFieldMenu = ({
 
 export type AdvancedEventTypeMobileFieldProps = {
   events: Event[];
-  onSelect?: (value: string | number) => void;
+  value: string;
+  onChange: (value: string) => void;
 };
 export const AdvancedEventTypeMobileField = ({
   events,
-  onSelect,
+  value,
+  onChange,
 }: AdvancedEventTypeMobileFieldProps) => {
-  const { setValue, watch } = useFormContext();
-  const currentEventType = watch('type', '');
-
-  const handleSelect: MenuItemContainerProps['onSelect'] = (selected) => {
-    const newValue = currentEventType === selected ? '' : selected;
-    setValue('type', newValue);
-    onSelect?.(newValue);
+  const handleSelect = (selected: string) => {
+    const newValue = value === selected ? '' : selected;
+    onChange(newValue);
   };
 
   return (
@@ -131,25 +132,26 @@ export const AdvancedEventTypeMobileField = ({
         <AccordionContent className="">
           <RadioGroup
             className="flex flex-col gap-4"
-            value={currentEventType}
+            value={value}
             onValueChange={handleSelect}
           >
             {events.map((event) => {
               return (
-                <Button
+                <RadioGroupItem
                   key={event.text}
-                  asChild
+                  id={`radio-${event.text}`}
                   className="flex h-fit items-center justify-between gap-2.5 bg-surface px-4 py-2.5 transition-colors duration-300 ease-out hover:bg-primary/[0.03]"
-                  onClick={() => handleSelect(event.text)}
+                  value={event.text}
                 >
                   <div className="flex w-full items-center justify-between">
                     <Lead className="text-primary">{event.text}</Lead>
-                    <RadioGroupItem
-                      value={event.text}
-                      id={`radio-${event.text}`}
-                    />
                   </div>
-                </Button>
+                  <div className="flex aspect-square h-4 w-4 items-center justify-center rounded-full border border-primary text-primary ring-offset-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
+                    <RadioGroupIndicator asChild>
+                      <Circle className="h-2.5 w-2.5 fill-current text-current" />
+                    </RadioGroupIndicator>
+                  </div>
+                </RadioGroupItem>
               );
             })}
           </RadioGroup>

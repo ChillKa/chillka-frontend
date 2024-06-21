@@ -16,13 +16,13 @@
 
 'use client';
 
-import { Form } from '@components/ui/form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import useMediaQuery from '@hooks/use-media-query';
-import cn from '@lib/utils';
 import { useRouter } from 'next/navigation';
-import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 import SearchBarDesktop from './SearchBarDesktop';
 import SearchBarMobile from './SearchBarMobile';
+import SearchProvider from './SearchProvider';
 import {
   DUMMY_KEYWORDS,
   DUMMY_PICTURES,
@@ -36,6 +36,13 @@ const debugMode = false;
 type SearchBarProps = {
   className: string;
 };
+export const searchSchema = z.object({
+  keyword: z.string().optional(),
+  location: z.string().optional(),
+  category: z.string().optional(),
+});
+
+export type SearchFormValues = z.infer<typeof searchSchema>;
 
 const createQueryString = (data: {
   keyword: string;
@@ -52,21 +59,17 @@ const createQueryString = (data: {
 const SearchBar = ({ className = '' }: SearchBarProps) => {
   const { matches: isMobile } = useMediaQuery();
   const router = useRouter();
-  const form = useForm({
-    defaultValues: {
-      keyword: '',
-      location: '',
-      category: '',
-    },
-  });
 
-  const handleSearchSubmit = form.handleSubmit(async (data) => {
+  const handleSearchSubmit = async (data: any) => {
     const queryString = createQueryString(data);
     router.push(`/search?${queryString}`);
-  });
+  };
 
   return (
-    <Form {...form}>
+    <SearchProvider
+      defaultValues={{ keyword: '', location: '', category: '' }}
+      resolver={zodResolver(searchSchema)}
+    >
       {isMobile ? (
         <SearchBarMobile
           className=""
@@ -79,7 +82,7 @@ const SearchBar = ({ className = '' }: SearchBarProps) => {
         />
       ) : (
         <SearchBarDesktop
-          className={cn('', className)}
+          className={className}
           activityPictures={DUMMY_PICTURES}
           activityKeywords={DUMMY_KEYWORDS}
           locations={locations}
@@ -87,7 +90,7 @@ const SearchBar = ({ className = '' }: SearchBarProps) => {
           onSearchSubmit={handleSearchSubmit}
         />
       )}
-    </Form>
+    </SearchProvider>
   );
 };
 
