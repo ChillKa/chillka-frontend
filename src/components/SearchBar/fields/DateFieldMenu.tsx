@@ -138,8 +138,8 @@ const DateFieldMenu = ({
                     key={date.text}
                     triggerElement={
                       <Button
-                        variant="outline"
-                        className="w-[280px] justify-start text-left font-normal"
+                        asChild
+                        className="flex h-fit items-center justify-between gap-2.5 bg-surface px-4 py-2.5 transition-colors duration-300 ease-out hover:cursor-pointer hover:bg-primary/[0.03]"
                       >
                         <motion.li
                           variants={{
