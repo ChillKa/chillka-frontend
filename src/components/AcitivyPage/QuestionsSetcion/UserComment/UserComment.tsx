@@ -23,7 +23,7 @@ const UserComment = () => {
               objectFit: 'cover',
             }}
           />
-          <Comment className="" action="comment" />
+          <Comment className="" action="comment" questionId="" />
         </div>
       ) : (
         <P>需登入才能提問</P>

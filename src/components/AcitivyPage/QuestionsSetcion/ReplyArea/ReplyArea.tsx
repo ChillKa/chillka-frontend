@@ -6,16 +6,25 @@ import { ReplyType } from 'src/types/activity';
 
 type ReplyAreaProps = {
   className: string;
+  questionId: string;
   questionUserId: string;
   replies: ReplyType[];
 };
 
-const ReplyArea = ({ className, questionUserId, replies }: ReplyAreaProps) => {
+const ReplyArea = ({
+  className,
+  questionUserId,
+  questionId,
+  replies,
+}: ReplyAreaProps) => {
   const { userId, data } = useActivityContext();
 
   if (!data) {
     return null;
   }
+
+  const showComment =
+    questionUserId === userId || data.activity.creatorId === userId;
 
   return (
     <div
@@ -38,7 +47,9 @@ const ReplyArea = ({ className, questionUserId, replies }: ReplyAreaProps) => {
           />
         );
       })}
-      {userId === questionUserId && <Comment className="mt-4" action="reply" />}
+      {showComment && (
+        <Comment className="mt-4" action="reply" questionId={questionId} />
+      )}
     </div>
   );
 };

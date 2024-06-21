@@ -1,8 +1,8 @@
 'use server';
 
-import { acitivityResponseSchema } from '@lib/definitions';
+import { acitivityResponseSchema, userCommentSchema } from '@lib/definitions';
 import { z } from 'zod';
-import { fetchAPI, getJwtPayload } from './utils';
+import { fetchAPI, getJwtPayload, validateWithSchema } from './utils';
 
 export type ActivityData = z.infer<typeof acitivityResponseSchema>;
 
@@ -65,7 +65,7 @@ export async function fetchActivity(data: string): Promise<ActivityFetchState> {
   }
 }
 
-export type FavoriteActivityState =
+export type ActivityState =
   | {
       status: 'success';
       message: string;
@@ -77,7 +77,7 @@ export type FavoriteActivityState =
 
 export async function toggleFavoriteActivity(
   activityId: string
-): Promise<FavoriteActivityState> {
+): Promise<ActivityState> {
   try {
     const response = await fetchAPI({
       api: `/auth/saved-activities/${activityId}`,
@@ -107,6 +107,96 @@ export async function toggleFavoriteActivity(
   }
 }
 
-// export function createQuestion
-// export function deleteQuestion
-// export function createReply
+export type FavoriteActivityState =
+  | {
+      status: 'success';
+      message: string;
+    }
+  | {
+      status: 'failed';
+      message: string;
+    };
+
+export async function createQuestion(
+  type: string,
+  activityId: string,
+  content: z.infer<typeof userCommentSchema>,
+  questionId?: string
+): Promise<ActivityState> {
+  try {
+    const validatedData = validateWithSchema(userCommentSchema, content);
+
+    let requestData: { type: string; content: string; questionId?: string } = {
+      type,
+      ...validatedData,
+    };
+
+    if (questionId) {
+      requestData = {
+        ...requestData,
+        questionId,
+      };
+    }
+
+    const response = await fetchAPI({
+      api: `/auth/activities/${activityId}/questions`,
+      method: 'POST',
+      shouldAuth: true,
+      data: requestData,
+    });
+
+    if (!response.ok) {
+      const errorMessage = await response.text();
+
+      return {
+        status: 'failed',
+        message: `${errorMessage ?? '留言失敗，請稍後重新再試。'} (${response.status})`,
+      };
+    }
+
+    return {
+      status: 'success',
+      message: '留言成功！',
+    };
+  } catch (error) {
+    return {
+      status: 'failed',
+      message:
+        error instanceof Error ? error.message : 'An unknown error occurred',
+    };
+  }
+}
+
+export async function deleteQuestion(
+  activityId: string,
+  questionId: string
+): Promise<ActivityState> {
+  try {
+    const response = await fetchAPI({
+      api: `/auth/activities/${activityId}/questions`,
+      method: 'DELETE',
+      shouldAuth: true,
+      data: { questionId },
+    });
+
+    if (!response.ok) {
+      const errorMessage = await response.text();
+
+      return {
+        status: 'failed',
+        message: `${errorMessage ?? '刪除失敗，請稍後重新再試。'} (${response.status})`,
+      };
+    }
+
+    return {
+      status: 'success',
+      message: '刪除留言成功！',
+    };
+  } catch (error) {
+    return {
+      status: 'failed',
+      message:
+        error instanceof Error ? error.message : 'An unknown error occurred',
+    };
+  }
+}
