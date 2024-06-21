@@ -9,10 +9,6 @@ type MapSectionProps = {
 const MapSection = ({ className }: MapSectionProps) => {
   const { data } = useActivityContext();
 
-  if (!data) {
-    return null;
-  }
-
   return (
     <section
       className={cn(
@@ -24,7 +20,7 @@ const MapSection = ({ className }: MapSectionProps) => {
       <div className="text-2xl font-bold -tracking-[0.006em] xl:text-3xl xl:-tracking-[0.0075em]">
         活動地點
       </div>
-      <P>{`${data.activity.address}（${data.activity.location}）`}</P>
+      <P>{`${data?.activity.address}（${data?.activity.location}）`}</P>
       <div className="h-[23.3125rem] w-full bg-primary text-white">map</div>
     </section>
   );

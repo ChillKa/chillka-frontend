@@ -3,6 +3,7 @@
 import OrganizerName from '@components/AcitivyPage/OrganizerSection/OrganizerName';
 import FavoriteButton from '@components/AcitivyPage/TicketSection/FavoriteButton';
 import SignUpButton from '@components/AcitivyPage/TicketSection/SignUpButton';
+import SkeletonTicketSection from '@components/AcitivyPage/TicketSection/SkeletonTicketSection';
 import { H3 } from '@components/ui/typography';
 import useMediaQuery from '@hooks/use-media-query';
 import cn from '@lib/utils';
@@ -44,9 +45,7 @@ const TicketSection = ({ className }: TicketSectionProps) => {
     };
   }, [isMobile]);
 
-  if (!data) {
-    return null;
-  }
+  if (!data) return <SkeletonTicketSection />;
 
   return (
     <section

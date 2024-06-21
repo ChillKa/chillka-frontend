@@ -1,3 +1,4 @@
+import SkeletonActivitySection from '@components/AcitivyPage/ActivitySection/SkeletonActivitySection';
 import { Large, P } from '@components/ui/typography';
 import cn from '@lib/utils';
 import { useActivityContext } from '@store/ActivityProvider/ActivityProvider';
@@ -11,9 +12,7 @@ type ActivitySectionProps = {
 const ActivitySection = ({ className }: ActivitySectionProps) => {
   const { data } = useActivityContext();
 
-  if (!data) {
-    return null;
-  }
+  if (!data) return <SkeletonActivitySection />;
 
   return (
     <section className={cn('w-full text-primary', className)}>

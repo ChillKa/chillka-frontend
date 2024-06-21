@@ -1,4 +1,5 @@
 import OrganizerName from '@components/AcitivyPage/OrganizerSection/OrganizerName';
+import SkeletonOrganizerSection from '@components/AcitivyPage/OrganizerSection/SkeletonOrganizerSection';
 import { P } from '@components/ui/typography';
 import cn from '@lib/utils';
 import { useActivityContext } from '@store/ActivityProvider/ActivityProvider';
@@ -10,9 +11,7 @@ type OrganizerSectionProps = {
 const OrganizerSection = ({ className }: OrganizerSectionProps) => {
   const { data } = useActivityContext();
 
-  if (!data) {
-    return null;
-  }
+  if (!data) return <SkeletonOrganizerSection />;
 
   return (
     <section className={cn('border-b py-6 text-primary xl:py-12', className)}>

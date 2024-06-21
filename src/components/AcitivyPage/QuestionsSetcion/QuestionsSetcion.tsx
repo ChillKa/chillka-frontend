@@ -1,4 +1,5 @@
 import Question from '@components/AcitivyPage/QuestionsSetcion/Question';
+import SkeletonQuestionsSetcion from '@components/AcitivyPage/QuestionsSetcion/SkeletonQuestionsSetcion';
 import UserComment from '@components/AcitivyPage/QuestionsSetcion/UserComment';
 import cn from '@lib/utils';
 import { useActivityContext } from '@store/ActivityProvider/ActivityProvider';
@@ -10,9 +11,7 @@ type QuestionsSetcionProps = {
 const QuestionsSetcion = ({ className }: QuestionsSetcionProps) => {
   const { data } = useActivityContext();
 
-  if (!data) {
-    return null;
-  }
+  if (!data) return <SkeletonQuestionsSetcion />;
 
   return (
     <section className={cn('border-b py-6 text-primary xl:py-12', className)}>

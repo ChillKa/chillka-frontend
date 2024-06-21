@@ -2,9 +2,7 @@
 
 import ActivitySection from '@components/AcitivyPage/ActivitySection';
 import CoverSection from '@components/AcitivyPage/CoverSection';
-import ErrorContent from '@components/AcitivyPage/ErrorContent';
-import LinkSection from '@components/AcitivyPage/LinkSection';
-import MapSection from '@components/AcitivyPage/MapSection';
+import LocationSection from '@components/AcitivyPage/LocationSection';
 import OrganizerSection from '@components/AcitivyPage/OrganizerSection';
 import QuestionsSetcion from '@components/AcitivyPage/QuestionsSetcion';
 import TicketSection from '@components/AcitivyPage/TicketSection';
@@ -18,27 +16,19 @@ type PageContentProps = {
 };
 
 const PageContent = ({ id }: PageContentProps) => {
-  const { data, loadActivity } = useActivityContext();
+  const { loadActivity } = useActivityContext();
 
   useEffect(() => {
     loadActivity(id);
   }, [id, loadActivity]);
 
-  if (!data) {
-    return <ErrorContent />;
-  }
-
   return (
     <>
-      <CoverSection className="" covers={data.activity.cover} />
+      <CoverSection className="" />
       <div className="mx-auto mb-24 mt-6 xl:mt-12 xl:flex xl:max-w-[81rem] xl:justify-between xl:space-x-[7.75rem]">
         <div className="grow px-3 xl:px-0">
           <ActivitySection className="" />
-          {data.activity.type === '線下' ? (
-            <MapSection className="" />
-          ) : (
-            <LinkSection className="" />
-          )}
+          <LocationSection />
           <OrganizerSection className="" />
           <QuestionsSetcion className="border-primary" />
         </div>

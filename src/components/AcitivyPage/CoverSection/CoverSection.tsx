@@ -1,5 +1,6 @@
 'use client';
 
+import SkeletonCover from '@components/AcitivyPage/CoverSection/SkeletonCover';
 import {
   Carousel,
   CarouselContent,
@@ -8,15 +9,19 @@ import {
   CarouselPrevious,
 } from '@components/ui/carousel';
 import cn from '@lib/utils';
+import { useActivityContext } from '@store/ActivityProvider/ActivityProvider';
 import Autoplay from 'embla-carousel-autoplay';
 import Image from 'next/image';
 
 type CoverSectionProps = {
   className: string;
-  covers: string[];
 };
 
-const CoverSection = ({ className, covers }: CoverSectionProps) => {
+const CoverSection = ({ className }: CoverSectionProps) => {
+  const { data } = useActivityContext();
+
+  if (!data) return <SkeletonCover />;
+
   return (
     <section className={cn('w-full', className)}>
       <Carousel
@@ -30,7 +35,7 @@ const CoverSection = ({ className, covers }: CoverSectionProps) => {
         ]}
       >
         <CarouselContent className="relative m-0 w-full">
-          {covers.map((cover) => {
+          {data.activity.cover.map((cover) => {
             return (
               <CarouselItem
                 key={cover}
@@ -52,7 +57,7 @@ const CoverSection = ({ className, covers }: CoverSectionProps) => {
             );
           })}
         </CarouselContent>
-        {covers.length !== 1 && (
+        {data.activity.cover.length !== 1 && (
           <>
             <CarouselPrevious className="top-100 left-100 absolute right-[2.5rem] h-[2.5rem] w-[2.5rem] -translate-y-10 rounded-none border-none xl:right-20 xl:h-20 xl:w-20 xl:-translate-y-20" />
             <CarouselNext className="top-100 left-100 absolute right-0 h-[2.5rem] w-[2.5rem] -translate-y-10 rounded-none border-none xl:h-20 xl:w-20 xl:-translate-y-20" />

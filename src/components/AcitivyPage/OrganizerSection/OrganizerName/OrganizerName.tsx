@@ -9,13 +9,10 @@ type OrganizerNameProps = {
 const OrganizerName = ({ className }: OrganizerNameProps) => {
   const { data } = useActivityContext();
 
-  if (!data) {
-    return null;
-  }
+  if (!data) return;
 
   return (
     <div className={cn('flex h-full items-center', className)}>
-      {' '}
       <div className="h-12 w-12 xl:h-20 xl:min-w-20">
         <Image
           src={data.activity.organizer.profilePicture}
