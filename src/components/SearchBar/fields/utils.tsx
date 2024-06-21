@@ -10,6 +10,50 @@ import {
 } from 'lucide-react';
 import { z } from 'zod';
 
+export const DUMMY_PICTURES = [
+  {
+    thumbnail:
+      'https://images.unsplash.com/photo-1546484458-6904289cd4f0?q=100&w=416&h=fit&fm=webp',
+    url: '/',
+    description: '夕陽海灘派對',
+  },
+  {
+    thumbnail:
+      'https://plus.unsplash.com/premium_photo-1663099746128-34ea20ac094d?q=100&w=416&h=fit&fm=webp',
+    url: '/',
+    description: '城市探險尋寶',
+  },
+  {
+    thumbnail:
+      'https://images.unsplash.com/photo-1525177089949-b1488a0ea5b6?q=100&w=416&h=fit&fm=webp',
+    url: '/',
+    description: '極光露營體驗',
+  },
+];
+
+export const DUMMY_KEYWORDS = [
+  {
+    url: 'https://www.google.com',
+    keyword: '露營',
+  },
+  {
+    url: 'https://www.google.com',
+    keyword: '酒精路跑',
+  },
+  {
+    url: 'https://www.google.com',
+    keyword: '奇美',
+  },
+  {
+    url: 'https://www.google.com',
+    keyword: '野餐',
+  },
+  {
+    url: 'https://www.google.com',
+    keyword: '登山',
+  },
+];
+
 export const locations = [
   {
     text: '北部',
