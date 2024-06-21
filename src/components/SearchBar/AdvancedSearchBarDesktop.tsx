@@ -12,7 +12,15 @@ import DistanceFieldMenu from './fields/DistanceFieldMenu';
 import EventTypeFieldMenu from './fields/EventTypeFieldMenu';
 import LocationFieldMenu from './fields/LocationFieldMenu';
 import SortFieldMenu from './fields/SortFieldMenu';
-import { SearchParams, categories, locations } from './fields/utils';
+import {
+  DUMMY_KEYWORDS,
+  DUMMY_PICTURES,
+  SearchParams,
+  categories,
+  dates,
+  distances,
+  locations,
+} from './fields/utils';
 
 export type AdvancedSearchBarDesktopProps = {
   onSearchSubmit?: (value: SearchParams) => void;
@@ -46,48 +54,8 @@ const AdvancedSearchBarDesktop = ({
               {({ value, onChange }) => (
                 <ActivityField
                   side="bottom"
-                  activityKeywords={[
-                    {
-                      url: 'https://www.google.com',
-                      keyword: '露營',
-                    },
-                    {
-                      url: 'https://www.google.com',
-                      keyword: '酒精路跑',
-                    },
-                    {
-                      url: 'https://www.google.com',
-                      keyword: '奇美',
-                    },
-                    {
-                      url: 'https://www.google.com',
-                      keyword: '野餐',
-                    },
-                    {
-                      url: 'https://www.google.com',
-                      keyword: '登山',
-                    },
-                  ]}
-                  activityPictures={[
-                    {
-                      thumbnail:
-                        'https://images.unsplash.com/photo-1546484458-6904289cd4f0?q=100&w=416&h=fit&fm=webp',
-                      url: '/',
-                      description: '夕陽海灘派對',
-                    },
-                    {
-                      thumbnail:
-                        'https://plus.unsplash.com/premium_photo-1663099746128-34ea20ac094d?q=100&w=416&h=fit&fm=webp',
-                      url: '/',
-                      description: '城市探險尋寶',
-                    },
-                    {
-                      thumbnail:
-                        'https://images.unsplash.com/photo-1525177089949-b1488a0ea5b6?q=100&w=416&h=fit&fm=webp',
-                      url: '/',
-                      description: '極光露營體驗',
-                    },
-                  ]}
+                  activityKeywords={DUMMY_KEYWORDS}
+                  activityPictures={DUMMY_PICTURES}
                   value={value}
                   onChange={onChange}
                 />
@@ -168,44 +136,7 @@ const AdvancedSearchBarDesktop = ({
             <SearchField name="date">
               {({ value, onChange }) => (
                 <DateFieldMenu
-                  dates={[
-                    {
-                      url: '/',
-                      text: '即將開始',
-                    },
-                    {
-                      url: '/',
-                      text: '今天',
-                    },
-                    {
-                      url: '/',
-                      text: '明天',
-                    },
-                    {
-                      url: '/',
-                      text: '本周',
-                    },
-                    {
-                      url: '/',
-                      text: '下周',
-                    },
-                    {
-                      url: '/',
-                      text: '本周末',
-                    },
-                    {
-                      url: '/',
-                      text: '下一周',
-                    },
-                    {
-                      url: '/',
-                      text: '今天',
-                    },
-                    {
-                      url: '/',
-                      text: '自訂日期',
-                    },
-                  ]}
+                  dates={dates}
                   side="bottom"
                   value={value}
                   onChange={(val) => {
@@ -221,11 +152,9 @@ const AdvancedSearchBarDesktop = ({
                 <EventTypeFieldMenu
                   events={[
                     {
-                      url: '/',
                       text: '線上',
                     },
                     {
-                      url: '/',
                       text: '線下',
                     },
                   ]}
@@ -242,32 +171,7 @@ const AdvancedSearchBarDesktop = ({
             <SearchField name="distance">
               {({ value, onChange }) => (
                 <DistanceFieldMenu
-                  distances={[
-                    {
-                      url: '/',
-                      text: '2公里',
-                    },
-                    {
-                      url: '/',
-                      text: '5公里',
-                    },
-                    {
-                      url: '/',
-                      text: '10公里',
-                    },
-                    {
-                      url: '/',
-                      text: '25公里',
-                    },
-                    {
-                      url: '/',
-                      text: '50公里',
-                    },
-                    {
-                      url: '/',
-                      text: '100公里',
-                    },
-                  ]}
+                  distances={distances}
                   side="bottom"
                   value={value}
                   onChange={(val) => {

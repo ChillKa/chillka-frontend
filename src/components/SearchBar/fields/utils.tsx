@@ -107,6 +107,57 @@ export const categories = [
   },
 ];
 
+export const dates = [
+  {
+    text: '即將開始',
+  },
+  {
+    text: '今天',
+  },
+  {
+    text: '明天',
+  },
+  {
+    text: '本周',
+  },
+  {
+    text: '下周',
+  },
+  {
+    text: '本周末',
+  },
+  {
+    text: '下一周',
+  },
+  {
+    text: '今天',
+  },
+  {
+    text: '自訂日期',
+  },
+];
+
+export const distances = [
+  {
+    text: '2公里',
+  },
+  {
+    text: '5公里',
+  },
+  {
+    text: '10公里',
+  },
+  {
+    text: '25公里',
+  },
+  {
+    text: '50公里',
+  },
+  {
+    text: '100公里',
+  },
+];
+
 const menuAnimationVariants = {
   open: ({ size = 3000, locationX = 0, locationY = 0 }) => ({
     clipPath: `circle(${size}px at ${locationX}px ${locationY}px)`,
