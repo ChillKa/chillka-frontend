@@ -72,7 +72,15 @@ const TicketSection = ({ className }: TicketSectionProps) => {
         <div className="flex items-center">
           <MapPin />
           <div className="ml-4 text-base font-medium">
-            {data.activity.type}活動
+            {data.activity.type === '線上' ? (
+              `${data.activity.type}活動`
+            ) : (
+              <div>
+                {data.activity.address}
+                <br />
+                {data.activity.location}
+              </div>
+            )}
           </div>
         </div>
         {!data.activity.unlimitedQuantity && (
