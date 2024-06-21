@@ -1,14 +1,10 @@
 'use server';
 
-import { endpoint } from '@lib/definitions';
+import { createActivityFormSchema, endpoint } from '@lib/definitions';
 import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
+import { ZodError, z } from 'zod';
 import { fetchAPI } from './utils';
-
-// const ActivityFormData = z.object({
-//   name: z.string().min(2),
-//   organizer: z.object({}),
-// });
 
 export async function uploadImage(prevState: any, formData: FormData) {
   const sessionCookie = cookies().get('session')?.value;
@@ -49,230 +45,95 @@ export async function uploadImage(prevState: any, formData: FormData) {
   return { message: 'success', ...result };
 }
 
-// const organizerSchema = z.object({
-//   profilePicture: z.string().url(),
-//   name: z.string(),
-//   contactName: z.string(),
-//   contactPhone: z.string(),
-//   contactEmail: z.string().email(),
-//   websiteName: z.string().optional(),
-//   websiteURL: z.string().url().optional(),
-// });
+export type FormState =
+  | {
+      message: string;
+      fields?: Record<string, string>;
+      issues?: Partial<ZodError<z.infer<typeof createActivityFormSchema>>>;
+    }
+  | undefined;
 
-// const recurringSchema = z.object({
-//   period: z.enum(['DAY', 'WEEK', 'MONTH', 'YEAR']),
-//   week: z.enum(['FIRST', 'SECOND', 'THIRD', 'FOURTH', 'LAST']).optional(),
-//   day: z
-//     .enum([
-//       'MONDAY',
-//       'TUESDAY',
-//       'WEDNESDAY',
-//       'THURSDAY',
-//       'FRIDAY',
-//       'SATURDAY',
-//       'SUNDAY',
-//     ])
-//     .optional(),
-// });
+// Function to flatten the data into a string-based record
+function flattenData(
+  data: Record<string, any>,
+  prefix = ''
+): Record<string, string> {
+  return Object.keys(data).reduce(
+    (acc, key) => {
+      const value = data[key];
+      const newKey = prefix ? `${prefix}.${key}` : key;
 
-// const ticketSchema = z.object({
-//   name: z.string(),
-//   price: z.number(),
-//   startDateTime: z.string().refine((val) => !isNaN(Date.parse(val)), {
-//     message: 'Invalid date format',
-//   }),
-//   fromToday: z.boolean(),
-//   endDateTime: z
-//     .string()
-//     .refine((val) => !isNaN(Date.parse(val)), {
-//       message: 'Invalid date format',
-//     })
-//     .optional(),
-//   noEndDate: z.boolean(),
-//   participantCapacity: z.number(),
-//   unlimitedQuantity: z.boolean(),
-//   purchaseLimit: z.number().optional(),
-//   description: z.string().optional(),
-//   purchaseDuplicate: z.boolean().optional(),
-// });
+      if (
+        typeof value === 'object' &&
+        value !== null &&
+        !Array.isArray(value)
+      ) {
+        Object.assign(acc, flattenData(value, newKey));
+      } else {
+        acc[newKey] = value?.toString() || '';
+      }
 
-// const activityFormDataSchema = z.object({
-//   name: z.string(),
-//   organizer: organizerSchema,
-//   cover: z.array(z.string().url()),
-//   thumbnail: z.string().url(),
-//   startDateTime: z
-//     .string()
-//     .refine((val) => !isNaN(Date.parse(val)), {
-//       message: 'Invalid date format',
-//     })
-//     .optional(),
-//   fromToday: z.boolean(),
-//   endDateTime: z
-//     .string()
-//     .refine((val) => !isNaN(Date.parse(val)), {
-//       message: 'Invalid date format',
-//     })
-//     .optional(),
-//   noEndDate: z.boolean(),
-//   category: z.string(),
-//   type: z.string(),
-//   link: z.string().optional(),
-//   location: z.string().optional(),
-//   address: z.string().optional(),
-//   summary: z.string(),
-//   details: z.string(),
-//   isPrivate: z.boolean(),
-//   displayRemainingTickets: z.boolean(),
-//   isRecurring: z.boolean(),
-//   recurring: recurringSchema.optional(),
-//   status: z.string(),
-//   lat: z.string().optional(),
-//   lng: z.string().optional(),
-//   tickets: ticketSchema,
-// });
-
-export async function uploadActivity(formData: FormData) {
-  console.log(formData);
-
-  // const jsonExample = {
-  //   name: '陽明山花卉探險：春之花海', //requried
-  //   organizer: {
-  //     profilePicture: 'https://loremflickr.com/640/480?lock=6438964797898752',
-  //     name: 'Marian Walker', //requried
-  //     contactName: 'Sarah Thiel', //requried
-  //     contactPhone: '485-450-7848', //requried
-  //     contactEmail: 'Nedra32@gmail.com', //requried
-  //     websiteName: 'frightening-papa.com',
-  //     websiteURL: 'https://colossal-fabric.biz',
-  //   },
-  //   cover: [
-  //     'https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  //   ], //requried
-  //   thumbnail:
-  //     'https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=416&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', //requried
-  //   startDateTime: '2024-06-18T10:00:00.000Z',
-  //   fromToday: false, //requried or upper content startDateTime
-  //   endDateTime: '2024-06-20T22:00:00.000Z',
-  //   noEndDate: false, //requried or upper content endDateTime
-  //   category: '體驗', //requried
-  //   type: '線上', //requried
-  //   link: '活動連結',
-  //   location: '陽明山國家公園',
-  //   address: '台北市士林區竹子湖路1-20號',
-  //   summary: '歡迎加入我們的「探索夜空之旅」活動!', //requried
-  //   details: '下午6:00 - 7:00:抵達活動地點,安排露營帳篷。', //requried
-  //   isPrivate: false, //requried
-  //   displayRemainingTickets: true, //requried
-  //   isRecurring: true, //requried
-  //   recurring: {
-  //     period: 'MONTH',
-  //     week: 'LAST',
-  //     day: 'SUNDAY',
-  //   },
-  //   status: '有效', //requried
-  //   lat: '25.175900',
-  //   lng: '121.544200',
-  //   tickets: {
-  //     //requried
-  //     name: '星空夜行免費入場券', //requried
-  //     price: 500, //requried
-  //     startDateTime: '2024-06-18T10:00:00.000Z',
-  //     fromToday: false, //requried or upper content startDateTime
-  //     endDateTime: '2024-06-20T22:00:00.000Z',
-  //     noEndDate: false, //requried or upper content endDateTime
-  //     participantCapacity: 43, //requried
-  //     unlimitedQuantity: false, //requried
-  //     purchaseLimit: 1,
-  //     description:
-  //       '這張星空冒險導覽套票包含專屬導覽、望遠鏡租借和美食饗宴，帶您進入星空的奇妙世界。',
-  //     purchaseDuplicate: false,
-  //   },
-  // };
-
-  const jsonExample2 = {
-    name: 'Miss Kelly Dare',
-    organizer: {
-      profilePicture: 'https://loremflickr.com/640/480?lock=7694210111111168',
-      name: 'Mr. Alan Jerde',
-      contactName: 'Leona Spencer',
-      contactPhone: '244.960.8178 x08518',
-      contactEmail: 'Bell.Nitzsche@gmail.com',
-      websiteName: 'these-human.org',
-      websiteURL: 'https://peaceful-plier.org/',
+      return acc;
     },
-    cover: [
-      'https://loremflickr.com/640/480?lock=445309626875904',
-      'https://loremflickr.com/640/480?lock=7701584716759040',
-      'https://loremflickr.com/640/480?lock=8167749635276800',
-    ],
-    thumbnail: 'https://loremflickr.com/640/480?lock=7914678927753216',
-    startDateTIme: '2024-05-24T16:51:30.302Z',
-    fromToday: false,
-    endDateTIme: '2024-10-19T17:12:03.234Z',
-    noEndDate: false,
-    category: '藝術文化',
-    type: '線上',
-    link: 'https://defensive-mineshaft.net',
-    location: '北部',
-    address: '8412 Albany Road',
-    summary: 'Bestia desidero comprehendo votum attollo aggero.',
-    details:
-      'Urbanus abstergo vitiosus ipsum patria coaegresco. Derideo approbo valde vigilo odit torrens curriculum ocer vitae. Degero vergo vespillo adinventitias blandior beneficium abduco.',
-    isPrivate: false,
-    displayRemainingTickets: false,
-    isRecurring: true,
-    recurring: {
-      period: '每月',
-      week: '每週',
-      day: '星期六',
-    },
-    status: '有效',
-    tickets: [
-      {
-        name: 'VIP星空露營體驗券',
-        price: 1200,
-        startDateTIme: '2024-03-28T00:00:30.302Z',
-        fromToday: false,
-        endDateTIme: '2024-03-29T00:00:03.234Z',
-        noEndDate: false,
-        participantCapacity: 20,
-        unlimitedQuantity: false,
-        purchaseLimit: 1,
-        description:
-          '這張星空冒險導覽套票包含專屬導覽、望遠鏡租借和美食饗宴，帶您進入星空的奇妙世界。',
-        purchaseDuplicate: false,
-      },
-      {
-        name: '星空夜行免費入場券',
-        price: 500,
-        startDateTIme: '2024-05-24T16:51:30.302Z',
-        fromToday: false,
-        endDateTIme: '2024-10-19T17:12:03.234Z',
-        noEndDate: false,
-        participantCapacity: 43,
-        unlimitedQuantity: true,
-        purchaseLimit: 1,
-        description:
-          '這張星空冒險導覽套票包含專屬導覽、望遠鏡租借和美食饗宴，帶您進入星空的奇妙世界。',
-        purchaseDuplicate: false,
-      },
-    ],
-  };
+    {} as Record<string, string>
+  );
+}
 
-  // const validatedFields = activityFormDataSchema.safeParse(jsonExample2);
+type FormDataObject = { [key: string]: string | File };
 
-  // if (!validatedFields.success) {
-  //   console.log(validatedFields.error);
+function formDataToNestedObject(formData: FormDataObject): any {
+  const result: any = {};
+
+  Object.entries(formData).forEach(([key, value]) => {
+    const keys = key.split('.');
+    keys.reduce((acc, part, index) => {
+      if (index === keys.length - 1) {
+        acc[part] = value;
+      } else {
+        acc[part] =
+          acc[part] || (Number.isNaN(Number(keys[index + 1])) ? {} : []);
+      }
+      return acc[part];
+    }, result);
+  });
+
+  return result;
+}
+
+export async function uploadActivity(
+  prevSate: FormState,
+  data: FormData
+): Promise<FormState> {
+  console.log(data);
+
+  const formDataObject: FormDataObject = Object.fromEntries(data);
+  const nestedData = formDataToNestedObject(formDataObject);
+  const parsed = createActivityFormSchema.safeParse(nestedData);
+
+  if (!parsed.success) {
+    return {
+      message: 'Invalid form data',
+      fields: flattenData(formDataObject),
+      issues: parsed.error.issues.map((issue) => ({
+        path: issue.path.join('.'),
+        message: `伺服器驗證錯誤訊息: ${issue.message}`,
+      })),
+    };
+  }
+  // if (parsed.data.name.includes('a')) {
   //   return {
-  //     errors: validatedFields.error.flatten().fieldErrors,
+  //     message: "We Don't like Alexendar Hamilton.",
+  //     fields: flattenData(parsed.data),
   //   };
   // }
+
+  const { organizer } = parsed.data;
+  const { name } = organizer;
 
   const response = await fetchAPI({
     api: '/auth/activities',
     method: 'POST',
-    data: jsonExample2,
+    data: parsed.data,
     shouldAuth: true,
   });
 
@@ -286,8 +147,10 @@ export async function uploadActivity(formData: FormData) {
   const activityId = result._id;
   const userID = result.creatorId;
 
-  console.log('activityId', activityId);
-  console.log('userID', userID);
+  if (result) {
+    return { message: `Welcome, ${activityId} ${userID || ''}!` };
+  }
   revalidatePath('/activity/new');
   // redirect(`/activity/preview?id=${activityId}&userID=${userID}`);
+  return { message: `Welcome, ${name}!` };
 }

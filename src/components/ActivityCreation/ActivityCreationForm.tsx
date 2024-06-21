@@ -1,6 +1,6 @@
 'use client';
 
-import { uploadActivity, uploadImage } from '@action/upload';
+import { FormState, uploadActivity, uploadImage } from '@action/upload';
 import { Button } from '@components/ui/button';
 import { Form } from '@components/ui/form';
 import { Separator } from '@components/ui/separator';
@@ -11,7 +11,7 @@ import { createActivityFormSchema } from '@lib/definitions';
 import cn from '@lib/utils';
 import { useEffect, useState } from 'react';
 import { useFormState } from 'react-dom';
-import { useForm } from 'react-hook-form';
+import { FieldPath, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import OrganizerFormSection from './fields/OrganizerFormSection';
 /* TODO: Fix typo ActivityTimePicker */
@@ -22,6 +22,10 @@ import UploadFormButton from './ui/UploadFormButton';
 type ActivityCreationFormProps = {
   className: string;
 };
+export interface FormValues {
+  name: string;
+  lastName: string;
+}
 
 const initialState = {
   message: '',
@@ -34,15 +38,96 @@ const ActivityCreationForm = ({ className }: ActivityCreationFormProps) => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   // const [files, setFiles] = useState<FileList | null>(null);
-  const [formState, formAction] = useFormState(uploadImage, initialState);
+  const [formState, formAction] = useFormState<FormState, FormData>(
+    uploadActivity,
+    { message: '' }
+  );
+  const [imageFormState, imageFormAction] = useFormState(
+    uploadImage,
+    initialState
+  );
   const { toast } = useToast();
+
+  const form = useForm<z.output<typeof createActivityFormSchema>>({
+    mode: 'all',
+    resolver: zodResolver(createActivityFormSchema),
+    defaultValues: {
+      name: '',
+      organizer: {
+        profilePicture: '',
+        name: '',
+        contactName: '',
+        contactPhone: '',
+        contactEmail: '',
+        websiteName: '',
+        websiteURL: '',
+      },
+      cover: [''],
+      thumbnail: '',
+      startDateTime: undefined,
+      fromToday: false,
+      endDateTime: undefined,
+      noEndDate: false,
+      category: '',
+      type: '',
+      link: '',
+      location: '',
+      address: '',
+      summary: '',
+      details: '',
+      isPrivate: false,
+      displayRemainingTickets: false,
+      isRecurring: false,
+      recurring: {
+        period: '',
+        week: '',
+        day: '',
+      },
+      status: '',
+      tickets: [
+        {
+          _id: '',
+          name: '',
+          price: 0,
+          startDateTime: undefined,
+          fromToday: false,
+          endDateTime: undefined,
+          noEndDate: false,
+          participantCapacity: 0,
+          unlimitedQuantity: false,
+          purchaseLimit: 0,
+          description: '',
+          purchaseDuplicate: false,
+          ticketStatus: '',
+          serialNumber: '',
+        },
+      ],
+    },
+  });
+
+  useEffect(() => {
+    if (Array.isArray(formState?.issues)) {
+      formState?.issues.forEach((err) => {
+        form.setError(
+          err.path as FieldPath<z.output<typeof createActivityFormSchema>>,
+          {
+            message: err.message,
+          }
+        );
+      });
+    }
+    toast({
+      title: 'chillka 溫馨表格崩壞小提醒',
+      description: `${formState?.message}`,
+    });
+  }, [formState?.issues, formState?.message, form, toast]);
 
   useEffect(() => {
     toast({
       title: 'chillka 溫馨小提醒',
-      description: `${formState?.imageUrl}`,
+      description: `${imageFormState?.imageUrl}`,
     });
-  }, [formState.message]);
+  }, [imageFormState.message, toast]);
 
   // const defaultValues: { file: null | File } = {
   //   file: null,
@@ -126,67 +211,10 @@ const ActivityCreationForm = ({ className }: ActivityCreationFormProps) => {
     }
   };
 
-  const form = useForm<z.output<typeof createActivityFormSchema>>({
-    mode: 'all',
-    resolver: zodResolver(createActivityFormSchema),
-    defaultValues: {
-      name: '',
-      organizer: {
-        profilePicture: '',
-        name: '',
-        contactName: '',
-        contactPhone: '',
-        contactEmail: '',
-        websiteName: '',
-        websiteURL: '',
-      },
-      cover: [''],
-      thumbnail: '',
-      startDateTime: undefined,
-      fromToday: false,
-      endDateTime: undefined,
-      noEndDate: false,
-      category: '',
-      type: '',
-      link: '',
-      location: '',
-      address: '',
-      summary: '',
-      details: '',
-      isPrivate: false,
-      displayRemainingTickets: false,
-      isRecurring: false,
-      recurring: {
-        period: '',
-        week: '',
-        day: '',
-      },
-      status: '',
-      tickets: [
-        {
-          _id: '',
-          name: '',
-          price: 0,
-          startDateTime: undefined,
-          fromToday: false,
-          endDateTime: undefined,
-          noEndDate: false,
-          participantCapacity: 0,
-          unlimitedQuantity: false,
-          purchaseLimit: 0,
-          description: '',
-          purchaseDuplicate: false,
-          ticketStatus: '',
-          serialNumber: '',
-        },
-      ],
-    },
-  });
-
   return (
     <section className={cn('', className)}>
       <Form {...form}>
-        <form className="mt-12 space-y-12" action={uploadActivity}>
+        <form className="mt-12 space-y-12" action={formAction}>
           <OrganizerFormSection form={form} />
           <ActivityContentFormSection form={form} />
           <TicketFormSection form={form} />
@@ -198,7 +226,7 @@ const ActivityCreationForm = ({ className }: ActivityCreationFormProps) => {
       <H2>以下為測試區</H2>
       <Separator className="mt-24" />
       {/* Testing Area */}
-      <form className="space-y-6" action={formAction}>
+      <form className="space-y-6" action={imageFormAction}>
         <H3 className="text-primary">Server actions Method</H3>
         <h2>Upload and Display Image</h2>
         <h3>using React Hooks</h3>
