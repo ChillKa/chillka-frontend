@@ -44,127 +44,169 @@ const AdvancedSearchBarDesktop = ({
   };
 
   return (
-    <form onSubmit={handleSearchSubmit}>
-      <section className="flex flex-col">
-        <div
-          id="first-col"
-          className={cn(
-            'z-20 max-w-[81rem] space-y-6 border-t border-primary bg-surface pt-6 text-primary',
-            'flex gap-2'
-          )}
-        >
-          <div className="flex grow">
-            <SearchField name="keyword" className="grow">
-              {({ value, onChange }) => (
-                <ActivityField
-                  side="bottom"
-                  activityKeywords={DUMMY_KEYWORDS}
-                  activityPictures={DUMMY_PICTURES}
-                  value={value}
-                  onChange={onChange}
-                />
-              )}
-            </SearchField>
+    <form className="flex flex-col" onSubmit={handleSearchSubmit}>
+      <div
+        id="first-col"
+        className={cn(
+          'z-20 max-w-[81rem] space-y-6 border-t border-primary bg-surface pt-6 text-primary',
+          'flex gap-2'
+        )}
+      >
+        <div className="flex grow">
+          <SearchField name="keyword" className="grow">
+            {({ value, onChange }) => (
+              <ActivityField
+                side="bottom"
+                activityKeywords={DUMMY_KEYWORDS}
+                activityPictures={DUMMY_PICTURES}
+                value={value}
+                onChange={onChange}
+              />
+            )}
+          </SearchField>
 
-            <SearchField name="category" className="min-w-64">
-              {({ value, onChange }) => (
-                <CategoryFieldMenu
-                  categories={categories}
-                  side="bottom"
-                  value={value}
-                  onChange={(val) => {
-                    onChange(val);
-                    handleSearchSubmit();
-                  }}
-                />
-              )}
-            </SearchField>
-            <SearchField name="location" className="min-w-64">
-              {({ value, onChange }) => (
-                <LocationFieldMenu
-                  locations={locations}
-                  side="bottom"
-                  value={value}
-                  onChange={(val) => {
-                    onChange(val);
-                    handleSearchSubmit();
-                  }}
-                />
-              )}
-            </SearchField>
-            <Button
-              type="submit"
-              className="flex h-auto self-auto px-20 text-xl font-bold"
-            >
-              搜尋活動
-            </Button>
-          </div>
+          <SearchField name="category" className="min-w-64">
+            {({ value, onChange }) => (
+              <CategoryFieldMenu
+                categories={categories}
+                side="bottom"
+                value={value}
+                onChange={(val) => {
+                  onChange(val);
+                  handleSearchSubmit();
+                }}
+              />
+            )}
+          </SearchField>
+          <SearchField name="location" className="min-w-64">
+            {({ value, onChange }) => (
+              <LocationFieldMenu
+                locations={locations}
+                side="bottom"
+                value={value}
+                onChange={(val) => {
+                  onChange(val);
+                  handleSearchSubmit();
+                }}
+              />
+            )}
+          </SearchField>
+          <Button
+            type="submit"
+            className="flex h-auto self-auto px-20 text-xl font-bold"
+          >
+            搜尋活動
+          </Button>
         </div>
-        <div
-          id="second-col"
-          className={cn('space-y-6 bg-surface pb-6 text-primary')}
-        >
-          <div className={cn('flex grow border-b border-primary')}>
-            <div className="flex w-[8.125rem] flex-row items-center justify-center">
-              <div className="flex h-full w-full justify-between gap-2 border-primary py-4">
-                {[
-                  {
-                    key: 1,
-                    name: '活動',
-                  },
-                  {
-                    key: 2,
-                    name: '團體',
-                  },
-                ].map((item) => (
-                  <button
-                    type="button"
-                    disabled={item.name === '團體'}
-                    key={item.key}
-                    className={cn('h-full w-full space-y-2 border-primary', {
-                      'border-l pl-2': item.key === 1,
-                      'border-r pr-2': item.key === 2,
-                    })}
+      </div>
+      <div
+        id="second-col"
+        className={cn(
+          'max-w-[81rem] space-y-6 bg-surface pb-6 text-primary',
+          'flex gap-2'
+        )}
+      >
+        <div className={cn('flex grow')}>
+          <section
+            id="show"
+            className="flex w-[8.125rem] flex-row items-center justify-center border-b border-primary"
+          >
+            <div className="flex h-full w-full justify-between gap-2 border-primary py-4">
+              {[
+                {
+                  key: 1,
+                  name: '活動',
+                },
+                {
+                  key: 2,
+                  name: '團體',
+                },
+              ].map((item) => (
+                <button
+                  type="button"
+                  disabled={item.name === '團體'}
+                  key={item.key}
+                  className={cn('h-full w-full space-y-2 border-primary', {
+                    'border-l pl-2': item.key === 1,
+                    'border-r pr-2': item.key === 2,
+                  })}
+                >
+                  <p
+                    className={cn(
+                      'font-bold',
+                      item.name === '團體' ? 'text-muted-foreground' : ''
+                    )}
                   >
-                    <p
-                      className={cn(
-                        'font-bold',
-                        item.name === '團體' ? 'text-muted-foreground' : ''
-                      )}
-                    >
-                      {item.name}
-                    </p>
-                  </button>
-                ))}
-              </div>
+                    {item.name}
+                  </p>
+                </button>
+              ))}
             </div>
+          </section>
 
-            <SearchField name="date" className="min-w-64">
-              {({ value, onChange }) => (
-                <DateFieldMenu
-                  dates={dates}
-                  side="bottom"
-                  value={value}
-                  onChange={(val) => {
-                    onChange(val);
-                    handleSearchSubmit();
-                  }}
-                />
-              )}
-            </SearchField>
+          <SearchField name="date" className="min-w-64">
+            {({ value, onChange }) => (
+              <DateFieldMenu
+                dates={dates}
+                side="bottom"
+                value={value}
+                onChange={(val) => {
+                  onChange(val);
+                  handleSearchSubmit();
+                }}
+              />
+            )}
+          </SearchField>
 
-            <SearchField name="type" className="min-w-64">
+          <SearchField name="type" className="min-w-64">
+            {({ value, onChange }) => (
+              <EventTypeFieldMenu
+                events={[
+                  {
+                    text: '線上',
+                  },
+                  {
+                    text: '線下',
+                  },
+                ]}
+                side="bottom"
+                value={value}
+                onChange={(val) => {
+                  onChange(val);
+                  handleSearchSubmit();
+                }}
+              />
+            )}
+          </SearchField>
+
+          <SearchField name="distance">
+            {({ value, onChange }) => (
+              <DistanceFieldMenu
+                distances={distances}
+                side="bottom"
+                value={value}
+                onChange={(val) => {
+                  onChange(val);
+                  handleSearchSubmit();
+                }}
+              />
+            )}
+          </SearchField>
+
+          <section className="flex min-w-64 flex-row items-center justify-center gap-4 border-b border-primary pl-4">
+            <SearchField name="sort">
               {({ value, onChange }) => (
-                <EventTypeFieldMenu
-                  events={[
+                <SortFieldMenu
+                  sorts={[
                     {
-                      text: '線上',
+                      url: '/',
+                      text: '日期',
                     },
                     {
-                      text: '線下',
+                      url: '/',
+                      text: '相關性',
                     },
                   ]}
-                  side="bottom"
                   value={value}
                   onChange={(val) => {
                     onChange(val);
@@ -174,57 +216,19 @@ const AdvancedSearchBarDesktop = ({
               )}
             </SearchField>
 
-            <SearchField name="distance">
-              {({ value, onChange }) => (
-                <DistanceFieldMenu
-                  distances={distances}
-                  side="bottom"
-                  value={value}
-                  onChange={(val) => {
-                    onChange(val);
-                    handleSearchSubmit();
-                  }}
-                />
+            <Button
+              onClick={handleClearFilter}
+              className={cn(
+                'w-[11.5rem] rounded-[0.375rem] border bg-surface text-primary',
+                'hover:bg-primary hover:text-white'
               )}
-            </SearchField>
-
-            <section className="flex min-w-64 flex-row items-center justify-center gap-4 pl-4">
-              <SearchField name="sort">
-                {({ value, onChange }) => (
-                  <SortFieldMenu
-                    sorts={[
-                      {
-                        url: '/',
-                        text: '日期',
-                      },
-                      {
-                        url: '/',
-                        text: '相關性',
-                      },
-                    ]}
-                    value={value}
-                    onChange={(val) => {
-                      onChange(val);
-                      handleSearchSubmit();
-                    }}
-                  />
-                )}
-              </SearchField>
-
-              <Button
-                onClick={handleClearFilter}
-                className={cn(
-                  'w-[11.5rem] rounded-[0.375rem] border bg-surface text-primary',
-                  'hover:bg-primary hover:text-white'
-                )}
-              >
-                <XSquare />
-                清除條件
-              </Button>
-            </section>
-          </div>
+            >
+              <XSquare />
+              清除條件
+            </Button>
+          </section>
         </div>
-      </section>
+      </div>
     </form>
   );
 };

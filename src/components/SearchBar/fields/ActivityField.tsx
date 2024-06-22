@@ -74,7 +74,7 @@ const ActivityField = ({
           className={cn(
             'mt-0 grow border-y border-primary py-4 hover:cursor-pointer data-[state=open]:hover:cursor-default',
             {
-              'mb-[1px] border-b-0': side === 'bottom' && isMenuOpen,
+              'border-b-0': side === 'bottom' && isMenuOpen,
               'mt-[1px] border-t-0': side === 'top' && isMenuOpen,
             }
           )}

@@ -68,7 +68,7 @@ const CategoryFieldMenu = ({
           className={cn(
             'mt-0 min-w-64 border-y border-primary py-4 pl-4 hover:cursor-pointer',
             {
-              'mb-[1px] border-b-0': side === 'bottom' && isMenuOpen,
+              'border-b-0': side === 'bottom' && isMenuOpen,
               'mt-[1px] border-t-0': side === 'top' && isMenuOpen,
             }
           )}
