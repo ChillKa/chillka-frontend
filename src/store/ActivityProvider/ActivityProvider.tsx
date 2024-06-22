@@ -2,6 +2,7 @@
 
 import { fetchActivity } from '@action/activity';
 import React, {
+  Dispatch,
   PropsWithChildren,
   createContext,
   useCallback,
@@ -15,6 +16,7 @@ export interface ActivityContextType {
   data: AcitivityResponseType | null;
   userId: string | null;
   loadActivity: (id: string) => Promise<void>;
+  setData: Dispatch<React.SetStateAction<AcitivityResponseType | null>>;
 }
 
 export const ActivityContext = createContext<ActivityContextType | undefined>(
@@ -49,10 +51,11 @@ const ActivityProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const contextValue = useMemo(
     () => ({
       data,
+      setData,
       userId,
       loadActivity,
     }),
-    [data, userId, loadActivity]
+    [data, setData, userId, loadActivity]
   );
 
   return (
