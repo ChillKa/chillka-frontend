@@ -1,3 +1,4 @@
+import ActivityLocationMarker from '@components/GoogleMaps/ActivityLocationMarker';
 import { P } from '@components/ui/typography';
 import cn from '@lib/utils';
 import { useActivityContext } from '@store/ActivityProvider/ActivityProvider';
@@ -21,7 +22,11 @@ const MapSection = ({ className }: MapSectionProps) => {
         活動地點
       </div>
       <P>{`${data?.activity.address}（${data?.activity.location}）`}</P>
-      <div className="h-[23.3125rem] w-full bg-primary text-white">map</div>
+      <ActivityLocationMarker
+        className="h-[23.3125rem] w-full"
+        lat={data?.activity.lat ?? 0}
+        lng={data?.activity.lng ?? 0}
+      />
     </section>
   );
 };
