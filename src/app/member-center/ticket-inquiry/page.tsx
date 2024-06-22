@@ -1,20 +1,30 @@
 'use client';
 
+import QRCodePopUp from '@components/QRCodePopUp';
 import SortOrder from '@components/SortOrder';
 import useWindowSize from '@hooks/use-window-size';
-import { QrCode } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import fakerData from './fakerData';
 
 const TicketInquiry = () => {
   const [sort, setSort] = useState('1');
   const [canUse, setCanUse] = useState(true);
+  const [showQRCode, setShowQRCode] = useState<boolean[]>([]);
   const { width } = useWindowSize();
 
   const handleSort = (value: string) => setSort(value);
+  const handleQRCode = (index: number) => {
+    setShowQRCode((prev) => {
+      return prev.map((state, i) => (i === index ? !state : false));
+    });
+  };
+
+  useEffect(() => {
+    setShowQRCode(new Array(fakerData.length).fill(false));
+  }, []);
 
   return (
-    <div className="text-primary">
+    <div className="relative text-primary">
       <div className="relative mb-6 h-[8.125rem] xl:flex xl:h-fit xl:items-center xl:justify-between">
         <h1 className="mb-8 text-5xl/none font-bold xl:mb-0">查詢票券</h1>
         <SortOrder
@@ -48,46 +58,33 @@ const TicketInquiry = () => {
         </ul>
       </div>
       {canUse &&
-        fakerData.map((ticker) => (
-          <div
-            onClickCapture={() => console.log('xxx')}
-            className="py-6 text-xl font-bold hover:bg-primary/[0.03] xl:grid xl:grid-cols-[11fr_2fr]"
-            key={ticker.orderNumber}
-          >
-            <button
-              onClick={() => console.log('票券詳情')}
-              className="mb-4 text-left xl:mb-0 xl:grid xl:grid-cols-[7fr_2fr_2fr] xl:items-center xl:text-center"
-              type="button"
+        fakerData.map((ticker, index) => {
+          return (
+            <div
+              className="block grid-cols-[7fr_2fr_2fr_2fr] py-4 text-xl font-bold xl:grid"
+              key={ticker.orderNumber}
             >
               <h3 className="mb-[1.25rem] text-left xl:mb-0 xl:font-bold">
                 {ticker.title}
               </h3>
-              <p className="mr-2 inline-block bg-primary px-2 py-1 text-xs/5 font-medium text-white xl:mr-0 xl:bg-surface xl:p-0 xl:text-xl xl:font-bold xl:text-primary">
+              <p className="mr-2 inline-block bg-primary px-2 py-1 text-xs/5 font-medium text-white xl:mr-0 xl:flex xl:items-center xl:justify-center xl:bg-surface xl:p-0 xl:text-xl xl:font-bold xl:text-primary">
                 {width > 1366 ? ticker.quantity : `數量：${ticker.quantity}`}
               </p>
-              <p className="inline-block bg-primary px-2 py-1 text-xs/5 font-medium text-white xl:bg-surface xl:p-0 xl:text-xl xl:font-bold xl:text-primary">
+              <p className="inline-block bg-primary px-2 py-1 text-xs/5 font-medium text-white xl:flex xl:items-center xl:justify-center xl:bg-surface xl:p-0 xl:text-xl xl:font-bold xl:text-primary">
                 {width > 1366
                   ? ticker.expirationDate
                   : `使用期限：${ticker.expirationDate}`}
               </p>
-            </button>
-            <button
-              className="flex items-center justify-center border border-primary px-6 py-4 text-base/5 xl:border-none xl:p-0"
-              onClick={() => console.log('QR Code')}
-              aria-label="QR Code"
-              type="button"
-            >
-              {width > 1366 ? (
-                <QrCode size={40} />
-              ) : (
-                <>
-                  <QrCode size={16} />
-                  <p className="ml-4">使用票券</p>
-                </>
-              )}
-            </button>
-          </div>
-        ))}
+              <div className="xl:flex xl:items-center xl:justify-center">
+                <QRCodePopUp
+                  index={index}
+                  state={showQRCode[index]}
+                  changeQRCode={handleQRCode}
+                />
+              </div>
+            </div>
+          );
+        })}
     </div>
   );
 };
