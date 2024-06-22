@@ -10,8 +10,8 @@ const TicketInquiry = () => {
 
   return (
     <div>
-      <div>
-        <h1>查詢票券</h1>
+      <div className="mb-6 flex items-center justify-between">
+        <h1 className="text-5xl/none">查詢票券</h1>
         <SortOrder state={sort} changeState={handleSort} />
       </div>
       TicketInquiry

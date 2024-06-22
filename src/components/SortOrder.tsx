@@ -21,7 +21,7 @@ type SortOrderProps = {
 const SortOrder = ({ state, changeState }: SortOrderProps) => {
   return (
     <Select value={state} onValueChange={changeState}>
-      <SelectTrigger className="m-[0.0625rem] box-content flex w-[10.7rem] rounded-[0.5rem] border border-primary px-6 py-3 text-base data-[state=open]:m-0 data-[state=open]:border-2">
+      <SelectTrigger className="m-[0.0625rem] box-content flex w-[10.7rem] rounded-[0.5rem] border border-primary px-6 py-3 text-base focus:outline-none data-[state=open]:m-0 data-[state=open]:border-2">
         <p className="flex items-center">
           <ArrowUpDown size={16} className="mr-[0.625rem]" />
           排序依：
@@ -30,7 +30,11 @@ const SortOrder = ({ state, changeState }: SortOrderProps) => {
           {sortOptions.filter((option) => option.value === state)[0].key}
         </p>
       </SelectTrigger>
-      <SelectContent className="w-[19.125rem] rounded-[0.5rem] bg-surface p-4 shadow-[0_4px_20px_0px_rgba(0,0,0,0.149)]">
+      <SelectContent
+        position="popper"
+        sideOffset={8}
+        className="w-[19.125rem] rounded-[0.5rem] bg-surface p-4 shadow-[0_4px_20px_0px_rgba(0,0,0,0.149)]"
+      >
         {sortOptions.map((option, index) => (
           <motion.div
             key={option.key}
