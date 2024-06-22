@@ -92,7 +92,7 @@ const RichTextEditor = ({
         },
       }),
     ],
-    content: JSON.parse(description),
+    content: description === '' ? description : JSON.parse(description),
     onUpdate({ editor: updatedEditor }) {
       onChange(JSON.stringify(updatedEditor.getJSON()));
     },
