@@ -75,21 +75,40 @@ export const userFormSchema = z.object({
 });
 
 export const createActivityFormSchema = z.object({
-  name: z.string({ required_error: '請填寫活動名稱', message: 'testing' }),
+  name: z.string({ required_error: '請填寫活動名稱' }),
   organizer: z.object({
     profilePicture: z.string().optional(),
-    name: z.string({ required_error: '請填寫主辦方名稱' }),
+    name: z
+      .string({
+        required_error: '請填寫主辦方名稱',
+        message: '請填寫主辦方名稱',
+      })
+      .min(1, '請至少填寫一個字的名稱'),
     contactName: z.string({
       required_error: '請填寫聯絡人姓名',
     }),
-    contactPhone: z.string({
-      required_error: '請填寫聯絡人電話',
-    }),
-    contactEmail: z.string({
-      required_error: '請填寫聯絡人電子郵件',
-    }),
-    websiteName: z.string().optional(),
-    websiteURL: z.string().optional(),
+    contactPhone: z
+      .string({
+        required_error: '請填寫聯絡人電話',
+      })
+      .min(1, '請輸入電話號碼')
+      .regex(
+        /^([+]?[s0-9]+)?(d{3}|[(]?[0-9]+[)])?([-]?[s]?[0-9])+$/,
+        '請輸入正確的電話號碼'
+      ),
+    contactEmail: z
+      .string({
+        required_error: '請填寫聯絡人電子郵件',
+      })
+      .email('請輸入正確的email'),
+    websiteName: z.union([
+      z.string().min(1, '請至少填寫一個字的名稱').optional(),
+      z.literal(''),
+    ]),
+    websiteURL: z.union([
+      z.string().url('請輸入正確網址').nullish(),
+      z.literal(''),
+    ]),
   }),
   cover: z.array(z.string({ required_error: '請至少上傳一張圖片' })),
   thumbnail: z.string({ required_error: '請上傳一張縮圖' }),
@@ -114,7 +133,9 @@ export const createActivityFormSchema = z.object({
   displayRemainingTickets: z.coerce.boolean({
     required_error: 'DisplayRemainingTickets is required',
   }),
-  isRecurring: z.coerce.boolean({ required_error: 'IsRecurring is required' }),
+  isRecurring: z.coerce.boolean({
+    required_error: 'IsRecurring is required',
+  }),
   recurring: z
     .object({
       period: z.string(),
