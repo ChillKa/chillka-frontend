@@ -32,29 +32,42 @@ const QRCodePopUp = ({ index, state, changeQRCode }: QRCodePCVerProps) => {
           </div>
         )}
       </DialogTrigger>
-      <DialogContent className="h-[44.25rem] w-[26rem]" hideCloseButton>
+      <DialogContent
+        className="w-vh h-svh xl:h-[44.25rem] xl:w-[26rem]"
+        hideCloseButton
+      >
         <button
-          className="absolute right-0 top-0 bg-primary p-[0.625rem]"
+          className="absolute right-0 top-0 flex h-[5rem] w-[5rem] items-center justify-center bg-primary xl:h-[2.375rem] xl:w-[2.375rem]"
           onClick={() => changeQRCode(index)}
           aria-label="QRCode"
           type="button"
         >
           <X className="stroke-white" size={24} />
         </button>
-        <div className="px-6 pb-6 pt-12">
-          <DialogTitle className="mb-6">票券可使用時間</DialogTitle>
+        <div className="flex h-[calc(100svh-30px)] flex-col overflow-scroll px-3 pb-6 pt-10 xl:h-fit xl:px-6 xl:pt-12">
+          <DialogTitle className="mb-[2.5rem] text-3xl font-bold xl:mb-6">
+            票券可使用時間
+          </DialogTitle>
           <div className="mb-6 flex items-center justify-center">
-            <div className="flex-1">
+            <div className="max-w-[12rem] flex-1 text-center">
               <p className="mb-2 text-3xl font-bold">00:00</p>
               <p className="text-sm/7">2024.01.10</p>
             </div>
             <ArrowRight className="mx-6" size={24} />
-            <div className="flex-1">
+            <div className="max-w-[12rem] flex-1 text-center">
               <p className="mb-2 text-3xl font-bold">00:00</p>
               <p className="text-sm/7">2024.01.10</p>
             </div>
           </div>
-          <Image src={qrcode} width={368} height={368} alt="QRCode" />
+          <div className="flex items-center justify-center">
+            <Image
+              src={qrcode}
+              width={width > 1366 ? 368 : 351}
+              height={width > 1366 ? 368 : 351}
+              alt="QRCode"
+            />
+          </div>
+
           <div className="my-6 h-1 w-full border-t border-dashed border-black" />
           <p className="m-auto py-4 text-center">參加人：ZIM</p>
         </div>
