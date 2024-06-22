@@ -266,12 +266,12 @@ const SearchContentSection = ({ results }: SearchContentSectionProps) => {
         </Pagination>
       </div>
       {!isMobile && (
-        <div className="debug h-fit w-full max-w-[26rem]">
+        <div className="sticky top-0 h-fit w-full max-w-[26rem]">
           <SearchMapSection
             markers={[
-              { lat: 25.033, lng: 121.5654, id: '1' },
-              { lat: 24.1477, lng: 120.6736, id: '2' },
-              { lat: 22.6273, lng: 120.3014, id: '3' },
+              { lat: 25.033, lng: 121.5654, id: '1', pricing: 100 },
+              { lat: 24.1477, lng: 120.6736, id: '2', pricing: 0 },
+              { lat: 22.6273, lng: 120.3014, id: '3', pricing: 0 },
             ]}
           />
         </div>

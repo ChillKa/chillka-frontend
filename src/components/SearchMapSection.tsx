@@ -3,7 +3,7 @@
 import {
   GoogleMap,
   Libraries,
-  Marker,
+  OverlayView,
   useJsApiLoader,
 } from '@react-google-maps/api';
 import { useMemo } from 'react';
@@ -12,6 +12,7 @@ export type MarkerPosition = {
   id: string;
   lat: number;
   lng: number;
+  pricing: number;
 };
 
 export type SearchMapSectionProps = {
@@ -76,7 +77,17 @@ const SearchMapSection = ({ markers }: SearchMapSectionProps) => {
       }}
     >
       {markers.map((marker) => (
-        <Marker key={marker.id} position={marker} />
+        <OverlayView
+          key={marker.id}
+          position={{ lat: marker.lat, lng: marker.lng }}
+          mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
+        >
+          <div className="flex h-10 w-20 items-center justify-center rounded-full border bg-surface shadow-lg">
+            <p className="text-sm font-bold">
+              {marker.pricing === 0 ? '免費' : `NT$${marker.pricing}`}
+            </p>
+          </div>
+        </OverlayView>
       ))}
     </GoogleMap>
   );
