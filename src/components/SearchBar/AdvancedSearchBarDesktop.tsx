@@ -47,6 +47,7 @@ const AdvancedSearchBarDesktop = ({
     <form onSubmit={handleSearchSubmit}>
       <section className="flex flex-col">
         <div
+          id="first-col"
           className={cn(
             'z-20 max-w-[81rem] space-y-6 border-t border-primary bg-surface pt-6 text-primary',
             'flex gap-2'
@@ -100,7 +101,8 @@ const AdvancedSearchBarDesktop = ({
           </div>
         </div>
         <div
-          className={cn('h-[5.5rem]  space-y-6 bg-surface pb-6 text-primary')}
+          id="second-col"
+          className={cn('space-y-6 bg-surface pb-6 text-primary')}
         >
           <div className={cn('flex grow border-b border-primary')}>
             <div className="flex w-[8.125rem] flex-row items-center justify-center">
@@ -136,6 +138,7 @@ const AdvancedSearchBarDesktop = ({
                 ))}
               </div>
             </div>
+
             <SearchField name="date" className="min-w-64">
               {({ value, onChange }) => (
                 <DateFieldMenu

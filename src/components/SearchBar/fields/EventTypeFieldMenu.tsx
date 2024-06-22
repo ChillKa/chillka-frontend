@@ -84,7 +84,7 @@ const EventTypeFieldMenu = ({
         align="start"
         sideOffset={0}
         className={cn(
-          'relative h-[22.625rem] w-64',
+          'relative h-[10rem] w-64',
           `${side === 'bottom' && 'mt-[-0.5rem] border-b border-t-0'}`,
           `${side === 'top' && 'mb-[0.5rem] border-b-0 border-t'}`
         )}
