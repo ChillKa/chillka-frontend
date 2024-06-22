@@ -1,5 +1,11 @@
 import { Calendar } from '@components/ui/calendar';
-import { Dialog, DialogContent, DialogTrigger } from '@components/ui/dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@components/ui/dialog';
 import { ReactNode, useState } from 'react';
 
 export type CalendarDialogProps = {
@@ -22,13 +28,18 @@ const CalendarDialog = ({
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>{triggerElement}</DialogTrigger>
-      <DialogContent className="m-auto w-[350px]">
-        <Calendar
-          mode="single"
-          selected={selectedDate}
-          onSelect={handleSelect}
-          initialFocus
-        />
+      <DialogContent hideCloseButton className="w-full/2 p-1">
+        <DialogHeader>
+          <DialogTitle>自訂日期</DialogTitle>
+        </DialogHeader>
+        <div id="wrapper" className="mx-auto flex items-center justify-center">
+          <Calendar
+            mode="single"
+            selected={selectedDate}
+            onSelect={handleSelect}
+            initialFocus
+          />
+        </div>
       </DialogContent>
     </Dialog>
   );
