@@ -58,7 +58,7 @@ const SortFieldMenu = ({
           )}
         >
           <ArrowUpDown size={16} className="mr-2" />
-          排序性:<span>{value}</span>
+          排序性：<span>{value}</span>
         </Button>
       </PopoverTrigger>
       <PopoverContent
