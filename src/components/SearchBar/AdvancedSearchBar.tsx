@@ -26,6 +26,11 @@ const AdvancedSearchBar = ({ filteredParams }: AdvancedSearchBarProps) => {
     router.push(`/search?${queryString}`);
   };
 
+  const handleClearFilter = (data: SearchParams) => {
+    const queryString = createQueryString(data);
+    router.push(`/search?${queryString}`);
+  };
+
   return (
     <SearchProvider<SearchParams>
       defaultValues={{
@@ -39,7 +44,10 @@ const AdvancedSearchBar = ({ filteredParams }: AdvancedSearchBarProps) => {
     >
       {isMobile ? (
         <section className="borrder-primary fixed bottom-0 left-0 right-0 z-10 flex justify-between gap-2 border-t bg-surface px-3 py-4">
-          <AdvancedSearchBarMobile onSearchSubmit={handleSearchSubmit} />
+          <AdvancedSearchBarMobile
+            onSearchSubmit={handleSearchSubmit}
+            onClearFilter={handleClearFilter}
+          />
           <button
             type="button"
             aria-label="Map button"
@@ -49,7 +57,10 @@ const AdvancedSearchBar = ({ filteredParams }: AdvancedSearchBarProps) => {
           </button>
         </section>
       ) : (
-        <AdvancedSearchBarDesktop onSearchSubmit={handleSearchSubmit} />
+        <AdvancedSearchBarDesktop
+          onSearchSubmit={handleSearchSubmit}
+          onClearFilter={handleClearFilter}
+        />
       )}
     </SearchProvider>
   );

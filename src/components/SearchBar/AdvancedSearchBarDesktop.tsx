@@ -24,20 +24,23 @@ import {
 
 export type AdvancedSearchBarDesktopProps = {
   onSearchSubmit?: (value: SearchParams) => void;
+  onClearFilter?: (value: SearchParams) => void;
 };
 
 const AdvancedSearchBarDesktop = ({
   onSearchSubmit,
+  onClearFilter,
 }: AdvancedSearchBarDesktopProps) => {
-  const { handleSubmit, reset } = useSearch<SearchParams>();
-  const handleSearchSubmit = handleSubmit(async (data) => {
-    if (onSearchSubmit) {
-      await onSearchSubmit(data);
-    }
+  const { handleSubmit, reset, getValues } = useSearch<SearchParams>();
+  const handleSearchSubmit = handleSubmit((data) => {
+    onSearchSubmit?.(data);
   });
 
   const handleClearFilter: MouseEventHandler<HTMLButtonElement> = () => {
     reset();
+
+    const formData = getValues();
+    onClearFilter?.(formData);
   };
 
   return (

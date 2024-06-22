@@ -13,7 +13,7 @@ import { ToggleGroup, ToggleGroupItem } from '@components/ui/toggle-group';
 import { H2, H4 } from '@components/ui/typography';
 import cn from '@lib/utils';
 import { XIcon } from 'lucide-react';
-import { MouseEventHandler } from 'react';
+import { MouseEventHandler, useState } from 'react';
 import { SearchField, useSearch } from './SearchProvider';
 import { AdvancedActivityMobileField } from './fields/ActivityField';
 import { AdvancedCategoryMobileField } from './fields/CategoryFieldMenu';
@@ -26,24 +26,34 @@ import { SearchParams } from './fields/utils';
 
 export type AdvancedSearchBarMobileProps = {
   onSearchSubmit?: (value: SearchParams) => void;
+  onClearFilter?: (value: SearchParams) => void;
 };
 
 const AdvancedSearchBarMobile = ({
   onSearchSubmit,
+  onClearFilter,
 }: AdvancedSearchBarMobileProps) => {
-  const { handleSubmit, reset } = useSearch<SearchParams>();
-  const handleSearchSubmit = handleSubmit(async (data) => {
-    if (onSearchSubmit) {
-      await onSearchSubmit(data);
-    }
+  const { handleSubmit, reset, getValues } = useSearch<SearchParams>();
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const toggleDialog = () => {
+    setIsDialogOpen((prev) => !prev);
+  };
+
+  const handleSearchSubmit = handleSubmit((data) => {
+    onSearchSubmit?.(data);
   });
 
-  const handleClearFilter: MouseEventHandler<HTMLButtonElement> = () => {
+  const handleClearFilter: MouseEventHandler<HTMLButtonElement> = (event) => {
+    event.preventDefault();
+
     reset();
+    const formData = getValues();
+    onClearFilter?.(formData);
   };
 
   return (
-    <Dialog defaultOpen={false}>
+    <Dialog open={isDialogOpen} onOpenChange={toggleDialog}>
       <DialogTrigger
         className={cn(
           'flex grow flex-row items-center justify-center gap-4',
@@ -317,7 +327,10 @@ const AdvancedSearchBarMobile = ({
               type="submit"
               className="min-w-[175.5px] flex-1"
               variant="default"
-              onClick={handleSearchSubmit}
+              onClick={(e) => {
+                handleSearchSubmit(e);
+                toggleDialog();
+              }}
             >
               搜尋活動
             </Button>
