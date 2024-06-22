@@ -21,7 +21,7 @@
     "import/no-extraneous-dependencies": [
       "error",
       {
-        "devDependencies": true
+        "devDependencies": ["**/test.js", "**/test/*.js"]
       }
     ],
     "react/jsx-props-no-spreading": "off",

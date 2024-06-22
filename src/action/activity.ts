@@ -8,6 +8,7 @@ interface ContinuousActivity {
   day: string;
 }
 
+// should total page count
 export interface Activity {
   id: string;
   organizerName: string;
@@ -15,21 +16,23 @@ export interface Activity {
   name: string;
   collected: boolean;
   description: string;
-  location: string;
+  location: string; // lat lon
   attendance: number;
+  lat: number;
+  lng: number;
   category: string; //
   pricing: number;
   discount: number; // -1 is free, 0 is none, positive
   startDate: string;
   startTime: string;
-  fromToday: boolean;
+  fromToday: boolean; // ?
   endDate: string;
   endTime: string;
   noEndDate: boolean;
-  type: string;
+  type: string; // ?
   link: string;
   isContinuous: boolean;
-  continuous: ContinuousActivity;
+  continuous: ContinuousActivity; // ?
 }
 
 export async function getActivitiesByFilter(
@@ -52,6 +55,8 @@ export async function getActivitiesByFilter(
       description: 'This is Description',
       location: '台北市 / 信義區',
       attendance: 999,
+      lat: 74.2182,
+      lng: -46.8546,
       category: 'Category 1',
       pricing: 1000,
       discount: 50,
@@ -80,6 +85,8 @@ export async function getActivitiesByFilter(
       description: 'This is Description',
       location: '台北市 / 信義區',
       attendance: 999,
+      lat: 74.2182,
+      lng: -46.8546,
       category: 'Category 2',
       pricing: 1000,
       discount: 0,
@@ -108,6 +115,8 @@ export async function getActivitiesByFilter(
       description: 'This is Description',
       location: '台北市 / 信義區',
       attendance: 999,
+      lat: 74.2182,
+      lng: -46.8546,
       category: 'Category 2',
       pricing: 1000,
       discount: 0,
@@ -136,6 +145,8 @@ export async function getActivitiesByFilter(
       description: 'This is Description',
       location: '台北市 / 信義區',
       attendance: 999,
+      lat: 74.2182,
+      lng: -46.8546,
       category: 'Category 2',
       pricing: 1000,
       discount: -1,
@@ -164,6 +175,8 @@ export async function getActivitiesByFilter(
       description: 'This is Description',
       location: '台北市 / 信義區',
       attendance: 999,
+      lat: 74.2182,
+      lng: -46.8546,
       category: 'Category 2',
       pricing: 1000,
       discount: -1,

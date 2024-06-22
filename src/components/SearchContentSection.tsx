@@ -21,6 +21,7 @@ import Pagination, {
   PaginationPrev,
   generatePaginationItems,
 } from './Pagination';
+import SearchMapSection from './SearchMapSection';
 import { H3, H4 } from './ui/typography';
 
 type ActivitySearchResultProps = { activity: Activity };
@@ -265,9 +266,14 @@ const SearchContentSection = ({ results }: SearchContentSectionProps) => {
         </Pagination>
       </div>
       {!isMobile && (
-        <div className="debug w-full max-w-[26rem]">
-          {/* TODO: get by result */}
-          result map section
+        <div className="debug h-fit w-full max-w-[26rem]">
+          <SearchMapSection
+            markers={[
+              { lat: 25.033, lng: 121.5654, id: '1' },
+              { lat: 24.1477, lng: 120.6736, id: '2' },
+              { lat: 22.6273, lng: 120.3014, id: '3' },
+            ]}
+          />
         </div>
       )}
     </section>
