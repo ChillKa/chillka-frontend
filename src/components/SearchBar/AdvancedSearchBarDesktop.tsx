@@ -102,7 +102,7 @@ const AdvancedSearchBarDesktop = ({
       <div
         id="second-col"
         className={cn(
-          'max-w-[81rem] space-y-6 bg-surface pb-6 text-primary',
+          'max-w-[81rem] space-y-6 bg-surface text-primary',
           'flex gap-2'
         )}
       >
