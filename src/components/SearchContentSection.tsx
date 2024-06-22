@@ -6,13 +6,17 @@ import cn from '@lib/utils';
 import {
   Building2,
   CalendarDays,
-  ChevronLeft,
   ChevronRight,
   MapPin,
   Users,
 } from 'lucide-react';
 import Image from 'next/image';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
+import Pagination, {
+  PaginationNext,
+  PaginationPrev,
+  generatePaginationItems,
+} from './pagination';
 import { H3, H4 } from './ui/typography';
 
 type ActivitySearchResultProps = { activity: Activity };
@@ -141,6 +145,16 @@ export type SearchContentSectionProps = {
 };
 const SearchContentSection = ({ results }: SearchContentSectionProps) => {
   const { matches: isMobile } = useMediaQuery();
+  const totalPage = 99;
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const handlePrevClick = () => {
+    setCurrentPage((prev) => Math.max(prev - 1, 1));
+  };
+
+  const handleNextClick = () => {
+    setCurrentPage((prev) => Math.min(prev + 1, totalPage));
+  };
 
   return (
     <section id="result" className="flex w-full grow flex-row gap-6">
@@ -154,26 +168,22 @@ const SearchContentSection = ({ results }: SearchContentSectionProps) => {
         <div id="result-list">
           <ActivitiesList results={results} />
         </div>
-        <div
-          id="pagination-stepper"
-          className="flex justify-between gap-4 px-[8.031rem] py-12"
+        <Pagination
+          currentPage={currentPage}
+          totalPage={totalPage}
+          onClickPrev={handlePrevClick}
+          onClickNext={handleNextClick}
+          asChild
         >
-          <span className="flex cursor-pointer items-center justify-center rounded-full p-3">
-            <ChevronLeft className="size-4" />
-          </span>
-          <span className="flex size-10 cursor-pointer items-center justify-center rounded-full ">
-            1
-          </span>
-          <span className="flex size-10 cursor-pointer items-center justify-center rounded-full bg-primary text-white">
-            2
-          </span>
-          <span className="flex size-10 cursor-pointer items-center justify-center rounded-full ">
-            3
-          </span>
-          <span className="flex cursor-pointer items-center justify-center rounded-full p-3">
-            <ChevronRight className="size-4" />
-          </span>
-        </div>
+          <div
+            id="pagination-stepper"
+            className="flex justify-between gap-4 px-[8.031rem] py-12"
+          >
+            <PaginationPrev />
+            {generatePaginationItems(currentPage, totalPage)}
+            <PaginationNext />
+          </div>
+        </Pagination>
       </div>
       {!isMobile && (
         <div className="debug w-full max-w-[26rem]">
