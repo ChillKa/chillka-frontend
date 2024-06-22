@@ -15,6 +15,7 @@ import cn from '@lib/utils';
 import { XIcon } from 'lucide-react';
 import { MouseEventHandler } from 'react';
 import { SearchField, useSearch } from './SearchProvider';
+import { AdvancedActivityMobileField } from './fields/ActivityField';
 import { AdvancedCategoryMobileField } from './fields/CategoryFieldMenu';
 import { AdvancedDateMobileField } from './fields/DateFieldMenu';
 import { AdvancedDistanceMobileField } from './fields/DistanceFieldMenu';
@@ -69,7 +70,7 @@ const AdvancedSearchBarMobile = ({
             id="content"
             className="no-scrollbar max-h-[80vh] overflow-y-scroll px-3 py-10"
           >
-            {/* <SearchField name="keyword">
+            <SearchField name="keyword">
               {({ value, onChange }) => (
                 <AdvancedActivityMobileField
                   activityKeywords={[]}
@@ -78,7 +79,7 @@ const AdvancedSearchBarMobile = ({
                   onChange={onChange}
                 />
               )}
-            </SearchField> */}
+            </SearchField>
 
             <SearchField name="location">
               {({ value, onChange }) => {
@@ -269,6 +270,7 @@ const AdvancedSearchBarMobile = ({
             >
               <H4>顯示</H4>
               <ToggleGroup
+                disabled
                 defaultValue="relative"
                 type="single"
                 className="relative flex w-full gap-0"
