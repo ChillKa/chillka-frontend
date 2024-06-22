@@ -105,10 +105,7 @@ export const createActivityFormSchema = z.object({
       z.string().min(1, '請至少填寫一個字的名稱').optional(),
       z.literal(''),
     ]),
-    websiteURL: z.union([
-      z.string().url('請輸入正確網址').nullish(),
-      z.literal(''),
-    ]),
+    websiteURL: z.union([z.string().url('請輸入正確網址'), z.literal('')]),
   }),
   cover: z.array(z.string({ required_error: '請至少上傳一張圖片' })),
   thumbnail: z.string({ required_error: '請上傳一張縮圖' }),
