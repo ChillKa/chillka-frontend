@@ -3,25 +3,23 @@
 import { Button } from '@components/ui/button';
 import { H3 } from '@components/ui/typography';
 import cn from '@lib/utils';
-import { FormEventHandler, useEffect, useState } from 'react';
-import ActivityField from './fields/ActivityField';
+import { useEffect, useState } from 'react';
+import { FieldValues } from 'react-hook-form';
+import { SearchField, useSearch } from './SearchProvider';
+import ActivityField, {
+  ActivityKeyword,
+  ActivityPicture,
+} from './fields/ActivityField';
 import CategoryFieldMenu, { Category } from './fields/CategoryFieldMenu';
 import LocationFieldMenu, { Location } from './fields/LocationFieldMenu';
 
 type SearchBarDesktopProps = {
   className: string;
-  activityPictures: Array<{
-    thumbnail: string;
-    url: string;
-    description: string;
-  }>;
-  activityKeywords: Array<{
-    url: string;
-    keyword: string;
-  }>;
+  activityPictures: ActivityPicture[];
+  activityKeywords: ActivityKeyword[];
   locations: Location[];
   categories: Category[];
-  onSearchSubmit: FormEventHandler<HTMLFormElement> | null;
+  onSearchSubmit?: (data: FieldValues) => Promise<void>;
 };
 
 export const menuAnimationVariants = {
@@ -87,14 +85,14 @@ const SearchBarDesktop = ({
   categories,
   onSearchSubmit,
 }: SearchBarDesktopProps) => {
-  const [isSearchBarMenuOpen, setIsSearchBarMenuOpen] = useState(false);
-  const [isCategoryMenuOpen, setIsCategoryMenuOpen] = useState(false);
-  const [isLocationMenuOpen, setIsLocationMenuOpen] = useState(false);
   const isSticky = useStickyToFixed('header');
 
-  const handleSearchSubmit: FormEventHandler<HTMLFormElement> = (e) => {
-    onSearchSubmit?.(e);
-  };
+  const { handleSubmit } = useSearch();
+  const handleSearchSubmit = handleSubmit(async (data) => {
+    if (onSearchSubmit) {
+      await onSearchSubmit(data);
+    }
+  });
 
   return (
     <section
@@ -107,34 +105,49 @@ const SearchBarDesktop = ({
       )}
     >
       <H3>依照需求搜尋適合你的活動</H3>
-      <div className="flex gap-2">
-        <form onSubmit={handleSearchSubmit} className="flex grow">
-          <ActivityField
-            activityKeywords={activityKeywords}
-            activityPictures={activityPictures}
-            isSearchBarMenuOpen={isSearchBarMenuOpen}
-            setIsCategoryMenuOpen={setIsCategoryMenuOpen}
-            setIsLocationMenuOpen={setIsLocationMenuOpen}
-            setIsSearchBarMenuOpen={setIsSearchBarMenuOpen}
-          />
-          <CategoryFieldMenu
-            isCategoryMenuOpen={isCategoryMenuOpen}
-            setIsCategoryMenuOpen={setIsCategoryMenuOpen}
-            categories={categories}
-          />
-          <LocationFieldMenu
-            isLocationMenuOpen={isLocationMenuOpen}
-            setIsLocationMenuOpen={setIsLocationMenuOpen}
-            locations={locations}
-          />
-          <Button
-            type="submit"
-            className="flex h-auto self-auto px-20 text-xl font-bold"
-          >
-            搜尋活動
-          </Button>
-        </form>
-      </div>
+      <form onSubmit={handleSearchSubmit} className="flex grow">
+        <SearchField name="keyword" className="grow">
+          {({ value, onChange }) => (
+            <ActivityField
+              activityKeywords={activityKeywords}
+              activityPictures={activityPictures}
+              value={value}
+              onChange={onChange}
+            />
+          )}
+        </SearchField>
+        <SearchField name="category" className="min-w-64">
+          {({ value, onChange }) => (
+            <CategoryFieldMenu
+              categories={categories}
+              value={value}
+              onChange={(val) => {
+                onChange(val);
+                handleSearchSubmit();
+              }}
+            />
+          )}
+        </SearchField>
+        <SearchField name="location" className="min-w-64">
+          {({ value, onChange }) => (
+            <LocationFieldMenu
+              locations={locations}
+              value={value}
+              onChange={(val) => {
+                onChange(val);
+                handleSearchSubmit();
+              }}
+            />
+          )}
+        </SearchField>
+
+        <Button
+          type="submit"
+          className="flex h-auto self-auto px-20 text-xl font-bold"
+        >
+          搜尋活動
+        </Button>
+      </form>
     </section>
   );
 };
