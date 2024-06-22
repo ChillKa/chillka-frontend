@@ -9,7 +9,7 @@ import {
 import { ToggleGroup, ToggleGroupItem } from '@components/ui/toggle-group';
 import { H4, Lead } from '@components/ui/typography';
 import cn from '@lib/utils';
-import { ArrowUpDown } from 'lucide-react';
+import { ArrowUpDown, CheckIcon } from 'lucide-react';
 import { useState } from 'react';
 import MenuItem from './MenuItem';
 
@@ -33,7 +33,7 @@ const SortFieldMenu = ({
   value,
   onChange,
 }: SortFieldMenuProps) => {
-  const [, setIsMenuOpen] = useState(menuOpen);
+  const [isMenuOpen, setIsMenuOpen] = useState(menuOpen);
 
   const handleSelect = (selected: string) => {
     setIsMenuOpen(false);
@@ -41,15 +41,13 @@ const SortFieldMenu = ({
   };
 
   const handleOpenChange = (e: boolean) => {
-    if (onMenuOpen) {
-      onMenuOpen(e);
-    } else {
-      setIsMenuOpen(e);
-    }
+    onMenuOpen?.(e);
+
+    setIsMenuOpen(e);
   };
 
   return (
-    <Popover onOpenChange={handleOpenChange}>
+    <Popover open={isMenuOpen} onOpenChange={handleOpenChange}>
       <PopoverTrigger asChild>
         <Button
           className={cn(
@@ -73,6 +71,11 @@ const SortFieldMenu = ({
                   key={item.text}
                   value={item.text}
                   item={<Lead className="text-primary">{item.text}</Lead>}
+                  endElement={
+                    value === item.text ? (
+                      <CheckIcon className="size-6 stroke-primary" />
+                    ) : undefined
+                  }
                   onSelect={handleSelect}
                 />
               );
