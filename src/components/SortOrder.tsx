@@ -1,3 +1,4 @@
+import cn from '@lib/utils';
 import {
   Select,
   SelectContent,
@@ -16,12 +17,18 @@ const sortOptions = [
 type SortOrderProps = {
   state: string;
   changeState: (value: string) => void;
+  className?: string;
 };
 
-const SortOrder = ({ state, changeState }: SortOrderProps) => {
+const SortOrder = ({ state, changeState, className }: SortOrderProps) => {
   return (
     <Select value={state} onValueChange={changeState}>
-      <SelectTrigger className="m-[0.0625rem] box-content flex w-[10.7rem] rounded-[0.5rem] border border-primary px-6 py-3 text-base focus:outline-none data-[state=open]:m-0 data-[state=open]:border-2">
+      <SelectTrigger
+        className={cn(
+          'm-[0.0625rem] box-content flex w-[10.7rem] rounded-[0.5rem] border border-primary px-6 py-3 text-base focus:outline-none data-[state=open]:m-0 data-[state=open]:border-2',
+          className
+        )}
+      >
         <p className="flex items-center">
           <ArrowUpDown size={16} className="mr-[0.625rem]" />
           排序依：
