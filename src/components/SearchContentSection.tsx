@@ -6,6 +6,7 @@ import cn from '@lib/utils';
 import {
   Building2,
   CalendarDays,
+  ChevronLeft,
   ChevronRight,
   MapPin,
   Users,
@@ -16,7 +17,7 @@ import Pagination, {
   PaginationNext,
   PaginationPrev,
   generatePaginationItems,
-} from './pagination';
+} from './Pagination';
 import { H3, H4 } from './ui/typography';
 
 type ActivitySearchResultProps = { activity: Activity };
@@ -24,10 +25,21 @@ export const ActivitySearchResult = ({
   activity,
 }: ActivitySearchResultProps) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  const handleScrollLeft = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ left: -100, behavior: 'smooth' });
+      if (scrollContainerRef.current.scrollLeft <= 100) {
+        setIsScrolled(false);
+      }
+    }
+  };
 
   const handleScrollRight = () => {
     if (scrollContainerRef.current) {
       scrollContainerRef.current.scrollBy({ left: 100, behavior: 'smooth' });
+      setIsScrolled(true);
     }
   };
 
@@ -123,6 +135,19 @@ export const ActivitySearchResult = ({
               <ChevronRight className="size-6" />
             </button>
           </div>
+
+          {isScrolled && (
+            <div className="absolute left-0 top-0 flex h-12 w-12 items-center justify-center">
+              <button
+                type="button"
+                aria-label="scroll-left"
+                className="size-12 border-[1px] bg-surface p-3"
+                onClick={handleScrollLeft}
+              >
+                <ChevronLeft className="size-6" />
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </section>
