@@ -57,7 +57,7 @@ const SortFieldMenu = ({
             'hover:bg-primary hover:text-white'
           )}
         >
-          <ArrowUpDown />
+          <ArrowUpDown size={16} className="mr-2" />
           排序性:<span>{value}</span>
         </Button>
       </PopoverTrigger>
