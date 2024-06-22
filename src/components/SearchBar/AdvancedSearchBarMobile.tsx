@@ -278,7 +278,6 @@ const AdvancedSearchBarMobile = ({
                 <ToggleGroupItem
                   value="relative"
                   aria-label="Toggle bold"
-                  disabled
                   asChild
                   className={cn(
                     'h-12 w-full min-w-[163.5px] flex-1 rounded-l-[0.5rem] border-[1px] border-r-0 border-primary',
