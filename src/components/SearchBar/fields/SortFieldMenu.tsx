@@ -9,11 +9,9 @@ import {
 import { ToggleGroup, ToggleGroupItem } from '@components/ui/toggle-group';
 import { H4, Lead } from '@components/ui/typography';
 import cn from '@lib/utils';
-import { motion } from 'framer-motion';
 import { ArrowUpDown } from 'lucide-react';
 import { useState } from 'react';
 import MenuItem from './MenuItem';
-import menuAnimationVariants from './utils';
 
 export type Sorts = {
   url: string;
@@ -35,7 +33,7 @@ const SortFieldMenu = ({
   value,
   onChange,
 }: SortFieldMenuProps) => {
-  const [isMenuOpen, setIsMenuOpen] = useState(menuOpen);
+  const [, setIsMenuOpen] = useState(menuOpen);
 
   const handleSelect = (selected: string) => {
     setIsMenuOpen(false);
@@ -67,24 +65,8 @@ const SortFieldMenu = ({
         align="start"
         className="relative h-[8.5rem] w-64 rounded border-0 shadow-[0px_4px_20px_0px_rgba(0,0,0,0.15)]"
       >
-        <motion.div
-          className="absolute inset-0 rounded bg-surface"
-          variants={menuAnimationVariants}
-          initial="closed"
-          animate={isMenuOpen ? 'open' : 'closed'}
-          custom={{ size: 1000, locationX: 128, locationY: 362 }}
-        >
-          <motion.ul
-            variants={{
-              open: {
-                transition: { staggerChildren: 0.07, delayChildren: 0.6 },
-              },
-              closed: {
-                transition: { staggerChildren: 0.05, staggerDirection: -1 },
-              },
-            }}
-            className="no-scrollbar h-full space-y-4 overflow-auto px-4 py-6 xl:py-4"
-          >
+        <div className="absolute inset-0 rounded bg-surface">
+          <ul className="no-scrollbar h-full space-y-4 overflow-auto px-4 py-6 xl:py-4">
             {sorts.map((item) => {
               return (
                 <MenuItem
@@ -95,8 +77,8 @@ const SortFieldMenu = ({
                 />
               );
             })}
-          </motion.ul>
-        </motion.div>
+          </ul>
+        </div>
       </PopoverContent>
     </Popover>
   );
