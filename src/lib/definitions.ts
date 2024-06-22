@@ -112,7 +112,7 @@ export const activitySchema = z.object({
   summary: z.string(),
   details: z.string(),
   isRecurring: z.boolean(),
-  recurring: recurringSchema,
+  recurring: recurringSchema.optional(),
   _id: z.string(),
   creatorId: z.string(),
   fromToday: z.boolean(),
@@ -122,13 +122,13 @@ export const activitySchema = z.object({
   status: z.string(),
   createdAt: z.string(),
   updatedAt: z.string(),
-  participantCapacity: z.number(),
   lat: z.number(),
   lng: z.number(),
   saved: z.boolean().optional(),
   participated: z.boolean().optional(),
   unlimitedQuantity: z.boolean(),
   remainingTickets: z.number(),
+  totalParticipantCapacity: z.number(),
   __v: z.number(),
 });
 
@@ -137,6 +137,8 @@ export const ticketSchema = z.object({
   activityId: z.string(),
   name: z.string(),
   price: z.number(),
+  startDateTime: z.string(),
+  endDateTime: z.string(),
   fromToday: z.boolean(),
   noEndDate: z.boolean(),
   participantCapacity: z.number(),
@@ -148,6 +150,7 @@ export const ticketSchema = z.object({
   __v: z.number(),
   createdAt: z.string(),
   updatedAt: z.string(),
+  soldNumber: z.number(),
 });
 
 export const replySchema = z.object({

@@ -90,7 +90,7 @@ const TicketSection = ({ className }: TicketSectionProps) => {
           <div className="flex items-center">
             <User />
             <div className="ml-4 text-base font-medium">
-              {data.activity.participantCapacity}人
+              {data.activity.totalParticipantCapacity}人
               {data.activity.displayRemainingTickets &&
                 `（剩餘名額：${data.activity.remainingTickets}）`}
             </div>

@@ -32,7 +32,7 @@ export type ActivityType = {
   summary: string;
   details: string;
   isRecurring: boolean;
-  recurring: RecurringType;
+  recurring?: RecurringType;
   _id: string;
   creatorId: string;
   fromToday: boolean;
@@ -42,13 +42,13 @@ export type ActivityType = {
   status: string;
   createdAt: string;
   updatedAt: string;
-  participantCapacity: number;
   lat: number;
   lng: number;
   saved?: boolean;
   participated?: boolean;
   unlimitedQuantity: boolean;
   remainingTickets: number;
+  totalParticipantCapacity: number;
   __v: number;
 };
 
@@ -57,6 +57,8 @@ export type TicketType = {
   activityId: string;
   name: string;
   price: number;
+  startDateTime: string;
+  endDateTime: string;
   fromToday: boolean;
   noEndDate: boolean;
   participantCapacity: number;
@@ -68,6 +70,7 @@ export type TicketType = {
   __v: number;
   createdAt: string;
   updatedAt: string;
+  soldNumber: number;
 };
 
 export type ReplyType = {

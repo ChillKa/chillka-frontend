@@ -60,7 +60,7 @@ const ActivitySection = ({ className }: ActivitySectionProps) => {
                 活動人數
               </div>
               <div className="mt-2 text-base font-medium xl:text-lg xl:font-bold">
-                {data.activity.participantCapacity}人
+                {data.activity.totalParticipantCapacity}人
               </div>
             </div>
           </div>
