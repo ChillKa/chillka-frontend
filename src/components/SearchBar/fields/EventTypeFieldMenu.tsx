@@ -6,7 +6,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@components/ui/accordion';
-import { Lead } from '@components/ui/typography';
+import { H4, Lead } from '@components/ui/typography';
 import cn from '@lib/utils';
 import {
   Popover,
@@ -124,10 +124,10 @@ export const AdvancedEventTypeMobileField = ({
         <AccordionTrigger
           className={cn(
             ' bg-surface px-3 py-6',
-            'min-w-[21.9375rem] border-0 text-xl font-bold '
+            'min-w-[21.9375rem] border-0 hover:no-underline'
           )}
         >
-          形式
+          <H4>形式</H4>
         </AccordionTrigger>
         <AccordionContent className="">
           <RadioGroup
