@@ -223,7 +223,7 @@ const AdvancedSearchBarDesktop = ({
                 'hover:bg-primary hover:text-white'
               )}
             >
-              <XSquare />
+              <XSquare size={16} className="mr-2 mt-0.5" />
               清除條件
             </Button>
           </section>
