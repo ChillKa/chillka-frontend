@@ -169,10 +169,26 @@ const ActivityContentFormSection = ({
             </FormItem>
           )}
         />
-        <div className="space-y-1.5">
-          <Label>活動說明</Label>
-          <RichTextEditor />
-        </div>
+
+        <FormField
+          control={form.control}
+          name="details"
+          render={({ field }) => {
+            return (
+              <FormItem className="space-y-1.5">
+                <FormLabel>活動說明</FormLabel>
+                <FormControl>
+                  <RichTextEditor
+                    name={field.name}
+                    description={field.value}
+                    onChange={field.onChange}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            );
+          }}
+        />
       </div>
       <Separator className="h-[0.5px]" />
       <div className="space-y-6">

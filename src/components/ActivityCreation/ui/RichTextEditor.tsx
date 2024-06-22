@@ -60,7 +60,17 @@ const RichTextEditorToolbar = ({ editor }: { editor: Editor }) => {
   );
 };
 
-const RichTextEditor = () => {
+type RichTextEditorProps = {
+  name: string;
+  description: string;
+  onChange: (...event: any[]) => void;
+};
+
+const RichTextEditor = ({
+  name,
+  description,
+  onChange,
+}: RichTextEditorProps) => {
   const editor = useEditor({
     editorProps: {
       attributes: {
@@ -82,13 +92,17 @@ const RichTextEditor = () => {
         },
       }),
     ],
-    content: '<p>請輸入活動說明</p>',
+    content: JSON.parse(description),
+    onUpdate({ editor: updatedEditor }) {
+      onChange(JSON.stringify(updatedEditor.getJSON()));
+    },
   });
 
   return (
     <div>
-      <EditorContent editor={editor} name="details" />
+      <EditorContent editor={editor} />
       {editor ? <RichTextEditorToolbar editor={editor} /> : null}
+      <input name={name} type="hidden" readOnly value={description} />
     </div>
   );
 };
