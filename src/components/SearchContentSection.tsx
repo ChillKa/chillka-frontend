@@ -6,6 +6,7 @@ import cn from '@lib/utils';
 import {
   Building2,
   CalendarDays,
+  ChevronLeft,
   ChevronRight,
   MapPin,
   Users,
@@ -152,6 +153,26 @@ const SearchContentSection = ({ results }: SearchContentSectionProps) => {
         </div>
         <div id="result-list">
           <ActivitiesList results={results} />
+        </div>
+        <div
+          id="pagination-stepper"
+          className="flex justify-between gap-4 px-[8.031rem] py-12"
+        >
+          <span className="flex cursor-pointer items-center justify-center rounded-full p-3">
+            <ChevronLeft className="size-4" />
+          </span>
+          <span className="flex size-10 cursor-pointer items-center justify-center rounded-full ">
+            1
+          </span>
+          <span className="flex size-10 cursor-pointer items-center justify-center rounded-full bg-primary text-white">
+            2
+          </span>
+          <span className="flex size-10 cursor-pointer items-center justify-center rounded-full ">
+            3
+          </span>
+          <span className="flex cursor-pointer items-center justify-center rounded-full p-3">
+            <ChevronRight className="size-4" />
+          </span>
         </div>
       </div>
       {!isMobile && (
