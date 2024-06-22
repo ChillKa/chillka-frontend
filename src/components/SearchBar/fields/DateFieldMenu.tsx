@@ -84,6 +84,7 @@ const DateFieldMenu = ({
       const formattedDate = format(date, 'PPP');
       onChange(formattedDate);
     }
+    setIsMenuOpen(false);
   };
 
   return (
