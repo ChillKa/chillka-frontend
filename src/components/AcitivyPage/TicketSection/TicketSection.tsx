@@ -6,6 +6,7 @@ import SignUpButton from '@components/AcitivyPage/TicketSection/SignUpButton';
 import SkeletonTicketSection from '@components/AcitivyPage/TicketSection/SkeletonTicketSection';
 import { H3 } from '@components/ui/typography';
 import useMediaQuery from '@hooks/use-media-query';
+import { formatActivityTime } from '@lib/dateUtils';
 import cn from '@lib/utils';
 import { useActivityContext } from '@store/ActivityProvider/ActivityProvider';
 import { CalendarDays, MapPin, User } from 'lucide-react';
@@ -64,8 +65,11 @@ const TicketSection = ({ className }: TicketSectionProps) => {
         <div className="flex items-center">
           <CalendarDays />
           <div className="ml-4 text-base font-medium">
-            {/* date time */}
-            2024-08-15(日)10:00 至 12:00
+            {formatActivityTime(
+              data.activity.startDateTime,
+              data.activity.endDateTime,
+              data.activity.noEndDate
+            )}
           </div>
         </div>
         <div className="flex items-center">

@@ -1,5 +1,6 @@
 import SkeletonActivitySection from '@components/AcitivyPage/ActivitySection/SkeletonActivitySection';
 import { Large, P } from '@components/ui/typography';
+import { formatActivityTime } from '@lib/dateUtils';
 import cn from '@lib/utils';
 import { useActivityContext } from '@store/ActivityProvider/ActivityProvider';
 import { CalendarDays, Link as LinkIcon, MapPin, User } from 'lucide-react';
@@ -29,9 +30,12 @@ const ActivitySection = ({ className }: ActivitySectionProps) => {
             <div className="text-xl font-bold -tracking-[0.005em] xl:text-2xl xl:-tracking-[0.006em]">
               活動時間
             </div>
-            {/* date time */}
             <div className="mt-2 text-base font-medium xl:text-lg xl:font-bold">
-              2024-07-20（六） 19:00 至 07-24（三） 23:00
+              {formatActivityTime(
+                data.activity.startDateTime,
+                data.activity.endDateTime,
+                data.activity.noEndDate
+              )}
             </div>
           </div>
         </div>
