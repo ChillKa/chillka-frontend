@@ -162,7 +162,7 @@ export const AdvancedCategoryMobileField = ({
 
   return (
     <Accordion type="single" collapsible>
-      <AccordionItem value="item-1">
+      <AccordionItem value="category">
         <AccordionTrigger
           className={cn(
             ' bg-surface px-3 py-6',
@@ -173,6 +173,7 @@ export const AdvancedCategoryMobileField = ({
         </AccordionTrigger>
         <AccordionContent className="">
           <RadioGroup
+            key={value}
             className="flex flex-col gap-4"
             value={value}
             onValueChange={handleSelect}
