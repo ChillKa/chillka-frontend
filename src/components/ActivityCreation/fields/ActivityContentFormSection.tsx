@@ -35,7 +35,7 @@ const ActivityContentFormSection = ({
   return (
     <>
       <Separator />
-      <div className="space-y-6">
+      <div id="activity-setting" className="space-y-6">
         <H2>封面與縮圖</H2>
         <H4>活動封面</H4>
         <ImageDropzone maxFiles={4} multiple maxSize={1024 * 1024 * 4} />

@@ -42,7 +42,7 @@ const TicketFormSection = ({ form }: TicketFormSectionProps) => {
   return (
     <>
       <Separator />
-      <div className="max-w-[26rem] space-y-6">
+      <div id="ticket-setting" className="max-w-[26rem] space-y-6">
         <H2>票券設定</H2>
         <div className="flex items-center gap-2">
           <Switch
@@ -234,7 +234,7 @@ const TicketFormSection = ({ form }: TicketFormSectionProps) => {
             });
           }}
         >
-          append
+          增加票券販售種類
         </Button>
       </div>
     </>

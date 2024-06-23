@@ -24,7 +24,7 @@ type OrganizerFormSectionProps = {
 
 const OrganizerFormSection = ({ form }: OrganizerFormSectionProps) => {
   return (
-    <div className="space-y-6">
+    <div id="organizer-setting" className="space-y-6">
       <H2>主辦方資訊</H2>
       <H4>你的自我介紹</H4>
       <Label>主辦方縮圖</Label>
