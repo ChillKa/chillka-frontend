@@ -19,15 +19,16 @@ const SignUpButton = ({ className }: SignUpButtonProps) => {
     <Button
       className={cn('h-10 w-full text-base xl:h-14', className)}
       disabled={
-        data.activity.participated || data.activity.participantCapacity === 0
+        data.activity.participated ||
+        data.activity.totalParticipantCapacity === 0
       }
     >
-      {data.activity.participantCapacity === 0 &&
+      {data.activity.totalParticipantCapacity === 0 &&
         !data.activity.participated &&
         '已額滿'}
       {data.activity.participated && '已報名'}
       {!data.activity.participated &&
-        data.activity.participantCapacity !== 0 &&
+        data.activity.totalParticipantCapacity !== 0 &&
         '立即報名'}
     </Button>
   );
