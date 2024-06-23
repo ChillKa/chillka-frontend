@@ -61,7 +61,7 @@ const SortFieldMenu = ({
       </PopoverTrigger>
       <PopoverContent
         align="start"
-        className="relative h-[8.5rem] w-64 rounded border-0 shadow-[0px_4px_20px_0px_rgba(0,0,0,0.15)]"
+        className="relative z-30 h-[8.5rem] w-64 rounded border-0 shadow-[0px_4px_20px_0px_rgba(0,0,0,0.15)]"
       >
         <div className="absolute inset-0 rounded bg-surface">
           <ul className="no-scrollbar h-full space-y-4 overflow-auto px-4 py-6 xl:py-4">

@@ -100,7 +100,7 @@ const ActivityField = ({
         align="start"
         sideOffset={0}
         className={cn(
-          'mx-auto min-w-[81rem]',
+          'z-30 mx-auto min-w-[81rem]',
           `${side === 'bottom' && 'mt-[-0.5rem] border-b border-t-0'}`,
           `${side === 'top' && 'mb-[0.5rem] border-b-0 border-t'}`
         )}
