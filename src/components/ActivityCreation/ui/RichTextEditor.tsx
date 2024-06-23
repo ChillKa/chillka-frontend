@@ -2,6 +2,7 @@
 
 import { Separator } from '@components/ui/separator';
 import { Toggle } from '@components/ui/toggle';
+import Placeholder from '@tiptap/extension-placeholder';
 import { EditorContent, useEditor, type Editor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import {
@@ -91,8 +92,12 @@ const RichTextEditor = ({
           },
         },
       }),
+      Placeholder.configure({
+        placeholder: '請輸入活動說明',
+        emptyEditorClass:
+          'before:text-primary-light  before:content-[attr(data-placeholder)] before:float-left before:h-0',
+      }),
     ],
-    content: description === '' ? description : JSON.parse(description),
     onUpdate({ editor: updatedEditor }) {
       onChange(JSON.stringify(updatedEditor.getJSON()));
     },
