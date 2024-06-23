@@ -1,3 +1,5 @@
+'use client';
+
 import useIntersectionObserver from '@hooks/use-intersection-observer';
 import EventCard from './EventCard';
 import { FormatDate } from './EventCard-types';
