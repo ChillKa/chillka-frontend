@@ -2,20 +2,16 @@
 
 import { H3 } from '@components/ui/typography';
 import cn from '@lib/utils';
-import { cva } from 'class-variance-authority';
-import {
-  Bookmark,
-  Building2,
-  CalendarDays,
-  Check,
-  MapPin,
-  Users,
-} from 'lucide-react';
-import Image from 'next/image';
+import { Building2, CalendarDays, MapPin, Users } from 'lucide-react';
 import { useState } from 'react';
 import { FormatDate } from './EventCard-types';
+import {
+  ContinuousCardField,
+  EventCardCoverSection,
+  discountLabel,
+} from './EventCard-utils';
 
-interface EventCardProps {
+type EventCardProps = {
   title: string;
   cover: string;
   description: string;
@@ -26,8 +22,10 @@ interface EventCardProps {
   location: string;
   organizer: string;
   pricing: number;
-  discount: number | undefined;
-}
+  isContinuous?: boolean;
+  discount: number | undefined; // -1 is free, 0 is none discount, positive is off discount
+  className?: string;
+};
 
 const EventCard = ({
   title,
@@ -40,21 +38,11 @@ const EventCard = ({
   location,
   organizer,
   pricing,
-  discount,
+  isContinuous = false,
+  discount = 0,
+  className,
 }: EventCardProps) => {
   const [collected, setCollected] = useState(isCollected);
-
-  const collectedVariants = cva(
-    'absolute bottom-0 right-0 flex h-20 w-20 flex-col items-center justify-center gap-2 text-xs transition ease-out duration-300 font-medium leading-5',
-    {
-      variants: {
-        collected: {
-          true: 'bg-primary text-white',
-          false: 'bg-surface text-black',
-        },
-      },
-    }
-  );
 
   const handleToggle = () => {
     setCollected((prev) => !prev);
@@ -65,29 +53,15 @@ const EventCard = ({
       id="event-card"
       className={cn(
         'flex h-[35.25rem] w-full flex-col gap-8 text-primary',
-        'xl:w-[26rem]'
+        'xl:w-[26rem]',
+        className
       )}
     >
-      <div className="relative h-[13rem] w-full overflow-hidden">
-        <Image
-          src={cover}
-          alt="Descriptive Alt Text"
-          layout="fill"
-          objectFit="cover"
-          className={cn(
-            'absolute left-0 top-0 h-full w-full',
-            'transition-transform duration-300 ease-out hover:scale-150'
-          )}
-        />
-        <button
-          type="button"
-          onClick={handleToggle}
-          className={collectedVariants({ collected })}
-        >
-          {collected ? <Check /> : <Bookmark />}
-          {collected ? '已收藏' : '收藏'}
-        </button>
-      </div>
+      <EventCardCoverSection
+        src={cover}
+        collected={collected}
+        onToggle={handleToggle}
+      />
 
       <div className="w- flex h-[5.5rem] flex-col gap-4">
         <H3 className="truncate">{title}</H3>
@@ -135,12 +109,9 @@ const EventCard = ({
 
       <div className="flex h-7 items-center justify-start gap-2">
         <span className="text-lg font-bold">NT${pricing}</span>
-        {discount && (
-          <span className="bg-primary px-2 py-1 text-white">
-            {discount}% OFF
-          </span>
-        )}
+        {discountLabel(discount)}
       </div>
+      {isContinuous && <ContinuousCardField />}
     </div>
   );
 };

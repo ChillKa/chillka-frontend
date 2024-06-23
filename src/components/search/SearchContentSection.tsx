@@ -1,6 +1,10 @@
 'use client';
 
 import { Activity } from '@action/activity';
+import EventCard, {
+  FormatDate,
+  SearchResultEventCard,
+} from '@components/EventCard';
 import useMediaQuery from '@hooks/use-media-query';
 import { useState } from 'react';
 import Pagination, {
@@ -9,7 +13,6 @@ import Pagination, {
   generatePaginationItems,
 } from '../Pagination';
 import { H4 } from '../ui/typography';
-import ActivitiesList from './ActivitiesList';
 import SearchMapSection from './SearchMapSection';
 
 export type SearchContentSectionProps = {
@@ -35,15 +38,52 @@ const SearchContentSection = ({
   return (
     <section id="result" className="flex w-full grow flex-row gap-6">
       {currentShow === 'results' && (
-        <div className="lg:max-w-[53.5rem] flex w-full flex-col">
+        <div
+          id="result-list"
+          className="lg:max-w-[53.5rem] mt-7 flex w-full flex-col gap-y-12"
+        >
           <div
             id="result-keyword"
-            className="flex h-[4.75rem] w-full items-center justify-start"
+            className="flex w-full items-center justify-start"
           >
             <H4>「桌游」找到123個活動</H4>
           </div>
-
-          <ActivitiesList results={results} />
+          {results.map((activity) => {
+            return isMobile ? (
+              <EventCard
+                key={activity.id}
+                title={activity.name}
+                cover={activity.thumbnail}
+                description={activity.description}
+                startTime={activity.startTime as FormatDate<'YY.MM.DD'>}
+                endTime={activity.endTime as FormatDate<'YY.MM.DD'>}
+                attendeeCount={activity.attendance}
+                isCollected={activity.collected}
+                location={activity.location}
+                organizer={activity.organizerName}
+                pricing={activity.pricing}
+                isContinuous={activity.isContinuous}
+                discount={activity.discount}
+                className="gap-4"
+              />
+            ) : (
+              <SearchResultEventCard
+                key={activity.id}
+                title={activity.name}
+                cover={activity.thumbnail}
+                description={activity.description}
+                startTime={activity.startTime as FormatDate<'YY.MM.DD'>}
+                endTime={activity.endTime as FormatDate<'YY.MM.DD'>}
+                attendeeCount={activity.attendance}
+                isCollected={activity.collected}
+                location={activity.location}
+                organizer={activity.organizerName}
+                pricing={activity.pricing}
+                isContinuous={activity.isContinuous}
+                discount={activity.discount}
+              />
+            );
+          })}
 
           <Pagination
             currentPage={currentPage}
