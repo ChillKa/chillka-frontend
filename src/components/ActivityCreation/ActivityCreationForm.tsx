@@ -1,15 +1,12 @@
 'use client';
 
-import { FormState, uploadActivity, uploadImage } from '@action/upload';
-import { Button } from '@components/ui/button';
+import { FormState, uploadActivity } from '@action/upload';
 import { Form } from '@components/ui/form';
-import { Separator } from '@components/ui/separator';
-import { H2, H3 } from '@components/ui/typography';
 import { useToast } from '@components/ui/use-toast';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createActivityFormSchema } from '@lib/definitions';
 import cn from '@lib/utils';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useFormState } from 'react-dom';
 import { FieldPath, useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -27,25 +24,22 @@ export interface FormValues {
   lastName: string;
 }
 
-const initialState = {
-  message: '',
-  imageUrl: '',
-};
+// const initialState = {
+//   message: '',
+//   imageUrl: '',
+// };
 
 const ActivityCreationForm = ({ className }: ActivityCreationFormProps) => {
-  const [selectedImage, setSelectedImage] = useState<File | null>(null);
-  const [uploading, setUploading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<string | null>(null);
+  // const [selectedImage, setSelectedImage] = useState<File | null>(null);
   // const [files, setFiles] = useState<FileList | null>(null);
   const [formState, formAction] = useFormState<FormState, FormData>(
     uploadActivity,
     { message: '' }
   );
-  const [imageFormState, imageFormAction] = useFormState(
-    uploadImage,
-    initialState
-  );
+  // const [imageFormState, imageFormAction] = useFormState(
+  //   uploadImage,
+  //   initialState
+  // );
   const { toast } = useToast();
 
   const form = useForm<z.output<typeof createActivityFormSchema>>({
@@ -117,99 +111,17 @@ const ActivityCreationForm = ({ className }: ActivityCreationFormProps) => {
       });
     }
     toast({
-      title: 'chillka 溫馨表格崩壞小提醒',
+      title: 'chillka 溫馨小提醒',
       description: `${formState?.message}`,
     });
   }, [formState?.issues, formState?.message, form, toast]);
 
-  useEffect(() => {
-    toast({
-      title: 'chillka 溫馨小提醒',
-      description: `${imageFormState?.imageUrl}`,
-    });
-  }, [imageFormState.message, toast]);
-
-  // const defaultValues: { file: null | File } = {
-  //   file: null,
-  // };
-
-  // const methods = useForm({
-  //   defaultValues,
-  //   shouldFocusError: true,
-  //   shouldUnregister: false,
-  //   shouldUseNativeValidation: false,
-  // });
-
-  /* TODO: Image Drop Zone */
-
-  // function handleOnDrop(acceptedFiles: FileList | null) {
-  //   if (acceptedFiles && acceptedFiles.length > 0) {
-  //     const allowedTypes = [
-  //       { name: 'csv', types: ['text/csv'] },
-  //       {
-  //         name: 'excel',
-  //         types: [
-  //           'application/vnd.ms-excel',
-  //           'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-  //         ],
-  //       },
-  //     ];
-  //     const fileType = allowedTypes.find((allowedType) =>
-  //       allowedType.types.find((type) => type === acceptedFiles[0].type)
-  //     );
-  //     if (!fileType) {
-  //       methods.setValue('file', null);
-  //       methods.setError('file', {
-  //         message: 'File type is not valid',
-  //         type: 'typeError',
-  //       });
-  //     } else {
-  //       methods.setValue('file', acceptedFiles[0]);
-  //       methods.clearErrors('file');
-  //     }
-  //   } else {
-  //     methods.setValue('file', null);
-  //     methods.setError('file', {
-  //       message: 'File is required',
-  //       type: 'typeError',
-  //     });
-  //   }
-  // }
-
-  // this function is build for route handlers
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setUploading(true);
-    setError(null);
-    setSuccess(null);
-
-    const formData = new FormData(event.currentTarget);
-
-    try {
-      const response = await fetch('/api/upload/image', {
-        method: 'POST',
-        body: formData,
-      });
-
-      if (!response.ok) {
-        throw new Error(await response.text());
-      }
-
-      const result = await response.json();
-      if (result.imageUrl) {
-        setSuccess(
-          `File uploaded successfully! And image url: ${result.imageUrl}`
-        );
-      } else {
-        setSuccess(`File uploaded successfully! But something else happen`);
-      }
-      console.log('File uploaded successfully:', result);
-    } catch (err) {
-      setError((err as Error).message);
-    } finally {
-      setUploading(false);
-    }
-  };
+  // useEffect(() => {
+  //   toast({
+  //     title: 'chillka 溫馨小提醒',
+  //     description: `${imageFormState?.imageUrl}`,
+  //   });
+  // }, [imageFormState.message, toast]);
 
   return (
     <section className={cn('', className)}>
@@ -222,26 +134,25 @@ const ActivityCreationForm = ({ className }: ActivityCreationFormProps) => {
         </form>
       </Form>
 
-      <Separator className="mt-24" />
+      {/* Testing Area */}
+
+      {/* <Separator className="mt-24" />
       <H2>以下為測試區</H2>
       <Separator className="mt-24" />
-      {/* Testing Area */}
       <form className="space-y-6" action={imageFormAction}>
         <H3 className="text-primary">Server actions Method</H3>
         <h2>Upload and Display Image</h2>
-        <h3>using React Hooks</h3>
+        <h3>using React Hooks</h3> */}
 
-        {/* Conditionally render the selected image if it exists */}
-        {selectedImage && (
+      {/* Conditionally render the selected image if it exists */}
+      {/* {selectedImage && (
           <div>
-            {/* Display the selected image */}
             <img
               alt="not found"
               width="250px"
               src={URL.createObjectURL(selectedImage)}
             />
             <br /> <br />
-            {/* Button to remove the selected image */}
             <button type="button" onClick={() => setSelectedImage(null)}>
               Remove
             </button>
@@ -249,8 +160,6 @@ const ActivityCreationForm = ({ className }: ActivityCreationFormProps) => {
         )}
 
         <br />
-
-        {/* Input element to select an image file */}
         <input
           type="file"
           name="uploadImage"
@@ -263,18 +172,7 @@ const ActivityCreationForm = ({ className }: ActivityCreationFormProps) => {
           }}
         />
         <UploadFormButton>Image Upload</UploadFormButton>
-      </form>
-      <Separator className="my-4" />
-      {/* route handlers  */}
-      <form onSubmit={handleSubmit} className="my-4 space-y-2">
-        <H3 className="text-primary">Route Handler Method</H3>
-        <input type="file" name="uploadImage" className="block" />
-        <Button type="submit" disabled={uploading} className="inline-flex">
-          {uploading ? 'Uploading...' : 'Upload'}
-        </Button>
-      </form>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      {success && <p style={{ color: 'green' }}>{success}</p>}
+      </form> */}
     </section>
   );
 };

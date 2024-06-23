@@ -1,11 +1,10 @@
 'use server';
 
-import { createActivityFormSchema, endpoint } from '@lib/definitions';
+import { createActivityFormSchema } from '@lib/definitions';
 import { revalidatePath } from 'next/cache';
-import { cookies } from 'next/headers';
 import { ZodError, z } from 'zod';
 import { fetchAPI } from './utils';
-
+/*
 export async function uploadImage(prevState: any, formData: FormData) {
   const sessionCookie = cookies().get('session')?.value;
 
@@ -44,6 +43,7 @@ export async function uploadImage(prevState: any, formData: FormData) {
   revalidatePath('/activity/new');
   return { message: 'success', ...result };
 }
+*/
 
 export type FormState =
   | {
