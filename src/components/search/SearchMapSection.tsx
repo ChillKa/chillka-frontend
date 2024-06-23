@@ -1,12 +1,13 @@
 'use client';
 
+import cn from '@lib/utils';
 import {
   GoogleMap,
   Libraries,
   OverlayView,
   useJsApiLoader,
 } from '@react-google-maps/api';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 export type MarkerPosition = {
   id: string;
@@ -17,39 +18,55 @@ export type MarkerPosition = {
 
 export type SearchMapSectionProps = {
   markers: MarkerPosition[];
+  centerId?: string;
 };
 const libraries = ['places', 'drawing', 'geometry'];
 
-const SearchMapSection = ({ markers }: SearchMapSectionProps) => {
+const SearchMapSection = ({ markers, centerId }: SearchMapSectionProps) => {
   const { isLoaded: scriptLoaded, loadError } = useJsApiLoader({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAP_API as string,
     libraries: libraries as Libraries,
   });
 
-  const center = useMemo(() => {
-    if (markers.length === 0) return { lat: 0, lng: 0 };
+  const [center, setCenter] = useState<{ lat: number; lng: number }>({
+    lat: 0,
+    lng: 0,
+  });
 
-    const totalLat = markers.reduce((sum, marker) => sum + marker.lat, 0);
-    const totalLng = markers.reduce((sum, marker) => sum + marker.lng, 0);
+  useEffect(() => {
+    if (markers.length === 0) return;
 
-    const avgLat = totalLat / markers.length;
-    const avgLng = totalLng / markers.length;
+    const marker = centerId
+      ? markers.find((el) => el.id === centerId)
+      : markers[0];
 
-    const closestMarker = markers.reduce((closest, marker) => {
-      const distanceToTempCenter = Math.hypot(
-        marker.lat - avgLat,
-        marker.lng - avgLng
-      );
-      const distanceToClosest = Math.hypot(
-        closest.lat - avgLat,
-        closest.lng - avgLng
-      );
+    if (marker && (marker.lat !== center.lat || marker.lng !== center.lng)) {
+      setCenter({ lat: marker.lat, lng: marker.lng });
+    }
+  }, [center.lat, center.lng, centerId, markers]);
 
-      return distanceToTempCenter < distanceToClosest ? marker : closest;
-    }, markers[0]);
-
-    return closestMarker;
-  }, [markers]);
+  const renderMarkers = useMemo(
+    () =>
+      markers.map((marker) => (
+        <OverlayView
+          key={marker.id}
+          position={{ lat: marker.lat, lng: marker.lng }}
+          mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
+        >
+          <div
+            className={cn(
+              'flex h-10 w-20 items-center justify-center rounded-full border shadow-lg',
+              marker.id === centerId ? 'bg-primary text-white' : 'bg-surface'
+            )}
+          >
+            <p className="text-sm font-bold">
+              {marker.pricing === 0 ? '免費' : `NT$${marker.pricing}`}
+            </p>
+          </div>
+        </OverlayView>
+      )),
+    [markers, centerId]
+  );
 
   if (loadError)
     return (
@@ -65,7 +82,7 @@ const SearchMapSection = ({ markers }: SearchMapSectionProps) => {
     <GoogleMap
       mapContainerStyle={{
         width: '100%',
-        height: '760px',
+        height: '47.5rem',
       }}
       center={center}
       zoom={15}
@@ -76,19 +93,7 @@ const SearchMapSection = ({ markers }: SearchMapSectionProps) => {
         fullscreenControl: false,
       }}
     >
-      {markers.map((marker) => (
-        <OverlayView
-          key={marker.id}
-          position={{ lat: marker.lat, lng: marker.lng }}
-          mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
-        >
-          <div className="flex h-10 w-20 items-center justify-center rounded-full border bg-surface shadow-lg">
-            <p className="text-sm font-bold">
-              {marker.pricing === 0 ? '免費' : `NT$${marker.pricing}`}
-            </p>
-          </div>
-        </OverlayView>
-      ))}
+      {renderMarkers}
     </GoogleMap>
   );
 };

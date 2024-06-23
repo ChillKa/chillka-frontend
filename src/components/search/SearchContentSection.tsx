@@ -1,8 +1,9 @@
 'use client';
 
 import { Activity } from '@action/activity';
-import EventCard, {
+import {
   FormatDate,
+  IntersectionObserverEventCard,
   SearchResultEventCard,
 } from '@components/EventCard';
 import {
@@ -12,6 +13,7 @@ import {
 } from '@components/SearchBar';
 import useMediaQuery from '@hooks/use-media-query';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useState } from 'react';
 import { H4 } from '../ui/typography';
 import SearchMapSection from './SearchMapSection';
 
@@ -49,6 +51,14 @@ const SearchContentSection = ({
     router.push(`/search?${updatedQuery}`);
   };
 
+  const mapMarkers = results.map((result) => ({
+    lat: result.lat,
+    lng: result.lng,
+    id: result.id,
+    pricing: result.pricing,
+  }));
+  const [centerId, setCenterId] = useState(results[0].id);
+
   return (
     <section id="result" className="flex w-full grow flex-row gap-6">
       {currentShow === 'results' && (
@@ -64,7 +74,7 @@ const SearchContentSection = ({
           </div>
           {results.map((activity) => {
             return isMobile ? (
-              <EventCard
+              <IntersectionObserverEventCard
                 key={activity.id}
                 title={activity.name}
                 cover={activity.thumbnail}
@@ -79,6 +89,9 @@ const SearchContentSection = ({
                 isContinuous={activity.isContinuous}
                 discount={activity.discount}
                 className="gap-4"
+                onVisibleTrigger={() => {
+                  setCenterId(activity.id);
+                }}
               />
             ) : (
               <SearchResultEventCard
@@ -95,6 +108,9 @@ const SearchContentSection = ({
                 pricing={activity.pricing}
                 isContinuous={activity.isContinuous}
                 discount={activity.discount}
+                onHoverCard={() => {
+                  setCenterId(activity.id);
+                }}
               />
             );
           })}
@@ -110,24 +126,12 @@ const SearchContentSection = ({
       )}
       {currentShow === 'map' && (
         <div className="h-fit w-full">
-          <SearchMapSection
-            markers={[
-              { lat: 25.033, lng: 121.5654, id: '1', pricing: 100 },
-              { lat: 24.1477, lng: 120.6736, id: '2', pricing: 0 },
-              { lat: 22.6273, lng: 120.3014, id: '3', pricing: 0 },
-            ]}
-          />
+          <SearchMapSection centerId={centerId} markers={mapMarkers} />
         </div>
       )}
       {!isMobile && (
         <div className="sticky top-0 h-fit w-full max-w-[26rem]">
-          <SearchMapSection
-            markers={[
-              { lat: 25.033, lng: 121.5654, id: '1', pricing: 100 },
-              { lat: 24.1477, lng: 120.6736, id: '2', pricing: 0 },
-              { lat: 22.6273, lng: 120.3014, id: '3', pricing: 0 },
-            ]}
-          />
+          <SearchMapSection centerId={centerId} markers={mapMarkers} />
         </div>
       )}
     </section>

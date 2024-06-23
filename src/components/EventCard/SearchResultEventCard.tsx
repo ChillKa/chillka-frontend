@@ -2,7 +2,7 @@
 
 import { H3 } from '@components/ui/typography';
 import { Building2, CalendarDays, MapPin, Users } from 'lucide-react';
-import { useState } from 'react';
+import { HTMLAttributes, useRef, useState } from 'react';
 import { FormatDate } from './EventCard-types';
 import {
   ContinuousCardField,
@@ -23,6 +23,7 @@ export type SearchResultEventCardProps = {
   pricing: number;
   isContinuous?: boolean;
   discount: number;
+  onHoverCard?: () => void;
 };
 
 const SearchResultEventCard = ({
@@ -38,17 +39,36 @@ const SearchResultEventCard = ({
   isContinuous = false,
   pricing,
   discount,
+  onHoverCard,
 }: SearchResultEventCardProps) => {
   const [collected, setCollected] = useState(isCollected);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleToggle = () => {
     setCollected((prev) => !prev);
   };
 
+  const handleMouseEnter: HTMLAttributes<HTMLDivElement>['onMouseEnter'] =
+    () => {
+      timerRef.current = setTimeout(() => {
+        onHoverCard?.();
+      }, 1500);
+    };
+
+  const handleMouseLeave: HTMLAttributes<HTMLDivElement>['onMouseLeave'] =
+    () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+        timerRef.current = null;
+      }
+    };
+
   return (
     <div
       id="search-result-event-card"
       className="flex h-[19.125rem] w-full gap-6"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       <EventCardCoverSection
         src={cover}

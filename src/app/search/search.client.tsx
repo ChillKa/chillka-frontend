@@ -13,7 +13,6 @@ const SearchClient = ({ results }: SearchClientProps) => {
   const [currentShow, setCurrentShow] = useState<'results' | 'map'>('results');
 
   const toggleShow = () => {
-    console.log(currentShow);
     setCurrentShow((prev) => {
       return prev === 'results' ? 'map' : 'results';
     });
