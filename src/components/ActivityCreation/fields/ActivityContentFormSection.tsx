@@ -1,6 +1,5 @@
 'use client';
 
-import { Button } from '@components/ui/button';
 import { Checkbox } from '@components/ui/checkbox';
 import {
   FormControl,
@@ -21,6 +20,7 @@ import { UseFormReturn } from 'react-hook-form';
 import { z } from 'zod';
 import ActivityTimePicker from '../ui/AcitivityTimePicker';
 import ActivityDatePicker from '../ui/ActivityDatePicker';
+import ImageDropzone from '../ui/ImageDropzone';
 import RichTextEditor from '../ui/RichTextEditor';
 
 type FormSchema = z.infer<typeof createActivityFormSchema>;
@@ -38,24 +38,20 @@ const ActivityContentFormSection = ({
       <div className="space-y-6">
         <H2>封面與縮圖</H2>
         <H4>活動封面</H4>
+        <ImageDropzone maxFiles={4} multiple maxSize={1024 * 1024 * 4} />
         <P>
           請上傳至少一張清晰、有吸引力的活動封面圖片，以展示您的活動（最多四張）。
           <br />
           建議尺寸為 1920*1080px，檔案大小不超過 4MB
         </P>
-        <Button variant="form" type="button">
-          上傳活動封面
-        </Button>
         <Separator className="h-0.5 w-12" />
         <H4>活動縮圖</H4>
+        <ImageDropzone maxFiles={1} />
         <P>
           請上傳一張活動縮圖，將用於活動列表頁面等位置。 建議尺寸為
           <br />
           500*500px，檔案大小不超過 2MB
         </P>
-        <Button variant="form" type="button">
-          上傳活動縮圖
-        </Button>
       </div>
       <Separator className="h-[0.5px]" />
       <div className="max-w-[26rem] space-y-6">
@@ -169,7 +165,6 @@ const ActivityContentFormSection = ({
             </FormItem>
           )}
         />
-
         <FormField
           control={form.control}
           name="details"
@@ -241,7 +236,12 @@ const ActivityContentFormSection = ({
                   <Label htmlFor="airplane-mode">
                     {field.value ? '顯示' : '不顯示'}
                   </Label>
-                  <input readOnly className="size-0" value={`${field.value}`} />
+                  <input
+                    name={field.name}
+                    readOnly
+                    type="hidden"
+                    value={`${field.value}`}
+                  />
                 </div>
               </FormControl>
               <FormDescription className="text-primary-light">
@@ -266,7 +266,12 @@ const ActivityContentFormSection = ({
                   <Label htmlFor="airplane-mode">
                     {field.value ? '啟用' : '不啟用'}
                   </Label>
-                  <input readOnly className="size-0" value={`${field.value}`} />
+                  <input
+                    name={field.name}
+                    readOnly
+                    type="hidden"
+                    value={`${field.value}`}
+                  />
                 </div>
               </FormControl>
               <FormDescription className="text-primary-light">
