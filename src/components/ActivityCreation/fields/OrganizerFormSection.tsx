@@ -28,7 +28,7 @@ const OrganizerFormSection = ({ form }: OrganizerFormSectionProps) => {
       <H2>主辦方資訊</H2>
       <H4>你的自我介紹</H4>
       <Label>主辦方縮圖</Label>
-      <ImageDropzone maxFiles={10} multiple />
+      <ImageDropzone maxFiles={1} />
       <Subtle className="text-primary-light">
         請上傳你的頭像，尺寸為 500*500px，檔案大小不超過 2MB。
       </Subtle>
