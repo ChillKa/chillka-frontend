@@ -1,7 +1,6 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import useMediaQuery from '@hooks/use-media-query';
 import { Map } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import AdvancedSearchBarDesktop from './AdvancedSearchBarDesktop';
@@ -14,12 +13,14 @@ import {
 } from './fields/utils';
 
 type AdvancedSearchBarProps = {
+  isMobile: boolean;
   toggleCurrentShow: () => void;
 };
 
-const AdvancedSearchBar = ({ toggleCurrentShow }: AdvancedSearchBarProps) => {
-  const { matches: isMobile } = useMediaQuery();
-
+const AdvancedSearchBar = ({
+  toggleCurrentShow,
+  isMobile,
+}: AdvancedSearchBarProps) => {
   const router = useRouter();
   const handleSearchSubmit = (data: SearchParams) => {
     const queryString = updateQueryString(data);

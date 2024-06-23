@@ -124,7 +124,7 @@ const SearchContentSection = ({
           />
         </div>
       )}
-      {currentShow === 'map' && (
+      {isMobile && currentShow === 'map' && (
         <div className="h-fit w-full">
           <SearchMapSection centerId={centerId} markers={mapMarkers} />
         </div>
