@@ -1,7 +1,7 @@
 import { getActivitiesByFilter } from '@action/activity';
 import AdvancedSearchBar from '@components/SearchBar/AdvancedSearchBar';
 import { SearchParams } from '@components/SearchBar/fields/utils';
-import SearchContentSection from '@components/SearchContentSection';
+import SearchContentSection from '@components/search/SearchContentSection';
 
 const getSearchFilter = (params: SearchPageProps['searchParams']) => {
   const allowedParams: (keyof SearchParams)[] = [

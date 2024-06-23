@@ -20,9 +20,9 @@ import Pagination, {
   PaginationNext,
   PaginationPrev,
   generatePaginationItems,
-} from './Pagination';
+} from '../Pagination';
+import { H3, H4 } from '../ui/typography';
 import SearchMapSection from './SearchMapSection';
-import { H3, H4 } from './ui/typography';
 
 type ActivitySearchResultProps = { activity: Activity };
 export const ActivitySearchResult = ({
