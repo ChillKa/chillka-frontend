@@ -64,7 +64,7 @@ const ActivitySection = ({ className }: ActivitySectionProps) => {
           <div className="absolute right-0 top-1 hidden h-full items-center xl:flex">
             <div className="h-full w-12 bg-gradient-to-l from-surface to-transparent" />
             <Button
-              className="h-12 w-12 border border-primary bg-surface p-4 text-primary"
+              className="h-12 w-12 border border-primary bg-surface p-4 text-primary hover:bg-surface"
               onClick={scrollRight}
             >
               <ChevronRight />
