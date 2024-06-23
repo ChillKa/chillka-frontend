@@ -3,12 +3,19 @@ import { cookies } from 'next/headers';
 
 export async function POST(request: Request) {
   const sessionCookie = cookies().get('session')?.value;
+  if (!sessionCookie) {
+    return new Response(`請重新登入`, {
+      status: 400,
+    });
+  }
 
   const formData = await request.formData();
   const image = formData.get('uploadImage');
 
   if (!(image instanceof Blob)) {
-    throw new Error('No image to be uploaded or invalid file type');
+    return new Response(`請傳送正確的圖檔格式`, {
+      status: 400,
+    });
   }
 
   const finalHeaders: Record<string, string> = {
@@ -27,7 +34,9 @@ export async function POST(request: Request) {
   });
 
   if (!response.ok) {
-    throw new Error('Upload failed');
+    return new Response(`圖片檔案上傳失敗`, {
+      status: 400,
+    });
   }
 
   const result = await response.json();
