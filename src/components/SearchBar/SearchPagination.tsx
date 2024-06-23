@@ -19,7 +19,7 @@ export type SearchPaginationProps = {
 const paginationStepperStyles = cva('flex gap-4 py-12', {
   variants: {
     isMobile: {
-      true: 'justify-center px-[6.46875rem] gap-12 debug',
+      true: 'justify-center px-[6.46875rem] gap-12',
       false: 'justify-between px-[8.031rem]',
     },
   },
