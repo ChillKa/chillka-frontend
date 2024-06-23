@@ -5,34 +5,48 @@ import EventCard, {
   FormatDate,
   SearchResultEventCard,
 } from '@components/EventCard';
+import {
+  SearchPagination,
+  SearchPaginationProps,
+  updateQueryString,
+} from '@components/SearchBar';
 import useMediaQuery from '@hooks/use-media-query';
-import { useState } from 'react';
-import Pagination, {
-  PaginationNext,
-  PaginationPrev,
-  generatePaginationItems,
-} from '../Pagination';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { H4 } from '../ui/typography';
 import SearchMapSection from './SearchMapSection';
 
 export type SearchContentSectionProps = {
   results: Activity[];
   currentShow: 'results' | 'map';
+  totalPage?: number;
 };
 const SearchContentSection = ({
   results,
   currentShow,
+  totalPage = 5,
 }: SearchContentSectionProps) => {
   const { matches: isMobile } = useMediaQuery();
-  const totalPage = 99;
-  const [currentPage, setCurrentPage] = useState(1);
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
-  const handlePrevClick = () => {
-    setCurrentPage((prev) => Math.max(prev - 1, 1));
+  const currentPage = parseInt(searchParams.get('page') ?? '1', 10);
+
+  const handleClickPrev: SearchPaginationProps['onClickPrev'] = (page) => {
+    const newPage = Math.max(page - 1, 1);
+    const updatedQuery = updateQueryString({
+      ...searchParams.entries(),
+      page: newPage.toString(),
+    });
+    router.push(`/search?${updatedQuery}`);
   };
 
-  const handleNextClick = () => {
-    setCurrentPage((prev) => Math.min(prev + 1, totalPage));
+  const handleClickNext: SearchPaginationProps['onClickNext'] = (page) => {
+    const newPage = Math.min(page + 1, totalPage);
+    const updatedQuery = updateQueryString({
+      ...searchParams.entries(),
+      page: newPage.toString(),
+    });
+    router.push(`/search?${updatedQuery}`);
   };
 
   return (
@@ -85,22 +99,12 @@ const SearchContentSection = ({
             );
           })}
 
-          <Pagination
-            currentPage={currentPage}
+          <SearchPagination
+            initialPage={currentPage}
             totalPage={totalPage}
-            onClickPrev={handlePrevClick}
-            onClickNext={handleNextClick}
-            asChild
-          >
-            <div
-              id="pagination-stepper"
-              className="flex justify-between gap-4 px-[8.031rem] py-12"
-            >
-              <PaginationPrev />
-              {generatePaginationItems(currentPage, totalPage)}
-              <PaginationNext />
-            </div>
-          </Pagination>
+            onClickPrev={handleClickPrev}
+            onClickNext={handleClickNext}
+          />
         </div>
       )}
       {currentShow === 'map' && (

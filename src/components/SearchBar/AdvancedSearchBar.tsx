@@ -10,7 +10,7 @@ import SearchProvider from './SearchProvider';
 import {
   SearchParams,
   SearchParamsSchema,
-  createQueryString,
+  updateQueryString,
 } from './fields/utils';
 
 type AdvancedSearchBarProps = {
@@ -26,12 +26,12 @@ const AdvancedSearchBar = ({
 
   const router = useRouter();
   const handleSearchSubmit = (data: SearchParams) => {
-    const queryString = createQueryString(data);
+    const queryString = updateQueryString(data);
     router.push(`/search?${queryString}`);
   };
 
   const handleClearFilter = (data: SearchParams) => {
-    const queryString = createQueryString(data);
+    const queryString = updateQueryString(data);
     router.push(`/search?${queryString}`);
   };
 
