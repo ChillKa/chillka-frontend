@@ -16,13 +16,9 @@ export async function POST(request: Request) {
   };
 
   const uploadFormData = new FormData();
-  uploadFormData.append(
-    'image',
-    image,
-    'steven-kamenar-MMJx78V7xS8-unsplash.jpg'
-  );
+  uploadFormData.append('image', image, image.name);
 
-  const response = await fetch(`${endpoint}/auth/upload-image`, {
+  const response = await fetch(`${endpoint}/auth/upload-images`, {
     method: 'POST',
     body: uploadFormData,
     headers: {
@@ -35,6 +31,5 @@ export async function POST(request: Request) {
   }
 
   const result = await response.json();
-  console.log(result);
   return Response.json(result);
 }
