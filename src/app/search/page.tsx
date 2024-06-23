@@ -54,7 +54,7 @@ const SearchPage = async ({ searchParams }: SearchPageProps) => {
 
   return (
     <section className="mx-auto flex max-w-[81rem] flex-col gap-2">
-      <SearchClient filteredParams={filteredParams} results={results} />
+      <SearchClient results={results} />
     </section>
   );
 };

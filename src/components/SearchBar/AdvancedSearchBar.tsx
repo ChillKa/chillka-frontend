@@ -14,14 +14,10 @@ import {
 } from './fields/utils';
 
 type AdvancedSearchBarProps = {
-  filteredParams: Partial<SearchParams>;
   toggleCurrentShow: () => void;
 };
 
-const AdvancedSearchBar = ({
-  filteredParams,
-  toggleCurrentShow,
-}: AdvancedSearchBarProps) => {
+const AdvancedSearchBar = ({ toggleCurrentShow }: AdvancedSearchBarProps) => {
   const { matches: isMobile } = useMediaQuery();
 
   const router = useRouter();
@@ -41,8 +37,12 @@ const AdvancedSearchBar = ({
         keyword: '',
         location: '',
         category: '',
+        date: '',
+        type: '',
+        distance: '',
+        page: '1',
+        limit: '5',
         sort: '相關性',
-        ...filteredParams,
       }}
       resolver={zodResolver(SearchParamsSchema)}
     >
