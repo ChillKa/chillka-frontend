@@ -1,7 +1,6 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import useMediaQuery from '@hooks/use-media-query';
 import { Map } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import AdvancedSearchBarDesktop from './AdvancedSearchBarDesktop';
@@ -10,24 +9,26 @@ import SearchProvider from './SearchProvider';
 import {
   SearchParams,
   SearchParamsSchema,
-  createQueryString,
+  updateQueryString,
 } from './fields/utils';
 
 type AdvancedSearchBarProps = {
-  filteredParams: Partial<SearchParams>;
+  isMobile: boolean;
+  toggleCurrentShow: () => void;
 };
 
-const AdvancedSearchBar = ({ filteredParams }: AdvancedSearchBarProps) => {
-  const { matches: isMobile } = useMediaQuery();
-
+const AdvancedSearchBar = ({
+  toggleCurrentShow,
+  isMobile,
+}: AdvancedSearchBarProps) => {
   const router = useRouter();
   const handleSearchSubmit = (data: SearchParams) => {
-    const queryString = createQueryString(data);
+    const queryString = updateQueryString(data);
     router.push(`/search?${queryString}`);
   };
 
   const handleClearFilter = (data: SearchParams) => {
-    const queryString = createQueryString(data);
+    const queryString = updateQueryString(data);
     router.push(`/search?${queryString}`);
   };
 
@@ -37,8 +38,12 @@ const AdvancedSearchBar = ({ filteredParams }: AdvancedSearchBarProps) => {
         keyword: '',
         location: '',
         category: '',
+        date: '',
+        type: '',
+        distance: '',
+        page: '1',
+        limit: '5',
         sort: '相關性',
-        ...filteredParams,
       }}
       resolver={zodResolver(SearchParamsSchema)}
     >
@@ -52,6 +57,9 @@ const AdvancedSearchBar = ({ filteredParams }: AdvancedSearchBarProps) => {
             type="button"
             aria-label="Map button"
             className="h-14 w-14 border-[1px] border-primary bg-surface p-4 font-medium text-primary"
+            onClick={() => {
+              toggleCurrentShow();
+            }}
           >
             <Map />
           </button>

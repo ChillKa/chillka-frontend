@@ -1,8 +1,6 @@
 import { getActivitiesByFilter } from '@action/activity';
-import AdvancedSearchBar from '@components/SearchBar/AdvancedSearchBar';
 import { SearchParams } from '@components/SearchBar/fields/utils';
-import SearchContentSection from '@components/SearchContentSection';
-import { Suspense } from 'react';
+import SearchClient from './search.client';
 
 const getSearchFilter = (params: SearchPageProps['searchParams']) => {
   const allowedParams: (keyof SearchParams)[] = [
@@ -45,42 +43,18 @@ const getSearchFilter = (params: SearchPageProps['searchParams']) => {
   }, {});
 };
 
-type ActivitiesListProps = { filteredParams: Partial<SearchParams> };
-const ActivitiesList = async ({ filteredParams }: ActivitiesListProps) => {
-  const result = await getActivitiesByFilter(filteredParams);
-
-  return (
-    <>
-      {result.map((activity) => (
-        <div key={activity.id} className="debug w-full">
-          <h1>{activity.name}</h1>
-          <p>
-            {activity.startDate}-{activity.endDate}
-          </p>
-        </div>
-      ))}
-    </>
-  );
-};
-
 type SearchPageProps = {
   searchParams: { [key: string]: string | string[] | undefined };
 };
 
-const SearchPage = ({ searchParams }: SearchPageProps) => {
+const SearchPage = async ({ searchParams }: SearchPageProps) => {
   const filteredParams = getSearchFilter(searchParams);
+
+  const results = await getActivitiesByFilter(filteredParams);
 
   return (
     <section className="mx-auto flex max-w-[81rem] flex-col gap-2">
-      <AdvancedSearchBar filteredParams={filteredParams} />
-
-      <SearchContentSection
-        results={
-          <Suspense fallback={<div className="w-full">Loading...</div>}>
-            <ActivitiesList filteredParams={filteredParams} />
-          </Suspense>
-        }
-      />
+      <SearchClient results={results} />
     </section>
   );
 };

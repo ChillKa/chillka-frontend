@@ -1,9 +1,8 @@
 'use client';
 
 import { H3 } from '@components/ui/typography';
-import cn from '@lib/utils';
 import { Building2, CalendarDays, MapPin, Users } from 'lucide-react';
-import { forwardRef, useState } from 'react';
+import { HTMLAttributes, useRef, useState } from 'react';
 import { FormatDate } from './EventCard-types';
 import {
   ContinuousCardField,
@@ -11,7 +10,7 @@ import {
   discountLabel,
 } from './EventCard-utils';
 
-type EventCardProps = {
+export type SearchResultEventCardProps = {
   title: string;
   cover: string;
   description: string;
@@ -23,59 +22,69 @@ type EventCardProps = {
   organizer: string;
   pricing: number;
   isContinuous?: boolean;
-  discount: number | undefined; // -1 is free, 0 is none discount, positive is off discount
-  className?: string;
+  discount: number;
+  onHoverCard?: () => void;
 };
 
-const EventCard = forwardRef<HTMLDivElement, EventCardProps>(
-  (
-    {
-      title,
-      cover,
-      description,
-      startTime,
-      endTime,
-      attendeeCount,
-      isCollected = false,
-      location,
-      organizer,
-      pricing,
-      isContinuous = false,
-      discount = 0,
-      className,
-    },
-    ref
-  ) => {
-    const [collected, setCollected] = useState(isCollected);
+const SearchResultEventCard = ({
+  title,
+  cover,
+  description,
+  startTime,
+  endTime,
+  attendeeCount,
+  isCollected = false,
+  location,
+  organizer,
+  isContinuous = false,
+  pricing,
+  discount,
+  onHoverCard,
+}: SearchResultEventCardProps) => {
+  const [collected, setCollected] = useState(isCollected);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-    const handleToggle = () => {
-      setCollected((prev) => !prev);
+  const handleToggle = () => {
+    setCollected((prev) => !prev);
+  };
+
+  const handleMouseEnter: HTMLAttributes<HTMLDivElement>['onMouseEnter'] =
+    () => {
+      timerRef.current = setTimeout(() => {
+        onHoverCard?.();
+      }, 1500);
     };
 
-    return (
-      <div
-        ref={ref}
-        id="event-card"
-        className={cn(
-          'flex h-[35.25rem] w-full flex-col gap-8 text-primary',
-          'xl:w-[26rem]',
-          className
-        )}
-      >
-        <EventCardCoverSection
-          src={cover}
-          collected={collected}
-          onToggle={handleToggle}
-        />
+  const handleMouseLeave: HTMLAttributes<HTMLDivElement>['onMouseLeave'] =
+    () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+        timerRef.current = null;
+      }
+    };
 
-        <div className="w- flex h-[5.5rem] flex-col gap-4">
-          <H3 className="truncate">{title}</H3>
-          <p className="line-clamp-2 overflow-hidden text-ellipsis text-sm">
-            {description}
-          </p>
+  return (
+    <div
+      id="search-result-event-card"
+      className="flex h-[19.125rem] w-full gap-6"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <EventCardCoverSection
+        src={cover}
+        alt="search-event-card-result-item"
+        hoverEffect
+        onToggle={handleToggle}
+        collected={collected}
+        className="size-[19.125rem]"
+      />
+
+      <div className="flex h-full w-[32.875rem] flex-col items-stretch justify-start gap-4">
+        <div id="activity-header" className="flex flex-col gap-2">
+          <H3>{title}</H3>
+          <p className="truncate text-sm font-normal">{description}</p>
         </div>
-
-        <div className="flex h-[9rem] flex-col justify-between gap-4">
+        <div id="activity-info" className="flex flex-col gap-2">
           <div className="flex justify-start gap-4">
             <CalendarDays className="flex-shrink-0" size={24} />
             <p className="h-6 w-16 flex-shrink-0 text-base font-normal">
@@ -113,16 +122,17 @@ const EventCard = forwardRef<HTMLDivElement, EventCardProps>(
             </p>
           </div>
         </div>
-
-        <div className="flex h-7 items-center justify-start gap-2">
+        <div
+          id="activity-pricing"
+          className="flex h-7 items-center justify-start gap-2"
+        >
           <span className="text-lg font-bold">NT${pricing}</span>
           {discountLabel(discount)}
         </div>
         {isContinuous && <ContinuousCardField />}
       </div>
-    );
-  }
-);
-EventCard.displayName = 'EventCard';
+    </div>
+  );
+};
 
-export default EventCard;
+export default SearchResultEventCard;
