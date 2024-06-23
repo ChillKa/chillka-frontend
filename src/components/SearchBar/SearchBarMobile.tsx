@@ -10,63 +10,30 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@components/ui/dialog';
-import { FormField } from '@components/ui/form';
-import { Input } from '@components/ui/input';
 import { Popover, PopoverTrigger } from '@components/ui/popover';
-import { H2, Small } from '@components/ui/typography';
+import { H2 } from '@components/ui/typography';
 import useDimensions from '@hooks/use-dimensions';
 import cn from '@lib/utils';
-import { motion } from 'framer-motion';
-import { HashIcon, LucideIcon, MapIcon, SearchIcon, XIcon } from 'lucide-react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { FormEventHandler, useRef, useState } from 'react';
-import { useFormContext } from 'react-hook-form';
-import { Category } from './fields/CategoryFieldMenu';
-import MenuItemContainer from './fields/MenuItemContainer';
+import { HashIcon, MapIcon, SearchIcon, XIcon } from 'lucide-react';
+import { useRef, useState } from 'react';
+import { FieldValues } from 'react-hook-form';
+import { SearchField, useSearch } from './SearchProvider';
+import {
+  ActivityKeyword,
+  ActivityMobileField,
+  ActivityPicture,
+} from './fields/ActivityField';
+import { Category, CategoryMobileFieldMenu } from './fields/CategoryFieldMenu';
+import { Location, LocationMobileFieldMenu } from './fields/LocationFieldMenu';
 
 type SearchBarMobileProps = {
   className: string;
-  activityPictures: Array<{
-    thumbnail: string;
-    url: string;
-    description: string;
-  }>;
-  activityKeywords: Array<{
-    url: string;
-    keyword: string;
-  }>;
-  locations: Array<{
-    url: string;
-    text: string;
-  }>;
-  categories: Array<{
-    icon: LucideIcon;
-    url: string;
-    text: string;
-  }>;
+  activityPictures: ActivityPicture[];
+  activityKeywords: ActivityKeyword[];
+  locations: Location[];
+  categories: Category[];
   debugMode: boolean;
-  onSearchSubmit: FormEventHandler<HTMLFormElement> | null;
-};
-
-const menuAnimationVariants = {
-  open: ({ size = 3000, locationX = 0, locationY = 800 }) => ({
-    clipPath: `circle(${size >= 0 ? 1000 : size}px at ${locationX}px ${locationY >= 0 ? 800 : locationY}px)`,
-    transition: {
-      type: 'spring',
-      stiffness: 30,
-      restDelta: 2,
-    },
-  }),
-  closed: ({ locationX = 0, locationY = 800 }) => ({
-    clipPath: `circle(0px at ${locationX}px ${locationY >= 0 ? 800 : locationY}px)`,
-    transition: {
-      delay: 0.5,
-      type: 'spring',
-      stiffness: 400,
-      damping: 40,
-    },
-  }),
+  onSearchSubmit?: (data: FieldValues) => Promise<void>;
 };
 
 const SearchBarMobile = ({
@@ -83,20 +50,12 @@ const SearchBarMobile = ({
   const containerRef = useRef(null);
   const { height, width } = useDimensions(containerRef);
 
-  const { setValue, control } = useFormContext();
-
-  const handleSearchSubmit: FormEventHandler<HTMLFormElement> = (e) => {
-    onSearchSubmit?.(e);
-  };
-
-  const handleCategorySelect = (category: Category['text']) => {
-    setValue('category', category);
-    setIsCategoryMenuOpen(false);
-  };
-  const handleLocationSelect = (category: Category['text']) => {
-    setValue('location', category);
-    setIsLocationMenuOpen(false);
-  };
+  const { handleSubmit } = useSearch();
+  const handleSearchSubmit = handleSubmit(async (data) => {
+    if (onSearchSubmit) {
+      await onSearchSubmit(data);
+    }
+  });
 
   return (
     <Dialog defaultOpen={debugMode}>
@@ -131,96 +90,50 @@ const SearchBarMobile = ({
               </div>
             </DialogTitle>
           </DialogHeader>
-          <div className="flex flex-col justify-between text-primary">
-            <div className="mx-3 mt-10 flex border-0 border-b border-primary pb-4 pt-2">
-              <FormField
-                control={control}
-                name="keyword"
-                render={({ field }) => (
-                  <Input
-                    type="text"
-                    placeholder="搜尋活動關鍵字"
-                    className="h-fit w-full border-none p-0 text-base placeholder:text-primary/50 focus-visible:ring-0 focus-visible:ring-offset-0"
-                    {...field}
-                  />
-                )}
+          <SearchField name="keyword">
+            {({ value, onChange }) => (
+              <ActivityMobileField
+                activityKeywords={activityKeywords}
+                activityPictures={activityPictures}
+                value={value}
+                onChange={onChange}
               />
-              <button
-                className="px-3"
-                type="submit"
-                aria-label="Search activities button"
-              >
-                <SearchIcon className="size-6" />
-              </button>
-            </div>
-            <div className="mt-4">
-              <p className="ml-3 text-base font-bold">推薦活動</p>
-              <div className="no-scrollbar mt-6 flex gap-4 overflow-x-auto overflow-y-hidden px-3">
-                {activityPictures.map((item) => (
-                  <div className="min-w-fit space-y-2" key={item.description}>
-                    {/* TODO: link to search page */}
-                    <Image
-                      src={item.thumbnail}
-                      alt={item.description}
-                      width={200}
-                      height={100}
-                      className="h-[6.25rem] w-[12.5rem] object-cover"
-                    />
-                    <Small>{item.description}</Small>
-                  </div>
-                ))}
-              </div>
-              <div className="mt-10 px-3">
-                <p className="text-base font-bold">熱門關鍵字</p>
-                <div className="mt-6 flex flex-wrap gap-2 overflow-x-auto overflow-y-hidden">
-                  {/* TODO: link to search page */}
-                  {activityKeywords.map((item) => (
-                    <Link
-                      href={item.url}
-                      className="w-fit rounded-2xl border px-4 py-2 font-medium"
-                      key={item.keyword}
-                    >
-                      {item.keyword}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
+            )}
+          </SearchField>
           {/* locations menu animation */}
-          <motion.div
-            className="absolute bottom-0 left-0 right-0 top-20 border-t border-primary bg-surface"
-            variants={menuAnimationVariants}
-            initial="closed"
-            animate={isLocationMenuOpen ? 'open' : 'closed'}
-            custom={{
-              size: height * 2,
-              locationX: width / 4,
-              locationY: height,
-            }}
-          >
-            <MenuItemContainer
-              data={locations}
-              onSelect={handleLocationSelect}
-            />
-          </motion.div>
+          <SearchField name="location">
+            {({ onChange }) => (
+              <LocationMobileFieldMenu
+                locations={locations}
+                height={height}
+                width={width}
+                menuOpen={isLocationMenuOpen}
+                onSelected={(isOpen) => setIsLocationMenuOpen(isOpen)}
+                onChange={(val) => {
+                  onChange(val);
+                  handleSearchSubmit();
+                }}
+              />
+            )}
+          </SearchField>
+
           {/* categories menu animation */}
-          <motion.div
-            initial="closed"
-            animate={isCategoryMenuOpen ? 'open' : 'closed'}
-            className="absolute bottom-0 left-0 right-0 top-20 border-t border-primary bg-surface"
-            variants={menuAnimationVariants}
-            custom={{
-              size: height * 2,
-              locationX: (width * 3) / 4,
-              locationY: height,
-            }}
-          >
-            <MenuItemContainer
-              data={categories}
-              onSelect={handleCategorySelect}
-            />
-          </motion.div>
+          <SearchField name="category">
+            {({ onChange }) => (
+              <CategoryMobileFieldMenu
+                categories={categories}
+                height={height}
+                width={width}
+                menuOpen={isCategoryMenuOpen}
+                onSelected={(isOpen) => setIsCategoryMenuOpen(isOpen)}
+                onChange={(val) => {
+                  onChange(val);
+                  handleSearchSubmit();
+                }}
+              />
+            )}
+          </SearchField>
+
           <DialogFooter className="absolute bottom-0 left-0 right-0 flex flex-row gap-[1px] font-medium">
             <Popover open={isLocationMenuOpen}>
               <PopoverTrigger asChild>
