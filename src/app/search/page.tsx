@@ -1,7 +1,6 @@
 import { getActivitiesByFilter } from '@action/activity';
-import AdvancedSearchBar from '@components/SearchBar/AdvancedSearchBar';
 import { SearchParams } from '@components/SearchBar/fields/utils';
-import SearchContentSection from '@components/search/SearchContentSection';
+import SearchClient from './search.client';
 
 const getSearchFilter = (params: SearchPageProps['searchParams']) => {
   const allowedParams: (keyof SearchParams)[] = [
@@ -55,9 +54,7 @@ const SearchPage = async ({ searchParams }: SearchPageProps) => {
 
   return (
     <section className="mx-auto flex max-w-[81rem] flex-col gap-2">
-      <AdvancedSearchBar filteredParams={filteredParams} />
-
-      <SearchContentSection results={results} />
+      <SearchClient filteredParams={filteredParams} results={results} />
     </section>
   );
 };

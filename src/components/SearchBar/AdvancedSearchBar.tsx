@@ -15,9 +15,13 @@ import {
 
 type AdvancedSearchBarProps = {
   filteredParams: Partial<SearchParams>;
+  toggleCurrentShow: () => void;
 };
 
-const AdvancedSearchBar = ({ filteredParams }: AdvancedSearchBarProps) => {
+const AdvancedSearchBar = ({
+  filteredParams,
+  toggleCurrentShow,
+}: AdvancedSearchBarProps) => {
   const { matches: isMobile } = useMediaQuery();
 
   const router = useRouter();
@@ -52,6 +56,9 @@ const AdvancedSearchBar = ({ filteredParams }: AdvancedSearchBarProps) => {
             type="button"
             aria-label="Map button"
             className="h-14 w-14 border-[1px] border-primary bg-surface p-4 font-medium text-primary"
+            onClick={() => {
+              toggleCurrentShow();
+            }}
           >
             <Map />
           </button>
