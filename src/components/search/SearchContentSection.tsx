@@ -102,6 +102,7 @@ const SearchContentSection = ({
           <SearchPagination
             initialPage={currentPage}
             totalPage={totalPage}
+            isMobile={isMobile}
             onClickPrev={handleClickPrev}
             onClickNext={handleClickNext}
           />

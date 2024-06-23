@@ -1,20 +1,34 @@
+'use client';
+
 import Pagination, {
   PaginationNext,
   PaginationPrev,
   generatePaginationItems,
 } from '@components/Pagination';
+import { cva } from 'class-variance-authority';
 import { useState } from 'react';
 
 export type SearchPaginationProps = {
   totalPage?: number;
   initialPage?: number;
+  isMobile?: boolean;
   onClickPrev?: (currentPage: number) => void;
   onClickNext?: (currentPage: number) => void;
 };
 
+const paginationStepperStyles = cva('flex gap-4 py-12', {
+  variants: {
+    isMobile: {
+      true: 'justify-center px-[6.46875rem] gap-12 debug',
+      false: 'justify-between px-[8.031rem]',
+    },
+  },
+});
+
 const SearchPagination = ({
   totalPage = 1,
   initialPage = 1,
+  isMobile = false,
   onClickPrev,
   onClickNext,
 }: SearchPaginationProps) => {
@@ -40,11 +54,17 @@ const SearchPagination = ({
     >
       <div
         id="pagination-stepper"
-        className="flex justify-between gap-4 px-[8.031rem] py-12"
+        className={paginationStepperStyles({ isMobile })}
       >
-        <PaginationPrev />
-        {generatePaginationItems(currentPage, totalPage)}
-        <PaginationNext />
+        <PaginationPrev
+          className={isMobile ? 'border-[1px]' : ''}
+          iconClassName={isMobile ? 'size-12' : ''}
+        />
+        {isMobile ? null : generatePaginationItems(currentPage, totalPage)}
+        <PaginationNext
+          className={isMobile ? 'border-[1px]' : ''}
+          iconClassName={isMobile ? 'size-12' : ''}
+        />
       </div>
     </Pagination>
   );

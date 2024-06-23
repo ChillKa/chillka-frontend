@@ -1,3 +1,4 @@
+import cn from '@lib/utils';
 import { Slot } from '@radix-ui/react-slot';
 import { ChevronLeft, ChevronRight, MoreHorizontal } from 'lucide-react';
 import { PropsWithChildren, createContext, useContext, useMemo } from 'react';
@@ -56,21 +57,38 @@ const Pagination = ({
   );
 };
 
-export const PaginationPrev = () => {
+type PaginationPrevProps = {
+  className?: string;
+  iconClassName?: string;
+};
+export const PaginationPrev = ({
+  className,
+  iconClassName,
+}: PaginationPrevProps) => {
   const { onClickPrev } = usePagination();
   return (
     <button
       type="button"
       onClick={onClickPrev}
       aria-label="pagination-previous"
-      className="flex cursor-pointer items-center justify-center rounded-full p-3"
+      className={cn(
+        'flex cursor-pointer items-center justify-center rounded-full p-3',
+        className
+      )}
     >
-      <ChevronLeft className="size-4" />
+      <ChevronLeft className={cn('size-4', iconClassName)} />
     </button>
   );
 };
 
-export const PaginationNext = () => {
+type PaginationNextProps = {
+  className?: string;
+  iconClassName?: string;
+};
+export const PaginationNext = ({
+  className,
+  iconClassName,
+}: PaginationNextProps) => {
   const { onClickNext } = usePagination();
 
   return (
@@ -78,9 +96,12 @@ export const PaginationNext = () => {
       type="button"
       onClick={onClickNext}
       aria-label="pagination-next"
-      className="flex cursor-pointer items-center justify-center rounded-full p-3"
+      className={cn(
+        'flex cursor-pointer items-center justify-center rounded-full p-3',
+        className
+      )}
     >
-      <ChevronRight className="size-4" />
+      <ChevronRight className={cn('size-4', iconClassName)} />
     </button>
   );
 };
