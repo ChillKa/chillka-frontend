@@ -8,10 +8,10 @@ import {
   DialogTrigger,
 } from '@components/ui/dialog';
 import { QrCode, X } from 'lucide-react';
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 
 type TicketPopUpProps = {
-  children?: any;
+  children?: ReactNode;
 };
 
 const TicketPopUp = ({ children }: TicketPopUpProps) => {
