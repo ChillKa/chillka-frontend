@@ -14,7 +14,7 @@ export const userList = [
   {
     name: '開始揪咖',
     icon: <Users size={24} />,
-    url: '',
+    url: '/activity/new',
   },
   {
     name: '收藏活動',
