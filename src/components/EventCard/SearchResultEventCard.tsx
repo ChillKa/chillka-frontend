@@ -1,6 +1,7 @@
 'use client';
 
 import { H3 } from '@components/ui/typography';
+import cn from '@lib/utils';
 import { Building2, CalendarDays, MapPin, Users } from 'lucide-react';
 import { HTMLAttributes, useRef, useState } from 'react';
 import { FormatDate } from './EventCard-types';
@@ -52,7 +53,7 @@ const SearchResultEventCard = ({
     () => {
       timerRef.current = setTimeout(() => {
         onHoverCard?.();
-      }, 1500);
+      }, 1000);
     };
 
   const handleMouseLeave: HTMLAttributes<HTMLDivElement>['onMouseLeave'] =
@@ -66,7 +67,12 @@ const SearchResultEventCard = ({
   return (
     <div
       id="search-result-event-card"
-      className="flex h-[19.125rem] w-full gap-6"
+      className={cn(
+        'flex h-[19.125rem] w-full gap-6',
+        'duration-1000 ease-in-out',
+        'transition-shadow hover:shadow-[0px_5px_15px_0px_rgba(0,0,0,0.05)]',
+        'transition-transform hover:translate-y-[-5px]'
+      )}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
