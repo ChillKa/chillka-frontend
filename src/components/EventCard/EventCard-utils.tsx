@@ -4,7 +4,7 @@ import cn from '@lib/utils';
 import { cva } from 'class-variance-authority';
 import { Bookmark, Check, ChevronLeft, ChevronRight } from 'lucide-react';
 import Image from 'next/image';
-import { useRef, useState } from 'react';
+import { HTMLAttributes, useRef, useState } from 'react';
 
 export const collectedVariants = cva(
   'absolute bottom-0 right-0 flex h-20 w-20 flex-col items-center justify-center gap-2 text-xs transition ease-out duration-300 font-medium leading-5',
@@ -46,6 +46,11 @@ export const EventCardCoverSection = ({
   className,
   hoverEffect = true,
 }: EventCardCoverSectionProps) => {
+  const handleToggle: HTMLAttributes<HTMLButtonElement>['onClick'] = (e) => {
+    e.preventDefault();
+    onToggle();
+  };
+
   return (
     <div className={cn('relative h-[13rem] w-full overflow-hidden', className)}>
       <Image
@@ -61,7 +66,7 @@ export const EventCardCoverSection = ({
       />
       <button
         type="button"
-        onClick={onToggle}
+        onClick={handleToggle}
         className={collectedVariants({ collected })}
       >
         {collected ? <Check /> : <Bookmark />}
