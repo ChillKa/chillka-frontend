@@ -46,7 +46,7 @@ const CallToActionSection = ({ className }: CalltoActionSectionProps) => {
             <CallToActionButtonBackground />
           </div>
           <Link
-            href="/activity"
+            href="/activity/new"
             className="z-10 px-[2.375rem] py-[3.4375rem] text-primary hover:text-surface"
           >
             開始揪咖

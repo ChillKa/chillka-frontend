@@ -21,7 +21,7 @@
     "import/no-extraneous-dependencies": [
       "error",
       {
-        "devDependencies": true
+        "devDependencies": ["**/test.js", "**/test/*.js"]
       }
     ],
     "react/jsx-props-no-spreading": "off",
@@ -44,6 +44,7 @@
         "argsIgnorePattern": "^_",
         "varsIgnorePattern": "^_"
       }
-    ]
+    ],
+    "import/prefer-default-export": "off"
   }
 }
