@@ -10,13 +10,13 @@ import React, {
   useMemo,
   useState,
 } from 'react';
-import { AcitivityResponseType } from 'src/types/activity';
+import { IAcitivityResponse } from 'src/types/activity';
 
 export interface ActivityContextType {
-  data: AcitivityResponseType | null;
+  data: IAcitivityResponse | null;
   userId: string | null;
   loadActivity: (id: string) => Promise<void>;
-  setData: Dispatch<React.SetStateAction<AcitivityResponseType | null>>;
+  setData: Dispatch<React.SetStateAction<IAcitivityResponse | null>>;
 }
 
 export const ActivityContext = createContext<ActivityContextType | undefined>(
@@ -34,7 +34,7 @@ export const useActivityContext = (): ActivityContextType => {
 };
 
 const ActivityProvider: React.FC<PropsWithChildren> = ({ children }) => {
-  const [data, setData] = useState<AcitivityResponseType | null>(null);
+  const [data, setData] = useState<IAcitivityResponse | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
 
   const loadActivity = useCallback(async (id: string) => {

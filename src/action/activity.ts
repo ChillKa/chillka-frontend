@@ -1,8 +1,9 @@
 'use server';
 
 import { SearchParams } from '@components/SearchBar/fields/utils';
-import { acitivityResponseSchema, userCommentSchema } from '@lib/definitions';
+import { userCommentSchema } from '@lib/definitions';
 import { z } from 'zod';
+import { IAcitivityResponse } from '../types/activity';
 import { fetchAPI, getJwtPayload, validateWithSchema } from './utils';
 
 interface ContinuousActivity {
@@ -201,12 +202,10 @@ export async function getActivitiesByFilter(
   ];
 }
 
-export type ActivityData = z.infer<typeof acitivityResponseSchema>;
-
 export type ActivityFetchState =
   | {
       status: 'success';
-      data: ActivityData;
+      data: IAcitivityResponse;
       userId: string;
     }
   | {
@@ -238,20 +237,11 @@ export async function fetchActivity(data: string): Promise<ActivityFetchState> {
       };
     }
 
-    const fetchedData = await response.json();
-
-    const validatedData = acitivityResponseSchema.safeParse(fetchedData);
-
-    if (!validatedData.success) {
-      return {
-        status: 'failed',
-        message: 'Data validation failed',
-      };
-    }
+    const result = await response.json();
 
     return {
       status: 'success',
-      data: validatedData.data,
+      data: result,
       userId,
     };
   } catch (error) {

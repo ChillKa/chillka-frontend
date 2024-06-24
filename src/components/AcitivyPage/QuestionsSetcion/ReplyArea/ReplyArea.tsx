@@ -2,13 +2,13 @@ import Comment from '@components/AcitivyPage/QuestionsSetcion/Comment';
 import ReplyCard from '@components/AcitivyPage/QuestionsSetcion/ReplyArea/ReplyCard';
 import cn from '@lib/utils';
 import { useActivityContext } from '@store/ActivityProvider/ActivityProvider';
-import { ReplyType } from 'src/types/activity';
+import { IReply } from 'src/types/activity';
 
 type ReplyAreaProps = {
   className: string;
   questionId: string;
   questionUserId: string;
-  replies: ReplyType[];
+  replies: IReply[];
 };
 
 const ReplyArea = ({

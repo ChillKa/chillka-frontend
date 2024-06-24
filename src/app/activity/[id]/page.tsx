@@ -10,11 +10,11 @@ import ActivityProvider, {
   useActivityContext,
 } from '@store/ActivityProvider/ActivityProvider';
 import { useEffect } from 'react';
-import { AcitivityResponseType } from 'src/types/activity';
+import { IAcitivityResponse } from 'src/types/activity';
 
 type PageContentProps = {
   id: string;
-  data: AcitivityResponseType | null;
+  data: IAcitivityResponse | null;
 };
 
 const PageContent = ({ id, data }: PageContentProps) => {

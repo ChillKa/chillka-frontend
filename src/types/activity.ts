@@ -1,4 +1,4 @@
-export type OrganizerType = {
+export interface IOrganizer {
   profilePicture: string;
   name: string;
   contactName: string;
@@ -9,18 +9,18 @@ export type OrganizerType = {
   _id: string;
   createdAt: string;
   updatedAt: string;
-};
+}
 
-export type RecurringType = {
+export interface IRecurring {
   period: string;
   week: string;
   day: string;
-};
+}
 
-export type ActivityType = {
+export interface IActivity {
   startDateTime: string;
   endDateTime: string;
-  organizer: OrganizerType;
+  organizer: IOrganizer;
   name: string;
   cover: string[];
   thumbnail: string;
@@ -32,7 +32,7 @@ export type ActivityType = {
   summary: string;
   details: string;
   isRecurring: boolean;
-  recurring?: RecurringType;
+  recurring?: IRecurring;
   _id: string;
   creatorId: string;
   fromToday: boolean;
@@ -50,9 +50,9 @@ export type ActivityType = {
   remainingTickets: number;
   totalParticipantCapacity: number;
   __v: number;
-};
+}
 
-export type TicketType = {
+export interface ITicket {
   _id: string;
   activityId: string;
   name: string;
@@ -71,9 +71,9 @@ export type TicketType = {
   createdAt: string;
   updatedAt: string;
   soldNumber: number;
-};
+}
 
-export type ReplyType = {
+export interface IReply {
   _id: string;
   activityId: string;
   userId: string;
@@ -84,10 +84,10 @@ export type ReplyType = {
   createdAt: string;
   updatedAt: string;
   __v: number;
-};
+}
 
-export type QuestionType = {
-  replies: ReplyType[];
+export interface IQuestion {
+  replies: IReply[];
   _id: string;
   activityId: string;
   userId: string;
@@ -97,10 +97,10 @@ export type QuestionType = {
   createdAt: string;
   updatedAt: string;
   __v: number;
-};
+}
 
-export type AcitivityResponseType = {
-  activity: ActivityType;
-  tickets: TicketType[];
-  questions: QuestionType[];
-};
+export interface IAcitivityResponse {
+  activity: IActivity;
+  tickets: ITicket[];
+  questions: IQuestion[];
+}
