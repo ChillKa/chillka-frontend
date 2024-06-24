@@ -1,25 +1,20 @@
 # chillka README
 
-[前端環境指南](https://www.notion.so/chillka-83254641906b46e690ed2fab71f9179d)
-
-# chillka 
-
 <img width="1483" alt="Screenshot 2024-06-24 at 3 27 50 PM" src="https://github.com/ChillKa/chillka-frontend/assets/70035368/7743c3ab-cd0f-4227-8300-2040b0337ab1">
 
 - [線上觀看連結](https://chillka-frontend.vercel.app/)
 
 ## 功能
 
-測試帳號密碼 ****（請斟酌提供，建議只提供僅能觀看不能操作的帳號密碼）****
+測試帳號密碼
 
 ```bash
-帳號： example@example.com
-密碼： example
+帳號： coach@gmail.com
+密碼： qwer1234
 ```
 
 - 登入
 - 登出
-- 產品列表
 
 ## 畫面
 單一活動頁面
@@ -39,7 +34,7 @@ Node.js 版本建議為：`18.18.0` 以上...
 ### 取得專案
 
 ```bash
-git clone [git@github.com](mailto:git@github.com):ChillKa/chillka-frontend.git
+git clone git@github.com:ChillKa/chillka-frontend.git
 ```
 
 ### 移動到專案內
@@ -136,19 +131,35 @@ NEXT_PUBLIC_MAPS_API_KEY= # Google 地圖 API 密鑰
 - 編譯程式碼
 - 部署到vercel上
 
+## 其他
+### chillka 的github使用手冊
+
+[前端環境指南](https://www.notion.so/chillka-83254641906b46e690ed2fab71f9179d)
+
 ## 聯絡作者
 
-你可以透過以下方式與我聯絡
+你可以透過以下方式與我們聯絡
 
 Zim
 - TBA
 
 Louis
-- TBA
+- [GitHub](https://github.com/ellallu0903)
 
 Felix
-- TBA
+- [GitHub](https://github.com/fufuShih)
 
 Brian
 - [個人網站](https://po-cheng-yeh.vercel.app)
 - [linkedin](https://www.linkedin.com/in/po-cheng-yeh/)
+- [GitHub](https://github.com/blp100)
+
+# 後端連結
+- [GitHub連結](https://github.com/ChillKa/chillka-backend)
+
+## 專案協作作者（後端）
+Mia 
+- [GitHub](https://github.com/miamai)
+
+Ben
+- [GitHub](https://github.com/cedarwud)
