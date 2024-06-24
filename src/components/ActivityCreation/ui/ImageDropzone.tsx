@@ -7,7 +7,7 @@ import { Trash2Icon } from 'lucide-react';
 import Image from 'next/image';
 import { useCallback, useEffect, useState } from 'react';
 import { DropzoneState, useDropzone, type FileRejection } from 'react-dropzone';
-import { ResultUploadImages } from 'src/types/uploadImages';
+import { UploadImagesResult } from 'src/types/uploadImages';
 
 export type ImageDropzoneProps = React.HTMLAttributes<HTMLDivElement> & {
   value?: File[];
@@ -87,7 +87,7 @@ const ImageDropzone = ({
       if (!response.ok) {
         throw new Error(await response.text());
       }
-      const result = (await response.json()) as ResultUploadImages;
+      const result = (await response.json()) as UploadImagesResult;
 
       if (result.imageUrls) {
         setSuccess(`圖檔上傳成功`);

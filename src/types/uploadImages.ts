@@ -1,3 +1,3 @@
-export interface ResultUploadImages {
+export interface UploadImagesResult {
   imageUrls: Array<string>;
 }
