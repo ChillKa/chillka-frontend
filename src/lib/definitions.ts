@@ -164,3 +164,7 @@ export const createActivityFormSchema = z.object({
     })
   ),
 });
+
+export const userCommentSchema = z.object({
+  content: z.string().min(1, { message: MIN_LENGTH_MESSAGE(1) }),
+});
