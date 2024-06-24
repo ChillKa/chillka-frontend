@@ -109,11 +109,11 @@ const ActivityCreationForm = ({ className }: ActivityCreationFormProps) => {
           }
         );
       });
+      toast({
+        title: 'chillka 溫馨小提醒',
+        description: `${formState?.message}`,
+      });
     }
-    toast({
-      title: 'chillka 溫馨小提醒',
-      description: `${formState?.message}`,
-    });
   }, [formState?.issues, formState?.message, form, toast]);
 
   // useEffect(() => {
