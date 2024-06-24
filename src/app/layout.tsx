@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 };
 
 const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => (
-  <html lang="zh-tw">
+  <html className="scroll-smooth" lang="zh-tw">
     <body
       className={cn(
         'm-0 h-full min-h-screen w-full bg-background font-sans antialiased',

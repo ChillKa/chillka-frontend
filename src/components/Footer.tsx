@@ -52,7 +52,11 @@ const Footer = ({ className }: FooterProps) => {
         </div>
         <div className="space-y-6 xl:space-y-4">
           <div className="flex flex-wrap gap-6 text-xl font-bold xl:gap-12 xl:text-3xl">
-            <FooterMenu url="/activity" name="開始揪咖" className="hidden" />
+            <FooterMenu
+              url="/activity/new"
+              name="開始揪咖"
+              className="hidden"
+            />
             <span className="hidden font-thin xl:inline-block xl:py-6">|</span>
             {SITEMAP.map((item) => (
               <FooterMenu
@@ -71,7 +75,7 @@ const Footer = ({ className }: FooterProps) => {
           >
             <Link
               className="flex items-center justify-center gap-4"
-              href="/activity"
+              href="/activity/new"
             >
               開始揪咖
               <ArrowUpRight size={16} />
