@@ -75,7 +75,7 @@ const EventCard = forwardRef<HTMLDivElement, EventCardProps>(
             onToggle={handleToggle}
           />
 
-          <div className="w- flex h-[5.5rem] flex-col gap-4">
+          <div className="flex h-[5.5rem] w-full flex-col gap-4">
             <H3 className="truncate">{title}</H3>
             <p className="line-clamp-2 overflow-hidden text-ellipsis text-sm">
               {description}
