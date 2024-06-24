@@ -1,3 +1,5 @@
+'use client';
+
 import { aboutAccount, aboutEventist } from '@components/Navbar/fixedData';
 import { Separator } from '@components/ui/separator';
 import cn from '@lib/utils';
