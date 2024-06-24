@@ -212,14 +212,19 @@ export const SearchParamsSchema = z.object({
 
 export type SearchParams = z.infer<typeof SearchParamsSchema>;
 
-export const createQueryString = (data: SearchParams) => {
-  const params = new URLSearchParams();
-  Object.entries(data).forEach(([key, value]) => {
+export const updateQueryString = (newParams: SearchParams) => {
+  const currentUrl = new URL(window.location.href);
+  const urlParams = new URLSearchParams(currentUrl.search);
+
+  Object.entries(newParams).forEach(([key, value]) => {
     if (value) {
-      params.set(key, value);
+      urlParams.set(key, value);
+    } else {
+      urlParams.delete(key);
     }
   });
-  return params.toString();
+
+  return urlParams.toString();
 };
 
 export default menuAnimationVariants;

@@ -41,6 +41,7 @@
     "@radix-ui/react-toast": "^1.1.5",
     "@radix-ui/react-toggle": "^1.0.3",
     "@radix-ui/react-toggle-group": "^1.0.4",
+    "@react-google-maps/api": "^2.19.3",
     "@tiptap-pro/extension-emoji": "^2.8.9",
     "@tiptap/extension-link": "^2.4.0",
     "@tiptap/extension-placeholder": "^2.4.0",
