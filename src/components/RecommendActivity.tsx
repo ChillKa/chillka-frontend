@@ -101,6 +101,7 @@ const RecommendActivity = ({ className }: RecommendActivityProps) => {
           : result.data.map((event) => (
               <EventCard
                 key={event.id}
+                link="123" // FIXME: change to use event link
                 title={event.title}
                 cover={event.cover}
                 description={event.description}
