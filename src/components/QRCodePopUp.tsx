@@ -8,25 +8,31 @@ import {
 import useWindowSize from '@hooks/use-window-size';
 import { ArrowRight, QrCode, X } from 'lucide-react';
 import Image from 'next/image';
-
-type QRCodePCVerProps = {
-  state: boolean;
-  index: number;
-  changeQRCode: (index: number) => void;
-};
+import { useState } from 'react';
 
 const qrcode = '/qrcode.png';
 
-const QRCodePopUp = ({ index, state, changeQRCode }: QRCodePCVerProps) => {
+const QRCodePopUp = () => {
+  const [isOpen, setIsOpen] = useState(false);
   const { width } = useWindowSize();
 
+  const handleOpen = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsOpen(true);
+  };
+
+  const handleClose = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsOpen(false);
+  };
+
   return (
-    <Dialog open={state} onOpenChange={() => changeQRCode(index)}>
-      <DialogTrigger>
+    <Dialog open={isOpen}>
+      <DialogTrigger onClick={handleOpen}>
         {width > 1366 ? (
           <QrCode size={40} />
         ) : (
-          <div className="mt-4 flex w-fit items-center justify-center border border-black px-6 py-4  text-base font-medium">
+          <div className="mt-4 flex w-fit items-center justify-center border border-black px-6 py-4 text-base font-medium">
             <QrCode size={16} />
             <p className="ml-4">使用票券</p>
           </div>
@@ -38,7 +44,7 @@ const QRCodePopUp = ({ index, state, changeQRCode }: QRCodePCVerProps) => {
       >
         <button
           className="absolute right-0 top-0 flex h-[5rem] w-[5rem] items-center justify-center bg-primary xl:h-[2.375rem] xl:w-[2.375rem]"
-          onClick={() => changeQRCode(index)}
+          onClick={handleClose}
           aria-label="QRCode"
           type="button"
         >

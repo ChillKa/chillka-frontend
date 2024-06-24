@@ -2,26 +2,18 @@
 
 import QRCodePopUp from '@components/QRCodePopUp';
 import SortOrder from '@components/SortOrder';
+import TicketPopUp from '@components/TicketPopUp';
 import useWindowSize from '@hooks/use-window-size';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import fakerData from './fakerData';
 
 const TicketInquiry = () => {
   const [sort, setSort] = useState('1');
   const [canUse, setCanUse] = useState(true);
-  const [showQRCode, setShowQRCode] = useState<boolean[]>([]);
+
   const { width } = useWindowSize();
 
   const handleSort = (value: string) => setSort(value);
-  const handleQRCode = (index: number) => {
-    setShowQRCode((prev) => {
-      return prev.map((state, i) => (i === index ? !state : false));
-    });
-  };
-
-  useEffect(() => {
-    setShowQRCode(new Array(fakerData.length).fill(false));
-  }, []);
 
   return (
     <div className="relative text-primary">
@@ -58,31 +50,26 @@ const TicketInquiry = () => {
         </ul>
       </div>
       {canUse &&
-        fakerData.map((ticker, index) => {
+        fakerData.map((ticker) => {
           return (
-            <div
-              className="block grid-cols-[7fr_2fr_2fr_2fr] py-4 text-xl font-bold xl:grid"
-              key={ticker.orderNumber}
-            >
-              <h3 className="mb-[1.25rem] text-left xl:mb-0 xl:font-bold">
-                {ticker.title}
-              </h3>
-              <p className="mr-2 inline-block bg-primary px-2 py-1 text-xs/5 font-medium text-white xl:mr-0 xl:flex xl:items-center xl:justify-center xl:bg-surface xl:p-0 xl:text-xl xl:font-bold xl:text-primary">
-                {width > 1366 ? ticker.quantity : `數量：${ticker.quantity}`}
-              </p>
-              <p className="inline-block bg-primary px-2 py-1 text-xs/5 font-medium text-white xl:flex xl:items-center xl:justify-center xl:bg-surface xl:p-0 xl:text-xl xl:font-bold xl:text-primary">
-                {width > 1366
-                  ? ticker.expirationDate
-                  : `使用期限：${ticker.expirationDate}`}
-              </p>
-              <div className="xl:flex xl:items-center xl:justify-center">
-                <QRCodePopUp
-                  index={index}
-                  state={showQRCode[index]}
-                  changeQRCode={handleQRCode}
-                />
+            <TicketPopUp key={ticker.orderNumber}>
+              <div className="block grid-cols-[7fr_2fr_2fr_2fr] py-4 text-xl font-bold xl:grid">
+                <h3 className="mb-[1.25rem] text-left xl:mb-0 xl:font-bold">
+                  {ticker.title}
+                </h3>
+                <p className="mr-2 inline-block bg-primary px-2 py-1 text-xs/5 font-medium text-white xl:mr-0 xl:flex xl:items-center xl:justify-center xl:bg-surface xl:p-0 xl:text-xl xl:font-bold xl:text-primary">
+                  {width > 1366 ? ticker.quantity : `數量：${ticker.quantity}`}
+                </p>
+                <p className="inline-block bg-primary px-2 py-1 text-xs/5 font-medium text-white xl:flex xl:items-center xl:justify-center xl:bg-surface xl:p-0 xl:text-xl xl:font-bold xl:text-primary">
+                  {width > 1366
+                    ? ticker.expirationDate
+                    : `使用期限：${ticker.expirationDate}`}
+                </p>
+                <div className="xl:flex xl:items-center xl:justify-center">
+                  <QRCodePopUp />
+                </div>
               </div>
-            </div>
+            </TicketPopUp>
           );
         })}
     </div>
