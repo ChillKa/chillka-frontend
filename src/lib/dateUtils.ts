@@ -49,7 +49,7 @@ export const formatActivityTime = (
 };
 
 /**
- * @param dateString 日期字串，例如 '2024-06-21T12:33:33.476+00:00'
+ * @param dateString 日期字串，例如 '2024-06-22T13:42:30.218Z'
  * @returns 格式化後的日期字串，例如 '2024-06-21 20:57'
  */
 const formatDateTime = (dateString: string): string => {
