@@ -129,15 +129,9 @@ const ActivityContentFormSection = ({
                   </FormItem>
                   <FormItem className="flex items-center gap-2 space-y-0">
                     <FormControl>
-                      <RadioGroupItem variant="form" value="室內" />
+                      <RadioGroupItem variant="form" value="線下" />
                     </FormControl>
-                    <FormLabel>線下室內</FormLabel>
-                  </FormItem>
-                  <FormItem className="flex items-center gap-2 space-y-0">
-                    <FormControl>
-                      <RadioGroupItem variant="form" value="室外" />
-                    </FormControl>
-                    <FormLabel>線下室外</FormLabel>
+                    <FormLabel>實體聚會</FormLabel>
                   </FormItem>
                 </RadioGroup>
               </FormControl>
