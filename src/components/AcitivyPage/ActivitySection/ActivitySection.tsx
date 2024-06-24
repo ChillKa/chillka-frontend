@@ -1,18 +1,10 @@
 import SkeletonActivitySection from '@components/AcitivyPage/ActivitySection/SkeletonActivitySection';
-import { Button } from '@components/ui/button';
 import { Large, P } from '@components/ui/typography';
 import { formatActivityTime } from '@lib/dateUtils';
 import cn from '@lib/utils';
 import { useActivityContext } from '@store/ActivityProvider/ActivityProvider';
-import {
-  CalendarDays,
-  ChevronRight,
-  Link as LinkIcon,
-  MapPin,
-  User,
-} from 'lucide-react';
+import { CalendarDays, Link as LinkIcon, MapPin, User } from 'lucide-react';
 import Link from 'next/link';
-import { useRef } from 'react';
 
 type ActivitySectionProps = {
   className: string;
@@ -20,7 +12,6 @@ type ActivitySectionProps = {
 
 const ActivitySection = ({ className }: ActivitySectionProps) => {
   const { data } = useActivityContext();
-  const scrollRef = useRef<HTMLDivElement>(null);
 
   if (!data) return <SkeletonActivitySection />;
 
@@ -28,52 +19,8 @@ const ActivitySection = ({ className }: ActivitySectionProps) => {
     '06.28 19:00',
     '07.04 19:00',
     '08.11 19:00',
-    '08.11 19:00',
-    '08.11 19:00',
-    '07.04 19:00',
-    '08.11 19:00',
-    '08.11 19:00',
-    '08.11 19:00',
+    '08.18 19:00',
   ];
-
-  const renderRecuuringDateTime = () => {
-    const scrollRight = () => {
-      if (scrollRef.current) {
-        scrollRef.current.scrollBy({ left: 200, behavior: 'smooth' });
-      }
-    };
-
-    return (
-      <div className="relative flex w-full overflow-hidden pt-2 xl:max-w-[41.125rem]">
-        <div
-          className="no-scrollbar flex w-full grow flex-nowrap gap-2 overflow-hidden overflow-x-auto"
-          ref={scrollRef}
-        >
-          {DUMMY_RECURRING.map((date, index) => {
-            return (
-              <div
-                key={date}
-                className={`h-12 min-w-[8.4375rem] border border-primary px-6 py-3 ${DUMMY_RECURRING.length === index + 1 ? 'xl:mr-20' : ''}`}
-              >
-                {date}
-              </div>
-            );
-          })}
-        </div>
-        {DUMMY_RECURRING.length >= 5 && (
-          <div className="absolute right-0 top-1 hidden h-full items-center xl:flex">
-            <div className="h-full w-12 bg-gradient-to-l from-surface to-transparent" />
-            <Button
-              className="h-12 w-12 border border-primary bg-surface p-4 text-primary hover:bg-surface"
-              onClick={scrollRight}
-            >
-              <ChevronRight />
-            </Button>
-          </div>
-        )}
-      </div>
-    );
-  };
 
   return (
     <section className={cn('w-full text-primary', className)}>
@@ -98,7 +45,22 @@ const ActivitySection = ({ className }: ActivitySectionProps) => {
                   data.activity.noEndDate
                 )}
               </div>
-              {DUMMY_RECURRING.length !== 0 && renderRecuuringDateTime()}
+              {DUMMY_RECURRING.length !== 0 && (
+                <div className="relative flex w-full overflow-hidden pt-2 xl:max-w-[41.125rem]">
+                  <div className="no-scrollbar flex w-full grow flex-nowrap gap-2 overflow-hidden overflow-x-auto">
+                    {DUMMY_RECURRING.map((date, index) => {
+                      return (
+                        <div
+                          key={date}
+                          className={`h-12 min-w-[8.4375rem] border border-primary px-6 py-3 ${DUMMY_RECURRING.length === index + 1 ? 'xl:mr-20' : ''}`}
+                        >
+                          {date}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
