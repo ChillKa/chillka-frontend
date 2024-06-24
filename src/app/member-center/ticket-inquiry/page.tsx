@@ -35,7 +35,7 @@ const TicketInquiry = () => {
             可使用
           </button>
           <button
-            className={` pt-6 ${canUse ? 'pb-6' : 'border-b-4 pb-5'} `}
+            className={`pt-6 ${canUse ? 'pb-6' : 'border-b-4 pb-5'} `}
             type="button"
             onClick={() => setCanUse(false)}
           >

@@ -73,7 +73,6 @@ const QRCodePopUp = () => {
               alt="QRCode"
             />
           </div>
-
           <div className="my-6 h-1 w-full border-t border-dashed border-black" />
           <p className="m-auto py-4 text-center">參加人：ZIM</p>
         </div>
