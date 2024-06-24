@@ -5,11 +5,11 @@ import { Large, Lead, Small } from '@components/ui/typography';
 import formatDateTime from '@lib/dateUtils';
 import cn from '@lib/utils';
 import { useActivityContext } from '@store/ActivityProvider/ActivityProvider';
-import { ReplyType } from 'src/types/activity';
+import { IReply } from 'src/types/activity';
 
 type ReplyCardProps = {
   className: string;
-  reply: ReplyType;
+  reply: IReply;
   isOrganizer: boolean;
 };
 

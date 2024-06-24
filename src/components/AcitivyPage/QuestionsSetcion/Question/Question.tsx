@@ -7,11 +7,11 @@ import formatDateTime from '@lib/dateUtils';
 import cn from '@lib/utils';
 import { useActivityContext } from '@store/ActivityProvider/ActivityProvider';
 import Image from 'next/image';
-import { QuestionType } from 'src/types/activity';
+import { IQuestion } from 'src/types/activity';
 
 type QuestionProps = {
   className: string;
-  question: QuestionType;
+  question: IQuestion;
 };
 
 const Question = ({ className, question }: QuestionProps) => {
