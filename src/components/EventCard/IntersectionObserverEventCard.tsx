@@ -16,6 +16,7 @@ type IntersectionObserverEventCardProps = {
   organizer: string;
   pricing: number;
   isContinuous?: boolean;
+  link?: string;
   discount: number | undefined; // -1 is free, 0 is none discount, positive is off discount
   className?: string;
   onVisibleTrigger?: () => void;

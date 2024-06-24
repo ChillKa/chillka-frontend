@@ -76,6 +76,7 @@ const SearchContentSection = ({
             return isMobile ? (
               <IntersectionObserverEventCard
                 key={activity.id}
+                link="123" // FIXME: change to use activity link
                 title={activity.name}
                 cover={activity.thumbnail}
                 description={activity.description}
@@ -96,6 +97,7 @@ const SearchContentSection = ({
             ) : (
               <SearchResultEventCard
                 key={activity.id}
+                link="123" // FIXME: change to use activity link
                 title={activity.name}
                 cover={activity.thumbnail}
                 description={activity.description}
