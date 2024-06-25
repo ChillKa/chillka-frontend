@@ -54,10 +54,10 @@ const SearchContentSection = ({
   const mapMarkers = results.map((result) => ({
     lat: result.lat,
     lng: result.lng,
-    id: result.id,
-    pricing: result.pricing,
+    id: result._id,
+    pricing: result.price,
   }));
-  const [centerId, setCenterId] = useState(results[0].id);
+  const [centerId, setCenterId] = useState(results[0]._id ?? '');
 
   return (
     <section id="result" className="flex w-full grow flex-row gap-6">
@@ -75,43 +75,43 @@ const SearchContentSection = ({
           {results.map((activity) => {
             return isMobile ? (
               <IntersectionObserverEventCard
-                key={activity.id}
+                key={activity._id}
                 link="123" // FIXME: change to use activity link
                 title={activity.name}
                 cover={activity.thumbnail}
-                description={activity.description}
-                startTime={activity.startTime as FormatDate<'YY.MM.DD'>}
-                endTime={activity.endTime as FormatDate<'YY.MM.DD'>}
-                attendeeCount={activity.attendance}
+                description={activity.details}
+                startTime={activity.startDateTime as FormatDate<'YY.MM.DD'>}
+                endTime={activity.endDateTime as FormatDate<'YY.MM.DD'>}
+                attendeeCount={activity.participantAmount}
                 isCollected={activity.collected}
                 location={activity.location}
                 organizer={activity.organizerName}
-                pricing={activity.pricing}
+                pricing={activity.price}
                 isContinuous={activity.isContinuous}
-                discount={activity.discount}
+                discount={0} // FIXME: remove, this is deprecated
                 className="gap-4"
                 onVisibleTrigger={() => {
-                  setCenterId(activity.id);
+                  setCenterId(activity._id);
                 }}
               />
             ) : (
               <SearchResultEventCard
-                key={activity.id}
+                key={activity._id}
                 link="123" // FIXME: change to use activity link
                 title={activity.name}
                 cover={activity.thumbnail}
-                description={activity.description}
-                startTime={activity.startTime as FormatDate<'YY.MM.DD'>}
-                endTime={activity.endTime as FormatDate<'YY.MM.DD'>}
-                attendeeCount={activity.attendance}
+                description={activity.details}
+                startTime={activity.startDateTime as FormatDate<'YY.MM.DD'>}
+                endTime={activity.endDateTime as FormatDate<'YY.MM.DD'>}
+                attendeeCount={activity.participantAmount}
                 isCollected={activity.collected}
                 location={activity.location}
                 organizer={activity.organizerName}
-                pricing={activity.pricing}
+                pricing={activity.price}
                 isContinuous={activity.isContinuous}
-                discount={activity.discount}
+                discount={0} // FIXME: remove, this is deprecated
                 onHoverCard={() => {
-                  setCenterId(activity.id);
+                  setCenterId(activity._id);
                 }}
               />
             );

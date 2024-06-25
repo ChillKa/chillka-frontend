@@ -14,192 +14,60 @@ interface ContinuousActivity {
 
 // should total page count
 export interface Activity {
-  id: string;
+  _id: string;
   organizerName: string;
   thumbnail: string;
   name: string;
   collected: boolean;
-  description: string;
-  location: string; // lat lon
-  attendance: number;
+  details: string;
+  location: string;
+  participantAmount: number; // FIXME: unchecked whether has bought or just register
   lat: number;
   lng: number;
-  category: string; //
-  pricing: number;
-  discount: number; // -1 is free, 0 is none, positive
+  category: string;
+  price: number;
+  discount: number; // FIXME: deprecated, remove  -1 is free, 0 is none, positive
   startDate: string;
-  startTime: string;
-  fromToday: boolean; // ?
+  startDateTime: string;
+  fromToday: boolean;
   endDate: string;
-  endTime: string;
+  endDateTime: string;
   noEndDate: boolean;
-  type: string; // ?
+  type: string;
   link: string;
-  isContinuous: boolean;
-  continuous: ContinuousActivity; // ?
+  isContinuous: boolean; // FIXME: deprecated, but remaining this field
+  continuous: ContinuousActivity; // FIXME: deprecated, remove
 }
 
 export async function getActivitiesByFilter(
   params: Partial<SearchParams>
 ): Promise<Activity[]> {
-  console.log(params);
+  const queryParams = new URLSearchParams();
 
-  await new Promise((resolve) => {
-    setTimeout(resolve, 4000);
+  Object.keys(params).forEach((key) => {
+    const value = params[key as keyof SearchParams];
+    if (value) {
+      queryParams.append(key, value);
+    }
   });
 
-  return [
-    {
-      id: '1',
-      organizerName: 'Organizer A',
-      thumbnail:
-        'https://fastly.picsum.photos/id/495/200/200.jpg?hmac=WzrKoNNBWVnlSjTRFVRlUyZghnLUBZJXeXdHNugLsQ4',
-      name: 'Activity A',
-      collected: false,
-      description: 'This is Description',
-      location: '台北市 / 信義區',
-      attendance: 999,
-      lat: 25.033,
-      lng: 121.5654,
-      category: 'Category 1',
-      pricing: 900,
-      discount: 50,
-      startDate: '2024-06-15',
-      startTime: '10:00',
-      fromToday: true,
-      endDate: '2024-06-16',
-      endTime: '18:00',
-      noEndDate: false,
-      type: 'Online',
-      link: 'https://example.com/activityA',
-      isContinuous: true,
-      continuous: {
-        period: 'Weekly',
-        week: '2',
-        day: 'Wednesday',
-      },
-    },
-    {
-      id: '2',
-      organizerName: 'Organizer B',
-      thumbnail:
-        'https://fastly.picsum.photos/id/495/200/200.jpg?hmac=WzrKoNNBWVnlSjTRFVRlUyZghnLUBZJXeXdHNugLsQ4',
-      name: 'Activity B',
-      collected: true,
-      description: 'This is Description',
-      location: '台北市 / 信義區',
-      attendance: 999,
-      lat: 24.1477,
-      lng: 120.6736,
-      category: 'Category 2',
-      pricing: 500,
-      discount: 0,
-      startDate: '2024-07-01',
-      startTime: '09:00',
-      fromToday: false,
-      endDate: '2024-07-02',
-      endTime: '17:00',
-      noEndDate: false,
-      type: 'Offline',
-      link: 'https://example.com/activityB',
-      isContinuous: true,
-      continuous: {
-        period: 'Monthly',
-        week: '1',
-        day: 'Monday',
-      },
-    },
-    {
-      id: '3',
-      organizerName: 'Organizer B',
-      thumbnail:
-        'https://fastly.picsum.photos/id/495/200/200.jpg?hmac=WzrKoNNBWVnlSjTRFVRlUyZghnLUBZJXeXdHNugLsQ4',
-      name: 'Activity B',
-      collected: false,
-      description: 'This is Description',
-      location: '台北市 / 信義區',
-      attendance: 999,
-      lat: 24.1497,
-      lng: 120.675,
-      category: 'Category 2',
-      pricing: 400,
-      discount: 0,
-      startDate: '2024-07-01',
-      startTime: '09:00',
-      fromToday: false,
-      endDate: '2024-07-02',
-      endTime: '17:00',
-      noEndDate: false,
-      type: 'Offline',
-      link: 'https://example.com/activityB',
-      isContinuous: false,
-      continuous: {
-        period: 'Monthly',
-        week: '1',
-        day: 'Monday',
-      },
-    },
-    {
-      id: '4',
-      organizerName: 'Organizer B',
-      thumbnail:
-        'https://fastly.picsum.photos/id/495/200/200.jpg?hmac=WzrKoNNBWVnlSjTRFVRlUyZghnLUBZJXeXdHNugLsQ4',
-      name: 'Activity B',
-      collected: false,
-      description: 'This is Description',
-      location: '台北市 / 信義區',
-      attendance: 999,
-      lat: 24.1485,
-      lng: 120.675,
-      category: 'Category 2',
-      pricing: 0,
-      discount: -1,
-      startDate: '2024-07-01',
-      startTime: '09:00',
-      fromToday: false,
-      endDate: '2024-07-02',
-      endTime: '17:00',
-      noEndDate: false,
-      type: 'Offline',
-      link: 'https://example.com/activityB',
-      isContinuous: false,
-      continuous: {
-        period: 'Monthly',
-        week: '1',
-        day: 'Monday',
-      },
-    },
-    {
-      id: '5',
-      organizerName: 'Organizer B',
-      thumbnail:
-        'https://fastly.picsum.photos/id/495/200/200.jpg?hmac=WzrKoNNBWVnlSjTRFVRlUyZghnLUBZJXeXdHNugLsQ4',
-      name: 'Activity B',
-      collected: false,
-      description: 'This is Description',
-      location: '台北市 / 信義區',
-      attendance: 999,
-      lat: 24.1425,
-      lng: 120.675,
-      category: 'Category 2',
-      pricing: 99,
-      discount: 0,
-      startDate: '2024-07-01',
-      startTime: '09:00',
-      fromToday: false,
-      endDate: '2024-07-02',
-      endTime: '17:00',
-      noEndDate: false,
-      type: 'Offline',
-      link: 'https://example.com/activityB',
-      isContinuous: false,
-      continuous: {
-        period: 'Monthly',
-        week: '1',
-        day: 'Monday',
-      },
-    },
-  ];
+  const queryString = queryParams.toString();
+  const api = queryString
+    ? `/api/activities?limit=5&${queryString}`
+    : '/api/activities?limit=5';
+
+  const response = await fetchAPI({
+    api,
+    method: 'GET',
+  });
+
+  if (!response.ok) {
+    return [];
+  }
+
+  const result = await response.json();
+
+  return result.data;
 }
 
 export type ActivityFetchState =
