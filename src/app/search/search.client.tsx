@@ -16,7 +16,7 @@ const SearchClient = ({ result }: SearchClientProps) => {
   const [scrollPosition, setScrollPosition] = useState(0);
 
   const { activities, total } = result;
-  const totalPage = total / 5; // FIXME: Change to use search parameters, don't use fixed
+  const totalPage = Math.ceil(total / 5); // FIXME: Change to use search parameters, don't use fixed
 
   const toggleShow = () => {
     if (isMobile) {
