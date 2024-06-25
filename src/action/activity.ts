@@ -12,10 +12,15 @@ interface ContinuousActivity {
   day: string;
 }
 
+interface Organizer {
+  name: string;
+  contactName: string;
+}
+
 // should total page count
 export interface Activity {
   _id: string;
-  organizerName: string;
+  organizer: Organizer;
   thumbnail: string;
   name: string;
   collected: boolean;
