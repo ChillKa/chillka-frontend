@@ -59,7 +59,7 @@ export async function getActivitiesByFilter(
 
   const queryString = queryParams.toString();
   const api = queryString
-    ? `/api/activities?limit=5&${queryString}`
+    ? `/api/activities?${queryString}`
     : '/api/activities?limit=5';
 
   const response = await fetchAPI({
