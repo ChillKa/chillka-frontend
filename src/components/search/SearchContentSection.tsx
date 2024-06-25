@@ -51,13 +51,15 @@ const SearchContentSection = ({
     router.push(`/search?${updatedQuery}`);
   };
 
-  const mapMarkers = results.map((result) => ({
-    lat: result.lat,
-    lng: result.lng,
-    id: result._id,
-    pricing: result.price,
-  }));
-  const [centerId, setCenterId] = useState(results[0]._id ?? '');
+  const mapMarkers = results
+    .filter((result) => result.lat && result.lng)
+    .map((result) => ({
+      lat: result.lat,
+      lng: result.lng,
+      id: result._id,
+      pricing: result.price,
+    }));
+  const [centerId, setCenterId] = useState(results[0]?._id ?? '-1');
 
   return (
     <section id="result" className="flex w-full grow flex-row gap-6">
@@ -80,8 +82,8 @@ const SearchContentSection = ({
                 title={activity.name}
                 cover={activity.thumbnail}
                 description={activity.details}
-                startTime={activity.startDateTime as FormatDate<'YY.MM.DD'>}
-                endTime={activity.endDateTime as FormatDate<'YY.MM.DD'>}
+                startTime={activity.startDateTime as FormatDate<'YY.MM.DD'>} // FIXME: wrong type
+                endTime={activity.endDateTime as FormatDate<'YY.MM.DD'>} // FIXME: wrong type
                 attendeeCount={activity.participantAmount}
                 isCollected={activity.collected}
                 location={activity.location}
@@ -101,8 +103,8 @@ const SearchContentSection = ({
                 title={activity.name}
                 cover={activity.thumbnail}
                 description={activity.details}
-                startTime={activity.startDateTime as FormatDate<'YY.MM.DD'>}
-                endTime={activity.endDateTime as FormatDate<'YY.MM.DD'>}
+                startTime={activity.startDateTime as FormatDate<'YY.MM.DD'>} // FIXME: wrong type
+                endTime={activity.endDateTime as FormatDate<'YY.MM.DD'>} // FIXME: wrong type
                 attendeeCount={activity.participantAmount}
                 isCollected={activity.collected}
                 location={activity.location}
