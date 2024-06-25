@@ -17,6 +17,7 @@
 - 登出
 
 ## 畫面
+
 單一活動頁面
 ![image](https://github.com/ChillKa/chillka-frontend/assets/70035368/facff796-bda9-4d96-8733-700035a31b7d)
 搜尋活動頁面
@@ -44,15 +45,18 @@ cd chillka-frontend
 ```
 
 ### 安裝套件
+
 需要設定.npmrc, 才能正常安裝tiptap (WYSIWYG)的pro 套件
 
 ```
 @tiptap-pro:registry=https://registry.tiptap.dev/
 //registry.tiptap.dev/:_authToken={你的tiptap API key}
 ```
+
 - 詳情請參考：https://cloud.tiptap.dev/pro-extensions（需登入）
 
 接著
+
 ```bash
 yarn
 ```
@@ -79,22 +83,22 @@ http://localhost:3535/
 
 ```env
 JWT_SECRET= # JWT 認證密鑰
-API_ENDPOINT= # 後端網址 
-NEXT_PUBLIC_MAPS_API_KEY= # Google 地圖 API 密鑰 
+API_ENDPOINT= # 後端網址
+NEXT_PUBLIC_MAPS_API_KEY= # Google 地圖 API 密鑰
 ```
 
 ## 資料夾說明
 
 - public - 靜態檔案放置處
 - src - 程式碼放置處
-    - action - Next.js server actions
-    - app - 路徑放置處
-        - route - Next.js Route Handlers
-    - components - React 元件
-    - hooks - React hooks
-    - store - 儲存內部狀態
-    - type - 串接API的型別
-    - lib - Zod Schema, 或其他共用程式碼
+  - action - Next.js server actions
+  - app - 路徑放置處
+    - route - Next.js Route Handlers
+  - components - React 元件
+  - hooks - React hooks
+  - store - 儲存內部狀態
+  - type - 串接API的型別
+  - lib - Zod Schema, 或其他共用程式碼
 - .github - CI/CD (github action)
 - .husky - husky檔案
 - .vscode - visual studio code 的設定
@@ -132,6 +136,7 @@ NEXT_PUBLIC_MAPS_API_KEY= # Google 地圖 API 密鑰
 - 部署到vercel上
 
 ## 其他
+
 ### chillka 的github使用手冊
 
 [前端環境指南](https://www.notion.so/chillka-83254641906b46e690ed2fab71f9179d)
@@ -141,25 +146,33 @@ NEXT_PUBLIC_MAPS_API_KEY= # Google 地圖 API 密鑰
 你可以透過以下方式與我們聯絡
 
 Zim
+
 - TBA
 
 Louis
+
 - [GitHub](https://github.com/ellallu0903)
 
 Felix
+
 - [GitHub](https://github.com/fufuShih)
 
 Brian
+
 - [個人網站](https://po-cheng-yeh.vercel.app)
 - [linkedin](https://www.linkedin.com/in/po-cheng-yeh/)
 - [GitHub](https://github.com/blp100)
 
 # 後端連結
+
 - [GitHub連結](https://github.com/ChillKa/chillka-backend)
 
 ## 專案協作作者（後端）
-Mia 
+
+Mia
+
 - [GitHub](https://github.com/miamai)
 
 Ben
+
 - [GitHub](https://github.com/cedarwud)
