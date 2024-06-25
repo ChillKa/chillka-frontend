@@ -12,9 +12,10 @@ interface ContinuousActivity {
   day: string;
 }
 
+// FIXME: Wait for backend fixed with no data
 interface Organizer {
-  name: string;
-  contactName: string;
+  name?: string;
+  contactName?: string;
 }
 
 // should total page count
