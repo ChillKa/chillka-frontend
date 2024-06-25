@@ -1,19 +1,22 @@
 'use client';
 
-import { Activity } from '@action/activity';
+import { SearchResult } from '@action/activity';
 import AdvancedSearchBar from '@components/SearchBar/AdvancedSearchBar';
 import SearchContentSection from '@components/search/SearchContentSection';
 import useMediaQuery from '@hooks/use-media-query';
 import { useState } from 'react';
 
 type SearchClientProps = {
-  results: Activity[];
+  result: SearchResult;
 };
 
-const SearchClient = ({ results }: SearchClientProps) => {
+const SearchClient = ({ result }: SearchClientProps) => {
   const { matches: isMobile } = useMediaQuery();
   const [currentShow, setCurrentShow] = useState<'results' | 'map'>('results');
   const [scrollPosition, setScrollPosition] = useState(0);
+
+  const { activities, total } = result;
+  const totalPage = total / 5; // FIXME: Change to use search parameters, don't use fixed
 
   const toggleShow = () => {
     if (isMobile) {
@@ -31,7 +34,12 @@ const SearchClient = ({ results }: SearchClientProps) => {
     <>
       <AdvancedSearchBar toggleCurrentShow={toggleShow} isMobile={isMobile} />
 
-      <SearchContentSection results={results} currentShow={currentShow} />
+      <SearchContentSection
+        results={activities}
+        total={total}
+        totalPage={totalPage}
+        currentShow={currentShow}
+      />
     </>
   );
 };

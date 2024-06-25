@@ -45,9 +45,14 @@ export interface Activity {
   continuous: ContinuousActivity; // FIXME: deprecated, remove
 }
 
+export interface SearchResult {
+  activities: Activity[];
+  total: number;
+}
+
 export async function getActivitiesByFilter(
   params: Partial<SearchParams>
-): Promise<Activity[]> {
+): Promise<SearchResult> {
   const queryParams = new URLSearchParams();
 
   Object.keys(params).forEach((key) => {
@@ -68,12 +73,18 @@ export async function getActivitiesByFilter(
   });
 
   if (!response.ok) {
-    return [];
+    return {
+      activities: [],
+      total: 0,
+    };
   }
 
   const result = await response.json();
 
-  return result.data;
+  return {
+    activities: result.data,
+    total: result.total,
+  };
 }
 
 export type ActivityFetchState =

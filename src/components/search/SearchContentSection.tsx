@@ -21,18 +21,21 @@ import SearchMapSection from './SearchMapSection';
 export type SearchContentSectionProps = {
   results: Activity[];
   currentShow: 'results' | 'map';
+  total?: number;
   totalPage?: number;
 };
 const SearchContentSection = ({
   results,
   currentShow,
-  totalPage = 5,
+  total = 0,
+  totalPage = 1,
 }: SearchContentSectionProps) => {
   const { matches: isMobile } = useMediaQuery();
   const router = useRouter();
   const searchParams = useSearchParams();
 
   const currentPage = parseInt(searchParams.get('page') ?? '1', 10);
+  const keyword = searchParams.get('keyword');
 
   const handleClickPrev: SearchPaginationProps['onClickPrev'] = (page) => {
     const newPage = Math.max(page - 1, 1);
@@ -73,7 +76,9 @@ const SearchContentSection = ({
             id="result-keyword"
             className="flex w-full items-center justify-start"
           >
-            <H4>「桌游」找到123個活動</H4>
+            <H4>
+              「{keyword}」找到{total}個活動
+            </H4>
           </div>
           {results.map((activity) => {
             return isMobile ? (
