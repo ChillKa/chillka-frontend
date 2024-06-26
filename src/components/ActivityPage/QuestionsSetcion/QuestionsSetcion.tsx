@@ -1,8 +1,8 @@
 'use client';
 
 import { fetchActivity } from '@action/activity';
-import Question from '@components/AcitivyPage/QuestionsSetcion/Question';
-import UserComment from '@components/AcitivyPage/QuestionsSetcion/UserComment';
+import Question from '@components/ActivityPage/QuestionsSetcion/Question';
+import UserComment from '@components/ActivityPage/QuestionsSetcion/UserComment';
 import cn from '@lib/utils';
 import { useCallback, useEffect, useState } from 'react';
 import { IAcitivityResponse } from 'src/types/activity';

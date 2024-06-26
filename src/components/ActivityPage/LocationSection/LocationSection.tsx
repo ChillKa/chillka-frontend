@@ -1,6 +1,6 @@
 import { fetchActivity } from '@action/activity';
-import LinkSection from '@components/AcitivyPage/LocationSection/LinkSection';
-import MapSection from '@components/AcitivyPage/LocationSection/MapSection';
+import LinkSection from '@components/ActivityPage/LocationSection/LinkSection';
+import MapSection from '@components/ActivityPage/LocationSection/MapSection';
 import { IAcitivityResponse } from 'src/types/activity';
 
 type LocationSectionProps = {

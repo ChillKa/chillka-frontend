@@ -1,5 +1,5 @@
-import DeleteQuestionButton from '@components/AcitivyPage/QuestionsSetcion/DeleteQuestionButton';
-import ReplyArea from '@components/AcitivyPage/QuestionsSetcion/ReplyArea';
+import DeleteQuestionButton from '@components/ActivityPage/QuestionsSetcion/DeleteQuestionButton';
+import ReplyArea from '@components/ActivityPage/QuestionsSetcion/ReplyArea';
 import { Large, Lead, Small } from '@components/ui/typography';
 import formatDateTime from '@lib/dateUtils';
 import cn from '@lib/utils';

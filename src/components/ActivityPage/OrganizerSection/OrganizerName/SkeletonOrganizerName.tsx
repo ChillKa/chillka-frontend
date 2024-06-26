@@ -1,6 +1,6 @@
 import { Skeleton } from '@components/ui/skeleton';
 
-const SkeletonOrganizerSection = () => {
+const SkeletonOrganizerName = () => {
   return (
     <div className="mb-4 mt-6 flex xl:mb-6">
       <div className="h-12 w-12 xl:h-20 xl:min-w-20">
@@ -11,4 +11,4 @@ const SkeletonOrganizerSection = () => {
   );
 };
 
-export default SkeletonOrganizerSection;
+export default SkeletonOrganizerName;

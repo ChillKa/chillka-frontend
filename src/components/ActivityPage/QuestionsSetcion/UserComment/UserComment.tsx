@@ -1,6 +1,6 @@
 'use client';
 
-import Comment from '@components/AcitivyPage/QuestionsSetcion/Comment';
+import Comment from '@components/ActivityPage/QuestionsSetcion/Comment';
 import { P } from '@components/ui/typography';
 import { useAuthContext } from '@store/AuthProvider/AuthProvider';
 import Image from 'next/image';

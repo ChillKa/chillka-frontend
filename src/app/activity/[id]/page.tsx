@@ -1,16 +1,16 @@
 import { fetchActivity } from '@action/activity';
-import ActivitySection from '@components/AcitivyPage/ActivitySection';
-import SkeletonActivitySection from '@components/AcitivyPage/ActivitySection/SkeletonActivitySection';
-import CoverSection from '@components/AcitivyPage/CoverSection';
-import SkeletonCover from '@components/AcitivyPage/CoverSection/SkeletonCover';
-import LocationSection from '@components/AcitivyPage/LocationSection';
-import SkeletonLocationSection from '@components/AcitivyPage/LocationSection/SkeletonLocationSection';
-import OrganizerSection from '@components/AcitivyPage/OrganizerSection';
-import SkeletonOrganizerSection from '@components/AcitivyPage/OrganizerSection/SkeletonOrganizerSection';
-import QuestionsSetcion from '@components/AcitivyPage/QuestionsSetcion';
-import SkeletonQuestionsSetcion from '@components/AcitivyPage/QuestionsSetcion/SkeletonQuestionsSetcion';
-import TicketSection from '@components/AcitivyPage/TicketSection';
-import SkeletonTicketSection from '@components/AcitivyPage/TicketSection/SkeletonTicketSection';
+import ActivitySection from '@components/ActivityPage/ActivitySection';
+import SkeletonActivitySection from '@components/ActivityPage/ActivitySection/SkeletonActivitySection';
+import CoverSection from '@components/ActivityPage/CoverSection';
+import SkeletonCover from '@components/ActivityPage/CoverSection/SkeletonCover';
+import LocationSection from '@components/ActivityPage/LocationSection';
+import SkeletonLocationSection from '@components/ActivityPage/LocationSection/SkeletonLocationSection';
+import OrganizerSection from '@components/ActivityPage/OrganizerSection';
+import SkeletonOrganizerSection from '@components/ActivityPage/OrganizerSection/SkeletonOrganizerSection';
+import QuestionsSetcion from '@components/ActivityPage/QuestionsSetcion';
+import SkeletonQuestionsSetcion from '@components/ActivityPage/QuestionsSetcion/SkeletonQuestionsSetcion';
+import TicketSection from '@components/ActivityPage/TicketSection';
+import SkeletonTicketSection from '@components/ActivityPage/TicketSection/SkeletonTicketSection';
 import { Suspense } from 'react';
 
 const Page = async ({ params }: { params: { id: string } }) => {

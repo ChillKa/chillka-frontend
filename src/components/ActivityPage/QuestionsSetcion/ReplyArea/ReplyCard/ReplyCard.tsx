@@ -1,4 +1,4 @@
-import DeleteQuestionButton from '@components/AcitivyPage/QuestionsSetcion/DeleteQuestionButton';
+import DeleteQuestionButton from '@components/ActivityPage/QuestionsSetcion/DeleteQuestionButton';
 import { Large, Lead, Small } from '@components/ui/typography';
 import formatDateTime from '@lib/dateUtils';
 import cn from '@lib/utils';

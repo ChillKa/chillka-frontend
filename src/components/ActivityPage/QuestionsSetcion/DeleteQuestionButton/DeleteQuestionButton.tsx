@@ -1,7 +1,7 @@
 'use client';
 
 import { deleteQuestion } from '@action/activity';
-import DeleteQuestionDialog from '@components/AcitivyPage/QuestionsSetcion/DeleteQuestionDialog';
+import DeleteQuestionDialog from '@components/ActivityPage/QuestionsSetcion/DeleteQuestionDialog';
 import { Button } from '@components/ui/button';
 import { toast } from '@components/ui/use-toast';
 import { Trash2 } from 'lucide-react';

@@ -1,5 +1,5 @@
-import Comment from '@components/AcitivyPage/QuestionsSetcion/Comment';
-import ReplyCard from '@components/AcitivyPage/QuestionsSetcion/ReplyArea/ReplyCard';
+import Comment from '@components/ActivityPage/QuestionsSetcion/Comment';
+import ReplyCard from '@components/ActivityPage/QuestionsSetcion/ReplyArea/ReplyCard';
 import cn from '@lib/utils';
 import { IAcitivityResponse, IReply } from 'src/types/activity';
 

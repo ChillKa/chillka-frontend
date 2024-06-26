@@ -1,5 +1,5 @@
 import { fetchActivity } from '@action/activity';
-import OrganizerName from '@components/AcitivyPage/OrganizerSection/OrganizerName';
+import OrganizerName from '@components/ActivityPage/OrganizerSection/OrganizerName';
 import { P } from '@components/ui/typography';
 import cn from '@lib/utils';
 import { IAcitivityResponse } from 'src/types/activity';

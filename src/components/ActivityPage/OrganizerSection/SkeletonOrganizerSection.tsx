@@ -1,4 +1,4 @@
-import SkeletonOrganizerName from '@components/AcitivyPage/OrganizerSection/OrganizerName/SkeletonOrganizerName';
+import SkeletonOrganizerName from '@components/ActivityPage/OrganizerSection/OrganizerName/SkeletonOrganizerName';
 import { Skeleton } from '@components/ui/skeleton';
 
 const SkeletonOrganizerSection = () => {

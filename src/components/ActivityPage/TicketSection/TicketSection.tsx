@@ -1,8 +1,8 @@
 'use client';
 
-import OrganizerName from '@components/AcitivyPage/OrganizerSection/OrganizerName';
-import FavoriteButton from '@components/AcitivyPage/TicketSection/FavoriteButton';
-import SignUpButton from '@components/AcitivyPage/TicketSection/SignUpButton';
+import OrganizerName from '@components/ActivityPage/OrganizerSection/OrganizerName';
+import FavoriteButton from '@components/ActivityPage/TicketSection/FavoriteButton';
+import SignUpButton from '@components/ActivityPage/TicketSection/SignUpButton';
 import { H3 } from '@components/ui/typography';
 import useMediaQuery from '@hooks/use-media-query';
 import { formatActivityTime } from '@lib/dateUtils';
