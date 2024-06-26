@@ -16,6 +16,22 @@ const fontSans = FontSans({
 export const metadata: Metadata = {
   title: 'chillka',
   description: '一起揪咖，探索你的活動時光！',
+  openGraph: {
+    title: 'chillka',
+    description: '一起揪咖，探索你的活動時光！',
+    url: 'https://chillka-frontend.vercel.app',
+    siteName: 'chillka',
+    images: [
+      {
+        url: '/ogimage.png',
+        width: 1294,
+        height: 693,
+        alt: 'chillka 無聊想找伴或參加活動嗎？一起揪咖，探索你的活動時光！',
+      },
+    ],
+    locale: 'zh_tw',
+    type: 'website',
+  },
 };
 
 const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => (
