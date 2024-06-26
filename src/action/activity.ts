@@ -87,16 +87,10 @@ export async function getActivitiesByFilter(
   };
 }
 
-export type ActivityFetchState =
-  | {
-      status: 'success';
-      data: IAcitivityResponse;
-      userId: string;
-    }
-  | {
-      status: 'failed';
-      message: string;
-    };
+export interface ActivityFetchState {
+  result: IAcitivityResponse | null;
+  userId: string | null;
+}
 
 export async function fetchActivity(data: string): Promise<ActivityFetchState> {
   try {
@@ -115,24 +109,22 @@ export async function fetchActivity(data: string): Promise<ActivityFetchState> {
     });
 
     if (!response.ok) {
-      const errorMessage = await response.text();
       return {
-        status: 'failed',
-        message: `${errorMessage ?? 'Fetch activity data failed'} (${response.status})`,
+        result: null,
+        userId,
       };
     }
 
     const result = await response.json();
 
     return {
-      status: 'success',
-      data: result,
+      result,
       userId,
     };
   } catch (error) {
     return {
-      status: 'failed',
-      message: `Error fetching user data: ${error}`,
+      result: null,
+      userId: null,
     };
   }
 }

@@ -3,24 +3,23 @@
 import OrganizerName from '@components/AcitivyPage/OrganizerSection/OrganizerName';
 import FavoriteButton from '@components/AcitivyPage/TicketSection/FavoriteButton';
 import SignUpButton from '@components/AcitivyPage/TicketSection/SignUpButton';
-import SkeletonTicketSection from '@components/AcitivyPage/TicketSection/SkeletonTicketSection';
 import { H3 } from '@components/ui/typography';
 import useMediaQuery from '@hooks/use-media-query';
 import { formatActivityTime } from '@lib/dateUtils';
 import cn from '@lib/utils';
-import { useActivityContext } from '@store/ActivityProvider/ActivityProvider';
 import { CalendarDays, MapPin, User } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
+import { IAcitivityResponse } from 'src/types/activity';
 
 type TicketSectionProps = {
   className: string;
+  data: IAcitivityResponse;
 };
 
-const TicketSection = ({ className }: TicketSectionProps) => {
+const TicketSection = ({ className, data }: TicketSectionProps) => {
   const [isVisible, setIsVisible] = useState(true);
   const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
   const { matches: isMobile } = useMediaQuery();
-  const { data } = useActivityContext();
 
   useEffect(() => {
     if (!isMobile) return setIsVisible(true);
@@ -46,8 +45,6 @@ const TicketSection = ({ className }: TicketSectionProps) => {
     };
   }, [isMobile]);
 
-  if (!data) return <SkeletonTicketSection />;
-
   return (
     <section
       className={cn(
@@ -59,7 +56,7 @@ const TicketSection = ({ className }: TicketSectionProps) => {
         className
       )}
     >
-      <OrganizerName className="" />
+      <OrganizerName className="" data={data} />
       <H3>{data.activity.name}</H3>
       <div className="space-y-2">
         <div className="flex items-center">
@@ -98,8 +95,8 @@ const TicketSection = ({ className }: TicketSectionProps) => {
         )}
       </div>
       <div className="mt-4 flex xl:mt-0">
-        <SignUpButton className="" />
-        <FavoriteButton className="" />
+        <SignUpButton className="" data={data} />
+        <FavoriteButton className="" activityId={data.activity._id} />
       </div>
     </section>
   );

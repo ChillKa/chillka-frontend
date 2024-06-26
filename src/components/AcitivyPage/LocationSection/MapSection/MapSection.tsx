@@ -1,15 +1,14 @@
 import ActivityLocationMarker from '@components/GoogleMaps/ActivityLocationMarker';
 import { P } from '@components/ui/typography';
 import cn from '@lib/utils';
-import { useActivityContext } from '@store/ActivityProvider/ActivityProvider';
+import { IAcitivityResponse } from 'src/types/activity';
 
 type MapSectionProps = {
   className: string;
+  data: IAcitivityResponse;
 };
 
-const MapSection = ({ className }: MapSectionProps) => {
-  const { data } = useActivityContext();
-
+const MapSection = async ({ className, data }: MapSectionProps) => {
   return (
     <section
       className={cn(

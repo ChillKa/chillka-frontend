@@ -1,6 +1,5 @@
 'use client';
 
-import SkeletonCover from '@components/AcitivyPage/CoverSection/SkeletonCover';
 import {
   Carousel,
   CarouselContent,
@@ -9,19 +8,16 @@ import {
   CarouselPrevious,
 } from '@components/ui/carousel';
 import cn from '@lib/utils';
-import { useActivityContext } from '@store/ActivityProvider/ActivityProvider';
 import Autoplay from 'embla-carousel-autoplay';
 import Image from 'next/image';
+import { IAcitivityResponse } from 'src/types/activity';
 
 type CoverSectionProps = {
   className: string;
+  data: IAcitivityResponse;
 };
 
-const CoverSection = ({ className }: CoverSectionProps) => {
-  const { data } = useActivityContext();
-
-  if (!data) return <SkeletonCover />;
-
+const CoverSection = ({ className, data }: CoverSectionProps) => {
   return (
     <section className={cn('w-full', className)}>
       <Carousel

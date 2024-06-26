@@ -1,35 +1,41 @@
 'use client';
 
-import { toggleFavoriteActivity } from '@action/activity';
+import { fetchActivity, toggleFavoriteActivity } from '@action/activity';
 import { Button } from '@components/ui/button';
 import { toast } from '@components/ui/use-toast';
 import cn from '@lib/utils';
-import { useActivityContext } from '@store/ActivityProvider/ActivityProvider';
 import { Bookmark, Check } from 'lucide-react';
-import { useTransition } from 'react';
+import { useCallback, useEffect, useState, useTransition } from 'react';
+import { IAcitivityResponse } from 'src/types/activity';
 
 type FavoriteButtonProps = {
   className: string;
+  activityId?: string;
 };
 
-const FavoriteButton = ({ className }: FavoriteButtonProps) => {
+const FavoriteButton = ({ className, activityId }: FavoriteButtonProps) => {
   const [isPending, startTransition] = useTransition();
-  const { data, loadActivity } = useActivityContext();
+  const [result, setResult] = useState<IAcitivityResponse | null>(null);
 
-  if (!data) {
-    return null;
-  }
+  const getActivity = useCallback(async (id: string) => {
+    const response = await fetchActivity(id);
+    setResult(response.result);
+  }, []);
+
+  useEffect(() => {
+    getActivity(activityId!);
+  }, [activityId, getActivity]);
 
   const handleToggleFavoriteActivity = () => {
     startTransition(async () => {
-      const result = await toggleFavoriteActivity(data.activity._id);
-      if (result?.message !== '') {
+      const reponse = await toggleFavoriteActivity(activityId!);
+      if (reponse?.message !== '') {
         toast({
-          title: result?.message ?? 'Unknown error',
-          variant: result?.status === 'success' ? 'default' : 'destructive',
+          title: reponse?.message ?? 'Unknown error',
+          variant: reponse?.status === 'success' ? 'default' : 'destructive',
         });
       }
-      if (result?.status === 'success') loadActivity(data.activity._id);
+      if (reponse?.status === 'success') getActivity(activityId!);
     });
   };
 
@@ -44,7 +50,7 @@ const FavoriteButton = ({ className }: FavoriteButtonProps) => {
       onClick={handleToggleFavoriteActivity}
       disabled={isPending}
     >
-      {data.activity.saved ? <Check size={16} /> : <Bookmark size={16} />}
+      {result?.activity.saved ? <Check size={16} /> : <Bookmark size={16} />}
     </Button>
   );
 };

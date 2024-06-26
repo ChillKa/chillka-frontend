@@ -5,7 +5,12 @@ import { P } from '@components/ui/typography';
 import { useAuthContext } from '@store/AuthProvider/AuthProvider';
 import Image from 'next/image';
 
-const UserComment = () => {
+type UserCommentProps = {
+  activityId: string;
+  getActivity: (id: string) => Promise<void>;
+};
+
+const UserComment = ({ activityId, getActivity }: UserCommentProps) => {
   const { isLoggedin } = useAuthContext();
 
   return (
@@ -23,7 +28,13 @@ const UserComment = () => {
               objectFit: 'cover',
             }}
           />
-          <Comment className="" action="comment" questionId="" />
+          <Comment
+            className=""
+            action="comment"
+            questionId=""
+            activityId={activityId}
+            getActivity={getActivity}
+          />
         </div>
       ) : (
         <P>需登入才能提問</P>

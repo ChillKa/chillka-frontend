@@ -1,19 +1,24 @@
-import SkeletonActivitySection from '@components/AcitivyPage/ActivitySection/SkeletonActivitySection';
+import { fetchActivity } from '@action/activity';
 import { Large, P } from '@components/ui/typography';
 import { formatActivityTime } from '@lib/dateUtils';
 import cn from '@lib/utils';
-import { useActivityContext } from '@store/ActivityProvider/ActivityProvider';
 import { CalendarDays, Link as LinkIcon, MapPin, User } from 'lucide-react';
 import Link from 'next/link';
+import { IAcitivityResponse } from 'src/types/activity';
 
 type ActivitySectionProps = {
   className: string;
+  activityId?: string;
+  existingData?: IAcitivityResponse;
 };
 
-const ActivitySection = ({ className }: ActivitySectionProps) => {
-  const { data } = useActivityContext();
-
-  if (!data) return <SkeletonActivitySection />;
+const ActivitySection = async ({
+  className,
+  activityId,
+  existingData,
+}: ActivitySectionProps) => {
+  const response = await fetchActivity(activityId as string);
+  const data = response.result ?? existingData!;
 
   const DUMMY_RECURRING = [
     '06.28 19:00',

@@ -1,16 +1,13 @@
 import cn from '@lib/utils';
-import { useActivityContext } from '@store/ActivityProvider/ActivityProvider';
 import Image from 'next/image';
+import { IAcitivityResponse } from 'src/types/activity';
 
 type OrganizerNameProps = {
   className: string;
+  data: IAcitivityResponse;
 };
 
-const OrganizerName = ({ className }: OrganizerNameProps) => {
-  const { data } = useActivityContext();
-
-  if (!data) return;
-
+const OrganizerName = ({ className, data }: OrganizerNameProps) => {
   return (
     <div className={cn('flex h-full items-center', className)}>
       <div className="h-12 w-12 xl:h-20 xl:min-w-20">

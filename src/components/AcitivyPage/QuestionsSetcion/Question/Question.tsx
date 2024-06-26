@@ -1,26 +1,27 @@
-'use client';
-
 import DeleteQuestionButton from '@components/AcitivyPage/QuestionsSetcion/DeleteQuestionButton';
 import ReplyArea from '@components/AcitivyPage/QuestionsSetcion/ReplyArea';
 import { Large, Lead, Small } from '@components/ui/typography';
 import formatDateTime from '@lib/dateUtils';
 import cn from '@lib/utils';
-import { useActivityContext } from '@store/ActivityProvider/ActivityProvider';
 import Image from 'next/image';
-import { IQuestion } from 'src/types/activity';
+import { IAcitivityResponse, IQuestion } from 'src/types/activity';
 
 type QuestionProps = {
   className: string;
   question: IQuestion;
+  data: IAcitivityResponse;
+  userId: string;
+  getActivity: (id: string) => Promise<void>;
 };
 
-const Question = ({ className, question }: QuestionProps) => {
+const Question = async ({
+  className,
+  question,
+  data,
+  userId,
+  getActivity,
+}: QuestionProps) => {
   const createdAt = formatDateTime(question.createdAt);
-  const { data, userId } = useActivityContext();
-
-  if (!data) {
-    return null;
-  }
 
   const showDeleteButton =
     userId === question.userId || userId === data.activity.creatorId;
@@ -52,14 +53,24 @@ const Question = ({ className, question }: QuestionProps) => {
             <Small>{createdAt}</Small>
           </div>
         </div>
-        {showDeleteButton && <DeleteQuestionButton questionId={question._id} />}
+        {showDeleteButton && (
+          <DeleteQuestionButton
+            activityId={data.activity._id}
+            questionId={question._id}
+            getActivity={getActivity}
+          />
+        )}
       </div>
       <Large className="mt-4 xl:mt-6">{question.content}</Large>
       <ReplyArea
         className=""
+        activityId={data.activity._id}
         questionId={question._id}
         questionUserId={question.userId}
         replies={question.replies}
+        data={data}
+        userId={userId}
+        getActivity={getActivity}
       />
     </div>
   );

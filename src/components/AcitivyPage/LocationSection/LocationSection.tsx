@@ -1,17 +1,25 @@
+import { fetchActivity } from '@action/activity';
 import LinkSection from '@components/AcitivyPage/LocationSection/LinkSection';
 import MapSection from '@components/AcitivyPage/LocationSection/MapSection';
-import { useActivityContext } from '@store/ActivityProvider/ActivityProvider';
-import SkeletonLocationSection from './SkeletonLocationSection';
+import { IAcitivityResponse } from 'src/types/activity';
 
-const LocationSection = () => {
-  const { data } = useActivityContext();
+type LocationSectionProps = {
+  activityId?: string;
+  existingData?: IAcitivityResponse;
+};
 
-  if (!data) return <SkeletonLocationSection />;
+const LocationSection = async ({
+  activityId,
+  existingData,
+}: LocationSectionProps) => {
+  const response = await fetchActivity(activityId as string);
+  const data = response.result ?? existingData!;
+
   if (data.activity.type === '線上') {
     return <LinkSection className="" />;
   }
 
-  return <MapSection className="" />;
+  return <MapSection className="" data={data} />;
 };
 
 export default LocationSection;

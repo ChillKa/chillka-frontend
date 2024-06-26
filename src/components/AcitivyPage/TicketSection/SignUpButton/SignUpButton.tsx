@@ -2,19 +2,14 @@
 
 import { Button } from '@components/ui/button';
 import cn from '@lib/utils';
-import { useActivityContext } from '@store/ActivityProvider/ActivityProvider';
+import { IAcitivityResponse } from 'src/types/activity';
 
 type SignUpButtonProps = {
   className: string;
+  data: IAcitivityResponse;
 };
 
-const SignUpButton = ({ className }: SignUpButtonProps) => {
-  const { data } = useActivityContext();
-
-  if (!data) {
-    return null;
-  }
-
+const SignUpButton = ({ className, data }: SignUpButtonProps) => {
   return (
     <Button
       className={cn('h-10 w-full text-base xl:h-14', className)}

@@ -1,25 +1,29 @@
-'use client';
-
 import DeleteQuestionButton from '@components/AcitivyPage/QuestionsSetcion/DeleteQuestionButton';
 import { Large, Lead, Small } from '@components/ui/typography';
 import formatDateTime from '@lib/dateUtils';
 import cn from '@lib/utils';
-import { useActivityContext } from '@store/ActivityProvider/ActivityProvider';
-import { IReply } from 'src/types/activity';
+import { IAcitivityResponse, IReply } from 'src/types/activity';
 
 type ReplyCardProps = {
   className: string;
   reply: IReply;
   isOrganizer: boolean;
+  activityId: string;
+  data: IAcitivityResponse;
+  userId: string;
+  getActivity: (id: string) => Promise<void>;
 };
 
-const ReplyCard = ({ className, reply, isOrganizer }: ReplyCardProps) => {
+const ReplyCard = async ({
+  className,
+  reply,
+  isOrganizer,
+  activityId,
+  data,
+  userId,
+  getActivity,
+}: ReplyCardProps) => {
   const createdAt = formatDateTime(reply.createdAt);
-  const { data, userId } = useActivityContext();
-
-  if (!data) {
-    return null;
-  }
 
   const showDeleteButton =
     userId === reply.userId || userId === data.activity.creatorId;
@@ -31,7 +35,13 @@ const ReplyCard = ({ className, reply, isOrganizer }: ReplyCardProps) => {
           <Lead>{isOrganizer ? '主辦方回覆' : reply.displayName}</Lead>
           <Small className="ml-2">{createdAt}</Small>
         </div>
-        {showDeleteButton && <DeleteQuestionButton questionId={reply._id} />}
+        {showDeleteButton && (
+          <DeleteQuestionButton
+            questionId={reply._id}
+            activityId={activityId}
+            getActivity={getActivity}
+          />
+        )}
       </div>
       <Large className="mt-4" />
       <Large className="mt-4">{reply.content}</Large>

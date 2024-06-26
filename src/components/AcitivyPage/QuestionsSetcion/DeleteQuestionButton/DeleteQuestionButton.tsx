@@ -1,27 +1,29 @@
+'use client';
+
 import { deleteQuestion } from '@action/activity';
 import DeleteQuestionDialog from '@components/AcitivyPage/QuestionsSetcion/DeleteQuestionDialog';
 import { Button } from '@components/ui/button';
 import { toast } from '@components/ui/use-toast';
-import { useActivityContext } from '@store/ActivityProvider/ActivityProvider';
 import { Trash2 } from 'lucide-react';
 import { useState, useTransition } from 'react';
 
 type DeleteQuestionButtonProps = {
   questionId: string;
+  activityId: string;
+  getActivity: (id: string) => Promise<void>;
 };
 
-const DeleteQuestionButton = ({ questionId }: DeleteQuestionButtonProps) => {
+const DeleteQuestionButton = ({
+  questionId,
+  activityId,
+  getActivity,
+}: DeleteQuestionButtonProps) => {
   const [isPending, startTransition] = useTransition();
   const [isAlertDialogOpen, setIsAlertDialogOpen] = useState(false);
-  const { loadActivity, data } = useActivityContext();
-
-  if (!data) {
-    return null;
-  }
 
   const handleDeleteQuestion = () => {
     startTransition(async () => {
-      const result = await deleteQuestion(data.activity._id, questionId);
+      const result = await deleteQuestion(activityId, questionId);
       if (result?.message !== '') {
         toast({
           title: result?.message ?? 'Unknown error',
@@ -29,8 +31,8 @@ const DeleteQuestionButton = ({ questionId }: DeleteQuestionButtonProps) => {
         });
       }
       if (result?.status === 'success') {
-        loadActivity(data.activity._id);
         setIsAlertDialogOpen(false);
+        getActivity(activityId);
       }
     });
   };
@@ -45,7 +47,6 @@ const DeleteQuestionButton = ({ questionId }: DeleteQuestionButtonProps) => {
       <Button
         className="p-2 text-primary transition-colors hover:bg-transparent hover:text-primary/70"
         variant="ghost"
-        // onClick={handleDeleteQuestion}
         onClick={() => setIsAlertDialogOpen(true)}
         disabled={isPending}
       >
