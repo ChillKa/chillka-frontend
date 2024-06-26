@@ -139,14 +139,10 @@ export const PaginationItem = ({
 
 export const generatePaginationItems = (
   currentPage: number,
-  totalPage?: number
+  totalPage: number = 1
 ) => {
-  if (!totalPage) {
-    return [
-      <PaginationItem key={currentPage - 1} page={currentPage - 1} />,
-      <PaginationItem key={currentPage} page={currentPage} isCurrent />,
-      <PaginationItem key={currentPage + 1} page={currentPage + 1} />,
-    ];
+  if (totalPage === 1) {
+    return [<PaginationItem key={1} page={1} isCurrent />];
   }
 
   const items = [];
