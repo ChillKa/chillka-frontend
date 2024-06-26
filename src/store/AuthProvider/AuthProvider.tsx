@@ -55,7 +55,8 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
       const session = await getSession();
       setIsLoggedin(!!session);
 
-      if (session) router.push('/user/about');
+      // if (session) router.push('/user/about');
+      if (session) router.push('/');
 
       return result;
     },
