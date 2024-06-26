@@ -50,11 +50,11 @@ type SearchPageProps = {
 const SearchPage = async ({ searchParams }: SearchPageProps) => {
   const filteredParams = getSearchFilter(searchParams);
 
-  const results = await getActivitiesByFilter(filteredParams);
+  const result = await getActivitiesByFilter(filteredParams);
 
   return (
     <section className="mx-auto flex max-w-[81rem] flex-col gap-2">
-      <SearchClient results={results} />
+      <SearchClient result={result} />
     </section>
   );
 };

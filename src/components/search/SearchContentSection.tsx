@@ -12,6 +12,7 @@ import {
   updateQueryString,
 } from '@components/SearchBar';
 import useMediaQuery from '@hooks/use-media-query';
+import { format } from 'date-fns';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { H4 } from '../ui/typography';
@@ -20,18 +21,21 @@ import SearchMapSection from './SearchMapSection';
 export type SearchContentSectionProps = {
   results: Activity[];
   currentShow: 'results' | 'map';
+  total?: number;
   totalPage?: number;
 };
 const SearchContentSection = ({
   results,
   currentShow,
-  totalPage = 5,
+  total = 0,
+  totalPage = 1,
 }: SearchContentSectionProps) => {
   const { matches: isMobile } = useMediaQuery();
   const router = useRouter();
   const searchParams = useSearchParams();
 
   const currentPage = parseInt(searchParams.get('page') ?? '1', 10);
+  const keyword = searchParams.get('keyword');
 
   const handleClickPrev: SearchPaginationProps['onClickPrev'] = (page) => {
     const newPage = Math.max(page - 1, 1);
@@ -51,13 +55,15 @@ const SearchContentSection = ({
     router.push(`/search?${updatedQuery}`);
   };
 
-  const mapMarkers = results.map((result) => ({
-    lat: result.lat,
-    lng: result.lng,
-    id: result.id,
-    pricing: result.pricing,
-  }));
-  const [centerId, setCenterId] = useState(results[0].id);
+  const mapMarkers = results
+    .filter((result) => result.lat && result.lng)
+    .map((result) => ({
+      lat: result.lat,
+      lng: result.lng,
+      id: result._id,
+      pricing: result.price,
+    }));
+  const [centerId, setCenterId] = useState(results[0]?._id ?? '-1');
 
   return (
     <section id="result" className="flex w-full grow flex-row gap-6">
@@ -70,48 +76,70 @@ const SearchContentSection = ({
             id="result-keyword"
             className="flex w-full items-center justify-start"
           >
-            <H4>「桌游」找到123個活動</H4>
+            <H4>
+              「{keyword}」找到{total}個活動
+            </H4>
           </div>
           {results.map((activity) => {
             return isMobile ? (
               <IntersectionObserverEventCard
-                key={activity.id}
+                key={activity._id}
                 link="123" // FIXME: change to use activity link
                 title={activity.name}
                 cover={activity.thumbnail}
-                description={activity.description}
-                startTime={activity.startTime as FormatDate<'YY.MM.DD'>}
-                endTime={activity.endTime as FormatDate<'YY.MM.DD'>}
-                attendeeCount={activity.attendance}
+                description={activity.details}
+                startTime={
+                  format(
+                    new Date(activity.startDateTime),
+                    'MM.dd'
+                  ) as FormatDate<'YY.MM.DD'>
+                } // FIXME: wrong type
+                endTime={
+                  format(
+                    new Date(activity.endDateTime),
+                    'MM.dd'
+                  ) as FormatDate<'YY.MM.DD'>
+                } // FIXME: wrong type
+                attendeeCount={activity.participantAmount}
                 isCollected={activity.collected}
                 location={activity.location}
-                organizer={activity.organizerName}
-                pricing={activity.pricing}
+                organizer={activity.organizer?.contactName ?? 'Fake organizer'} // FIXME: Wait for backend fixed data
+                pricing={activity.price}
                 isContinuous={activity.isContinuous}
-                discount={activity.discount}
+                discount={0} // FIXME: remove, this is deprecated
                 className="gap-4"
                 onVisibleTrigger={() => {
-                  setCenterId(activity.id);
+                  setCenterId(activity._id);
                 }}
               />
             ) : (
               <SearchResultEventCard
-                key={activity.id}
+                key={activity._id}
                 link="123" // FIXME: change to use activity link
                 title={activity.name}
                 cover={activity.thumbnail}
-                description={activity.description}
-                startTime={activity.startTime as FormatDate<'YY.MM.DD'>}
-                endTime={activity.endTime as FormatDate<'YY.MM.DD'>}
-                attendeeCount={activity.attendance}
+                description={activity.details}
+                startTime={
+                  format(
+                    new Date(activity.startDateTime),
+                    'MM.dd'
+                  ) as FormatDate<'YY.MM.DD'>
+                } // FIXME: wrong type
+                endTime={
+                  format(
+                    new Date(activity.endDateTime),
+                    'MM.dd'
+                  ) as FormatDate<'YY.MM.DD'>
+                } // FIXME: wrong type
+                attendeeCount={activity.participantAmount}
                 isCollected={activity.collected}
                 location={activity.location}
-                organizer={activity.organizerName}
-                pricing={activity.pricing}
+                organizer={activity.organizer?.contactName ?? 'Fake organizer'} // FIXME: Wait for backend fixed data
+                pricing={activity.price}
                 isContinuous={activity.isContinuous}
-                discount={activity.discount}
+                discount={0} // FIXME: remove, this is deprecated
                 onHoverCard={() => {
-                  setCenterId(activity.id);
+                  setCenterId(activity._id);
                 }}
               />
             );
