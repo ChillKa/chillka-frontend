@@ -62,7 +62,7 @@ const EventCard = forwardRef<HTMLDivElement, EventCardProps>(
           id="event-card"
           className={cn(
             'flex h-[35.25rem] w-full flex-col gap-8 text-primary',
-            'xl:w-[26rem]',
+            'xl:max-w-[26rem]',
             'duration-1000 ease-in-out',
             'transition-shadow hover:shadow-[0px_5px_15px_0px_rgba(0,0,0,0.05)]',
             'transition-transform hover:translate-y-[-5px]',
