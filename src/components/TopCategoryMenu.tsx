@@ -28,42 +28,42 @@ const items: ItemType[] = [
   {
     Icon: TreesIcon,
     text: '戶外踏青',
-    url: '/categories/outdoors-and-travel',
+    url: '/search?category=戶外踏青',
   },
   {
     Icon: PartyPopperIcon,
     text: '社交活動',
-    url: '/categories/friendship-and-socializing',
+    url: '/search?category=社交活動',
   },
   {
     Icon: HeartIcon,
     text: '興趣嗜好',
-    url: '/categories/hobbies-crafts',
+    url: '/search?category=興趣嗜好',
   },
   {
     Icon: DumbbellIcon,
     text: '運動健身',
-    url: '/categories/sports-and-fitness',
+    url: '/search?category=運動健身',
   },
   {
     Icon: HazeIcon,
     text: '健康生活',
-    url: '/categories/health-and-wellness',
+    url: '/search?category=健康生活',
   },
   {
     Icon: BotIcon,
     text: '科技玩物',
-    url: '/categories/technology',
+    url: '/search?category=科技玩物',
   },
   {
     Icon: PaletteIcon,
     text: '藝術文化',
-    url: '/categories/art-and-culture',
+    url: '/search?category=藝術文化',
   },
   {
     Icon: Gamepad2Icon,
     text: '遊戲',
-    url: '/categories/games',
+    url: '/search?category=遊戲',
   },
 ];
 

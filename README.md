@@ -53,7 +53,7 @@ cd chillka-frontend
 //registry.tiptap.dev/:_authToken={你的tiptap API key}
 ```
 
-- 詳情請參考：https://cloud.tiptap.dev/pro-extensions（需登入）
+- 詳情請參考（需登入）：https://cloud.tiptap.dev/pro-extensions
 
 接著
 
