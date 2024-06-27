@@ -98,7 +98,11 @@ function formDataToNestedObject(formData: FormDataObject): any {
     const keys = key.split('.');
     keys.reduce((acc, part, index) => {
       if (index === keys.length - 1) {
-        acc[part] = value;
+        if (part === 'cover' && typeof value === 'string') {
+          acc[part] = value.split(',').map((url) => url.trim());
+        } else {
+          acc[part] = value;
+        }
       } else {
         acc[part] =
           acc[part] || (Number.isNaN(Number(keys[index + 1])) ? {} : []);

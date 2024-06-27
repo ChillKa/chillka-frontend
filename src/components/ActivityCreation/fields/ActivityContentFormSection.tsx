@@ -38,20 +38,51 @@ const ActivityContentFormSection = ({
       <div id="activity-setting" className="space-y-6">
         <H2>封面與縮圖</H2>
         <H4>活動封面</H4>
-        <ImageDropzone maxFiles={4} multiple maxSize={1024 * 1024 * 4} />
-        <P>
-          請上傳至少一張清晰、有吸引力的活動封面圖片，以展示您的活動（最多四張）。
-          <br />
-          建議尺寸為 1920*1080px，檔案大小不超過 4MB
-        </P>
+        <FormField
+          control={form.control}
+          name="cover"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <ImageDropzone
+                  fieldName={field.name}
+                  maxFiles={4}
+                  multiple
+                  maxSize={1024 * 1024 * 4}
+                />
+              </FormControl>
+              <P asChild>
+                <FormDescription className="text-primary-light">
+                  請上傳至少一張清晰、有吸引力的活動封面圖片，以展示您的活動（最多四張）。
+                  <br />
+                  建議尺寸為 1920*1080px，檔案大小不超過 4MB
+                </FormDescription>
+              </P>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <Separator className="h-0.5 w-12" />
         <H4>活動縮圖</H4>
-        <ImageDropzone maxFiles={1} />
-        <P>
-          請上傳一張活動縮圖，將用於活動列表頁面等位置。 建議尺寸為
-          <br />
-          500*500px，檔案大小不超過 2MB
-        </P>
+        <FormField
+          control={form.control}
+          name="thumbnail"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <ImageDropzone fieldName={field.name} maxFiles={1} />
+              </FormControl>
+              <P asChild>
+                <FormDescription className="text-primary-light">
+                  請上傳一張活動縮圖，將用於活動列表頁面等位置。 建議尺寸為
+                  <br />
+                  500*500px，檔案大小不超過 2MB
+                </FormDescription>
+              </P>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
       </div>
       <Separator className="h-[0.5px]" />
       <div className="max-w-[26rem] space-y-6">
