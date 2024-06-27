@@ -83,8 +83,6 @@ const SearchBar = ({ className = '' }: SearchBarProps) => {
       ) : (
         <SearchBarDesktop
           className={className}
-          activityPictures={DUMMY_PICTURES}
-          activityKeywords={DUMMY_KEYWORDS}
           locations={locations}
           categories={categories}
           onSearchSubmit={handleSearchSubmit}
