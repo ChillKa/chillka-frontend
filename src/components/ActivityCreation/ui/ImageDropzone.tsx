@@ -85,7 +85,7 @@ const ImageDropzone = ({
     const result = await uploadImage(formData);
 
     if (result.status === 'failed') {
-      return result;
+      throw new Error(result.message);
     }
 
     setImageURLs((prevImageURLs) => [
@@ -134,25 +134,24 @@ const ImageDropzone = ({
         updatedFiles.length <= maxFiles &&
         newFiles.length > 0
       ) {
+        setIsUploading(true);
         const allPromises: Array<Promise<{ status: string; message: string }>> =
           [];
         newFiles.forEach((file) => {
           const formData = new FormData();
           formData.append('uploadImage', file);
           allPromises.push(upload(formData));
-          setIsUploading(true);
         });
-        Promise.all(allPromises).then((values) => {
-          setIsUploading(false);
-          const statusMsg = values.find(
-            (element) => element.status === 'failed'
-          );
-          if (statusMsg) {
-            toast({ description: `圖片上傳失敗： ${statusMsg.message}` });
-          } else {
+        Promise.all(allPromises)
+          .then(() => {
             toast({ description: '圖片上傳成功！' });
-          }
-        });
+          })
+          .catch((e) => {
+            toast({ description: `圖片上傳失敗： ${e.message}` });
+          })
+          .finally(() => {
+            setIsUploading(false);
+          });
       }
     },
 
