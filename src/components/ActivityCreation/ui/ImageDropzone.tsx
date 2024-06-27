@@ -24,10 +24,10 @@ const isFileWithPreview = (file: File): file is File & { preview: string } => {
 export type FileCardProps = {
   file: File;
   onRemove: () => void;
-  uploading: boolean;
+  isUploading: boolean;
 };
 
-const FileCard = ({ file, uploading, onRemove }: FileCardProps) => {
+const FileCard = ({ file, isUploading, onRemove }: FileCardProps) => {
   return (
     <div className="flex items-center gap-x-4 ">
       {isFileWithPreview(file) ? (
@@ -40,19 +40,21 @@ const FileCard = ({ file, uploading, onRemove }: FileCardProps) => {
               loading="lazy"
               className={cn(
                 'aspect-square rounded-[0.375rem] object-cover',
-                `${uploading ? ' opacity-50' : ''}`
+                `${isUploading ? ' opacity-50' : ''}`
               )}
             />
-            <Button
-              type="button"
-              variant="form"
-              size="icon"
-              className="absolute right-0 top-0 size-10 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-              onClick={onRemove}
-            >
-              <Trash2Icon className="size-6" aria-hidden="true" />
-              <span className="sr-only">Remove file</span>
-            </Button>
+            {!isUploading && (
+              <Button
+                type="button"
+                variant="form"
+                size="icon"
+                className="absolute right-0 top-0 size-10 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                onClick={onRemove}
+              >
+                <Trash2Icon className="size-6" aria-hidden="true" />
+                <span className="sr-only">Remove file</span>
+              </Button>
+            )}
           </div>
           <p className="text-xs text-primary-light">{formatBytes(file.size)}</p>
         </div>
@@ -73,24 +75,22 @@ const ImageDropzone = ({
     prop: valueProp,
     onChange: onValueChange,
   });
-  const [uploading, setUploading] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   const { toast } = useToast();
+  const [imageURLs, setImageURLs] = useState<Array<string>>([]);
 
   const upload = async (formData: FormData) => {
     const result = await uploadImage(formData);
 
     if (result.status === 'failed') {
-      toast({ description: result.message });
-      return;
+      return result;
     }
 
-    if (result.status === 'success') {
-      setUploading(false);
-      toast({ description: '圖片上傳成功' });
-      return;
-    }
-
-    toast({ description: '發生未知錯誤：圖片上傳失敗' });
+    setImageURLs((prevImageURLs) => [
+      ...prevImageURLs,
+      result.data.imageUrls.toString(),
+    ]);
+    return { status: result.status, message: '圖片上傳成功' };
   };
 
   const onDrop = useCallback(
@@ -132,11 +132,24 @@ const ImageDropzone = ({
         updatedFiles.length <= maxFiles &&
         newFiles.length > 0
       ) {
+        const allPromises: Array<Promise<{ status: string; message: string }>> =
+          [];
         newFiles.forEach((file) => {
           const formData = new FormData();
           formData.append('uploadImage', file);
-          upload(formData);
-          setUploading(true);
+          allPromises.push(upload(formData));
+          setIsUploading(true);
+        });
+        Promise.all(allPromises).then((values) => {
+          setIsUploading(false);
+          const statusMsg = values.find(
+            (element) => element.status === 'failed'
+          );
+          if (statusMsg) {
+            toast({ description: `圖片上傳失敗： ${statusMsg.message}` });
+          } else {
+            toast({ description: '圖片上傳成功！' });
+          }
         });
       }
     },
@@ -148,6 +161,8 @@ const ImageDropzone = ({
     if (!files) return;
     const newFiles = files.filter((_, i) => i !== index);
     setFiles(newFiles);
+    const newImageURLs = imageURLs?.filter((_, i) => i !== index);
+    setImageURLs(newImageURLs);
     onValueChange?.(newFiles);
   };
 
@@ -196,15 +211,16 @@ const ImageDropzone = ({
           <div className="flex flex-wrap gap-4">
             {files?.map((file, index) => (
               <FileCard
-                key={file.name}
+                key={file.name + Math.floor(Math.random() * 100 + index)}
                 file={file}
                 onRemove={() => onRemove(index)}
-                uploading={uploading}
+                isUploading={isUploading}
               />
             ))}
           </div>
         </div>
       ) : null}
+      <input type="hidden" value={imageURLs.toString()} />
     </div>
   );
 };
