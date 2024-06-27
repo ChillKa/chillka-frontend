@@ -16,6 +16,7 @@ const fontSans = FontSans({
 export const metadata: Metadata = {
   title: 'chillka',
   description: '一起揪咖，探索你的活動時光！',
+  metadataBase: new URL('https://chillka-frontend.vercel.app'),
   openGraph: {
     title: 'chillka',
     description: '一起揪咖，探索你的活動時光！',
