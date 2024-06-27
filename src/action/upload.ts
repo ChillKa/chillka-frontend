@@ -1,26 +1,39 @@
 'use server';
 
-import { createActivityFormSchema } from '@lib/definitions';
+import { createActivityFormSchema, endpoint } from '@lib/definitions';
 import { revalidatePath } from 'next/cache';
+import { cookies } from 'next/headers';
+import { UploadImagesResult } from 'src/types/uploadImages';
 import { ZodError, z } from 'zod';
 import { fetchAPI } from './utils';
-/*
-export async function uploadImage(prevState: any, formData: FormData) {
+
+export type uploadImageState =
+  | {
+      status: 'success';
+      data: UploadImagesResult;
+    }
+  | {
+      status: 'failed';
+      message: string;
+    };
+
+export async function uploadImage(
+  formData: FormData
+): Promise<uploadImageState> {
   const sessionCookie = cookies().get('session')?.value;
 
   if (!sessionCookie) {
-    return { message: 'Please login at first' };
+    return { status: 'failed', message: '請先登入' };
   }
 
   const image = formData.get('uploadImage');
 
   if (!(image instanceof Blob)) {
-    throw new Error('No image to be uploaded or invalid file type');
+    return { status: 'failed', message: `請傳送正確的圖檔格式` };
   }
 
   const formdata = new FormData();
-  // TODO: fix this line
-  formdata.append('image', image, 'steven-kamenar-MMJx78V7xS8-unsplash.jpg');
+  formdata.append('image', image, image.name);
 
   const finalHeaders: Record<string, string> = {
     Authorization: `Bearer ${sessionCookie}`,
@@ -35,15 +48,12 @@ export async function uploadImage(prevState: any, formData: FormData) {
   });
 
   if (!response.ok) {
-    throw new Error('Upload failed');
+    return { status: 'failed', message: `圖片檔案上傳失敗` };
   }
 
-  const result = await response.json();
-  // console.log(result);
-  revalidatePath('/activity/new');
-  return { message: 'success', ...result };
+  const result = (await response.json()) as UploadImagesResult;
+  return { status: 'success', data: result };
 }
-*/
 
 export type FormState =
   | {

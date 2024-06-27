@@ -1,3 +1,4 @@
+import { uploadImage } from '@action/upload';
 import { Button } from '@components/ui/button';
 import { P } from '@components/ui/typography';
 import { useToast } from '@components/ui/use-toast';
@@ -7,7 +8,6 @@ import { Trash2Icon } from 'lucide-react';
 import Image from 'next/image';
 import { useCallback, useEffect, useState } from 'react';
 import { DropzoneState, useDropzone, type FileRejection } from 'react-dropzone';
-import { UploadImagesResult } from 'src/types/uploadImages';
 
 export type ImageDropzoneProps = React.HTMLAttributes<HTMLDivElement> & {
   value?: File[];
@@ -74,29 +74,23 @@ const ImageDropzone = ({
     onChange: onValueChange,
   });
   const [uploading, setUploading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<string | null>(null);
   const { toast } = useToast();
 
   const upload = async (formData: FormData) => {
-    try {
-      const response = await fetch('/api/upload/image', {
-        method: 'POST',
-        body: formData,
-      });
-      if (!response.ok) {
-        throw new Error(await response.text());
-      }
-      const result = (await response.json()) as UploadImagesResult;
+    const result = await uploadImage(formData);
 
-      if (result.imageUrls) {
-        setSuccess(`圖檔上傳成功`);
-      }
-    } catch (err) {
-      setError((err as Error).message);
-    } finally {
-      setUploading(false);
+    if (result.status === 'failed') {
+      toast({ description: result.message });
+      return;
     }
+
+    if (result.status === 'success') {
+      setUploading(false);
+      toast({ description: '圖片上傳成功' });
+      return;
+    }
+
+    toast({ description: '發生未知錯誤：圖片上傳失敗' });
   };
 
   const onDrop = useCallback(
@@ -211,8 +205,6 @@ const ImageDropzone = ({
           </div>
         </div>
       ) : null}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      {success && <p style={{ color: 'green' }}>{success}</p>}
     </div>
   );
 };
