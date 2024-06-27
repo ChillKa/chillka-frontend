@@ -113,7 +113,7 @@ const SearchBarDesktop = ({
                 activityPictures={pictures}
                 value={value}
                 onChange={(keyword) => {
-                  getRecommendActivitiesByKeywordWithDebounce('露營').then(
+                  getRecommendActivitiesByKeywordWithDebounce(keyword).then(
                     (response) => {
                       setKeywords(response.keyword);
                       setPictures(response.pictures);

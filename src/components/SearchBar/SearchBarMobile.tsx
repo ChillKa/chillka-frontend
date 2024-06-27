@@ -1,5 +1,6 @@
 'use client';
 
+import { getRecommendActivitiesByKeywordWithDebounce } from '@action/activity';
 import { Button } from '@components/ui/button';
 import {
   Dialog,
@@ -28,8 +29,6 @@ import { Location, LocationMobileFieldMenu } from './fields/LocationFieldMenu';
 
 type SearchBarMobileProps = {
   className: string;
-  activityPictures: ActivityPicture[];
-  activityKeywords: ActivityKeyword[];
   locations: Location[];
   categories: Category[];
   debugMode: boolean;
@@ -38,8 +37,6 @@ type SearchBarMobileProps = {
 
 const SearchBarMobile = ({
   className,
-  activityPictures,
-  activityKeywords,
   locations,
   categories,
   onSearchSubmit,
@@ -47,6 +44,8 @@ const SearchBarMobile = ({
 }: SearchBarMobileProps) => {
   const [isCategoryMenuOpen, setIsCategoryMenuOpen] = useState(false);
   const [isLocationMenuOpen, setIsLocationMenuOpen] = useState(false);
+  const [keywords, setKeywords] = useState<ActivityKeyword[]>([]);
+  const [pictures, setPictures] = useState<ActivityPicture[]>([]);
   const containerRef = useRef(null);
   const { height, width } = useDimensions(containerRef);
 
@@ -93,10 +92,18 @@ const SearchBarMobile = ({
           <SearchField name="keyword">
             {({ value, onChange }) => (
               <ActivityMobileField
-                activityKeywords={activityKeywords}
-                activityPictures={activityPictures}
+                activityKeywords={keywords}
+                activityPictures={pictures}
                 value={value}
-                onChange={onChange}
+                onChange={(keyword) => {
+                  getRecommendActivitiesByKeywordWithDebounce(keyword).then(
+                    (response) => {
+                      setKeywords(response.keyword);
+                      setPictures(response.pictures);
+                    }
+                  );
+                  onChange(keyword);
+                }}
               />
             )}
           </SearchField>
