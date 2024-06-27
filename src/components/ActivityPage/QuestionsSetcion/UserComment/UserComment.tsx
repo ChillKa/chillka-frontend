@@ -8,14 +8,19 @@ import Image from 'next/image';
 type UserCommentProps = {
   activityId: string;
   getActivity: (id: string) => Promise<void>;
+  priviewMode?: boolean;
 };
 
-const UserComment = ({ activityId, getActivity }: UserCommentProps) => {
+const UserComment = ({
+  activityId,
+  getActivity,
+  priviewMode = false,
+}: UserCommentProps) => {
   const { isLoggedin } = useAuthContext();
 
   return (
     <div className="mt-4 xl:mt-6">
-      {isLoggedin ? (
+      {isLoggedin && !!priviewMode ? (
         <div className="flex gap-4 xl:gap-6">
           <Image
             src="https://picsum.photos/id/64/1200/1200"

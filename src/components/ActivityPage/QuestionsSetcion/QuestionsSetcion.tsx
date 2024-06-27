@@ -45,7 +45,11 @@ const QuestionsSetcion = ({ className, activityId }: QuestionsSetcionProps) => {
             />
           );
         })}
-      <UserComment activityId={activityId!} getActivity={getActivity} />
+      <UserComment
+        activityId={activityId!}
+        getActivity={getActivity}
+        priviewMode
+      />
     </section>
   );
 };

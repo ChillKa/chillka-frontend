@@ -11,9 +11,14 @@ import { IAcitivityResponse } from 'src/types/activity';
 type FavoriteButtonProps = {
   className: string;
   activityId?: string;
+  priviewMode?: boolean;
 };
 
-const FavoriteButton = ({ className, activityId }: FavoriteButtonProps) => {
+const FavoriteButton = ({
+  className,
+  activityId,
+  priviewMode,
+}: FavoriteButtonProps) => {
   const [isPending, startTransition] = useTransition();
   const [result, setResult] = useState<IAcitivityResponse | null>(null);
 
@@ -48,7 +53,7 @@ const FavoriteButton = ({ className, activityId }: FavoriteButtonProps) => {
         className
       )}
       onClick={handleToggleFavoriteActivity}
-      disabled={isPending}
+      disabled={isPending || priviewMode}
     >
       {result?.activity.saved ? <Check size={16} /> : <Bookmark size={16} />}
     </Button>

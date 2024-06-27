@@ -95,8 +95,12 @@ const TicketSection = ({ className, data }: TicketSectionProps) => {
         )}
       </div>
       <div className="mt-4 flex xl:mt-0">
-        <SignUpButton className="" data={data} />
-        <FavoriteButton className="" activityId={data.activity._id} />
+        <SignUpButton className="" data={data} priviewMode />
+        <FavoriteButton
+          className=""
+          activityId={data.activity._id}
+          priviewMode
+        />
       </div>
     </section>
   );
