@@ -14,9 +14,14 @@ import { IAcitivityResponse } from 'src/types/activity';
 type TicketSectionProps = {
   className: string;
   data: IAcitivityResponse;
+  previewMode: boolean;
 };
 
-const TicketSection = ({ className, data }: TicketSectionProps) => {
+const TicketSection = ({
+  className,
+  data,
+  previewMode,
+}: TicketSectionProps) => {
   const [isVisible, setIsVisible] = useState(true);
   const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
   const { matches: isMobile } = useMediaQuery();
@@ -95,11 +100,11 @@ const TicketSection = ({ className, data }: TicketSectionProps) => {
         )}
       </div>
       <div className="mt-4 flex xl:mt-0">
-        <SignUpButton className="" data={data} priviewMode />
+        <SignUpButton className="" data={data} previewMode={previewMode} />
         <FavoriteButton
           className=""
           activityId={data.activity._id}
-          priviewMode
+          previewMode={previewMode}
         />
       </div>
     </section>

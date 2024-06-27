@@ -7,17 +7,17 @@ import { IAcitivityResponse } from 'src/types/activity';
 type SignUpButtonProps = {
   className: string;
   data: IAcitivityResponse;
-  priviewMode?: boolean;
+  previewMode?: boolean;
 };
 
-const SignUpButton = ({ className, data, priviewMode }: SignUpButtonProps) => {
+const SignUpButton = ({ className, data, previewMode }: SignUpButtonProps) => {
   return (
     <Button
       className={cn('h-10 w-full text-base xl:h-14', className)}
       disabled={
         data.activity.participated ||
         data.activity.totalParticipantCapacity === 0 ||
-        priviewMode
+        previewMode
       }
     >
       {data.activity.totalParticipantCapacity === 0 &&

@@ -37,11 +37,12 @@ const Page = async ({ params }: { params: { id: string } }) => {
             <QuestionsSetcion
               className="border-primary"
               activityId={params.id}
+              previewMode={false}
             />
           </Suspense>
         </div>
         <Suspense fallback={<SkeletonTicketSection />}>
-          <TicketSection className="" data={data!} />
+          <TicketSection className="" data={data!} previewMode={false} />
         </Suspense>
       </div>
     </>

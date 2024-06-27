@@ -98,9 +98,9 @@ const Page = () => {
           <LocationSection existingData={DUMMY_DATA} />
 
           <OrganizerSection className="" existingData={DUMMY_DATA} />
-          <QuestionsSetcion className="border-primary" />
+          <QuestionsSetcion className="border-primary" previewMode />
         </div>
-        <TicketSection className="" data={DUMMY_DATA} />
+        <TicketSection className="" data={DUMMY_DATA} previewMode />
       </div>
     </>
   );

@@ -10,9 +10,14 @@ import { IAcitivityResponse } from 'src/types/activity';
 type QuestionsSetcionProps = {
   className: string;
   activityId?: string;
+  previewMode: boolean;
 };
 
-const QuestionsSetcion = ({ className, activityId }: QuestionsSetcionProps) => {
+const QuestionsSetcion = ({
+  className,
+  activityId,
+  previewMode,
+}: QuestionsSetcionProps) => {
   const [data, setData] = useState<IAcitivityResponse | null>(null);
   const [userId, setUserId] = useState<string | null>('');
 
@@ -48,7 +53,7 @@ const QuestionsSetcion = ({ className, activityId }: QuestionsSetcionProps) => {
       <UserComment
         activityId={activityId!}
         getActivity={getActivity}
-        priviewMode
+        previewMode={previewMode}
       />
     </section>
   );
