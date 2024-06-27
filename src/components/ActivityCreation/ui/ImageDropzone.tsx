@@ -211,14 +211,18 @@ const ImageDropzone = ({
       {files?.length ? (
         <div className="h-fit w-full py-4">
           <div className="flex flex-wrap gap-4">
-            {files?.map((file, index) => (
-              <FileCard
-                key={file.name + Math.floor(Math.random() * 100 + index)}
-                file={file}
-                onRemove={() => onRemove(index)}
-                isUploading={isUploading}
-              />
-            ))}
+            {files?.map((file, index) => {
+              if (isFileWithPreview(file))
+                return (
+                  <FileCard
+                    key={file.preview}
+                    file={file}
+                    onRemove={() => onRemove(index)}
+                    isUploading={isUploading}
+                  />
+                );
+              return null;
+            })}
           </div>
         </div>
       ) : null}
