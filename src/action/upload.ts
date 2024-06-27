@@ -3,14 +3,14 @@
 import { createActivityFormSchema, endpoint } from '@lib/definitions';
 import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
-import { UploadImagesResult } from 'src/types/uploadImages';
+import { IUploadImagesResult } from 'src/types/uploadImages';
 import { ZodError, z } from 'zod';
 import { fetchAPI } from './utils';
 
 export type uploadImageState =
   | {
       status: 'success';
-      data: UploadImagesResult;
+      data: IUploadImagesResult;
     }
   | {
       status: 'failed';
@@ -51,7 +51,7 @@ export async function uploadImage(
     return { status: 'failed', message: `圖片檔案上傳失敗` };
   }
 
-  const result = (await response.json()) as UploadImagesResult;
+  const result = (await response.json()) as IUploadImagesResult;
   return { status: 'success', data: result };
 }
 
