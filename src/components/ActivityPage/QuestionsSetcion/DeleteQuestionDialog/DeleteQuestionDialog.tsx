@@ -1,3 +1,5 @@
+'use client';
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -6,6 +8,7 @@ import {
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
+  AlertDialogTitle,
 } from '@components/ui/alert-dialog';
 import { H3 } from '@components/ui/typography';
 import { Dispatch, SetStateAction } from 'react';
@@ -25,6 +28,7 @@ const DeleteQuestionDialog = ({
     <AlertDialog open={isAlertDialogOpen}>
       <AlertDialogContent className="boder max-w-[32.875rem] border-primary p-0">
         <AlertDialogHeader className="p-12">
+          <AlertDialogTitle />
           <AlertDialogDescription className="text-center text-primary">
             <H3>您確定要刪除此提問嗎？</H3>
             <H3>刪除後將無法復原</H3>
