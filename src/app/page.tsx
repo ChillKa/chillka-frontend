@@ -5,12 +5,8 @@ import NearbyActivity from '@components/NearbyActivity';
 import RecommendActivity from '@components/RecommendActivity';
 import SearchBar from '@components/SearchBar';
 import TopCategoryMenu from '@components/TopCategoryMenu';
-import { z } from 'zod';
 
 const Home = () => {
-  const mySchema = z.string();
-  mySchema.parse('123');
-
   return (
     <>
       <HeroSection className="mx-auto xl:mt-14" />
