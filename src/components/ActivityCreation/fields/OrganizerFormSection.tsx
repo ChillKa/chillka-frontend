@@ -9,7 +9,7 @@ import {
   FormMessage,
 } from '@components/ui/form';
 import { Input } from '@components/ui/input';
-import { H2, H4, Subtle } from '@components/ui/typography';
+import { H2, H4 } from '@components/ui/typography';
 import { createActivityFormSchema } from '@lib/definitions';
 import { Label } from '@radix-ui/react-label';
 import { UseFormReturn } from 'react-hook-form';
@@ -28,10 +28,21 @@ const OrganizerFormSection = ({ form }: OrganizerFormSectionProps) => {
       <H2>主辦方資訊</H2>
       <H4>你的自我介紹</H4>
       <Label>主辦方縮圖</Label>
-      <ImageDropzone maxFiles={1} />
-      <Subtle className="text-primary-light">
-        請上傳你的頭像，尺寸為 500*500px，檔案大小不超過 2MB。
-      </Subtle>
+      <FormField
+        control={form.control}
+        name="organizer.profilePicture"
+        render={({ field }) => (
+          <FormItem>
+            <FormControl>
+              <ImageDropzone fieldName={field.name} maxFiles={1} />
+            </FormControl>
+            <FormDescription className="text-primary-light">
+              請上傳你的頭像，尺寸為 500*500px，檔案大小不超過 2MB。
+            </FormDescription>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
       <FormField
         control={form.control}
         name="organizer.name"

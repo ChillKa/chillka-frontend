@@ -10,6 +10,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { DropzoneState, useDropzone, type FileRejection } from 'react-dropzone';
 
 export type ImageDropzoneProps = React.HTMLAttributes<HTMLDivElement> & {
+  fieldName?: string;
   value?: File[];
   maxSize?: number;
   maxFiles?: number;
@@ -64,6 +65,7 @@ const FileCard = ({ file, isUploading, onRemove }: FileCardProps) => {
 };
 
 const ImageDropzone = ({
+  fieldName,
   value: valueProp,
   onValueChange,
   maxSize = 1024 * 1024 * 2,
@@ -220,7 +222,7 @@ const ImageDropzone = ({
           </div>
         </div>
       ) : null}
-      <input type="hidden" value={imageURLs.toString()} />
+      <input name={fieldName} type="hidden" value={imageURLs.toString()} />
     </div>
   );
 };
