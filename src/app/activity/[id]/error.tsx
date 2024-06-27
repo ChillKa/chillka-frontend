@@ -1,6 +1,8 @@
+'use client';
+
 import { H3 } from '@components/ui/typography';
 
-const ErrorContent = () => {
+const Error = () => {
   return (
     <div className="flex w-full items-center justify-center py-56 text-primary">
       <H3>很抱歉，找不到此活動。</H3>
@@ -8,4 +10,4 @@ const ErrorContent = () => {
   );
 };
 
-export default ErrorContent;
+export default Error;
