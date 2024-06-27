@@ -14,7 +14,7 @@ type QuestionProps = {
   getActivity: (id: string) => Promise<void>;
 };
 
-const Question = async ({
+const Question = ({
   className,
   question,
   data,

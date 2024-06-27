@@ -14,7 +14,7 @@ type ReplyCardProps = {
   getActivity: (id: string) => Promise<void>;
 };
 
-const ReplyCard = async ({
+const ReplyCard = ({
   className,
   reply,
   isOrganizer,

@@ -14,7 +14,7 @@ type ReplyAreaProps = {
   getActivity: (id: string) => Promise<void>;
 };
 
-const ReplyArea = async ({
+const ReplyArea = ({
   className,
   activityId,
   questionUserId,
