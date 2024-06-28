@@ -137,6 +137,40 @@ export async function fetchActivity(data: string): Promise<ActivityFetchState> {
   }
 }
 
+export interface RecommendedActivityFetchState {
+  activities: Activity[];
+}
+export async function fetchRecommendedActivity(): Promise<RecommendedActivityFetchState> {
+  try {
+    const payload = await getJwtPayload();
+    const userIdParam =
+      payload && typeof payload._id === 'string'
+        ? `?userId=${payload._id}`
+        : '';
+
+    const response = await fetchAPI({
+      api: `/activities/recommend/${userIdParam}`,
+      method: 'GET',
+    });
+
+    if (!response.ok) {
+      return {
+        activities: [],
+      };
+    }
+
+    const activity = await response.json();
+
+    return {
+      activities: activity,
+    };
+  } catch (error) {
+    return {
+      activities: [],
+    };
+  }
+}
+
 export type ActivityState =
   | {
       status: 'success';
