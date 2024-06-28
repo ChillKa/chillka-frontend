@@ -1,6 +1,5 @@
 'use client';
 
-import { errorLog } from '@action/error';
 import { ErrorInfo, PropsWithChildren } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 
@@ -30,7 +29,7 @@ const ErrorCard = ({ error, resetErrorBoundary }: ErrorCardProps) => {
 
 const ErrorBoudarySection = ({ children }: PropsWithChildren) => {
   const logError = (error: Error, info: ErrorInfo) => {
-    errorLog(error, info);
+    console.log(error, info); // FIXME: Change to use api format
   };
 
   return (
