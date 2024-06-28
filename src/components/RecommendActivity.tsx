@@ -6,6 +6,7 @@ import { Button } from '@components/ui/button';
 import { H1 } from '@components/ui/typography';
 import cn from '@lib/utils';
 import { ArrowUpRight } from 'lucide-react';
+import ErrorBoudarySection from './error/ErrorBoudarySection';
 
 type RecommendActivityProps = {
   className: string;
@@ -93,28 +94,30 @@ const RecommendActivity = ({ className }: RecommendActivityProps) => {
       </div>
       <hr className="mb-12 mt-12 w-12 border-t-2 border-primary" />
       <div className="flex w-full flex-col justify-between space-y-12 xl:flex-row xl:space-y-0">
-        {result.status === 'loading'
-          ? Array.from({ length: 3 }).map((_, index) => {
-              const id = index;
-              return <SkeletonEventCard key={id} />;
-            })
-          : result.data.map((event) => (
-              <EventCard
-                key={event.id}
-                link="123" // FIXME: change to use event link
-                title={event.title}
-                cover={event.cover}
-                description={event.description}
-                startTime={event.startTime as FormatDate<'YY.MM.DD'>}
-                endTime={event.endTime as FormatDate<'YY.MM.DD'>}
-                attendeeCount={event.attendeeCount}
-                location={event.location}
-                organizer={event.organizer}
-                pricing={event.pricing}
-                discount={event.discount}
-                isCollected={event.isCollected}
-              />
-            ))}
+        <ErrorBoudarySection>
+          {result.status === 'loading'
+            ? Array.from({ length: 3 }).map((_, index) => {
+                const id = index;
+                return <SkeletonEventCard key={id} />;
+              })
+            : result.data.map((event) => (
+                <EventCard
+                  key={event.id}
+                  link="123" // FIXME: change to use event link
+                  title={event.title}
+                  cover={event.cover}
+                  description={event.description}
+                  startTime={event.startTime as FormatDate<'YY.MM.DD'>}
+                  endTime={event.endTime as FormatDate<'YY.MM.DD'>}
+                  attendeeCount={event.attendeeCount}
+                  location={event.location}
+                  organizer={event.organizer}
+                  pricing={event.pricing}
+                  discount={event.discount}
+                  isCollected={event.isCollected}
+                />
+              ))}
+        </ErrorBoudarySection>
         <Button
           variant="outline"
           className={cn(

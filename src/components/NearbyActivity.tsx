@@ -9,6 +9,7 @@ import { H1 } from '@components/ui/typography';
 import useMediaQuery from '@hooks/use-media-query';
 import cn from '@lib/utils';
 import { ArrowUpRight } from 'lucide-react';
+import ErrorBoudarySection from './error/ErrorBoudarySection';
 
 type NearbyActivityProps = {
   className: string;
@@ -146,48 +147,50 @@ const NearbyActivity = ({ className }: NearbyActivityProps) => {
         </button>
       </div>
       <hr className="mb-12 mt-12 w-12 border-t-2 border-primary" />
-      <div
-        className={cn(
-          'flex w-full flex-col justify-between space-y-12',
-          'xl:flex-row xl:flex-wrap xl:gap-y-12 xl:space-y-0'
-        )}
-      >
-        {result.status === 'loading'
-          ? Array.from({ length: 3 }).map((_, index) => {
-              const id = index;
-              return <SkeletonEventCard key={id} />;
-            })
-          : eventsToShow.map((event) => (
-              <EventCard
-                key={event.id}
-                link="123" // FIXME: change to use event link
-                title={event.title}
-                cover={event.cover}
-                description={event.description}
-                startTime={event.startTime as FormatDate<'YY.MM.DD'>}
-                endTime={event.endTime as FormatDate<'YY.MM.DD'>}
-                attendeeCount={event.attendeeCount}
-                location={event.location}
-                organizer={event.organizer}
-                pricing={event.pricing}
-                discount={event.discount}
-                isCollected={event.isCollected}
-              />
-            ))}
-        <Button
-          variant="outline"
+      <ErrorBoudarySection>
+        <div
           className={cn(
-            'flex h-14 w-full items-center justify-center gap-4',
-            'border border-primary px-8 py-4',
-            'text-base font-medium text-primary',
-            'xl:hidden',
-            'transition-colors hover:bg-primary hover:fill-surface hover:text-surface'
+            'flex w-full flex-col justify-between space-y-12',
+            'xl:flex-row xl:flex-wrap xl:gap-y-12 xl:space-y-0'
           )}
         >
-          查看更多附近活動
-          <ArrowUpRight size={16} />
-        </Button>
-      </div>
+          {result.status === 'loading'
+            ? Array.from({ length: 3 }).map((_, index) => {
+                const id = index;
+                return <SkeletonEventCard key={id} />;
+              })
+            : eventsToShow.map((event) => (
+                <EventCard
+                  key={event.id}
+                  link="123" // FIXME: change to use event link
+                  title={event.title}
+                  cover={event.cover}
+                  description={event.description}
+                  startTime={event.startTime as FormatDate<'YY.MM.DD'>}
+                  endTime={event.endTime as FormatDate<'YY.MM.DD'>}
+                  attendeeCount={event.attendeeCount}
+                  location={event.location}
+                  organizer={event.organizer}
+                  pricing={event.pricing}
+                  discount={event.discount}
+                  isCollected={event.isCollected}
+                />
+              ))}
+          <Button
+            variant="outline"
+            className={cn(
+              'flex h-14 w-full items-center justify-center gap-4',
+              'border border-primary px-8 py-4',
+              'text-base font-medium text-primary',
+              'xl:hidden',
+              'transition-colors hover:bg-primary hover:fill-surface hover:text-surface'
+            )}
+          >
+            查看更多附近活動
+            <ArrowUpRight size={16} />
+          </Button>
+        </div>
+      </ErrorBoudarySection>
     </section>
   );
 };
