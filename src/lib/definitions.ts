@@ -141,6 +141,8 @@ export const createActivityFormSchema = z.object({
     })
     .optional(),
   status: z.string({ required_error: 'Status is required' }).optional(),
+  lat: z.coerce.number().optional(),
+  lng: z.coerce.number().optional(),
   tickets: z.array(
     z.object({
       _id: z.string().optional(), // optional for edit activity
