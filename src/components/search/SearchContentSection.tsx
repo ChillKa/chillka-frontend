@@ -103,7 +103,9 @@ const SearchContentSection = ({
                 attendeeCount={activity.participantAmount}
                 isCollected={activity.collected}
                 location={activity.location}
-                organizer={activity.organizer?.contactName ?? 'Fake organizer'} // FIXME: Wait for backend fixed data
+                organizer={
+                  activity.organizer?.contactName ?? 'Unknown organizer'
+                } // FIXME: Wait for backend fixed data
                 pricing={activity.price}
                 isContinuous={activity.isContinuous}
                 discount={0} // FIXME: remove, this is deprecated
