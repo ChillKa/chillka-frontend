@@ -78,6 +78,8 @@ const ActivityCreationForm = ({ className }: ActivityCreationFormProps) => {
         day: '',
       },
       status: '',
+      lat: 121.5654,
+      lng: 25.033,
       tickets: [
         {
           _id: '',

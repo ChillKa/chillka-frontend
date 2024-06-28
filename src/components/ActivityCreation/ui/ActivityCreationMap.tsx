@@ -10,13 +10,19 @@ import {
 } from '@react-google-maps/api';
 import { useCallback, useRef, useState } from 'react';
 
-// type ActivityCreationMapProps = {
-//   fieldName: string;
-// };
+type ActivityCreationMapProps = {
+  setLat: (lat: number) => void;
+  setLng: (lng: number) => void;
+  setAddress: (address: string) => void; // Add this line
+};
 
 const libraries = ['places'];
 
-const ActivityCreationMap = () => {
+const ActivityCreationMap = ({
+  setLat,
+  setLng,
+  setAddress, // Add this line
+}: ActivityCreationMapProps) => {
   const { isLoaded, loadError } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAP_API as string,
@@ -34,30 +40,35 @@ const ActivityCreationMap = () => {
   const [inputValue, setInputValue] = useState<string>('');
 
   const autoCompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
+
   const onLoad = useCallback(
     (autocomplete: google.maps.places.Autocomplete) => {
       autocompleteRef.current = autocomplete;
     },
-    [autoCompleteRef.current]
+    [autoCompleteRef]
   );
 
   const onPlaceChanged = useCallback(() => {
     if (autocompleteRef.current) {
       const newPlace = autocompleteRef.current.getPlace();
       if (newPlace.geometry) {
-        setPlace(place);
-        setMapCenter({
-          lat: newPlace.geometry.location!.lat(),
-          lng: newPlace.geometry.location!.lng(),
-        });
+        const lat = newPlace.geometry.location!.lat();
+        const lng = newPlace.geometry.location!.lng();
+        const address = newPlace.formatted_address || newPlace.name || '';
+        setPlace(newPlace);
+        setMapCenter({ lat, lng });
         setInputValue(newPlace.name || '');
+        setLat(lat);
+        setLng(lng);
+        setAddress(address); // Add this line
       }
     }
-  }, []);
+  }, [setLat, setLng, setAddress]);
 
   if (loadError) return <div>讀取地圖時發生錯誤</div>;
 
   if (!isLoaded) return <div>地圖資料圖取中</div>;
+
   return (
     <>
       <Autocomplete

@@ -19,6 +19,7 @@ import { createActivityFormSchema } from '@lib/definitions';
 import { UseFormReturn } from 'react-hook-form';
 import { z } from 'zod';
 import ActivityTimePicker from '../ui/AcitivityTimePicker';
+import ActivityCreationMap from '../ui/ActivityCreationMap';
 import ActivityDatePicker from '../ui/ActivityDatePicker';
 import ImageDropzone from '../ui/ImageDropzone';
 import RichTextEditor from '../ui/RichTextEditor';
@@ -32,6 +33,8 @@ type ActivityContentFormSectionProps = {
 const ActivityContentFormSection = ({
   form,
 }: ActivityContentFormSectionProps) => {
+  const { setValue } = form;
+
   return (
     <>
       <Separator />
@@ -302,6 +305,53 @@ const ActivityContentFormSection = ({
               <FormDescription className="text-primary-light">
                 啟用週期設定將使活動固定舉辦
               </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <ActivityCreationMap
+          setLat={(lat: number) => {
+            setValue('lat', lat);
+          }}
+          setLng={(lng: number) => {
+            setValue('lng', lng);
+          }}
+          setAddress={(address: string) => {
+            setValue('address', address);
+          }}
+        />
+        <FormField
+          control={form.control}
+          name="lng"
+          render={({ field }) => (
+            <FormItem className="grow">
+              <FormControl>
+                <input type="hidden" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="lat"
+          render={({ field }) => (
+            <FormItem className="grow">
+              <FormControl>
+                <input type="hidden" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="address"
+          render={({ field }) => (
+            <FormItem className="grow">
+              <FormControl>
+                <input type="hidden" {...field} />
+              </FormControl>
               <FormMessage />
             </FormItem>
           )}
