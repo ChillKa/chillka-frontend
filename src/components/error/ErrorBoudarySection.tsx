@@ -28,8 +28,30 @@ const ErrorCard = ({ error, resetErrorBoundary }: ErrorCardProps) => {
 };
 
 const ErrorBoudarySection = ({ children }: PropsWithChildren) => {
-  const logError = (error: Error, info: ErrorInfo) => {
-    console.log(error, info); // FIXME: Change to use api format
+  const logError = async (error: Error, info: ErrorInfo) => {
+    const errorData = {
+      error: error.toString(),
+      errorInfo: info.componentStack,
+    };
+
+    try {
+      const response = await fetch('/api/log-error', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(errorData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to log error');
+      }
+
+      const data = await response.json();
+      console.log(data.message); // FIXME: Remove when implement the log error api
+    } catch (err) {
+      console.error('Failed to log error to server:', err); // FIXME: Remove when implement the log error api
+    }
   };
 
   return (
