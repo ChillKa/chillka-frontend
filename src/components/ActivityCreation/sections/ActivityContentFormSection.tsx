@@ -103,7 +103,6 @@ const ActivityContentFormSection = ({
             </FormItem>
           )}
         />
-        {/* TODO: have to change dropdown menu with react hook form */}
         <FormField
           control={form.control}
           name="category"
