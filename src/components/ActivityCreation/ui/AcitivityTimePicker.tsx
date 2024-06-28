@@ -45,7 +45,6 @@ const ActivityTimePicker = () => {
           }
         >
           <Input
-            name="time"
             variant="form"
             className="pointer-events-none cursor-pointer select-none border-0 text-primary-light transition focus-visible:ring-0 focus-visible:ring-offset-0 group-hover:bg-primary-super-light"
             value={`${selectedTime.hour}:${selectedTime.minute}`}
