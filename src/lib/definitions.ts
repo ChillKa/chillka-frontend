@@ -75,7 +75,9 @@ export const userFormSchema = z.object({
 });
 
 export const createActivityFormSchema = z.object({
-  name: z.string({ required_error: '請填寫活動名稱' }),
+  name: z
+    .string({ required_error: '請填寫活動名稱' })
+    .min(1, '請至少填寫一個字的名稱'),
   organizer: z.object({
     profilePicture: z.string().optional(),
     name: z
@@ -117,7 +119,24 @@ export const createActivityFormSchema = z.object({
   noEndDate: z.boolean({
     required_error: 'NoEndDate is required',
   }),
-  category: z.string({ required_error: '請選擇活動類型' }),
+  category: z
+    .string()
+    .refine(
+      (value) =>
+        [
+          '戶外踏青',
+          '社交活動',
+          '興趣嗜好',
+          '運動健身',
+          '健康生活',
+          '科技玩物',
+          '藝術文化',
+          '遊戲',
+        ].includes(value),
+      {
+        message: '請選擇活動類型',
+      }
+    ),
   type: z.string({ required_error: '請選擇活動形式' }),
   link: z.string().optional(),
   location: z.string().optional(),

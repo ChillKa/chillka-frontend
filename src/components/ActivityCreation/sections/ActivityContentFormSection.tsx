@@ -21,6 +21,7 @@ import { z } from 'zod';
 import ActivityTimePicker from '../fields/AcitivityTimePicker';
 import ActivityCreationMap from '../fields/ActivityCreationMap';
 import ActivityDatePicker from '../fields/ActivityDatePicker';
+import CategoryPicker from '../fields/CategoryPicker';
 import ImageDropzone from '../fields/ImageDropzone';
 import RichTextEditor from '../fields/RichTextEditor';
 
@@ -34,7 +35,6 @@ const ActivityContentFormSection = ({
   form,
 }: ActivityContentFormSectionProps) => {
   const { setValue } = form;
-
   return (
     <>
       <Separator />
@@ -111,7 +111,11 @@ const ActivityContentFormSection = ({
             <FormItem className="space-y-1.5">
               <FormLabel>活動類型</FormLabel>
               <FormControl>
-                <Input variant="form" placeholder="請輸入活動類型" {...field} />
+                <CategoryPicker
+                  fieldName={field.name}
+                  placeHolder="請選擇活動類型"
+                  onChange={field.onChange}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -194,7 +198,7 @@ const ActivityContentFormSection = ({
           control={form.control}
           name="lng"
           render={({ field }) => (
-            <FormItem className="grow">
+            <FormItem>
               <FormControl>
                 <input type="hidden" {...field} />
               </FormControl>
@@ -206,7 +210,7 @@ const ActivityContentFormSection = ({
           control={form.control}
           name="lat"
           render={({ field }) => (
-            <FormItem className="grow">
+            <FormItem>
               <FormControl>
                 <input type="hidden" {...field} />
               </FormControl>
@@ -218,7 +222,7 @@ const ActivityContentFormSection = ({
           control={form.control}
           name="address"
           render={({ field }) => (
-            <FormItem className="grow">
+            <FormItem>
               <FormControl>
                 <input type="hidden" {...field} />
               </FormControl>
