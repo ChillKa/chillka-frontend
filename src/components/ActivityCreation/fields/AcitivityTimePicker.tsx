@@ -9,9 +9,15 @@ import {
 } from '@components/ui/dropdown-menu';
 import { Input } from '@components/ui/input';
 import { TimerIcon } from 'lucide-react';
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 
-const ActivityTimePicker = () => {
+type ActivityTimePickerProps = {
+  onChange: Dispatch<
+    SetStateAction<{ day: string; hour: string; minute: string }>
+  >;
+};
+
+const ActivityTimePicker = ({ onChange }: ActivityTimePickerProps) => {
   const [selectedTime, setSelectedTime] = useState<{
     hour: string;
     minute: string;
@@ -28,10 +34,22 @@ const ActivityTimePicker = () => {
 
   const handleHourSelect = (hour: string) => {
     setSelectedTime((prevState) => ({ ...prevState, hour }));
+    onChange((prevState) => {
+      return {
+        ...prevState,
+        hour,
+      };
+    });
   };
 
   const handleMinuteSelect = (minute: string) => {
     setSelectedTime((prevState) => ({ ...prevState, minute }));
+    onChange((prevState) => {
+      return {
+        ...prevState,
+        minute,
+      };
+    });
   };
 
   return (
@@ -46,7 +64,7 @@ const ActivityTimePicker = () => {
         >
           <Input
             variant="form"
-            className="pointer-events-none cursor-pointer select-none border-0 text-primary-light transition focus-visible:ring-0 focus-visible:ring-offset-0 group-hover:bg-primary-super-light"
+            className="pointer-events-none cursor-pointer select-none border-0 pl-0 text-primary-light transition focus-visible:ring-0 focus-visible:ring-offset-0 group-hover:bg-primary-super-light"
             value={`${selectedTime.hour}:${selectedTime.minute}`}
             readOnly
           />

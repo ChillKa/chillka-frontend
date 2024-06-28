@@ -111,11 +111,11 @@ export const createActivityFormSchema = z.object({
   }),
   cover: z.array(z.string({ required_error: '請至少上傳一張圖片' })),
   thumbnail: z.string({ required_error: '請上傳一張縮圖' }),
-  startDateTime: z.date().optional(),
+  startDateTime: z.string().optional(),
   fromToday: z.boolean({
     required_error: 'FromToday is required',
   }),
-  endDateTime: z.date().optional(),
+  endDateTime: z.string().optional(),
   noEndDate: z.boolean({
     required_error: 'NoEndDate is required',
   }),
@@ -167,9 +167,9 @@ export const createActivityFormSchema = z.object({
       _id: z.string().optional(), // optional for edit activity
       name: z.string({ required_error: '請填寫票卷名稱' }),
       price: z.number({ required_error: '請輸入票卷價格' }),
-      startDateTime: z.date().optional(),
+      startDateTime: z.string().optional(),
       fromToday: z.boolean({ required_error: 'FromToday is required' }),
-      endDateTime: z.date().optional(),
+      endDateTime: z.string().optional(),
       noEndDate: z.boolean({ required_error: 'NoEndDate is required' }),
       participantCapacity: z.number({
         required_error: '請選擇參與人數',

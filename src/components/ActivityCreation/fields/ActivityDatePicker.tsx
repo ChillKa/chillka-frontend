@@ -11,10 +11,16 @@ import cn from '@lib/utils';
 import { format } from 'date-fns';
 import { zhTW } from 'date-fns/locale';
 import { Calendar as CalendarIcon } from 'lucide-react';
-import * as React from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 
-const ActivityDatePicker = () => {
-  const [date, setDate] = React.useState<Date>();
+type ActivityDatePickerProps = {
+  onChange: Dispatch<
+    SetStateAction<{ day: string; hour: string; minute: string }>
+  >;
+};
+
+const ActivityDatePicker = ({ onChange }: ActivityDatePickerProps) => {
+  const [date, setDate] = useState<Date>();
 
   return (
     <Popover>
@@ -44,7 +50,15 @@ const ActivityDatePicker = () => {
         <Calendar
           mode="single"
           selected={date}
-          onSelect={setDate}
+          onSelect={(e) => {
+            setDate(e);
+            onChange((prevState) => {
+              return {
+                ...prevState,
+                day: e ? e.toDateString() : '',
+              };
+            });
+          }}
           showOutsideDays={false}
           initialFocus
           className="p-4"

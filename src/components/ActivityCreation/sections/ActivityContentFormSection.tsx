@@ -18,9 +18,8 @@ import { H2, H4, P } from '@components/ui/typography';
 import { createActivityFormSchema } from '@lib/definitions';
 import { UseFormReturn } from 'react-hook-form';
 import { z } from 'zod';
-import ActivityTimePicker from '../fields/AcitivityTimePicker';
+import ActivityDateWrapper from '../fields/ActitvityDateWraper';
 import ActivityCreationMap from '../fields/ActivityCreationMap';
-import ActivityDatePicker from '../fields/ActivityDatePicker';
 import CategoryPicker from '../fields/CategoryPicker';
 import ImageDropzone from '../fields/ImageDropzone';
 import RichTextEditor from '../fields/RichTextEditor';
@@ -120,23 +119,41 @@ const ActivityContentFormSection = ({
             </FormItem>
           )}
         />
+        <FormField
+          control={form.control}
+          name="startDateTime"
+          render={({ field }) => (
+            <FormItem className="space-y-1.5">
+              <FormLabel>開始</FormLabel>
+              <FormControl>
+                <ActivityDateWrapper
+                  className="flex items-center gap-2"
+                  name={field.name}
+                  onChange={field.onChange}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <div className="space-y-1.5">
-          <Label htmlFor="">開始</Label>
-          <div className="flex gap-2">
-            <ActivityDatePicker />
-            <ActivityTimePicker />
-          </div>
-          <div className="flex gap-2">
-            <Checkbox variant="form" />
-            <Label>即日起</Label>
-          </div>
-        </div>
-        <div className="space-y-1.5">
-          <Label htmlFor="">結束</Label>
-          <div className="flex items-center gap-2">
-            <ActivityDatePicker />
-            <ActivityTimePicker />
-          </div>
+          <FormField
+            control={form.control}
+            name="endDateTime"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>結束</FormLabel>
+                <FormControl>
+                  <ActivityDateWrapper
+                    className="flex items-center gap-2"
+                    name={field.name}
+                    onChange={field.onChange}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <div className="flex items-center gap-2">
             <Checkbox variant="form" />
             <Label>無截止日</Label>
