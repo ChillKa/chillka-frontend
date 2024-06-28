@@ -93,44 +93,40 @@ export async function getRecommendActivitiesByKeyword(keyword: string) {
     ? `/activities?limit=4&keyword=${keyword}`
     : '/activities?limit=4';
 
-  // FIXME: Change to use promise all
-  const activitiesResponse = await fetchAPI({
-    api,
-    method: 'GET',
-  });
-  const keywordsResponse = await fetchAPI({
-    api: '/activities/popular-keywords',
-    method: 'GET',
-  });
+  try {
+    const [activitiesResponse, keywordsResponse] = await Promise.all([
+      fetchAPI({ api, method: 'GET' }),
+      fetchAPI({ api: '/activities/popular-keywords', method: 'GET' }),
+    ]);
 
-  if (!keywordsResponse.ok) {
+    if (!activitiesResponse.ok || !keywordsResponse.ok) {
+      return {
+        keyword: [],
+        pictures: [],
+      };
+    }
+
+    const activitiesResult = await activitiesResponse.json();
+    const keywordsResult = await keywordsResponse.json();
+
+    return {
+      // FIXME: server response maybe change data: { url, keyword }
+      keyword: keywordsResult.keywords.map((result: string) => ({
+        url: '/',
+        keyword: result,
+      })),
+      pictures: activitiesResult.data.map((activity: Activity) => ({
+        thumbnail: activity.thumbnail,
+        url: activity.link,
+        description: activity.name,
+      })),
+    };
+  } catch (e) {
     return {
       keyword: [],
       pictures: [],
     };
   }
-  const keywordsResult = await keywordsResponse.json();
-
-  if (!activitiesResponse.ok) {
-    return {
-      keyword: [],
-      pictures: [],
-    };
-  }
-  const activitiesResult = await activitiesResponse.json();
-
-  return {
-    // FIXME: server response maybe change data: { url, keyword }
-    keyword: keywordsResult.keywords.map((result: string) => ({
-      url: '/',
-      keyword: result,
-    })),
-    pictures: activitiesResult.data.map((activity: Activity) => ({
-      thumbnail: activity.thumbnail,
-      url: activity.link,
-      description: activity.name,
-    })),
-  };
 }
 export const getRecommendActivitiesByKeywordWithDebounce = createDebounce(
   getRecommendActivitiesByKeyword,
