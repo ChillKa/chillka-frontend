@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { ErrorInfo, PropsWithChildren } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 
@@ -28,6 +29,7 @@ const ErrorCard = ({ error, resetErrorBoundary }: ErrorCardProps) => {
 };
 
 const ErrorBoudarySection = ({ children }: PropsWithChildren) => {
+  const router = useRouter();
   const logError = async (error: Error, info: ErrorInfo) => {
     const errorData = {
       error: error.toString(),
@@ -55,7 +57,13 @@ const ErrorBoudarySection = ({ children }: PropsWithChildren) => {
   };
 
   return (
-    <ErrorBoundary FallbackComponent={ErrorCard} onError={logError}>
+    <ErrorBoundary
+      FallbackComponent={ErrorCard}
+      onError={logError}
+      onReset={() => {
+        router.refresh();
+      }}
+    >
       {children}
     </ErrorBoundary>
   );
