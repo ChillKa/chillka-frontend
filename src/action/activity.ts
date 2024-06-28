@@ -138,7 +138,26 @@ export async function fetchActivity(data: string): Promise<ActivityFetchState> {
 }
 
 export interface RecommendedActivityFetchState {
-  activities: Activity[];
+  // FIXME: enhance the type
+  activities: {
+    _id: string;
+    thumbnail: string;
+    name: string;
+    summary: string;
+    startDateTime: string;
+    fromToday: boolean;
+    endDateTime: string;
+    noEndDate: boolean;
+    location: string;
+    participantNumber: number;
+    organizerName: string;
+    discount: number | undefined; // FIXME: no this field
+    collected: boolean | undefined; //  FIXME: no this field
+    ticketPrice: {
+      name: string;
+      price: number;
+    }[];
+  }[];
 }
 export async function fetchRecommendedActivity(): Promise<RecommendedActivityFetchState> {
   try {
