@@ -167,6 +167,12 @@ const ActivityContentFormSection = ({
                     </FormControl>
                     <FormLabel>實體聚會</FormLabel>
                   </FormItem>
+                  <input
+                    name={field.name}
+                    readOnly
+                    type="hidden"
+                    value={`${field.value}`}
+                  />
                 </RadioGroup>
               </FormControl>
               <FormMessage />
