@@ -89,57 +89,47 @@ export async function getActivitiesByFilter(
 }
 
 export async function getRecommendActivitiesByKeyword(keyword: string) {
-  // const api = keyword
-  //   ? `/activities?limit=5&keyword=${keyword}`
-  //   : '/activities?limit=5';
+  const api = keyword
+    ? `/activities?limit=4&keyword=${keyword}`
+    : '/activities?limit=4';
 
-  // const response = await fetchAPI({
-  //   api,
-  //   method: 'GET',
-  // });
+  // FIXME: Change to use promise all
+  const activitiesResponse = await fetchAPI({
+    api,
+    method: 'GET',
+  });
+  const keywordsResponse = await fetchAPI({
+    api: '/activities/popular-keywords',
+    method: 'GET',
+  });
 
-  // if (!response.ok) {
-  //   return {
-  //     activities: [],
-  //     total: 0,
-  //   };
-  // }
+  if (!keywordsResponse.ok) {
+    return {
+      keyword: [],
+      pictures: [],
+    };
+  }
+  const keywordsResult = await keywordsResponse.json();
 
-  const data = {
-    keyword: [
-      { url: 'https://www.google.com', keyword: '露營' },
-      { url: 'https://www.google.com', keyword: '酒精路跑' },
-      { url: 'https://www.google.com', keyword: '奇美' },
-      { url: 'https://www.google.com', keyword: '野餐' },
-      { url: 'https://www.google.com', keyword: '登山' },
-    ],
-    pictures: [
-      {
-        thumbnail:
-          'https://images.unsplash.com/photo-1546484458-6904289cd4f0?q=100&w=416&h=fit&fm=webp',
-        url: '/',
-        description: '夕陽海灘派對',
-      },
-      {
-        thumbnail:
-          'https://plus.unsplash.com/premium_photo-1663099746128-34ea20ac094d?q=100&w=416&h=fit&fm=webp',
-        url: '/',
-        description: '城市探險尋寶',
-      },
-      {
-        thumbnail:
-          'https://images.unsplash.com/photo-1525177089949-b1488a0ea5b6?q=100&w=416&h=fit&fm=webp',
-        url: '/',
-        description: '極光露營體驗',
-      },
-    ],
-  };
+  if (!activitiesResponse.ok) {
+    return {
+      keyword: [],
+      pictures: [],
+    };
+  }
+  const activitiesResult = await activitiesResponse.json();
 
-  const randomizeData = (arr: any[]) => arr.sort(() => Math.random() - 0.5);
-  console.log(keyword);
   return {
-    keyword: randomizeData(data.keyword),
-    pictures: randomizeData(data.pictures),
+    // FIXME: server response maybe change data: { url, keyword }
+    keyword: keywordsResult.keywords.map((result: string) => ({
+      url: '/',
+      keyword: result,
+    })),
+    pictures: activitiesResult.data.map((activity: Activity) => ({
+      thumbnail: activity.thumbnail,
+      url: activity.link,
+      description: activity.name,
+    })),
   };
 }
 export const getRecommendActivitiesByKeywordWithDebounce = createDebounce(

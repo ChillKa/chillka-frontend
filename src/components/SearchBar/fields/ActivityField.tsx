@@ -122,19 +122,22 @@ const ActivityField = ({
         >
           <p className="ml-4 text-base font-bold">推薦活動</p>
           <div className="no-scrollbar mt-6 flex gap-4 overflow-x-auto overflow-y-hidden px-4">
-            {activityPictures.map((item) => (
-              <div className="min-w-fit space-y-2" key={item.description}>
-                {/* TODO: link to search page */}
-                <Image
-                  src={item.thumbnail}
-                  alt={item.description}
-                  width={200}
-                  height={100}
-                  className="h-[6.25rem] w-[12.5rem] object-cover"
-                />
-                <Small>{item.description}</Small>
-              </div>
-            ))}
+            {activityPictures.map((item) => {
+              console.log(item);
+              return (
+                <div className="min-w-fit space-y-2" key={item.description}>
+                  {/* TODO: link to search page */}
+                  <Image
+                    src={item.thumbnail}
+                    alt={item.description}
+                    width={200}
+                    height={100}
+                    className="h-[6.25rem] w-[12.5rem] object-cover"
+                  />
+                  <Small>{item.description}</Small>
+                </div>
+              );
+            })}
           </div>
           <div className="mt-10 px-4 xl:mt-12">
             <p className="text-base font-bold">熱門關鍵字</p>
