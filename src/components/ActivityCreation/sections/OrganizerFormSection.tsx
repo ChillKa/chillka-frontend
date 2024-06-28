@@ -14,7 +14,7 @@ import { createActivityFormSchema } from '@lib/definitions';
 import { Label } from '@radix-ui/react-label';
 import { UseFormReturn } from 'react-hook-form';
 import { z } from 'zod';
-import ImageDropzone from '../ui/ImageDropzone';
+import ImageDropzone from '../fields/ImageDropzone';
 
 type FormSchema = z.infer<typeof createActivityFormSchema>;
 

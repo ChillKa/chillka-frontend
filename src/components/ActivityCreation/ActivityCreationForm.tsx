@@ -10,11 +10,11 @@ import { useEffect } from 'react';
 import { useFormState } from 'react-dom';
 import { FieldPath, useForm } from 'react-hook-form';
 import { z } from 'zod';
-import OrganizerFormSection from './fields/OrganizerFormSection';
+import OrganizerFormSection from './sections/OrganizerFormSection';
 /* TODO: Fix typo ActivityTimePicker */
-import ActivityContentFormSection from './fields/ActivityContentFormSection';
-import TicketFormSection from './fields/TicketFormSection';
-import UploadFormButton from './ui/UploadFormButton';
+import UploadFormButton from './fields/UploadFormButton';
+import ActivityContentFormSection from './sections/ActivityContentFormSection';
+import TicketFormSection from './sections/TicketFormSection';
 
 type ActivityCreationFormProps = {
   className: string;
