@@ -82,7 +82,9 @@ const Footer = ({ className }: FooterProps) => {
             </Link>
           </Button>
           <div className="space-x-4 text-base font-medium">
-            <a href="mailto:qwe123456@gmail.com">qwe123456@gmail.com</a>
+            <a href="mailto:chillka.offical@gmail.com">
+              chillka.offical@gmail.com
+            </a>
             <span>/</span>
             <a href="tel:+886212345678">(02)1234-5678</a>
           </div>

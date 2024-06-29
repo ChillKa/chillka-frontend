@@ -93,7 +93,12 @@ const Page = () => {
             <P>
               無論您有任何疑問或建議，我們都非常樂意聆聽您的想法。請隨時通過以下方式與我們聯繫：
             </P>
-            <P>Email：chillka.offical@gmail.com</P>
+            <P>
+              Email：
+              <a href="mailto:chillka.offical@gmail.com">
+                chillka.offical@gmail.com
+              </a>
+            </P>
           </div>
         </div>
       </div>

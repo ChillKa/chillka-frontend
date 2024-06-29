@@ -151,7 +151,12 @@ const Page = () => {
               聯繫方式
             </H3>
             <P>如有任何問題，請通過以下方式聯繫我們：</P>
-            <P>Email：chillka.offical@gmail.com</P>
+            <P>
+              Email：
+              <a href="mailto:chillka.offical@gmail.com">
+                chillka.offical@gmail.com
+              </a>
+            </P>
             <P>感謝您使用「chillka 揪咖」網站，我們期待為您提供優質的服務。</P>
           </div>
         </div>
