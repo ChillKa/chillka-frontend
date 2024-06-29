@@ -13,7 +13,7 @@ const Home = () => {
       <HeroSection className="mx-auto xl:mt-14" />
       <SearchBar className="mx-auto xl:mt-2" />
       <NearbyActivity
-        getNearByActivites={getActivitiesByFilter({
+        getNearByActivities={getActivitiesByFilter({
           lat: '121.5598',
           lng: '25.09108',
           limit: '6',

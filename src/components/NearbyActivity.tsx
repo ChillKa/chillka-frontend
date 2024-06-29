@@ -17,15 +17,15 @@ import ErrorBoundarySection from './error/ErrorBoundarySection';
 
 type NearbyActivityProps = {
   className: string;
-  getNearByActivites: Promise<SearchResult>;
+  getNearByActivities: Promise<SearchResult>;
 };
 
 const NearbyActivity = ({
   className,
-  getNearByActivites,
+  getNearByActivities,
 }: NearbyActivityProps) => {
   const { matches: isDefault } = useMediaQuery();
-  const data = use(getNearByActivites);
+  const data = use(getNearByActivities);
   const { activities } = data;
 
   const eventsToShow = isDefault ? activities.slice(0, 3) : activities;
