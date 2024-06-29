@@ -20,13 +20,6 @@ const ActivitySection = async ({
   const response = await fetchActivity(activityId as string);
   const data = response.result ?? existingData!;
 
-  const DUMMY_RECURRING = [
-    '06.28 19:00',
-    '07.04 19:00',
-    '08.11 19:00',
-    '08.18 19:00',
-  ];
-
   return (
     <section className={cn('w-full text-primary', className)}>
       <div className="mb-4 w-fit bg-primary px-2 py-1 text-xs/5 font-medium text-white xl:mb-6">
@@ -50,22 +43,6 @@ const ActivitySection = async ({
                   data.activity.noEndDate
                 )}
               </div>
-              {DUMMY_RECURRING.length !== 0 && (
-                <div className="relative flex w-full overflow-hidden pt-2 xl:max-w-[41.125rem]">
-                  <div className="no-scrollbar flex w-full grow flex-nowrap gap-2 overflow-hidden overflow-x-auto">
-                    {DUMMY_RECURRING.map((date, index) => {
-                      return (
-                        <div
-                          key={date}
-                          className={`h-12 min-w-[8.4375rem] border border-primary px-6 py-3 ${DUMMY_RECURRING.length === index + 1 ? 'xl:mr-20' : ''}`}
-                        >
-                          {date}
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
             </div>
           </div>
         </div>
