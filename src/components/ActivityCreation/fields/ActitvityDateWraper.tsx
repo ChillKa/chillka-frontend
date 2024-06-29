@@ -6,7 +6,6 @@ import ActivityDatePicker from './ActivityDatePicker';
 type ActitvityDateWraperProps = {
   className: string;
   name: string;
-  value: Date | undefined;
   datePlaceHolder: string;
   timePlaceHolder: string;
   onChange: (...event: any[]) => void;
@@ -15,7 +14,6 @@ type ActitvityDateWraperProps = {
 const ActivityDateWrapper = ({
   className,
   name,
-  value,
   datePlaceHolder = '設定日期',
   timePlaceHolder = '設定時間',
   onChange,
@@ -34,15 +32,15 @@ const ActivityDateWrapper = ({
   const date = day === '' ? '' : `${day} ${hour}:${minute}:00`;
 
   const onChangeAndCheck = (
-    stateValue: SetStateAction<{ day: string; hour: string; minute: string }>
+    value: SetStateAction<{ day: string; hour: string; minute: string }>
   ) => {
-    setDateAndTime(stateValue);
+    setDateAndTime(value);
     onChange(new Date(date).toJSON());
   };
 
   return (
     <div className={cn('', className)}>
-      <input name={name} value={value?.toString()} readOnly type="hidden" />
+      <input name={name} value={date || ''} readOnly type="hidden" />
       <ActivityDatePicker
         placeHolder={datePlaceHolder}
         onChange={onChangeAndCheck}
