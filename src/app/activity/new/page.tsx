@@ -1,14 +1,3 @@
-/*
-  - [x] setup upload image part in browser version
-  - [x] test upload image api
-  - [] build the desktop view
-  - [] send the form data via server action
-    - [] don't forget redirect
-  - [] build the mobile view
-    - [] might be implemented with stepper
-  - TODO: stucking on image upload
-*/
-
 import ActivityCreationForm from '@components/ActivityCreation/ActivityCreationForm';
 import ActivityCreationSideBar from '@components/ActivityCreation/ActivityCreationSideBar';
 import { Separator } from '@components/ui/separator';

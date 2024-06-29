@@ -10,10 +10,9 @@ import { useEffect } from 'react';
 import { useFormState } from 'react-dom';
 import { FieldPath, useForm } from 'react-hook-form';
 import { z } from 'zod';
-import OrganizerFormSection from './sections/OrganizerFormSection';
-/* TODO: Fix typo ActivityTimePicker */
 import UploadFormButton from './fields/UploadFormButton';
 import ActivityContentFormSection from './sections/ActivityContentFormSection';
+import OrganizerFormSection from './sections/OrganizerFormSection';
 import TicketFormSection from './sections/TicketFormSection';
 
 type ActivityCreationFormProps = {
@@ -24,22 +23,11 @@ export interface FormValues {
   lastName: string;
 }
 
-// const initialState = {
-//   message: '',
-//   imageUrl: '',
-// };
-
 const ActivityCreationForm = ({ className }: ActivityCreationFormProps) => {
-  // const [selectedImage, setSelectedImage] = useState<File | null>(null);
-  // const [files, setFiles] = useState<FileList | null>(null);
   const [formState, formAction] = useFormState<FormState, FormData>(
     uploadActivity,
     { message: '' }
   );
-  // const [imageFormState, imageFormAction] = useFormState(
-  //   uploadImage,
-  //   initialState
-  // );
   const { toast } = useToast();
 
   const form = useForm<z.output<typeof createActivityFormSchema>>({
@@ -120,13 +108,6 @@ const ActivityCreationForm = ({ className }: ActivityCreationFormProps) => {
     }
   }, [formState?.issues, formState?.message, form, toast]);
 
-  // useEffect(() => {
-  //   toast({
-  //     title: 'chillka 溫馨小提醒',
-  //     description: `${imageFormState?.imageUrl}`,
-  //   });
-  // }, [imageFormState.message, toast]);
-
   return (
     <section className={cn('', className)}>
       <Form {...form}>
@@ -137,46 +118,6 @@ const ActivityCreationForm = ({ className }: ActivityCreationFormProps) => {
           <UploadFormButton>送出</UploadFormButton>
         </form>
       </Form>
-
-      {/* Testing Area */}
-
-      {/* <Separator className="mt-24" />
-      <H2>以下為測試區</H2>
-      <Separator className="mt-24" />
-      <form className="space-y-6" action={imageFormAction}>
-        <H3 className="text-primary">Server actions Method</H3>
-        <h2>Upload and Display Image</h2>
-        <h3>using React Hooks</h3> */}
-
-      {/* Conditionally render the selected image if it exists */}
-      {/* {selectedImage && (
-          <div>
-            <img
-              alt="not found"
-              width="250px"
-              src={URL.createObjectURL(selectedImage)}
-            />
-            <br /> <br />
-            <button type="button" onClick={() => setSelectedImage(null)}>
-              Remove
-            </button>
-          </div>
-        )}
-
-        <br />
-        <input
-          type="file"
-          name="uploadImage"
-          // Event handler to capture file selection and update the state
-          onChange={(event) => {
-            if (event.target.files) {
-              console.log(event.target.files[0]); // Log the selected file
-              setSelectedImage(event.target.files[0]); // Update the state with the selected file
-            }
-          }}
-        />
-        <UploadFormButton>Image Upload</UploadFormButton>
-      </form> */}
     </section>
   );
 };
