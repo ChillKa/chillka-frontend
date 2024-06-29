@@ -58,13 +58,10 @@ export const EventCardCoverSection = ({
         src={imageSrc}
         alt={alt}
         layout="fill"
-        onLoad={() => {
-          setImageSrc('/loading.webp');
-        }}
+        placeholder="blur"
+        blurDataURL="/loading.webp"
         onLoadingComplete={(result) => {
           if (result.naturalWidth === 0) setImageSrc('/default.webp');
-
-          setImageSrc(src);
         }}
         onError={() => setImageSrc('/default.webp')}
         objectFit="cover"
