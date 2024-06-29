@@ -37,12 +37,16 @@ const Page = () => {
     <div className="mx-auto w-full px-3 pb-48 text-primary xl:max-w-[81rem] xl:px-0">
       <Breadcrumb className="pt-12 xl:px-4">
         <BreadcrumbList>
-          <BreadcrumbItem className="text-primary/70">
-            <BreadcrumbLink href="/">首頁</BreadcrumbLink>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/" className="text-primary/70">
+              首頁
+            </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>隱私權政策</BreadcrumbPage>
+            <BreadcrumbPage className="font-medium text-primary">
+              隱私權政策
+            </BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
@@ -59,7 +63,7 @@ const Page = () => {
           </div>
           <div>
             <H3 id="authorization-agreement" className="mb-2">
-              授權協議
+              一、授權協議
             </H3>
             <P>
               這個網站是由「chillka
@@ -69,7 +73,7 @@ const Page = () => {
           </div>
           <div>
             <H3 id="terms-of-use" className="mb-2">
-              使用條件
+              二、使用條件
             </H3>
             <P>
               您使用本網站的風險自負。我們不對因使用本網站而導致的損失或損害承擔任何責任。使用本網站時，請遵守當地法律法規。我們保留隨時更改或終止本網站服務的權利，恕不另行通知。
@@ -77,7 +81,7 @@ const Page = () => {
           </div>
           <div>
             <H3 id="privacy-policy" className="mb-2">
-              隱私政策
+              三、隱私政策
             </H3>
             <P>
               我們尊重用戶的隱私權。您使用本網站即表示同意我們按照我們的隱私政策處理個人信息。請閱讀我們的隱私政策，了解我們如何收集、使用和共享您的信息。
@@ -85,7 +89,7 @@ const Page = () => {
           </div>
           <div>
             <H3 id="limitation-of-liability" className="mb-2">
-              責任限制
+              四、責任限制
             </H3>
             <P>
               在法律允許的範圍內，我們不對因使用本網站而導致的任何直接或間接損失承擔責任。我們不擔保本網站將不受干擾、及時、安全或無錯誤運行。
@@ -93,7 +97,7 @@ const Page = () => {
           </div>
           <div>
             <H3 id="dispute-resolution" className="mb-2">
-              爭議解決
+              五、爭議解決
             </H3>
             <P>
               本使用條款受台灣法律管轄。任何因本網站服務而引起的爭議應首先通過友好協商解決。如果協商失敗，雙方同意接受台灣法院的專屬管轄權。
