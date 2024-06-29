@@ -7,6 +7,8 @@ import RecommendActivity from '@components/RecommendActivity';
 import SearchBar from '@components/SearchBar';
 import TopCategoryMenu from '@components/TopCategoryMenu';
 
+export const runtime = 'edge';
+
 const Home = () => {
   return (
     <>
