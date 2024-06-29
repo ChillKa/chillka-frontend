@@ -8,6 +8,7 @@ import { H1 } from '@components/ui/typography';
 import cn from '@lib/utils';
 import { format } from 'date-fns';
 import { ArrowUpRight } from 'lucide-react';
+import Link from 'next/link';
 import { Suspense } from 'react';
 import ErrorBoundarySection from './error/ErrorBoundarySection';
 
@@ -30,18 +31,20 @@ const RecommendActivity = async ({ className }: RecommendActivityProps) => {
     >
       <div className="flex w-full items-start justify-between">
         <H1>推薦活動</H1>
-        <button
-          type="button"
-          className={cn(
-            'relative hidden h-12 w-24 justify-between px-0 pb-4 pt-2 font-medium',
-            'after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:border-t after:bg-primary',
-            'after:transition-colors after:duration-300 after:ease-out hover:after:border-primary',
-            'xl:flex'
-          )}
-        >
-          查看更多
-          <ArrowUpRight />
-        </button>
+        <Link href="/search">
+          <button
+            type="button"
+            className={cn(
+              'relative hidden h-12 w-24 justify-between px-0 pb-4 pt-2 font-medium',
+              'after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:border-t after:bg-primary',
+              'after:transition-colors after:duration-300 after:ease-out hover:after:border-primary',
+              'xl:flex'
+            )}
+          >
+            查看更多
+            <ArrowUpRight />
+          </button>
+        </Link>
       </div>
       <hr className="mb-12 mt-12 w-12 border-t-2 border-primary" />
       <div className="flex w-full flex-col justify-between space-y-12 xl:flex-row xl:space-y-0">
@@ -81,19 +84,21 @@ const RecommendActivity = async ({ className }: RecommendActivityProps) => {
             ))}
           </Suspense>
         </ErrorBoundarySection>
-        <Button
-          variant="outline"
-          className={cn(
-            'flex h-14 w-full items-center justify-center gap-4',
-            'border border-primary px-8 py-4',
-            'text-base font-medium text-primary',
-            'xl:hidden',
-            'transition-colors hover:bg-primary hover:fill-surface hover:text-surface'
-          )}
-        >
-          查看更多推薦活動
-          <ArrowUpRight size={16} />
-        </Button>
+        <Link href="/search">
+          <Button
+            variant="outline"
+            className={cn(
+              'flex h-14 w-full items-center justify-center gap-4',
+              'border border-primary px-8 py-4',
+              'text-base font-medium text-primary',
+              'xl:hidden',
+              'transition-colors hover:bg-primary hover:fill-surface hover:text-surface'
+            )}
+          >
+            查看更多推薦活動
+            <ArrowUpRight size={16} />
+          </Button>
+        </Link>
       </div>
     </section>
   );
