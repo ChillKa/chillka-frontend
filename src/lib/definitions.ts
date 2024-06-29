@@ -84,12 +84,13 @@ export const createActivityFormSchema = z
       name: z
         .string({
           required_error: '請填寫主辦方名稱',
-          message: '請填寫主辦方名稱',
         })
         .min(1, '請至少填寫一個字的名稱'),
-      contactName: z.string({
-        required_error: '請填寫聯絡人姓名',
-      }),
+      contactName: z
+        .string({
+          required_error: '請填寫聯絡人姓名',
+        })
+        .min(1, '請至少填寫一個字的名稱'),
       contactPhone: z
         .string({
           required_error: '請填寫聯絡人電話',
@@ -113,7 +114,7 @@ export const createActivityFormSchema = z
     cover: z.array(z.string({ required_error: '請至少上傳一張圖片' })),
     thumbnail: z.string({ required_error: '請上傳一張縮圖' }),
     startDateTime: z.preprocess(
-      (val) => (val === '' ? undefined : new Date(val as string)),
+      (val) => (val === '' ? undefined : new Date(`${val}`)),
       z
         .date({
           errorMap: (issue, { defaultError }) => ({
@@ -125,9 +126,12 @@ export const createActivityFormSchema = z
         })
         .optional()
     ),
-    fromToday: z.coerce.boolean({
-      required_error: 'FromToday is required',
-    }),
+    fromToday: z.preprocess(
+      (val) => val === 'true',
+      z.boolean({
+        required_error: 'FromToday is required',
+      })
+    ),
     endDateTime: z.preprocess(
       (val) => (val === '' ? undefined : new Date(val as string)),
       z
@@ -141,9 +145,12 @@ export const createActivityFormSchema = z
         })
         .optional()
     ),
-    noEndDate: z.coerce.boolean({
-      required_error: 'NoEndDate is required',
-    }),
+    noEndDate: z.preprocess(
+      (val) => val === 'true',
+      z.boolean({
+        required_error: 'NoEndDate is required',
+      })
+    ),
     category: z
       .string()
       .refine(
@@ -166,7 +173,9 @@ export const createActivityFormSchema = z
     link: z.string().optional(),
     location: z.string().optional(),
     address: z.string().optional(),
-    summary: z.string({ required_error: '請填寫活動摘要' }),
+    summary: z
+      .string({ required_error: '請填寫活動摘要' })
+      .min(4, { message: '請至少填寫四個字以上' }),
     details: z
       .string({ required_error: '請填寫活動詳情' })
       .min(20, { message: '請至少填寫20個字以上' }),
@@ -193,7 +202,7 @@ export const createActivityFormSchema = z
         name: z.string({ required_error: '請填寫票卷名稱' }),
         price: z.number({ required_error: '請輸入票卷價格' }),
         startDateTime: z.preprocess(
-          (val) => (val === '' ? undefined : new Date(val as string)),
+          (val) => (val === '' ? '' : new Date(val as string)),
           z
             .date({
               errorMap: (issue, { defaultError }) => ({
@@ -204,10 +213,14 @@ export const createActivityFormSchema = z
               }),
             })
             .optional()
+            .or(z.literal(''))
         ),
-        fromToday: z.boolean({ required_error: 'FromToday is required' }),
+        fromToday: z.preprocess(
+          (val) => val === 'true',
+          z.boolean({ required_error: 'FromToday is required' })
+        ),
         endDateTime: z.preprocess(
-          (val) => (val === '' ? undefined : new Date(val as string)),
+          (val) => (val === '' ? '' : new Date(val as string)),
           z
             .date({
               errorMap: (issue, { defaultError }) => ({
@@ -218,8 +231,14 @@ export const createActivityFormSchema = z
               }),
             })
             .optional()
+            .or(z.literal(''))
         ),
-        noEndDate: z.boolean({ required_error: 'NoEndDate is required' }),
+        noEndDate: z.preprocess(
+          (val) => val === 'true',
+          z.boolean({
+            required_error: 'NoEndDate is required',
+          })
+        ),
         participantCapacity: z.number({
           required_error: '請選擇參與人數',
         }),
