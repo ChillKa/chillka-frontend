@@ -4,15 +4,11 @@ const nextConfig = {
       process.env.NODE_ENV === 'production' ? { exclude: ['error'] } : false,
   },
   images: {
+    domains: ['unsplash.com'],
     remotePatterns: [
       {
         protocol: 'https',
         hostname: '**.unsplash.com',
-        port: '',
-      },
-      {
-        protocol: 'https',
-        hostname: 'unsplash.com',
         port: '',
       },
       {
