@@ -34,7 +34,11 @@ const OrganizerFormSection = ({ form }: OrganizerFormSectionProps) => {
         render={({ field }) => (
           <FormItem>
             <FormControl>
-              <ImageDropzone fieldName={field.name} maxFiles={1} />
+              <ImageDropzone
+                onFiledChange={field.onChange}
+                fieldName={field.name}
+                maxFiles={1}
+              />
             </FormControl>
             <FormDescription className="text-primary-light">
               請上傳你的頭像，尺寸為 500*500px，檔案大小不超過 2MB。

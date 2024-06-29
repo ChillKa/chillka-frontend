@@ -145,7 +145,7 @@ export async function uploadActivity(
       message: 'Invalid form data',
       fields: flattenData(formDataObject),
       issues: parsed.error.issues.map((issue) => ({
-        path: issue.path.join('.'),
+        path: issue.path[0] === 'cover' ? 'cover' : issue.path.join('.'),
         message: `伺服器驗證錯誤訊息: ${issue.message}`,
       })),
     };

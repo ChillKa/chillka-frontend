@@ -80,7 +80,7 @@ export const createActivityFormSchema = z
       .string({ required_error: '請填寫活動名稱' })
       .min(1, '請至少填寫一個字的名稱'),
     organizer: z.object({
-      profilePicture: z.string().optional(),
+      profilePicture: z.union([z.string().url().optional(), z.literal('')]),
       name: z
         .string({
           required_error: '請填寫主辦方名稱',
@@ -111,8 +111,10 @@ export const createActivityFormSchema = z
       ]),
       websiteURL: z.union([z.string().url('請輸入正確網址'), z.literal('')]),
     }),
-    cover: z.array(z.string({ required_error: '請至少上傳一張圖片' })),
-    thumbnail: z.string({ required_error: '請上傳一張縮圖' }),
+    cover: z
+      .array(z.string().url({ message: '請至少上傳一張有效的圖片' }))
+      .nonempty({ message: '請至少上傳一張有效的圖片' }),
+    thumbnail: z.string().url('請上傳一張縮圖'),
     startDateTime: z.preprocess(
       (val) => (val === '' ? undefined : new Date(`${val}`)),
       z

@@ -15,6 +15,7 @@ export type ImageDropzoneProps = React.HTMLAttributes<HTMLDivElement> & {
   maxSize?: number;
   maxFiles?: number;
   multiple?: boolean;
+  onFiledChange: (...event: any[]) => void;
   onValueChange?: React.Dispatch<React.SetStateAction<File[]>>;
 };
 
@@ -66,6 +67,7 @@ const FileCard = ({ file, isUploading, onRemove }: FileCardProps) => {
 
 const ImageDropzone = ({
   fieldName,
+  onFiledChange,
   value: valueProp,
   onValueChange,
   maxSize = 1024 * 1024 * 2,
@@ -92,6 +94,12 @@ const ImageDropzone = ({
       ...prevImageURLs,
       result.data.imageUrls.toString(),
     ]);
+    onFiledChange(
+      maxFiles > 1
+        ? [...imageURLs, result.data.imageUrls.toString()]
+        : [...imageURLs, result.data.imageUrls.toString()].toString()
+    );
+
     return { status: result.status, message: '圖片上傳成功' };
   };
 
@@ -164,6 +172,7 @@ const ImageDropzone = ({
     setFiles(newFiles);
     const newImageURLs = imageURLs?.filter((_, i) => i !== index);
     setImageURLs(newImageURLs);
+    onFiledChange(maxFiles > 1 ? newImageURLs : newImageURLs.toString());
     onValueChange?.(newFiles);
   };
 
@@ -225,7 +234,7 @@ const ImageDropzone = ({
           </div>
         </div>
       ) : null}
-      <input name={fieldName} type="hidden" value={imageURLs.toString()} />
+      <input name={fieldName} value={imageURLs.toString()} readOnly hidden />
     </div>
   );
 };

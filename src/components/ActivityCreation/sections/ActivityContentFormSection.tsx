@@ -48,6 +48,7 @@ const ActivityContentFormSection = ({
               <FormControl>
                 <ImageDropzone
                   fieldName={field.name}
+                  onFiledChange={field.onChange}
                   maxFiles={4}
                   multiple
                   maxSize={1024 * 1024 * 4}
@@ -72,7 +73,11 @@ const ActivityContentFormSection = ({
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <ImageDropzone fieldName={field.name} maxFiles={1} />
+                <ImageDropzone
+                  fieldName={field.name}
+                  onFiledChange={field.onChange}
+                  maxFiles={1}
+                />
               </FormControl>
               <P asChild>
                 <FormDescription className="text-primary-light">
