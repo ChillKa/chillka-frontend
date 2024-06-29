@@ -12,7 +12,7 @@ import cn from '@lib/utils';
 import { format } from 'date-fns';
 import { ArrowUpRight } from 'lucide-react';
 import { Suspense, use } from 'react';
-import ErrorBoudarySection from './error/ErrorBoudarySection';
+import ErrorBoundarySection from './error/ErrorBoundarySection';
 
 type NearbyActivityProps = {
   className: string;
@@ -60,7 +60,7 @@ const NearbyActivity = ({
           'xl:flex-row xl:flex-wrap xl:gap-y-12 xl:space-y-0'
         )}
       >
-        <ErrorBoudarySection>
+        <ErrorBoundarySection>
           <Suspense
             fallback={Array.from({ length: 3 }).map((_, index) => {
               const id = index;
@@ -97,7 +97,7 @@ const NearbyActivity = ({
               />
             ))}
           </Suspense>
-        </ErrorBoudarySection>
+        </ErrorBoundarySection>
 
         <Button
           variant="outline"

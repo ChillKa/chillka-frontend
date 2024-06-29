@@ -9,7 +9,7 @@ import cn from '@lib/utils';
 import { format } from 'date-fns';
 import { ArrowUpRight } from 'lucide-react';
 import { Suspense } from 'react';
-import ErrorBoudarySection from './error/ErrorBoudarySection';
+import ErrorBoundarySection from './error/ErrorBoundarySection';
 
 type RecommendActivityProps = {
   className: string;
@@ -45,7 +45,7 @@ const RecommendActivity = async ({ className }: RecommendActivityProps) => {
       </div>
       <hr className="mb-12 mt-12 w-12 border-t-2 border-primary" />
       <div className="flex w-full flex-col justify-between space-y-12 xl:flex-row xl:space-y-0">
-        <ErrorBoudarySection>
+        <ErrorBoundarySection>
           <Suspense
             fallback={
               <>
@@ -80,7 +80,7 @@ const RecommendActivity = async ({ className }: RecommendActivityProps) => {
               />
             ))}
           </Suspense>
-        </ErrorBoudarySection>
+        </ErrorBoundarySection>
         <Button
           variant="outline"
           className={cn(
