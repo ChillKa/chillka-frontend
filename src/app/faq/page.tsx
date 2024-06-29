@@ -47,7 +47,7 @@ const Page = () => {
         </AccordionItem>
         <AccordionItem value="item-2">
           <AccordionTrigger className="hover:no-underline">
-            <H3> 如何註冊和開始使用？</H3>
+            <H3>如何註冊和開始使用？</H3>
           </AccordionTrigger>
           <AccordionContent>
             <P>
@@ -67,7 +67,7 @@ const Page = () => {
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="item-4">
-          <AccordionTrigger className="hover:no-underline">
+          <AccordionTrigger className="text-left hover:no-underline">
             <H3>我能在 chillka 揪咖上創建自己的活動嗎？</H3>
           </AccordionTrigger>
           <AccordionContent>
@@ -77,7 +77,7 @@ const Page = () => {
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="item-5">
-          <AccordionTrigger className="hover:no-underline">
+          <AccordionTrigger className="text-left hover:no-underline">
             <H3>chillka 揪咖的服務是免費的嗎？</H3>
           </AccordionTrigger>
           <AccordionContent>
