@@ -12,11 +12,11 @@ type FooterProps = {
 const SITEMAP = [
   {
     name: '探索活動',
-    url: '/explore',
+    url: '/search',
   },
   {
     name: '推薦活動',
-    url: '/recommended',
+    url: '/search',
   },
   {
     name: '常見問題',
