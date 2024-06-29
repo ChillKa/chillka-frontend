@@ -119,36 +119,17 @@ const ActivityContentFormSection = ({
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="startDateTime"
-          render={({ field }) => (
-            <FormItem className="space-y-1.5">
-              <FormLabel>開始</FormLabel>
-              <FormControl>
-                <ActivityDateWrapper
-                  datePlaceHolder="設定開始日期"
-                  timePlaceHolder="設定開始時間"
-                  className="flex items-center gap-2"
-                  name={field.name}
-                  onChange={field.onChange}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
         <div className="space-y-1.5">
           <FormField
             control={form.control}
-            name="endDateTime"
+            name="startDateTime"
             render={({ field }) => (
-              <FormItem>
-                <FormLabel>結束</FormLabel>
+              <FormItem className="space-y-1.5">
+                <FormLabel>開始</FormLabel>
                 <FormControl>
                   <ActivityDateWrapper
-                    datePlaceHolder="設定結束日期"
-                    timePlaceHolder="設定結束時間"
+                    datePlaceHolder="設定開始日期"
+                    timePlaceHolder="設定開始時間"
                     className="flex items-center gap-2"
                     name={field.name}
                     onChange={field.onChange}
@@ -180,6 +161,8 @@ const ActivityContentFormSection = ({
               </FormItem>
             )}
           />
+        </div>
+        <div className="space-y-1.5">
           <FormField
             control={form.control}
             name="endDateTime"
