@@ -2,6 +2,7 @@
 
 import { createActivityFormSchema, endpoint } from '@lib/definitions';
 import { cookies } from 'next/headers';
+import { IActivityCreationResponse } from 'src/types/activity';
 import { IUploadImagesResult } from 'src/types/uploadImages';
 import { ZodError, z } from 'zod';
 import { fetchAPI } from './utils';
@@ -150,9 +151,6 @@ export async function uploadActivity(
     };
   }
 
-  const { organizer } = parsed.data;
-  const { name } = organizer;
-
   try {
     const response = await fetchAPI({
       api: '/auth/activities',
@@ -165,18 +163,11 @@ export async function uploadActivity(
       return { message: '建立活動上傳失敗，請稍後再試' };
     }
 
-    const result = await response.json();
+    const result = (await response.json()) as IActivityCreationResponse;
 
-    console.log(result);
-    // const activityId = result._id;
-    // const userID = result.creatorId;
+    const { organizer } = result;
 
-    // if (result) {
-    //   return { message: `Welcome, ${activityId} ${userID || ''}!` };
-    // }
-    // revalidatePath('/activity/new');
-    // redirect(`/activity/preview?id=${activityId}&userID=${userID}`);
-    return { message: `歡迎, ${name}!` };
+    return { message: `歡迎, ${organizer.name}!` };
   } catch (_e) {
     return { message: '請登入後再試' };
   }
