@@ -63,7 +63,7 @@ const ActivityCreationForm = ({ className }: ActivityCreationFormProps) => {
       endDateTime: undefined,
       noEndDate: false,
       category: '',
-      type: '',
+      type: '線上',
       link: '',
       location: '',
       address: '',

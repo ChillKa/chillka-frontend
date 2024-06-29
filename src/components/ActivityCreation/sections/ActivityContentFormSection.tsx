@@ -359,6 +359,12 @@ const ActivityContentFormSection = ({
                     </FormControl>
                     <FormLabel>私人</FormLabel>
                   </FormItem>
+                  <input
+                    name={field.name}
+                    type="hidden"
+                    value={`${field.value}`}
+                    readOnly
+                  />
                 </RadioGroup>
               </FormControl>
               <FormDescription className="text-primary-light">
