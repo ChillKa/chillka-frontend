@@ -158,10 +158,69 @@ const ActivityContentFormSection = ({
               </FormItem>
             )}
           />
-          <div className="flex items-center gap-2">
-            <Checkbox variant="form" />
-            <Label>無截止日</Label>
-          </div>
+          <FormField
+            control={form.control}
+            name="fromToday"
+            render={({ field }) => (
+              <FormItem className="flex items-center gap-2 space-y-0">
+                <Checkbox
+                  variant="form"
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+                <FormControl>
+                  <input
+                    type="hidden"
+                    name={field.name}
+                    value={`${field.value}`}
+                  />
+                </FormControl>
+                <Label>即日起</Label>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="endDateTime"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>結束</FormLabel>
+                <FormControl>
+                  <ActivityDateWrapper
+                    datePlaceHolder="設定結束日期"
+                    timePlaceHolder="設定結束時間"
+                    className="flex items-center gap-2"
+                    name={field.name}
+                    onChange={field.onChange}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="noEndDate"
+            render={({ field }) => (
+              <FormItem className="flex items-center gap-2 space-y-0">
+                <Checkbox
+                  variant="form"
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+                <FormControl>
+                  <input
+                    type="hidden"
+                    name={field.name}
+                    value={`${field.value}`}
+                  />
+                </FormControl>
+                <Label>無截止日期</Label>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
       </div>
       <Separator className="h-[0.5px]" />

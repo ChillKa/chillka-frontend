@@ -125,7 +125,7 @@ export const createActivityFormSchema = z
         })
         .optional()
     ),
-    fromToday: z.boolean({
+    fromToday: z.coerce.boolean({
       required_error: 'FromToday is required',
     }),
     endDateTime: z.preprocess(
@@ -141,7 +141,7 @@ export const createActivityFormSchema = z
         })
         .optional()
     ),
-    noEndDate: z.boolean({
+    noEndDate: z.coerce.boolean({
       required_error: 'NoEndDate is required',
     }),
     category: z
