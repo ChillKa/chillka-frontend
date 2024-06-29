@@ -68,7 +68,7 @@ const EmailButton = () => {
         className="h-0 w-0 border-none bg-transparent p-0 text-primary"
       >
         <div className="absolute right-[-1.875rem] box-content w-96 rounded-[2rem] border-4 border-primary bg-surface pt-6 ">
-          <H3 className="mb-2 p-2 px-8">信箱</H3>
+          <H3 className="mb-2 p-2 px-8">訊息</H3>
           <motion.div
             initial="closed"
             animate={isOpen ? 'open' : 'closed'}
@@ -115,7 +115,7 @@ const EmailButton = () => {
           </motion.div>
           <Separator className="h-[0.0625rem] bg-primary" />
           <Link
-            href="/member-center/email"
+            href="/member-center/message"
             className="flex h-[4.5rem] w-full items-center justify-center hover:bg-primary/[0.03]"
           >
             查看所有訊息
