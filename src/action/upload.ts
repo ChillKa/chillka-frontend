@@ -1,7 +1,6 @@
 'use server';
 
 import { createActivityFormSchema, endpoint } from '@lib/definitions';
-import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
 import { IUploadImagesResult } from 'src/types/uploadImages';
 import { ZodError, z } from 'zod';
@@ -111,6 +110,22 @@ function formDataToNestedObject(formData: FormDataObject): any {
     }, result);
   });
 
+  // Add the tickets object if it doesn't exist
+  if (!result.tickets) {
+    const ticket: any = {
+      name: result.name,
+      price: 0,
+      startDateTime: result.startDateTime,
+      fromToday: result.fromToday,
+      endDateTime: result.endDateTime,
+      noEndDate: result.noEndDate,
+      participantCapacity: 100,
+      unlimitedQuantity: true,
+    };
+
+    result.tickets = [ticket];
+  }
+
   return result;
 }
 
@@ -118,7 +133,7 @@ export async function uploadActivity(
   prevSate: FormState,
   data: FormData
 ): Promise<FormState> {
-  console.log(data);
+  // console.log(data);
 
   const formDataObject: FormDataObject = Object.fromEntries(data);
   const nestedData = formDataToNestedObject(formDataObject);
@@ -134,37 +149,35 @@ export async function uploadActivity(
       })),
     };
   }
-  // if (parsed.data.name.includes('a')) {
-  //   return {
-  //     message: "We Don't like Alexendar Hamilton.",
-  //     fields: flattenData(parsed.data),
-  //   };
-  // }
 
   const { organizer } = parsed.data;
   const { name } = organizer;
 
-  const response = await fetchAPI({
-    api: '/auth/activities',
-    method: 'POST',
-    data: parsed.data,
-    shouldAuth: true,
-  });
+  try {
+    const response = await fetchAPI({
+      api: '/auth/activities',
+      method: 'POST',
+      data: parsed.data,
+      shouldAuth: true,
+    });
 
-  if (!response.ok) {
-    throw new Error('Upload failed');
+    if (!response.ok) {
+      return { message: '建立活動上傳失敗，請稍後再試' };
+    }
+
+    const result = await response.json();
+
+    console.log(result);
+    // const activityId = result._id;
+    // const userID = result.creatorId;
+
+    // if (result) {
+    //   return { message: `Welcome, ${activityId} ${userID || ''}!` };
+    // }
+    // revalidatePath('/activity/new');
+    // redirect(`/activity/preview?id=${activityId}&userID=${userID}`);
+    return { message: `歡迎, ${name}!` };
+  } catch (_e) {
+    return { message: '請登入後再試' };
   }
-
-  const result = await response.json();
-
-  console.log(result);
-  const activityId = result._id;
-  const userID = result.creatorId;
-
-  if (result) {
-    return { message: `Welcome, ${activityId} ${userID || ''}!` };
-  }
-  revalidatePath('/activity/new');
-  // redirect(`/activity/preview?id=${activityId}&userID=${userID}`);
-  return { message: `Welcome, ${name}!` };
 }
