@@ -26,7 +26,7 @@ const NearbyActivity = ({
 }: NearbyActivityProps) => {
   const { matches: isDefault } = useMediaQuery();
   const data = use(getNearByActivities);
-  const { activities } = data;
+  const { activities = [] } = data;
 
   const eventsToShow = isDefault ? activities.slice(0, 3) : activities;
 
