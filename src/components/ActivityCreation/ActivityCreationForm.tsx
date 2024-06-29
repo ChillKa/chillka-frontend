@@ -111,6 +111,8 @@ const ActivityCreationForm = ({ className }: ActivityCreationFormProps) => {
           }
         );
       });
+    }
+    if (formState?.message) {
       toast({
         title: 'chillka 溫馨小提醒',
         description: `${formState?.message}`,
