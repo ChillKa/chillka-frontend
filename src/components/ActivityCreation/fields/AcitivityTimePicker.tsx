@@ -12,16 +12,20 @@ import { TimerIcon } from 'lucide-react';
 import { Dispatch, SetStateAction, useState } from 'react';
 
 type ActivityTimePickerProps = {
+  placeHolder: string;
   onChange: Dispatch<
     SetStateAction<{ day: string; hour: string; minute: string }>
   >;
 };
 
-const ActivityTimePicker = ({ onChange }: ActivityTimePickerProps) => {
+const ActivityTimePicker = ({
+  placeHolder,
+  onChange,
+}: ActivityTimePickerProps) => {
   const [selectedTime, setSelectedTime] = useState<{
     hour: string;
     minute: string;
-  }>({ hour: '00', minute: '00' });
+  }>({ hour: '', minute: '' });
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const hours = Array.from({ length: 24 }, (_, i) =>
@@ -52,6 +56,12 @@ const ActivityTimePicker = ({ onChange }: ActivityTimePickerProps) => {
     });
   };
 
+  const { hour: selectedHour, minute: selectedMinute } = selectedTime;
+  const time =
+    selectedHour === '' && selectedMinute === ''
+      ? ''
+      : `${selectedHour}:${selectedMinute}`;
+
   return (
     <DropdownMenu open={isMenuOpen} modal={false}>
       <DropdownMenuTrigger asChild>
@@ -64,8 +74,9 @@ const ActivityTimePicker = ({ onChange }: ActivityTimePickerProps) => {
         >
           <Input
             variant="form"
-            className="pointer-events-none cursor-pointer select-none border-0 pl-0 text-primary-light transition focus-visible:ring-0 focus-visible:ring-offset-0 group-hover:bg-primary-super-light"
-            value={`${selectedTime.hour}:${selectedTime.minute}`}
+            className="pointer-events-none cursor-pointer select-none border-0 pl-0 font-normal text-primary-light transition focus-visible:ring-0 focus-visible:ring-offset-0 group-hover:bg-primary-super-light"
+            value={time}
+            placeholder={placeHolder}
             readOnly
           />
           <TimerIcon className="-mr-1 ml-2 h-5 w-5" aria-hidden="true" />

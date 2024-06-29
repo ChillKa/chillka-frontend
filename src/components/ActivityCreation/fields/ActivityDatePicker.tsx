@@ -14,12 +14,16 @@ import { Calendar as CalendarIcon } from 'lucide-react';
 import { Dispatch, SetStateAction, useState } from 'react';
 
 type ActivityDatePickerProps = {
+  placeHolder: string;
   onChange: Dispatch<
     SetStateAction<{ day: string; hour: string; minute: string }>
   >;
 };
 
-const ActivityDatePicker = ({ onChange }: ActivityDatePickerProps) => {
+const ActivityDatePicker = ({
+  placeHolder,
+  onChange,
+}: ActivityDatePickerProps) => {
   const [date, setDate] = useState<Date>();
 
   return (
@@ -36,7 +40,7 @@ const ActivityDatePicker = ({ onChange }: ActivityDatePickerProps) => {
             format(date, 'PPP', { locale: zhTW })
           ) : (
             <span className="text-primary-light transition-colors group-hover:text-primary">
-              設定開始日期
+              {placeHolder}
             </span>
           )}
           <CalendarIcon className="h-4 w-4 stroke-primary-light transition-colors group-hover:stroke-primary" />

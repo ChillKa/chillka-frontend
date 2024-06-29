@@ -127,6 +127,8 @@ const ActivityContentFormSection = ({
               <FormLabel>開始</FormLabel>
               <FormControl>
                 <ActivityDateWrapper
+                  datePlaceHolder="設定開始日期"
+                  timePlaceHolder="設定開始時間"
                   className="flex items-center gap-2"
                   name={field.name}
                   onChange={field.onChange}
@@ -145,6 +147,8 @@ const ActivityContentFormSection = ({
                 <FormLabel>結束</FormLabel>
                 <FormControl>
                   <ActivityDateWrapper
+                    datePlaceHolder="設定結束日期"
+                    timePlaceHolder="設定結束時間"
                     className="flex items-center gap-2"
                     name={field.name}
                     onChange={field.onChange}
