@@ -129,59 +129,6 @@ export async function fetchActivity(data: string): Promise<ActivityFetchState> {
   }
 }
 
-export interface RecommendedActivityFetchState {
-  // FIXME: enhance the type
-  activities: {
-    _id: string;
-    thumbnail: string;
-    name: string;
-    summary: string;
-    startDateTime: string;
-    fromToday: boolean;
-    endDateTime: string;
-    noEndDate: boolean;
-    location: string;
-    participantNumber: number;
-    organizerName: string;
-    discount: number | undefined; // FIXME: no this field
-    collected: boolean | undefined; //  FIXME: no this field
-    ticketPrice: {
-      name: string;
-      price: number;
-    }[];
-  }[];
-}
-export async function fetchRecommendedActivity(): Promise<RecommendedActivityFetchState> {
-  try {
-    const payload = await getJwtPayload();
-    const userIdParam =
-      payload && typeof payload._id === 'string'
-        ? `?userId=${payload._id}`
-        : '';
-
-    const response = await fetchAPI({
-      api: `/activities/recommend/${userIdParam}`,
-      method: 'GET',
-    });
-
-    if (!response.ok) {
-      return {
-        activities: [],
-      };
-    }
-
-    const activity = await response.json();
-
-    return {
-      activities: activity,
-    };
-  } catch (error) {
-    return {
-      activities: [],
-    };
-  }
-}
-
 export type ActivityState =
   | {
       status: 'success';

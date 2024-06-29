@@ -50,20 +50,13 @@ export const EventCardCoverSection = ({
     e.preventDefault();
     onToggle();
   };
-  const [imageSrc, setImageSrc] = useState(src);
 
   return (
     <div className={cn('relative h-[13rem] w-full overflow-hidden', className)}>
       <Image
-        src={imageSrc}
+        src={src}
         alt={alt}
         layout="fill"
-        placeholder="blur"
-        blurDataURL="/loading.webp"
-        onLoadingComplete={(result) => {
-          if (result.naturalWidth === 0) setImageSrc('/default.webp');
-        }}
-        onError={() => setImageSrc('/default.webp')}
         objectFit="cover"
         className={cn(
           'absolute left-0 top-0 h-full w-full',

@@ -28,7 +28,7 @@ const ErrorCard = ({ error, resetErrorBoundary }: ErrorCardProps) => {
   );
 };
 
-const ErrorBoundarySection = ({ children }: PropsWithChildren) => {
+const ErrorBoudarySection = ({ children }: PropsWithChildren) => {
   const router = useRouter();
   const logError = async (error: Error, info: ErrorInfo) => {
     const errorData = {
@@ -69,4 +69,4 @@ const ErrorBoundarySection = ({ children }: PropsWithChildren) => {
   );
 };
 
-export default ErrorBoundarySection;
+export default ErrorBoudarySection;

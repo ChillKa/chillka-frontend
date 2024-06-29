@@ -12,11 +12,6 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'unsplash.com',
-        port: '',
-      },
-      {
-        protocol: 'https',
         hostname: 'fastly.picsum.photos',
         port: '',
       },

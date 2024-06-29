@@ -207,8 +207,6 @@ export const SearchParamsSchema = z.object({
   distance: z.string().optional(),
   sort: z.enum(['相關性', '日期']).default('相關性').optional(),
   limit: z.string().optional(),
-  lat: z.string().optional(),
-  lng: z.string().optional(),
   page: z.string().optional(),
 });
 
