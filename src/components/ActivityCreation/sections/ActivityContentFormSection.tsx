@@ -21,10 +21,11 @@ import { useEffect } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { z } from 'zod';
 import ActivityDateWrapper from '../fields/ActitvityDateWraper';
+import ActivityCreationDropdownMenu from '../fields/ActivityCreationDropdownMenu';
 import ActivityCreationMap from '../fields/ActivityCreationMap';
-import CategoryPicker from '../fields/CategoryPicker';
 import ImageDropzone from '../fields/ImageDropzone';
 import RichTextEditor from '../fields/RichTextEditor';
+import { categories, locations } from '../fields/utils';
 
 type FormSchema = z.infer<typeof createActivityFormSchema>;
 
@@ -165,7 +166,9 @@ const ActivityContentFormSection = ({
                 活動類型
               </FormLabel>
               <FormControl>
-                <CategoryPicker
+                <ActivityCreationDropdownMenu
+                  contents={categories}
+                  className="max-w-52"
                   fieldName={field.name}
                   placeHolder="請選擇活動類型"
                   onChange={field.onChange}
@@ -321,24 +324,27 @@ const ActivityContentFormSection = ({
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="location"
-          render={({ field }) => (
-            <FormItem
-              className={cn(
-                'space-y-1.5',
-                activityTypeState === '線下' ? 'block' : 'hidden'
-              )}
-            >
-              <FormLabel>活動地點</FormLabel>
-              <FormControl>
-                <Input variant="form" placeholder="請輸入活動地點" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        {activityTypeState === '線下' && (
+          <FormField
+            control={form.control}
+            name="location"
+            render={({ field }) => (
+              <FormItem className="space-y-1.5">
+                <FormLabel>活動地點</FormLabel>
+                <FormControl>
+                  <ActivityCreationDropdownMenu
+                    contents={locations}
+                    className="max-w-52"
+                    fieldName={field.name}
+                    placeHolder="請選擇活動地點"
+                    onChange={field.onChange}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
         <ActivityCreationMap
           className={activityTypeState === '線下' ? 'block' : 'hidden'}
           setLat={(lat: number) => {
@@ -351,42 +357,48 @@ const ActivityContentFormSection = ({
             setValue('address', address);
           }}
         />
-        <FormField
-          control={form.control}
-          name="lng"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <input type="hidden" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="lat"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <input type="hidden" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="address"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <input type="hidden" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        {activityTypeState === '線下' && (
+          <FormField
+            control={form.control}
+            name="lng"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <input type="hidden" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
+        {activityTypeState === '線下' && (
+          <FormField
+            control={form.control}
+            name="lat"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <input type="hidden" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
+        {activityTypeState === '線下' && (
+          <FormField
+            control={form.control}
+            name="address"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <input type="hidden" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
       </div>
       <Separator className="h-[0.5px]" />
       <div className="space-y-6">
