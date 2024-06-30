@@ -82,7 +82,9 @@ const ActivityContentFormSection = ({
       <Separator />
       <div id="activity-setting" className="space-y-6">
         <H2>封面與縮圖</H2>
-        <H4>活動封面</H4>
+        <H4 className="after:ml-1 after:text-destructive after:content-['*']">
+          活動封面
+        </H4>
         <FormField
           control={form.control}
           name="cover"
@@ -109,7 +111,9 @@ const ActivityContentFormSection = ({
           )}
         />
         <Separator className="h-0.5 w-12" />
-        <H4>活動縮圖</H4>
+        <H4 className="after:ml-1 after:text-destructive after:content-['*']">
+          活動縮圖
+        </H4>
         <FormField
           control={form.control}
           name="thumbnail"
@@ -142,7 +146,9 @@ const ActivityContentFormSection = ({
           name="name"
           render={({ field }) => (
             <FormItem className="space-y-1.5">
-              <FormLabel>活動名稱</FormLabel>
+              <FormLabel className="after:ml-1 after:text-destructive after:content-['*']">
+                活動名稱
+              </FormLabel>
               <FormControl>
                 <Input variant="form" placeholder="請輸入活動名稱" {...field} />
               </FormControl>
@@ -155,7 +161,9 @@ const ActivityContentFormSection = ({
           name="category"
           render={({ field }) => (
             <FormItem className="space-y-1.5">
-              <FormLabel>活動類型</FormLabel>
+              <FormLabel className="after:ml-1 after:text-destructive after:content-['*']">
+                活動類型
+              </FormLabel>
               <FormControl>
                 <CategoryPicker
                   fieldName={field.name}
@@ -262,7 +270,9 @@ const ActivityContentFormSection = ({
           name="type"
           render={({ field }) => (
             <FormItem className="space-y-1.5">
-              <FormLabel>活動形式</FormLabel>
+              <FormLabel className="after:ml-1 after:text-destructive after:content-['*']">
+                活動形式
+              </FormLabel>
               <FormControl>
                 <RadioGroup
                   onValueChange={field.onChange}
@@ -386,7 +396,9 @@ const ActivityContentFormSection = ({
           name="summary"
           render={({ field }) => (
             <FormItem className="w-[26rem] space-y-1.5">
-              <FormLabel>活動摘要</FormLabel>
+              <FormLabel className="after:ml-1 after:text-destructive after:content-['*']">
+                活動摘要
+              </FormLabel>
               <FormControl>
                 <Input variant="form" placeholder="請輸入活動摘要" {...field} />
               </FormControl>
@@ -403,7 +415,9 @@ const ActivityContentFormSection = ({
           render={({ field }) => {
             return (
               <FormItem className="space-y-1.5">
-                <FormLabel>活動說明</FormLabel>
+                <FormLabel className="after:ml-1 after:text-destructive after:content-['*']">
+                  活動說明
+                </FormLabel>
                 <FormControl>
                   <RichTextEditor
                     name={field.name}

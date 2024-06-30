@@ -52,7 +52,9 @@ const OrganizerFormSection = ({ form }: OrganizerFormSectionProps) => {
         name="organizer.name"
         render={({ field }) => (
           <FormItem className="max-w-[26rem] space-y-1.5">
-            <FormLabel>主辦方名稱</FormLabel>
+            <FormLabel className="after:ml-1 after:text-destructive after:content-['*']">
+              主辦方名稱
+            </FormLabel>
             <FormControl>
               <Input
                 variant="form"
@@ -74,7 +76,9 @@ const OrganizerFormSection = ({ form }: OrganizerFormSectionProps) => {
         render={({ field }) => (
           <FormItem>
             <div className="max-w-[26rem] space-y-1.5">
-              <FormLabel>聯絡人姓名</FormLabel>
+              <FormLabel className="after:ml-1 after:text-destructive after:content-['*']">
+                聯絡人姓名
+              </FormLabel>
               <FormControl>
                 <Input
                   variant="form"
@@ -93,7 +97,9 @@ const OrganizerFormSection = ({ form }: OrganizerFormSectionProps) => {
         render={({ field }) => (
           <FormItem>
             <div className="max-w-[26rem] space-y-1.5">
-              <FormLabel>聯絡人電話</FormLabel>
+              <FormLabel className="after:ml-1 after:text-destructive after:content-['*']">
+                聯絡人電話
+              </FormLabel>
               <FormControl>
                 <Input variant="form" placeholder="請輸入您的電話" {...field} />
               </FormControl>
@@ -108,7 +114,9 @@ const OrganizerFormSection = ({ form }: OrganizerFormSectionProps) => {
         render={({ field }) => (
           <FormItem>
             <div className="max-w-[26rem] space-y-1.5">
-              <FormLabel>聯絡人電子信箱</FormLabel>
+              <FormLabel className="after:ml-1 after:text-destructive after:content-['*']">
+                聯絡人電子信箱
+              </FormLabel>
               <FormControl>
                 <Input
                   variant="form"
