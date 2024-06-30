@@ -13,35 +13,35 @@ import {
 } from './EventCard-utils';
 
 export type SearchResultEventCardProps = {
-  title: string;
-  cover: string;
-  description: string;
-  startTime: FormatDate<'YY.MM.DD'>;
-  endTime: string;
-  attendeeCount: number;
-  isCollected: boolean;
-  location: string;
-  organizer: string;
-  pricing: number;
+  title?: string;
+  cover?: string;
+  description?: string;
+  startTime?: FormatDate<'YY.MM.DD'>;
+  endTime?: string;
+  attendeeCount?: number;
+  isCollected?: boolean;
+  location?: string;
+  organizer?: string;
+  pricing?: number;
   isContinuous?: boolean;
-  discount: number;
+  discount?: number;
   link?: string;
   onHoverCard?: () => void;
 };
 
 const SearchResultEventCard = ({
-  title,
-  cover,
-  description,
-  startTime,
-  endTime,
-  attendeeCount,
+  title = 'Unknown Title',
+  cover = '/default.webp',
+  description = 'Unknown description',
+  startTime = '1900.01.01',
+  endTime = '1900.01.02',
+  attendeeCount = 0,
   isCollected = false,
-  location,
-  organizer,
+  location = 'Unknown location',
+  organizer = 'Unknown Organizer',
   isContinuous = false,
-  pricing,
-  discount,
+  pricing = 0,
+  discount = 0,
   link = '',
   onHoverCard,
 }: SearchResultEventCardProps) => {
