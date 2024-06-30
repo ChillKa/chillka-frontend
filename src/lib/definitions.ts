@@ -172,8 +172,11 @@ export const createActivityFormSchema = z
         }
       ),
     type: z.string({ required_error: '請選擇活動形式' }),
-    link: z.string().optional(),
-    location: z.string().optional(),
+    link: z.union([z.string().url('請輸入正確網址'), z.literal('')]),
+    location: z.union([
+      z.string().min(1, '請至少填寫一個字的名稱，或是留下空白'),
+      z.literal(''),
+    ]),
     address: z.string().optional(),
     summary: z
       .string({ required_error: '請填寫活動摘要' })
