@@ -87,6 +87,11 @@ const ActivityCreationMap = ({
           placeholder="請輸入地址..."
           onChange={(e) => setInputValue(e.target.value)}
           value={inputValue}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              e.preventDefault();
+            }
+          }}
         />
       </Autocomplete>
       <GoogleMap
