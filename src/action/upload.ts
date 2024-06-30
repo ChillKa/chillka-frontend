@@ -142,7 +142,7 @@ export async function uploadActivity(
 
   if (!parsed.success) {
     return {
-      message: 'Invalid form data',
+      message: '表單驗證失敗',
       fields: flattenData(formDataObject),
       issues: parsed.error.issues.map((issue) => ({
         path: issue.path[0] === 'cover' ? 'cover' : issue.path.join('.'),
@@ -160,7 +160,8 @@ export async function uploadActivity(
     });
 
     if (!response.ok) {
-      return { message: '建立活動上傳失敗，請稍後再試' };
+      const errorMessage = await response.text();
+      return { message: `建立活動上傳失敗，原因：${errorMessage}` };
     }
 
     const result = (await response.json()) as IActivityCreationResponse;
