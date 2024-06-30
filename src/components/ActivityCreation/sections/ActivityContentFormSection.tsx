@@ -36,7 +36,7 @@ const ActivityContentFormSection = ({
 }: ActivityContentFormSectionProps) => {
   const { setValue, watch } = form;
 
-  const visibiltyDependsOnActivityType = watch('type');
+  const activityTypeState = watch('type');
   return (
     <>
       <Separator />
@@ -260,7 +260,7 @@ const ActivityContentFormSection = ({
             <FormItem
               className={cn(
                 'space-y-1.5',
-                visibiltyDependsOnActivityType === '線上' ? 'block' : 'hidden'
+                activityTypeState === '線上' ? 'block' : 'hidden'
               )}
             >
               <FormLabel>活動連結</FormLabel>
@@ -279,7 +279,7 @@ const ActivityContentFormSection = ({
             <FormItem
               className={cn(
                 'space-y-1.5',
-                visibiltyDependsOnActivityType === '線下' ? 'block' : 'hidden'
+                activityTypeState === '線下' ? 'block' : 'hidden'
               )}
             >
               <FormLabel>活動地點</FormLabel>
@@ -291,9 +291,7 @@ const ActivityContentFormSection = ({
           )}
         />
         <ActivityCreationMap
-          className={
-            visibiltyDependsOnActivityType === '線下' ? 'block' : 'hidden'
-          }
+          className={activityTypeState === '線下' ? 'block' : 'hidden'}
           setLat={(lat: number) => {
             setValue('lat', lat);
           }}
