@@ -61,7 +61,7 @@ const ActivityCreationForm = ({ className }: ActivityCreationFormProps) => {
       displayRemainingTickets: false,
       isRecurring: false,
       recurring: {
-        period: '',
+        period: '每週',
         week: '',
         day: '',
       },

@@ -17,6 +17,7 @@ import { Switch } from '@components/ui/switch';
 import { H2, H4, P } from '@components/ui/typography';
 import { createActivityFormSchema } from '@lib/definitions';
 import cn from '@lib/utils';
+import { useEffect } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { z } from 'zod';
 import ActivityDateWrapper from '../fields/ActitvityDateWraper';
@@ -37,6 +38,44 @@ const ActivityContentFormSection = ({
   const { setValue, watch } = form;
 
   const activityTypeState = watch('type');
+  const isRecurringState = watch('isRecurring');
+
+  const getDayInChinese = (day: Date) => {
+    const daysInChinese = [
+      '星期日',
+      '星期一',
+      '星期二',
+      '星期三',
+      '星期四',
+      '星期五',
+      '星期六',
+    ];
+    const dayIndex = day.getDay();
+    return daysInChinese[dayIndex];
+  };
+
+  useEffect(() => {
+    const subscription = watch((value, { name }) => {
+      if (
+        name === 'fromToday' ||
+        name === 'isRecurring' ||
+        name === 'startDateTime'
+      ) {
+        if (value.isRecurring) {
+          setValue(
+            'recurring.day',
+            getDayInChinese(
+              value.fromToday
+                ? new Date()
+                : new Date(value.startDateTime as Date)
+            )
+          );
+        }
+      }
+    });
+    return () => subscription.unsubscribe();
+  }, [watch, setValue]);
+
   return (
     <>
       <Separator />
@@ -271,7 +310,6 @@ const ActivityContentFormSection = ({
             </FormItem>
           )}
         />
-
         <FormField
           control={form.control}
           name="location"
@@ -480,6 +518,34 @@ const ActivityContentFormSection = ({
             </FormItem>
           )}
         />
+        {isRecurringState === true && (
+          <FormField
+            control={form.control}
+            name="recurring.period"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input type="hidden" variant="form" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
+        {isRecurringState === true && (
+          <FormField
+            control={form.control}
+            name="recurring.day"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input type="hidden" variant="form" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
       </div>
     </>
   );
