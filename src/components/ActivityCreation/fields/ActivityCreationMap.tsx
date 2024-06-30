@@ -1,6 +1,8 @@
 'use client';
 
 import { Input } from '@components/ui/input';
+import { Label } from '@components/ui/label';
+import cn from '@lib/utils';
 import {
   Autocomplete,
   GoogleMap,
@@ -11,6 +13,7 @@ import {
 import { useCallback, useRef, useState } from 'react';
 
 type ActivityCreationMapProps = {
+  className: string;
   setLat: (lat: number) => void;
   setLng: (lng: number) => void;
   setAddress: (address: string) => void; // Add this line
@@ -19,6 +22,7 @@ type ActivityCreationMapProps = {
 const libraries = ['places'];
 
 const ActivityCreationMap = ({
+  className,
   setLat,
   setLng,
   setAddress, // Add this line
@@ -70,7 +74,8 @@ const ActivityCreationMap = ({
   if (!isLoaded) return <div>地圖資料圖取中</div>;
 
   return (
-    <>
+    <div className={cn('space-y-1.5', className)}>
+      <Label>活動地址</Label>
       <Autocomplete
         options={{ componentRestrictions: { country: 'tw' } }}
         onLoad={onLoad}
@@ -100,7 +105,7 @@ const ActivityCreationMap = ({
       >
         {place && <Marker position={mapCenter} />}
       </GoogleMap>
-    </>
+    </div>
   );
 };
 

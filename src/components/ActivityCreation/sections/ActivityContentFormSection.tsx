@@ -16,6 +16,7 @@ import { Separator } from '@components/ui/separator';
 import { Switch } from '@components/ui/switch';
 import { H2, H4, P } from '@components/ui/typography';
 import { createActivityFormSchema } from '@lib/definitions';
+import cn from '@lib/utils';
 import { UseFormReturn } from 'react-hook-form';
 import { z } from 'zod';
 import ActivityDateWrapper from '../fields/ActitvityDateWraper';
@@ -33,7 +34,9 @@ type ActivityContentFormSectionProps = {
 const ActivityContentFormSection = ({
   form,
 }: ActivityContentFormSectionProps) => {
-  const { setValue } = form;
+  const { setValue, watch } = form;
+
+  const visibiltyDependsOnActivityType = watch('type');
   return (
     <>
       <Separator />
@@ -250,7 +253,47 @@ const ActivityContentFormSection = ({
             </FormItem>
           )}
         />
+        <FormField
+          control={form.control}
+          name="link"
+          render={({ field }) => (
+            <FormItem
+              className={cn(
+                'space-y-1.5',
+                visibiltyDependsOnActivityType === '線上' ? 'block' : 'hidden'
+              )}
+            >
+              <FormLabel>活動連結</FormLabel>
+              <FormControl>
+                <Input variant="form" placeholder="請輸入活動連結" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="location"
+          render={({ field }) => (
+            <FormItem
+              className={cn(
+                'space-y-1.5',
+                visibiltyDependsOnActivityType === '線下' ? 'block' : 'hidden'
+              )}
+            >
+              <FormLabel>活動地點</FormLabel>
+              <FormControl>
+                <Input variant="form" placeholder="請輸入活動地點" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <ActivityCreationMap
+          className={
+            visibiltyDependsOnActivityType === '線下' ? 'block' : 'hidden'
+          }
           setLat={(lat: number) => {
             setValue('lat', lat);
           }}
