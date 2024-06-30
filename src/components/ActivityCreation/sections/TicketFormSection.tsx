@@ -26,6 +26,7 @@ import { ChevronsUpDownIcon, Trash2Icon } from 'lucide-react';
 import { useState } from 'react';
 import { UseFormReturn, useFieldArray } from 'react-hook-form';
 import { z } from 'zod';
+import ActivityDateWrapper from '../fields/ActitvityDateWraper';
 
 type FormSchema = z.infer<typeof createActivityFormSchema>;
 
@@ -90,7 +91,7 @@ const TicketFormSection = ({ form }: TicketFormSectionProps) => {
                   </Button>
                 </CollapsibleTrigger>
               </div>
-              <CollapsibleContent>
+              <CollapsibleContent className="space-y-1.5">
                 <FormField
                   name={`tickets.${index}.name`}
                   control={control}
@@ -141,7 +142,6 @@ const TicketFormSection = ({ form }: TicketFormSectionProps) => {
                           <Input
                             type="number"
                             variant="form"
-                            placeholder="請輸入你喜歡的稱呼"
                             {...field}
                             onChange={(e) => field.onChange(+e.target.value)}
                           />
@@ -152,55 +152,136 @@ const TicketFormSection = ({ form }: TicketFormSectionProps) => {
                   }}
                 />
                 <FormField
+                  control={form.control}
                   name={`tickets.${index}.unlimitedQuantity`}
-                  control={control}
-                  render={({ field }) => {
-                    return (
-                      <FormItem className="space-y-1.5">
-                        <FormLabel>不限制人數</FormLabel>
-                        <FormControl>
-                          <Checkbox
-                            variant="form"
-                            onCheckedChange={field.onChange}
-                            checked={field.value}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    );
-                  }}
+                  render={({ field }) => (
+                    <FormItem className="flex items-center gap-2 space-y-0">
+                      <Checkbox
+                        variant="form"
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                      <FormControl>
+                        <input
+                          type="hidden"
+                          name={field.name}
+                          value={`${field.value}`}
+                        />
+                      </FormControl>
+                      <Label>不限制人數</Label>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
                 <FormField
+                  control={form.control}
+                  name={`tickets.${index}.startDateTime`}
+                  render={({ field }) => (
+                    <FormItem className="space-y-1.5">
+                      <FormLabel>開始</FormLabel>
+                      <FormControl>
+                        <ActivityDateWrapper
+                          datePlaceHolder="設定開始日期"
+                          timePlaceHolder="設定開始時間"
+                          className="flex items-center gap-2"
+                          name={field.name}
+                          onChange={field.onChange}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
                   name={`tickets.${index}.fromToday`}
+                  render={({ field }) => (
+                    <FormItem className="flex items-center gap-2 space-y-0">
+                      <Checkbox
+                        variant="form"
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                      <FormControl>
+                        <input
+                          type="hidden"
+                          name={field.name}
+                          value={`${field.value}`}
+                        />
+                      </FormControl>
+                      <Label>即日起</Label>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name={`tickets.${index}.endDateTime`}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>結束</FormLabel>
+                      <FormControl>
+                        <ActivityDateWrapper
+                          datePlaceHolder="設定結束日期"
+                          timePlaceHolder="設定結束時間"
+                          className="flex items-center gap-2"
+                          name={field.name}
+                          onChange={field.onChange}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name={`tickets.${index}.noEndDate`}
+                  render={({ field }) => (
+                    <FormItem className="flex items-center gap-2 space-y-0">
+                      <Checkbox
+                        variant="form"
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                      <FormControl>
+                        <input
+                          type="hidden"
+                          name={field.name}
+                          value={`${field.value}`}
+                        />
+                      </FormControl>
+                      <Label>無截止日期</Label>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  name={`tickets.${index}.purchaseLimit`}
                   control={control}
                   render={({ field }) => {
                     return (
                       <FormItem className="space-y-1.5">
-                        <FormLabel>即日起</FormLabel>
+                        <FormLabel>每次購買數量限制</FormLabel>
                         <FormControl>
-                          <Checkbox
-                            variant="form"
-                            onCheckedChange={field.onChange}
-                            checked={field.value}
-                          />
+                          <Input type="number" variant="form" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     );
                   }}
-                />
+                />{' '}
                 <FormField
-                  name={`tickets.${index}.noEndDate`}
+                  name={`tickets.${index}.description`}
                   control={control}
                   render={({ field }) => {
                     return (
                       <FormItem className="space-y-1.5">
-                        <FormLabel>無截止日期</FormLabel>
+                        <FormLabel>票券說明</FormLabel>
                         <FormControl>
-                          <Checkbox
+                          <Input
                             variant="form"
-                            onCheckedChange={field.onChange}
-                            checked={field.value}
+                            placeholder="請輸入活動票券說明"
+                            {...field}
                           />
                         </FormControl>
                         <FormMessage />

@@ -209,62 +209,89 @@ export const createActivityFormSchema = z
     status: z.string({ required_error: 'Status is required' }).optional(),
     lat: z.coerce.number().optional(),
     lng: z.coerce.number().optional(),
-    tickets: z.array(
-      z.object({
-        _id: z.string().optional(), // optional for edit activity
-        name: z.string({ required_error: '請填寫票卷名稱' }),
-        price: z.number({ required_error: '請輸入票卷價格' }),
-        startDateTime: z.preprocess(
-          (val) => (val === '' ? '' : new Date(val as string)),
-          z
-            .date({
-              errorMap: (issue, { defaultError }) => ({
-                message:
-                  issue.code === 'invalid_date'
-                    ? '請設定開始日期與時間'
-                    : defaultError,
-              }),
+    tickets: z
+      .array(
+        z.object({
+          _id: z.string().optional(), // optional for edit activity
+          name: z.string().min(1, '請至少填寫一個字的名稱'),
+          price: z.coerce.number({ required_error: '請輸入票卷價格' }),
+          startDateTime: z.preprocess(
+            (val) => (val === '' ? '' : new Date(val as string)),
+            z
+              .date({
+                errorMap: (issue, { defaultError }) => ({
+                  message:
+                    issue.code === 'invalid_date'
+                      ? '請設定開始日期與時間'
+                      : defaultError,
+                }),
+              })
+              .optional()
+              .or(z.literal(''))
+          ),
+          fromToday: z.preprocess(
+            (val) => val === 'true',
+            z.boolean({ required_error: 'FromToday is required' })
+          ),
+          endDateTime: z.preprocess(
+            (val) => (val === '' ? '' : new Date(val as string)),
+            z
+              .date({
+                errorMap: (issue, { defaultError }) => ({
+                  message:
+                    issue.code === 'invalid_date'
+                      ? '請設定結束日期與時間'
+                      : defaultError,
+                }),
+              })
+              .optional()
+              .or(z.literal(''))
+          ),
+          noEndDate: z.preprocess(
+            (val) => val === 'true',
+            z.boolean({
+              required_error: 'NoEndDate is required',
             })
-            .optional()
-            .or(z.literal(''))
-        ),
-        fromToday: z.preprocess(
-          (val) => val === 'true',
-          z.boolean({ required_error: 'FromToday is required' })
-        ),
-        endDateTime: z.preprocess(
-          (val) => (val === '' ? '' : new Date(val as string)),
-          z
-            .date({
-              errorMap: (issue, { defaultError }) => ({
-                message:
-                  issue.code === 'invalid_date'
-                    ? '請設定結束日期與時間'
-                    : defaultError,
-              }),
+          ),
+          participantCapacity: z.coerce.number({
+            required_error: '請選擇參與人數',
+          }),
+          unlimitedQuantity: z.preprocess(
+            (val) => val === 'true',
+            z.boolean({
+              required_error: 'UnlimitedQuantity is required',
             })
-            .optional()
-            .or(z.literal(''))
-        ),
-        noEndDate: z.preprocess(
-          (val) => val === 'true',
-          z.boolean({
-            required_error: 'NoEndDate is required',
-          })
-        ),
-        participantCapacity: z.number({
-          required_error: '請選擇參與人數',
-        }),
-        unlimitedQuantity: z.boolean({
-          required_error: 'UnlimitedQuantity is required',
-        }),
-        purchaseLimit: z.number().optional(),
-        description: z.string().optional(),
-        purchaseDuplicate: z.boolean().optional(),
-        ticketStatus: z.string().optional(),
-        serialNumber: z.string().optional(),
-      })
-    ),
+          ),
+          purchaseLimit: z.coerce.number().gte(1).optional(),
+          description: z.string().optional(),
+          purchaseDuplicate: z.boolean().optional(),
+          ticketStatus: z.string().optional(),
+          serialNumber: z.string().optional(),
+        })
+      )
+      .superRefine((tickets, ctx) => {
+        tickets.forEach((ticket, index) => {
+          if (!ticket.fromToday && !ticket.startDateTime) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              message: '請選擇有效的開始日期和時間',
+              path: [index, 'startDateTime'],
+            });
+          }
+
+          if (
+            ticket.startDateTime &&
+            ticket.endDateTime &&
+            ticket.startDateTime >= ticket.endDateTime
+          ) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              message: '開始日期和時間必須早於結束日期和時間',
+              path: [index, 'endDateTime'],
+            });
+          }
+        });
+      }),
   })
   .refine(
     (data) => {
