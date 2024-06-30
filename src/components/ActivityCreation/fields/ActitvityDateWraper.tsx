@@ -1,7 +1,7 @@
 import cn from '@lib/utils';
 import { SetStateAction, useState } from 'react';
-import ActivityTimePicker from './AcitivityTimePicker';
 import ActivityDatePicker from './ActivityDatePicker';
+import ActivityTimePicker from './ActivityTimePicker';
 
 type ActitvityDateWraperProps = {
   className: string;
