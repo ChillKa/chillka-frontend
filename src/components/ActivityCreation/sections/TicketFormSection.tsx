@@ -98,7 +98,9 @@ const TicketFormSection = ({ form }: TicketFormSectionProps) => {
                   render={({ field }) => {
                     return (
                       <FormItem className="space-y-1.5">
-                        <FormLabel>票券名稱</FormLabel>
+                        <FormLabel className="after:ml-1 after:text-destructive after:content-['*']">
+                          票券名稱
+                        </FormLabel>
                         <FormControl>
                           <Input
                             variant="form"
@@ -117,7 +119,9 @@ const TicketFormSection = ({ form }: TicketFormSectionProps) => {
                   render={({ field }) => {
                     return (
                       <FormItem className="space-y-1.5">
-                        <FormLabel>價格</FormLabel>
+                        <FormLabel className="after:ml-1 after:text-destructive after:content-['*']">
+                          價格
+                        </FormLabel>
                         <FormControl>
                           <Input
                             variant="form"
@@ -137,7 +141,9 @@ const TicketFormSection = ({ form }: TicketFormSectionProps) => {
                   render={({ field }) => {
                     return (
                       <FormItem className="space-y-1.5">
-                        <FormLabel>人數限制</FormLabel>
+                        <FormLabel className="after:ml-1 after:text-destructive after:content-['*']">
+                          人數限制
+                        </FormLabel>
                         <FormControl>
                           <Input
                             type="number"
