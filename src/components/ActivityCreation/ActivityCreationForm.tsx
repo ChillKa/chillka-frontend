@@ -91,6 +91,7 @@ const ActivityCreationForm = ({ className }: ActivityCreationFormProps) => {
 
   useEffect(() => {
     if (Array.isArray(formState?.issues)) {
+      form.clearErrors();
       formState?.issues.forEach((err) => {
         form.setError(
           err.path as FieldPath<z.output<typeof createActivityFormSchema>>,

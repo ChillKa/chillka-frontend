@@ -277,8 +277,23 @@ export const createActivityFormSchema = z
       return true;
     },
     {
-      message: '請選擇有效的開始日期和時間',
+      message: '請選擇有效的開始日期和時間，或勾選即日期',
       path: ['startDateTime'],
+    }
+  )
+  .refine(
+    (data) => {
+      if (!data.noEndDate) {
+        return (
+          data.endDateTime !== undefined &&
+          !Number.isNaN(data.endDateTime.getTime())
+        );
+      }
+      return true;
+    },
+    {
+      message: '請選擇有效的開始日期和時間，或勾選無截止日期',
+      path: ['endDateTime'],
     }
   )
   .refine(
@@ -291,6 +306,42 @@ export const createActivityFormSchema = z
     {
       message: '開始日期和時間必須早於結束日期和時間',
       path: ['endDateTime'],
+    }
+  )
+  .refine(
+    (data) => {
+      if (data.type === '線上' && data.link === '') {
+        return false;
+      }
+      return true;
+    },
+    {
+      message: '線上活動必須設定活動網址',
+      path: ['link'],
+    }
+  )
+  .refine(
+    (data) => {
+      if (data.type === '線下' && data.location === '') {
+        return false;
+      }
+      return true;
+    },
+    {
+      message: '實體活動必須設定活動區域',
+      path: ['location'],
+    }
+  )
+  .refine(
+    (data) => {
+      if (data.type === '線下' && data.address === '') {
+        return false;
+      }
+      return true;
+    },
+    {
+      message: '實體活動必須設定活動地址',
+      path: ['address'],
     }
   );
 
