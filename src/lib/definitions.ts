@@ -135,7 +135,7 @@ export const createActivityFormSchema = z
       })
     ),
     endDateTime: z.preprocess(
-      (val) => (val === '' ? undefined : new Date(val as string)),
+      (val) => (val === '' ? undefined : new Date(`${val}`)),
       z
         .date({
           errorMap: (issue, { defaultError }) => ({
@@ -216,7 +216,7 @@ export const createActivityFormSchema = z
           name: z.string().min(1, '請至少填寫一個字的名稱'),
           price: z.coerce.number({ required_error: '請輸入票卷價格' }),
           startDateTime: z.preprocess(
-            (val) => (val === '' ? '' : new Date(val as string)),
+            (val) => (val === '' ? undefined : new Date(`${val}`)),
             z
               .date({
                 errorMap: (issue, { defaultError }) => ({
@@ -227,14 +227,13 @@ export const createActivityFormSchema = z
                 }),
               })
               .optional()
-              .or(z.literal(''))
           ),
           fromToday: z.preprocess(
             (val) => val === 'true',
             z.boolean({ required_error: 'FromToday is required' })
           ),
           endDateTime: z.preprocess(
-            (val) => (val === '' ? '' : new Date(val as string)),
+            (val) => (val === '' ? undefined : new Date(`${val}`)),
             z
               .date({
                 errorMap: (issue, { defaultError }) => ({
@@ -245,7 +244,6 @@ export const createActivityFormSchema = z
                 }),
               })
               .optional()
-              .or(z.literal(''))
           ),
           noEndDate: z.preprocess(
             (val) => val === 'true',
