@@ -39,6 +39,7 @@ const ActivityContentFormSection = ({
 
   const activityTypeState = watch('type');
   const isRecurringState = watch('isRecurring');
+  const recurringDayState = watch('recurring.day');
 
   const getDayInChinese = (day: Date) => {
     const daysInChinese = [
@@ -493,7 +494,7 @@ const ActivityContentFormSection = ({
           name="isRecurring"
           render={({ field }) => (
             <FormItem className="space-y-1.5">
-              <FormLabel>連續活動週期</FormLabel>
+              <FormLabel>連續活動</FormLabel>
               <FormControl>
                 <div className="flex items-center gap-2">
                   <Switch
@@ -512,7 +513,13 @@ const ActivityContentFormSection = ({
                 </div>
               </FormControl>
               <FormDescription className="text-primary-light">
-                啟用週期設定將使活動固定舉辦
+                啟用週期設定將使活動固定
+                <span
+                  className={recurringDayState !== '' ? 'text-primary' : ''}
+                >
+                  {recurringDayState === '' ? '每週' : recurringDayState}
+                </span>
+                舉辦
               </FormDescription>
               <FormMessage />
             </FormItem>
