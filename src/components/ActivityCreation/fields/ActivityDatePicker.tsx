@@ -52,6 +52,8 @@ const ActivityDatePicker = ({
         className="w-auto rounded-[0.375rem] border-primary-super-light p-0 shadow"
       >
         <Calendar
+          weekStartsOn={0}
+          fromDate={new Date()}
           mode="single"
           selected={date}
           onSelect={(e) => {
