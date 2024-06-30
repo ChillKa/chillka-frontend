@@ -62,11 +62,11 @@ const RecommendActivity = async ({ className }: RecommendActivityProps) => {
             {activities.map((activity) => (
               <EventCard
                 className="w-[26rem]"
-                key={activity._id ?? '-1'}
-                link={activity._id ?? ''}
-                title={activity?.name ?? 'Unknown title'}
-                cover={activity?.thumbnail ?? '/default.webp'}
-                description={activity?.summary ?? 'Unknown Details'}
+                key={activity._id}
+                link={activity._id}
+                title={activity?.name}
+                cover={activity?.thumbnail}
+                description={activity?.summary}
                 startTime={
                   format(
                     new Date(activity.startDateTime),
@@ -74,12 +74,12 @@ const RecommendActivity = async ({ className }: RecommendActivityProps) => {
                   ) as FormatDate<'YY.MM.DD'>
                 }
                 endTime={format(new Date(), 'MM.dd') as FormatDate<'YY.MM.DD'>}
-                attendeeCount={activity?.participantNumber ?? 0}
-                location={activity?.location ?? 'Unknown Location'}
-                organizer={activity?.organizerName ?? 'Unknown Organizer'}
-                pricing={activity?.ticketPrice[0]?.price ?? 0}
-                discount={activity?.discount ?? 0}
-                isCollected={activity?.collected ?? false}
+                attendeeCount={activity?.participantNumber}
+                location={activity?.location}
+                organizer={activity?.organizerName}
+                pricing={activity?.ticketPrice[0]?.price}
+                discount={activity?.discount}
+                isCollected={activity?.collected}
               />
             ))}
           </Suspense>

@@ -72,11 +72,11 @@ const NearbyActivity = ({
           >
             {eventsToShow.map((activity) => (
               <EventCard
-                key={activity._id ?? '-1'}
-                link={activity._id ?? ''}
-                title={activity?.name ?? 'Unknown title'}
-                cover={activity?.thumbnail ?? '/default.webp'}
-                description={activity?.details ?? 'Unknown Details'}
+                key={activity._id}
+                link={activity._id}
+                title={activity?.name}
+                cover={activity?.thumbnail}
+                description={activity?.details}
                 startTime={
                   format(
                     new Date(activity.startDateTime),
@@ -89,14 +89,12 @@ const NearbyActivity = ({
                     'MM.dd'
                   ) as FormatDate<'YY.MM.DD'>
                 }
-                attendeeCount={activity?.participantAmount ?? 0}
-                location={activity?.location ?? 'Unknown location'}
-                organizer={
-                  activity.organizer?.contactName ?? 'Unknown organizer'
-                }
-                pricing={activity?.price ?? 0} // FIXME: change to use ticket price
+                attendeeCount={activity?.participantAmount}
+                location={activity?.location}
+                organizer={activity.organizer?.contactName}
+                pricing={activity?.price} // FIXME: change to use ticket price
                 discount={activity?.discount}
-                isCollected={activity?.collected ?? false}
+                isCollected={activity?.collected}
               />
             ))}
           </Suspense>
