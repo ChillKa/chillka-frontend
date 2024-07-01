@@ -272,11 +272,17 @@ export const createActivityFormSchema = z
           if (!ticket.fromToday && !ticket.startDateTime) {
             ctx.addIssue({
               code: z.ZodIssueCode.custom,
-              message: '請選擇有效的開始日期和時間',
+              message: '請選擇有效的開始日期和時間，或勾選即日起',
               path: [index, 'startDateTime'],
             });
           }
-
+          if (!ticket.noEndDate && !ticket.endDateTime) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              message: '請選擇有效的結束日期和時間，或勾選無截止日期',
+              path: [index, 'startDateTime'],
+            });
+          }
           if (
             ticket.startDateTime &&
             ticket.endDateTime &&
@@ -302,7 +308,7 @@ export const createActivityFormSchema = z
       return true;
     },
     {
-      message: '請選擇有效的開始日期和時間，或勾選即日期',
+      message: '請選擇有效的開始日期和時間，或勾選即日起',
       path: ['startDateTime'],
     }
   )
