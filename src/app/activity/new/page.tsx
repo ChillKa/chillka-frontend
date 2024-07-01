@@ -2,6 +2,8 @@ import ActivityCreationForm from '@components/ActivityCreation/ActivityCreationF
 import ActivityCreationSideBar from '@components/ActivityCreation/ActivityCreationSideBar';
 import { Separator } from '@components/ui/separator';
 
+export const runtime = 'edge';
+
 const Page = async () => {
   return (
     <>
