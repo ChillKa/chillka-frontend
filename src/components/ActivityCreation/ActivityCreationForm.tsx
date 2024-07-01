@@ -6,7 +6,7 @@ import { useToast } from '@components/ui/use-toast';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createActivityFormSchema } from '@lib/definitions';
 import cn from '@lib/utils';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useFormState } from 'react-dom';
 import { FieldPath, useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -24,6 +24,7 @@ export interface FormValues {
 }
 
 const ActivityCreationForm = ({ className }: ActivityCreationFormProps) => {
+  const [uploadCount, setUploadCount] = useState<number>(0);
   const [formState, formAction] = useFormState<FormState, FormData>(
     uploadActivity,
     { message: '' }
@@ -113,10 +114,13 @@ const ActivityCreationForm = ({ className }: ActivityCreationFormProps) => {
     <section className={cn('', className)}>
       <Form {...form}>
         <form className="mt-12 space-y-12" action={formAction}>
-          <OrganizerFormSection form={form} />
-          <ActivityContentFormSection form={form} />
+          <OrganizerFormSection form={form} onImageUploading={setUploadCount} />
+          <ActivityContentFormSection
+            form={form}
+            onImageUploading={setUploadCount}
+          />
           <TicketFormSection form={form} />
-          <UploadFormButton>送出</UploadFormButton>
+          <UploadFormButton uploadCount={uploadCount}>送出</UploadFormButton>
         </form>
       </Form>
     </section>

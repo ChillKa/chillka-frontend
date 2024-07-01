@@ -17,6 +17,7 @@ export type ImageDropzoneProps = React.HTMLAttributes<HTMLDivElement> & {
   multiple?: boolean;
   onFiledChange: (...event: any[]) => void;
   onValueChange?: React.Dispatch<React.SetStateAction<File[]>>;
+  onUploading?: React.Dispatch<React.SetStateAction<number>>;
 };
 
 const isFileWithPreview = (file: File): file is File & { preview: string } => {
@@ -67,12 +68,13 @@ const FileCard = ({ file, isUploading, onRemove }: FileCardProps) => {
 
 const ImageDropzone = ({
   fieldName,
-  onFiledChange,
   value: valueProp,
-  onValueChange,
   maxSize = 1024 * 1024 * 2,
   maxFiles = 4,
   multiple = false,
+  onFiledChange,
+  onValueChange,
+  onUploading,
   className,
 }: ImageDropzoneProps) => {
   const [files, setFiles] = useControllableState({
@@ -143,6 +145,9 @@ const ImageDropzone = ({
         newFiles.length > 0
       ) {
         setIsUploading(true);
+        if (onUploading !== undefined) {
+          onUploading((prevState) => prevState + 1);
+        }
         const allPromises: Array<Promise<{ status: string; message: string }>> =
           [];
         newFiles.forEach((file) => {
@@ -159,6 +164,9 @@ const ImageDropzone = ({
           })
           .finally(() => {
             setIsUploading(false);
+            if (onUploading !== undefined) {
+              onUploading((prevState) => prevState - 1);
+            }
           });
       }
     },

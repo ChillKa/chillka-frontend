@@ -31,10 +31,12 @@ type FormSchema = z.infer<typeof createActivityFormSchema>;
 
 type ActivityContentFormSectionProps = {
   form: UseFormReturn<FormSchema>;
+  onImageUploading: React.Dispatch<React.SetStateAction<number>>;
 };
 
 const ActivityContentFormSection = ({
   form,
+  onImageUploading,
 }: ActivityContentFormSectionProps) => {
   const { setValue, watch } = form;
 
@@ -98,6 +100,7 @@ const ActivityContentFormSection = ({
                   maxFiles={4}
                   multiple
                   maxSize={1024 * 1024 * 4}
+                  onUploading={onImageUploading}
                 />
               </FormControl>
               <P asChild>
@@ -125,6 +128,7 @@ const ActivityContentFormSection = ({
                   fieldName={field.name}
                   onFiledChange={field.onChange}
                   maxFiles={1}
+                  onUploading={onImageUploading}
                 />
               </FormControl>
               <P asChild>

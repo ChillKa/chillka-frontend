@@ -20,9 +20,13 @@ type FormSchema = z.infer<typeof createActivityFormSchema>;
 
 type OrganizerFormSectionProps = {
   form: UseFormReturn<FormSchema>;
+  onImageUploading: React.Dispatch<React.SetStateAction<number>>;
 };
 
-const OrganizerFormSection = ({ form }: OrganizerFormSectionProps) => {
+const OrganizerFormSection = ({
+  form,
+  onImageUploading,
+}: OrganizerFormSectionProps) => {
   return (
     <div id="organizer-setting" className="space-y-6">
       <H2>主辦方資訊</H2>
@@ -38,6 +42,7 @@ const OrganizerFormSection = ({ form }: OrganizerFormSectionProps) => {
                 onFiledChange={field.onChange}
                 fieldName={field.name}
                 maxFiles={1}
+                onUploading={onImageUploading}
               />
             </FormControl>
             <FormDescription className="text-primary-light">
