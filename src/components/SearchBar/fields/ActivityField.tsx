@@ -7,7 +7,7 @@ import {
   AccordionTrigger,
 } from '@components/ui/accordion';
 import { Input } from '@components/ui/input';
-import { H4, Small } from '@components/ui/typography';
+import { H4 } from '@components/ui/typography';
 import cn from '@lib/utils';
 import {
   Popover,
@@ -16,10 +16,9 @@ import {
 } from '@radix-ui/react-popover';
 import { motion } from 'framer-motion';
 import { SearchIcon } from 'lucide-react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useRef, useState } from 'react';
-import menuAnimationVariants from './utils';
+import menuAnimationVariants, { ActivityResultThumbnail } from './utils';
 
 export type ActivityKeyword = {
   url: string;
@@ -122,20 +121,15 @@ const ActivityField = ({
         >
           <p className="ml-4 text-base font-bold">推薦活動</p>
           <div className="no-scrollbar mt-6 flex gap-4 overflow-x-auto overflow-y-hidden px-4">
-            {activityPictures.map((item) => {
-              console.log(item);
+            {activityPictures.map((item, index) => {
+              const num = index;
               return (
-                <div className="min-w-fit space-y-2" key={item.description}>
-                  {/* TODO: link to search page */}
-                  <Image
-                    src={item.thumbnail}
-                    alt={item.description}
-                    width={200}
-                    height={100}
-                    className="h-[6.25rem] w-[12.5rem] object-cover"
-                  />
-                  <Small>{item.description}</Small>
-                </div>
+                <ActivityResultThumbnail
+                  key={num}
+                  thumbnail={item.thumbnail}
+                  description={item.description}
+                  link={item.url}
+                />
               );
             })}
           </div>
@@ -194,19 +188,17 @@ export const ActivityMobileField = ({
       <div className="mt-4">
         <p className="ml-3 text-base font-bold">推薦活動</p>
         <div className="no-scrollbar mt-6 flex gap-4 overflow-x-auto overflow-y-hidden px-3">
-          {activityPictures.map((item) => (
-            <div className="min-w-fit space-y-2" key={item.description}>
-              {/* TODO: link to search page */}
-              <Image
-                src={item.thumbnail}
-                alt={item.description}
-                width={200}
-                height={100}
-                className="h-[6.25rem] w-[12.5rem] object-cover"
+          {activityPictures.map((item) => {
+            const num = index;
+            return (
+              <ActivityResultThumbnail
+                key={num}
+                thumbnail={item.thumbnail}
+                description={item.description}
+                link={item.url}
               />
-              <Small>{item.description}</Small>
-            </div>
-          ))}
+            );
+          })}
         </div>
         <div className="mt-10 px-3">
           <p className="text-base font-bold">熱門關鍵字</p>
