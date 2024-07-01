@@ -1,7 +1,9 @@
 'use server';
 
 import { createActivityFormSchema, endpoint } from '@lib/definitions';
+import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 import { IActivityCreationResponse } from 'src/types/activity';
 import { IUploadImagesResult } from 'src/types/uploadImages';
 import { ZodError, z } from 'zod';
@@ -155,6 +157,8 @@ export async function uploadActivity(
     };
   }
 
+  let activityId: string;
+
   try {
     const response = await fetchAPI({
       api: '/auth/activities',
@@ -170,10 +174,13 @@ export async function uploadActivity(
 
     const result = (await response.json()) as IActivityCreationResponse;
 
-    const { organizer } = result;
+    const { _id } = result;
+    activityId = _id;
 
-    return { message: `歡迎, ${organizer.name}!` };
+    revalidatePath(`/activity`);
   } catch (_e) {
+    console.log(_e);
     return { message: '請登入後再試' };
   }
+  redirect(`/activity/${activityId}`);
 }
