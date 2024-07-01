@@ -188,7 +188,7 @@ export const ActivityMobileField = ({
       <div className="mt-4">
         <p className="ml-3 text-base font-bold">推薦活動</p>
         <div className="no-scrollbar mt-6 flex gap-4 overflow-x-auto overflow-y-hidden px-3">
-          {activityPictures.map((item) => {
+          {activityPictures.map((item, index) => {
             const num = index;
             return (
               <ActivityResultThumbnail
