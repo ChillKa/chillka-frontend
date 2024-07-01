@@ -48,7 +48,11 @@ export async function uploadImage(
   });
 
   if (!response.ok) {
-    return { status: 'failed', message: `圖片檔案上傳失敗` };
+    const errorMessage = await response.text();
+    return {
+      status: 'failed',
+      message: `伺服器無回應請確認網路或稍後再試，造成原因${errorMessage}`,
+    };
   }
 
   const result = (await response.json()) as IUploadImagesResult;
