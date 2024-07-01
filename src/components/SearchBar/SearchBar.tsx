@@ -1,19 +1,3 @@
-/*
-- [x] add a hook for mobile verstion detection
-- [x] add modal component from shadcn
-- [x] built-up mobile version
-  - [x] modal title
-  - [x] modal content
-- [x] feature: add framer motion
-  - [x] add animation on menu items
-- [x] mobile:
-  - [x] add animation
-  - [x] modify menu animation
-  - [x] set hover effect propperly
-- [] desktop
-
-*/
-
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
