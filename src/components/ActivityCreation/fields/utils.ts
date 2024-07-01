@@ -41,3 +41,5 @@ export const sectionIds = {
   activity: 'activity',
   tickets: 'tickets',
 };
+
+export const COVERS_MAX_SIZE = 5;

@@ -25,7 +25,12 @@ import ActivityCreationDropdownMenu from '../fields/ActivityCreationDropdownMenu
 import ActivityCreationMap from '../fields/ActivityCreationMap';
 import ImageDropzone from '../fields/ImageDropzone';
 import RichTextEditor from '../fields/RichTextEditor';
-import { categories, locations, sectionIds } from '../fields/utils';
+import {
+  COVERS_MAX_SIZE,
+  categories,
+  locations,
+  sectionIds,
+} from '../fields/utils';
 
 type FormSchema = z.infer<typeof createActivityFormSchema>;
 
@@ -99,7 +104,7 @@ const ActivityContentFormSection = ({
                   onFiledChange={field.onChange}
                   maxFiles={4}
                   multiple
-                  maxSize={1024 * 1024 * 4}
+                  maxSize={1024 * 1024 * COVERS_MAX_SIZE}
                   onUploading={onImageUploading}
                 />
               </FormControl>
@@ -107,7 +112,7 @@ const ActivityContentFormSection = ({
                 <FormDescription className="text-primary-light">
                   請上傳至少一張清晰、有吸引力的活動封面圖片，以展示您的活動（最多四張）。
                   <br />
-                  建議尺寸為 1920*1080px，檔案大小不超過 4MB
+                  建議尺寸為 1920*1080px，檔案大小不超過 {COVERS_MAX_SIZE}MB
                 </FormDescription>
               </P>
               <FormMessage />
