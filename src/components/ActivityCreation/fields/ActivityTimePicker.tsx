@@ -9,13 +9,23 @@ import {
 } from '@components/ui/dropdown-menu';
 import { Input } from '@components/ui/input';
 import { TimerIcon } from 'lucide-react';
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 
-const ActivityTimePicker = () => {
+type ActivityTimePickerProps = {
+  placeHolder: string;
+  onChange: Dispatch<
+    SetStateAction<{ day: string; hour: string; minute: string }>
+  >;
+};
+
+const ActivityTimePicker = ({
+  placeHolder,
+  onChange,
+}: ActivityTimePickerProps) => {
   const [selectedTime, setSelectedTime] = useState<{
     hour: string;
     minute: string;
-  }>({ hour: '00', minute: '00' });
+  }>({ hour: '', minute: '' });
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const hours = Array.from({ length: 24 }, (_, i) =>
@@ -28,11 +38,29 @@ const ActivityTimePicker = () => {
 
   const handleHourSelect = (hour: string) => {
     setSelectedTime((prevState) => ({ ...prevState, hour }));
+    onChange((prevState) => {
+      return {
+        ...prevState,
+        hour,
+      };
+    });
   };
 
   const handleMinuteSelect = (minute: string) => {
     setSelectedTime((prevState) => ({ ...prevState, minute }));
+    onChange((prevState) => {
+      return {
+        ...prevState,
+        minute,
+      };
+    });
   };
+
+  const { hour: selectedHour, minute: selectedMinute } = selectedTime;
+  const time =
+    selectedHour === '' && selectedMinute === ''
+      ? ''
+      : `${selectedHour}:${selectedMinute}`;
 
   return (
     <DropdownMenu open={isMenuOpen} modal={false}>
@@ -45,10 +73,10 @@ const ActivityTimePicker = () => {
           }
         >
           <Input
-            name="time"
             variant="form"
-            className="pointer-events-none cursor-pointer select-none border-0 text-primary-light transition focus-visible:ring-0 focus-visible:ring-offset-0 group-hover:bg-primary-super-light"
-            value={`${selectedTime.hour}:${selectedTime.minute}`}
+            className="pointer-events-none cursor-pointer select-none border-0 pl-0 font-normal text-primary-light transition focus-visible:ring-0 focus-visible:ring-offset-0 group-hover:bg-primary-super-light"
+            value={time}
+            placeholder={placeHolder}
             readOnly
           />
           <TimerIcon className="-mr-1 ml-2 h-5 w-5" aria-hidden="true" />

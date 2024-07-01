@@ -104,3 +104,43 @@ export interface IAcitivityResponse {
   tickets: ITicket[];
   questions: IQuestion[];
 }
+
+export interface IActivityCreationResponse {
+  creatorId: string;
+  name: string;
+  organizer: {
+    profilePicture: string;
+    name: string;
+    contactName: string;
+    contactPhone: string;
+    contactEmail: string;
+    websiteName: string;
+    websiteURL: string;
+    _id: string;
+    createdAt: string;
+    updatedAt: string;
+  };
+  cover: string[];
+  thumbnail: string;
+  startDateTime: string;
+  fromToday: boolean;
+  noEndDate: boolean;
+  category: string;
+  type: string;
+  address: string;
+  summary: string;
+  details: string;
+  isPrivate: boolean;
+  displayRemainingTickets: boolean;
+  isRecurring: boolean;
+  status: string;
+  lat: number;
+  lng: number;
+  saved: boolean;
+  participated: boolean;
+  totalParticipantCapacity: number;
+  unlimitedQuantity: boolean;
+  _id: string;
+  createdAt: string;
+  updatedAt: string;
+}

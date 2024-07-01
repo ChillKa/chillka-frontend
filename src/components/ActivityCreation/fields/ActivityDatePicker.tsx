@@ -11,10 +11,20 @@ import cn from '@lib/utils';
 import { format } from 'date-fns';
 import { zhTW } from 'date-fns/locale';
 import { Calendar as CalendarIcon } from 'lucide-react';
-import * as React from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 
-const ActivityDatePicker = () => {
-  const [date, setDate] = React.useState<Date>();
+type ActivityDatePickerProps = {
+  placeHolder: string;
+  onChange: Dispatch<
+    SetStateAction<{ day: string; hour: string; minute: string }>
+  >;
+};
+
+const ActivityDatePicker = ({
+  placeHolder,
+  onChange,
+}: ActivityDatePickerProps) => {
+  const [date, setDate] = useState<Date>();
 
   return (
     <Popover>
@@ -30,7 +40,7 @@ const ActivityDatePicker = () => {
             format(date, 'PPP', { locale: zhTW })
           ) : (
             <span className="text-primary-light transition-colors group-hover:text-primary">
-              設定開始日期
+              {placeHolder}
             </span>
           )}
           <CalendarIcon className="h-4 w-4 stroke-primary-light transition-colors group-hover:stroke-primary" />
@@ -42,9 +52,19 @@ const ActivityDatePicker = () => {
         className="w-auto rounded-[0.375rem] border-primary-super-light p-0 shadow"
       >
         <Calendar
+          weekStartsOn={0}
+          fromDate={new Date()}
           mode="single"
           selected={date}
-          onSelect={setDate}
+          onSelect={(e) => {
+            setDate(e);
+            onChange((prevState) => {
+              return {
+                ...prevState,
+                day: e ? e.toDateString() : '',
+              };
+            });
+          }}
           showOutsideDays={false}
           initialFocus
           className="p-4"

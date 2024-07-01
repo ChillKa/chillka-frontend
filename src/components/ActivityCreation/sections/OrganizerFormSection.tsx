@@ -9,35 +9,58 @@ import {
   FormMessage,
 } from '@components/ui/form';
 import { Input } from '@components/ui/input';
-import { H2, H4, Subtle } from '@components/ui/typography';
+import { H2, H4 } from '@components/ui/typography';
 import { createActivityFormSchema } from '@lib/definitions';
 import { Label } from '@radix-ui/react-label';
 import { UseFormReturn } from 'react-hook-form';
 import { z } from 'zod';
-import ImageDropzone from '../ui/ImageDropzone';
+import ImageDropzone from '../fields/ImageDropzone';
+import { sectionIds } from '../fields/utils';
 
 type FormSchema = z.infer<typeof createActivityFormSchema>;
 
 type OrganizerFormSectionProps = {
   form: UseFormReturn<FormSchema>;
+  onImageUploading: React.Dispatch<React.SetStateAction<number>>;
 };
 
-const OrganizerFormSection = ({ form }: OrganizerFormSectionProps) => {
+const OrganizerFormSection = ({
+  form,
+  onImageUploading,
+}: OrganizerFormSectionProps) => {
   return (
-    <div id="organizer-setting" className="space-y-6">
+    <div id={sectionIds.organizer} className="space-y-6">
       <H2>主辦方資訊</H2>
       <H4>你的自我介紹</H4>
       <Label>主辦方縮圖</Label>
-      <ImageDropzone maxFiles={1} />
-      <Subtle className="text-primary-light">
-        請上傳你的頭像，尺寸為 500*500px，檔案大小不超過 2MB。
-      </Subtle>
+      <FormField
+        control={form.control}
+        name="organizer.profilePicture"
+        render={({ field }) => (
+          <FormItem>
+            <FormControl>
+              <ImageDropzone
+                onFiledChange={field.onChange}
+                fieldName={field.name}
+                maxFiles={1}
+                onUploading={onImageUploading}
+              />
+            </FormControl>
+            <FormDescription className="text-primary-light">
+              請上傳你的頭像，尺寸為 500*500px，檔案大小不超過 2MB。
+            </FormDescription>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
       <FormField
         control={form.control}
         name="organizer.name"
         render={({ field }) => (
           <FormItem className="max-w-[26rem] space-y-1.5">
-            <FormLabel>主辦方名稱</FormLabel>
+            <FormLabel className="after:ml-1 after:text-destructive after:content-['*']">
+              主辦方名稱
+            </FormLabel>
             <FormControl>
               <Input
                 variant="form"
@@ -59,7 +82,9 @@ const OrganizerFormSection = ({ form }: OrganizerFormSectionProps) => {
         render={({ field }) => (
           <FormItem>
             <div className="max-w-[26rem] space-y-1.5">
-              <FormLabel>聯絡人姓名</FormLabel>
+              <FormLabel className="after:ml-1 after:text-destructive after:content-['*']">
+                聯絡人姓名
+              </FormLabel>
               <FormControl>
                 <Input
                   variant="form"
@@ -78,7 +103,9 @@ const OrganizerFormSection = ({ form }: OrganizerFormSectionProps) => {
         render={({ field }) => (
           <FormItem>
             <div className="max-w-[26rem] space-y-1.5">
-              <FormLabel>聯絡人電話</FormLabel>
+              <FormLabel className="after:ml-1 after:text-destructive after:content-['*']">
+                聯絡人電話
+              </FormLabel>
               <FormControl>
                 <Input variant="form" placeholder="請輸入您的電話" {...field} />
               </FormControl>
@@ -93,7 +120,9 @@ const OrganizerFormSection = ({ form }: OrganizerFormSectionProps) => {
         render={({ field }) => (
           <FormItem>
             <div className="max-w-[26rem] space-y-1.5">
-              <FormLabel>聯絡人電子信箱</FormLabel>
+              <FormLabel className="after:ml-1 after:text-destructive after:content-['*']">
+                聯絡人電子信箱
+              </FormLabel>
               <FormControl>
                 <Input
                   variant="form"

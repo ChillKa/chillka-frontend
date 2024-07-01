@@ -1,26 +1,41 @@
 'use server';
 
-import { createActivityFormSchema } from '@lib/definitions';
+import { createActivityFormSchema, endpoint } from '@lib/definitions';
 import { revalidatePath } from 'next/cache';
+import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
+import { IActivityCreationResponse } from 'src/types/activity';
+import { IUploadImagesResult } from 'src/types/uploadImages';
 import { ZodError, z } from 'zod';
 import { fetchAPI } from './utils';
-/*
-export async function uploadImage(prevState: any, formData: FormData) {
+
+export type uploadImageState =
+  | {
+      status: 'success';
+      data: IUploadImagesResult;
+    }
+  | {
+      status: 'failed';
+      message: string;
+    };
+
+export async function uploadImage(
+  formData: FormData
+): Promise<uploadImageState> {
   const sessionCookie = cookies().get('session')?.value;
 
   if (!sessionCookie) {
-    return { message: 'Please login at first' };
+    return { status: 'failed', message: '請先登入' };
   }
 
   const image = formData.get('uploadImage');
 
   if (!(image instanceof Blob)) {
-    throw new Error('No image to be uploaded or invalid file type');
+    return { status: 'failed', message: `請傳送正確的圖檔格式` };
   }
 
   const formdata = new FormData();
-  // TODO: fix this line
-  formdata.append('image', image, 'steven-kamenar-MMJx78V7xS8-unsplash.jpg');
+  formdata.append('image', image, image.name);
 
   const finalHeaders: Record<string, string> = {
     Authorization: `Bearer ${sessionCookie}`,
@@ -35,15 +50,16 @@ export async function uploadImage(prevState: any, formData: FormData) {
   });
 
   if (!response.ok) {
-    throw new Error('Upload failed');
+    const errorMessage = await response.text();
+    return {
+      status: 'failed',
+      message: `伺服器無回應請確認網路或稍後再試，造成原因${errorMessage}`,
+    };
   }
 
-  const result = await response.json();
-  // console.log(result);
-  revalidatePath('/activity/new');
-  return { message: 'success', ...result };
+  const result = (await response.json()) as IUploadImagesResult;
+  return { status: 'success', data: result };
 }
-*/
 
 export type FormState =
   | {
@@ -88,7 +104,11 @@ function formDataToNestedObject(formData: FormDataObject): any {
     const keys = key.split('.');
     keys.reduce((acc, part, index) => {
       if (index === keys.length - 1) {
-        acc[part] = value;
+        if (part === 'cover' && typeof value === 'string') {
+          acc[part] = value.split(',').map((url) => url.trim());
+        } else {
+          acc[part] = value;
+        }
       } else {
         acc[part] =
           acc[part] || (Number.isNaN(Number(keys[index + 1])) ? {} : []);
@@ -104,7 +124,7 @@ export async function uploadActivity(
   prevSate: FormState,
   data: FormData
 ): Promise<FormState> {
-  console.log(data);
+  // console.log(data);
 
   const formDataObject: FormDataObject = Object.fromEntries(data);
   const nestedData = formDataToNestedObject(formDataObject);
@@ -112,45 +132,38 @@ export async function uploadActivity(
 
   if (!parsed.success) {
     return {
-      message: 'Invalid form data',
+      message: '表單驗證失敗',
       fields: flattenData(formDataObject),
       issues: parsed.error.issues.map((issue) => ({
-        path: issue.path.join('.'),
+        path: issue.path[0] === 'cover' ? 'cover' : issue.path.join('.'),
         message: `伺服器驗證錯誤訊息: ${issue.message}`,
       })),
     };
   }
-  // if (parsed.data.name.includes('a')) {
-  //   return {
-  //     message: "We Don't like Alexendar Hamilton.",
-  //     fields: flattenData(parsed.data),
-  //   };
-  // }
 
-  const { organizer } = parsed.data;
-  const { name } = organizer;
+  let activityId: string;
 
-  const response = await fetchAPI({
-    api: '/auth/activities',
-    method: 'POST',
-    data: parsed.data,
-    shouldAuth: true,
-  });
+  try {
+    const response = await fetchAPI({
+      api: '/auth/activities',
+      method: 'POST',
+      data: parsed.data,
+      shouldAuth: true,
+    });
 
-  if (!response.ok) {
-    throw new Error('Upload failed');
+    if (!response.ok) {
+      const errorMessage = await response.text();
+      return { message: `建立活動上傳失敗，原因：${errorMessage}` };
+    }
+
+    const result = (await response.json()) as IActivityCreationResponse;
+
+    const { _id } = result;
+    activityId = _id;
+
+    revalidatePath(`/activity`);
+  } catch (_e) {
+    return { message: '請登入後再試' };
   }
-
-  const result = await response.json();
-
-  console.log(result);
-  const activityId = result._id;
-  const userID = result.creatorId;
-
-  if (result) {
-    return { message: `Welcome, ${activityId} ${userID || ''}!` };
-  }
-  revalidatePath('/activity/new');
-  // redirect(`/activity/preview?id=${activityId}&userID=${userID}`);
-  return { message: `Welcome, ${name}!` };
+  redirect(`/activity/${activityId}`);
 }
