@@ -280,7 +280,7 @@ export const createActivityFormSchema = z
             ctx.addIssue({
               code: z.ZodIssueCode.custom,
               message: '請選擇有效的結束日期和時間，或勾選無截止日期',
-              path: [index, 'startDateTime'],
+              path: [index, 'endDateTime'],
             });
           }
           if (
