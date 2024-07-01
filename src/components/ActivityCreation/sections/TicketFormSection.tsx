@@ -27,6 +27,7 @@ import { useState } from 'react';
 import { UseFormReturn, useFieldArray } from 'react-hook-form';
 import { z } from 'zod';
 import ActivityDateWrapper from '../fields/ActitvityDateWraper';
+import { sectionIds } from '../fields/utils';
 
 type FormSchema = z.infer<typeof createActivityFormSchema>;
 
@@ -48,7 +49,7 @@ const TicketFormSection = ({ form }: TicketFormSectionProps) => {
   return (
     <>
       <Separator />
-      <div id="ticket-setting" className="max-w-[26rem] space-y-6">
+      <div id={sectionIds.tickets} className="max-w-[26rem] space-y-6">
         <H2>票券設定</H2>
         <div className="flex items-center gap-2">
           <Switch

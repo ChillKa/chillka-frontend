@@ -25,7 +25,7 @@ import ActivityCreationDropdownMenu from '../fields/ActivityCreationDropdownMenu
 import ActivityCreationMap from '../fields/ActivityCreationMap';
 import ImageDropzone from '../fields/ImageDropzone';
 import RichTextEditor from '../fields/RichTextEditor';
-import { categories, locations } from '../fields/utils';
+import { categories, locations, sectionIds } from '../fields/utils';
 
 type FormSchema = z.infer<typeof createActivityFormSchema>;
 
@@ -81,7 +81,7 @@ const ActivityContentFormSection = ({
   }, [watch, setValue]);
 
   return (
-    <div id="activity-setting" className="space-y-12">
+    <div id={sectionIds.activity} className="space-y-12">
       <Separator />
       <div className="space-y-6">
         <H2>封面與縮圖</H2>

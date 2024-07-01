@@ -15,6 +15,7 @@ import { Label } from '@radix-ui/react-label';
 import { UseFormReturn } from 'react-hook-form';
 import { z } from 'zod';
 import ImageDropzone from '../fields/ImageDropzone';
+import { sectionIds } from '../fields/utils';
 
 type FormSchema = z.infer<typeof createActivityFormSchema>;
 
@@ -28,7 +29,7 @@ const OrganizerFormSection = ({
   onImageUploading,
 }: OrganizerFormSectionProps) => {
   return (
-    <div id="organizer-setting" className="space-y-6">
+    <div id={sectionIds.organizer} className="space-y-6">
       <H2>主辦方資訊</H2>
       <H4>你的自我介紹</H4>
       <Label>主辦方縮圖</Label>

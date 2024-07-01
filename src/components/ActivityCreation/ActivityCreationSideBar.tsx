@@ -3,36 +3,14 @@
 import { H1, H3 } from '@components/ui/typography';
 import cn from '@lib/utils';
 import { useInView } from 'framer-motion';
-import { CircleCheckBigIcon, CircleDashedIcon, LinkIcon } from 'lucide-react';
+import { LinkIcon } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useRef } from 'react';
+import { FORM_LIST_DATA, sectionIds } from './fields/utils';
 
 type ActivityCreationSideBarPrpos = {
   className: string;
 };
-
-const FORM_LIST_DATA = [
-  {
-    Icon: CircleCheckBigIcon,
-    text: '封面與縮圖',
-  },
-  {
-    Icon: CircleDashedIcon,
-    text: '基本資料',
-  },
-  {
-    Icon: CircleDashedIcon,
-    text: '形式與地點',
-  },
-  {
-    Icon: CircleDashedIcon,
-    text: '摘要及說明',
-  },
-  {
-    Icon: CircleDashedIcon,
-    text: '進階設定',
-  },
-];
 
 const useIdRef = (tagId: string) => {
   const ref = useRef<HTMLElement | null>(null);
@@ -53,9 +31,9 @@ const useIdRef = (tagId: string) => {
 const ActivityCreationSideBar = ({
   className,
 }: ActivityCreationSideBarPrpos) => {
-  const organizerRef = useIdRef('organizer-setting');
-  const activityRef = useIdRef('activity-setting');
-  const ticketRef = useIdRef('ticket-setting');
+  const organizerRef = useIdRef(sectionIds.organizer);
+  const activityRef = useIdRef(sectionIds.activity);
+  const ticketRef = useIdRef(sectionIds.tickets);
 
   const organizerInView = useInView(organizerRef);
   const isActivityInView = useInView(activityRef);
