@@ -81,9 +81,9 @@ const ActivityContentFormSection = ({
   }, [watch, setValue]);
 
   return (
-    <>
+    <div id="activity-setting" className="space-y-12">
       <Separator />
-      <div id="activity-setting" className="space-y-6">
+      <div className="space-y-6">
         <H2>封面與縮圖</H2>
         <H4 className="after:ml-1 after:text-destructive after:content-['*']">
           活動封面
@@ -584,7 +584,7 @@ const ActivityContentFormSection = ({
           />
         )}
       </div>
-    </>
+    </div>
   );
 };
 
