@@ -114,8 +114,6 @@ export async function getUserName(): Promise<string> {
     userName = payload.displayName;
   }
 
-  console.log('userName', userName);
-
   return userName;
 }
 
