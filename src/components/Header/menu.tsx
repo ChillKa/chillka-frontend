@@ -40,9 +40,9 @@ export const userList = [
 
 export const phoneList = [
   {
-    name: '信箱',
+    name: '訊息',
     icon: <Mail size={24} />,
-    url: '/member-center/email',
+    url: '/member-center/message',
   },
   {
     name: '通知',
