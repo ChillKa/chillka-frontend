@@ -9,11 +9,19 @@ export interface MessageDetail {
   receiverIsRead: boolean;
 }
 
+interface UserInfo {
+  _id: string;
+  displayName: string;
+  profilePicture: string;
+}
+
 export interface Message {
   _id: string;
   orderId: string;
   hostUserId: string;
   participantUserId: string;
+  host: UserInfo;
+  participant: UserInfo;
   messages: MessageDetail;
   createdAt: string;
   updatedAt: string;
