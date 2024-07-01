@@ -1,6 +1,6 @@
 import { getMessageListByFilter } from '@action/message';
 import MessageList from '@components/MessagePage/MessageList';
-import { H3 } from '@components/ui/typography';
+import { H1, H3 } from '@components/ui/typography';
 
 const MessagePage = async () => {
   const data = await getMessageListByFilter();
@@ -18,9 +18,7 @@ const MessagePage = async () => {
 
   return (
     <div className="flex h-[calc(100vh-var(--header-height))] flex-col text-primary">
-      <h1 className="h-[5rem] border-b-[0.0625rem] text-5xl/none font-bold xl:h-[6.25rem]">
-        訊息
-      </h1>
+      <H1 className="border-b pb-8">訊息</H1>
       <MessageList messages={data.result?.data} />
     </div>
   );

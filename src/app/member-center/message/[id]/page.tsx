@@ -6,10 +6,43 @@ import { ExternalLinkIcon } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Reply from '@components/MessagePage/Reply';
+import { useEffect, useRef, useState } from 'react';
+import { Socket, io } from 'socket.io-client';
 
 const defaultAvatar = '/header__defaultAvatar.svg';
 
-const MessageDetailPage = () => {
+const MessageDetailPage = ({ params }: { params: { id: string } }) => {
+  const [messageHistory, setMessageHistory] = useState([]);
+  const socketRef = useRef<Socket | null>(null);
+
+  const messageListId = params.id;
+
+  useEffect(() => {
+    socketRef.current = io(`${process.env.NEXT_PUBLIC_BASE_URL}`, {
+      query: {
+        messageListId,
+      },
+      transports: ['websocket'],
+      path: '/socket.io',
+    });
+
+    socketRef.current.on('history', (messages) => {
+      console.log('history', messages);
+      setMessageHistory(messages);
+    });
+
+    // socketRef.current.on('chat message', () => {
+    //   console.log('message');
+    // });
+
+    return () => {
+      console.log('disconnect');
+      // socketRef.current?.disconnect();
+    };
+  }, [params.id]);
+
+  console.log('message history list', messageHistory);
+
   return (
     <div className="flex h-[calc(100vh-var(--header-height))] flex-col gap-6 border p-4">
       <div className="flex items-center gap-4">
