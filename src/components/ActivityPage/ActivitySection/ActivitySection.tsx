@@ -72,23 +72,26 @@ const ActivitySection = async ({
             </div>
           </div>
         )}
-        <div className="flex">
-          <LinkIcon className="h-8 w-8 xl:h-12 xl:w-12" />
-          <div className="ml-6 xl:ml-10">
-            <div className="text-xl font-bold -tracking-[0.005em] xl:text-2xl xl:-tracking-[0.006em]">
-              相關連結
-            </div>
-            <div className="mt-2 text-base font-medium xl:text-lg xl:font-bold">
-              <Link
-                href={data.activity.organizer.websiteURL}
-                target="_blank"
-                className="underline underline-offset-2"
-              >
-                {data?.activity.organizer.websiteName}
-              </Link>
+        {data.activity.organizer.websiteURL && (
+          <div className="flex">
+            <LinkIcon className="h-8 w-8 xl:h-12 xl:w-12" />
+            <div className="ml-6 xl:ml-10">
+              <div className="text-xl font-bold -tracking-[0.005em] xl:text-2xl xl:-tracking-[0.006em]">
+                相關連結
+              </div>
+              <div className="mt-2 text-base font-medium xl:text-lg xl:font-bold">
+                <Link
+                  href={data.activity.organizer.websiteURL}
+                  target="_blank"
+                  className="underline underline-offset-2"
+                >
+                  {data.activity.organizer.websiteName ||
+                    data.activity.organizer.websiteURL}
+                </Link>
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
       <div className="border-b py-6 xl:py-12">
         <Large>{data.activity.summary}</Large>
