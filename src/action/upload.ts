@@ -117,22 +117,6 @@ function formDataToNestedObject(formData: FormDataObject): any {
     }, result);
   });
 
-  // Add the tickets object if it doesn't exist
-  if (!result.tickets) {
-    const ticket: any = {
-      name: result.name,
-      price: 0,
-      startDateTime: result.startDateTime,
-      fromToday: result.fromToday,
-      endDateTime: result.endDateTime,
-      noEndDate: result.noEndDate,
-      participantCapacity: 100,
-      unlimitedQuantity: true,
-    };
-
-    result.tickets = [ticket];
-  }
-
   return result;
 }
 
@@ -179,7 +163,6 @@ export async function uploadActivity(
 
     revalidatePath(`/activity`);
   } catch (_e) {
-    console.log(_e);
     return { message: '請登入後再試' };
   }
   redirect(`/activity/${activityId}`);

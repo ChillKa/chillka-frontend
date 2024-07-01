@@ -36,7 +36,10 @@ type TicketFormSectionProps = {
 
 const TicketFormSection = ({ form }: TicketFormSectionProps) => {
   const [isChillKaMode, setIsChillKaMode] = useState(false);
-  const { control } = form;
+  const {
+    control,
+    formState: { errors },
+  } = form;
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'tickets',
@@ -90,8 +93,16 @@ const TicketFormSection = ({ form }: TicketFormSectionProps) => {
                     <ChevronsUpDownIcon />
                   </Button>
                 </CollapsibleTrigger>
+                {errors?.tickets?.[index] && (
+                  <p className="text-sm font-medium text-destructive">
+                    請記得填寫票卷內容
+                  </p>
+                )}
               </div>
-              <CollapsibleContent className="space-y-1.5">
+              <CollapsibleContent
+                className="space-y-1.5 data-[state=closed]:hidden"
+                forceMount
+              >
                 <FormField
                   name={`tickets.${index}.name`}
                   control={control}
