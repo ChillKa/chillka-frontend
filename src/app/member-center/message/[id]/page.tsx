@@ -6,70 +6,71 @@ import { ExternalLinkIcon } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Reply from '@components/MessagePage/Reply';
-import { useEffect, useRef, useState } from 'react';
-import { Socket, io } from 'socket.io-client';
+import { useEffect, useState } from 'react';
+import { useSocket } from '@store/SocketProvider/SocketProvider';
+import { MessageHistory, MessageUserType } from 'src/types/message';
+import formatDateTime from '@lib/dateUtils';
 
 const defaultAvatar = '/header__defaultAvatar.svg';
 
-const MessageDetailPage = ({ params }: { params: { id: string } }) => {
-  const [messageHistory, setMessageHistory] = useState([]);
-  const socketRef = useRef<Socket | null>(null);
+const MessageDetailPage = () => {
+  const socket = useSocket();
+  const [messageHistory, setMessageHistory] = useState<
+    MessageHistory | undefined
+  >();
 
-  const messageListId = params.id;
+  const replyHandler = (content: string) => {
+    const userType = MessageUserType.PARTICIPANT;
+    socket.emit('message', { userType, content });
+  };
 
   useEffect(() => {
-    socketRef.current = io(`${process.env.NEXT_PUBLIC_BASE_URL}`, {
-      query: {
-        messageListId,
-      },
-      transports: ['websocket'],
-      path: '/socket.io',
+    socket.on('history', (response) => {
+      setMessageHistory(response);
     });
 
-    socketRef.current.on('history', (messages) => {
-      console.log('history', messages);
-      setMessageHistory(messages);
-    });
-
-    // socketRef.current.on('chat message', () => {
-    //   console.log('message');
-    // });
-
-    return () => {
-      console.log('disconnect');
-      // socketRef.current?.disconnect();
-    };
-  }, [params.id]);
-
-  console.log('message history list', messageHistory);
+    return () => {};
+  }, [socket]);
 
   return (
     <div className="flex h-[calc(100vh-var(--header-height))] flex-col gap-6 border p-4">
       <div className="flex items-center gap-4">
-        <H3>Activity name</H3>
-        <Link href="/activity/123">
+        <H3>{messageHistory?.activity.name}</H3>
+        <Link href={`/activity/${messageHistory?.activity._id}`}>
           <ExternalLinkIcon />
         </Link>
       </div>
       <Separator />
       <div className="overflow-y-auto">
-        {/* TODO */}
-        {Array.from({ length: 10 }).map(() => (
-          <div key={new Date().getTime()} className="flex flex-col gap-4">
-            <div className="flex items-center gap-4">
-              <Image src={defaultAvatar} alt="user" width={40} height={40} />
-              <p>
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been Lorem Ipsum is simply dummy text
-                of the printing and typesetting industry. Lorem Ipsum has been
-              </p>
+        {messageHistory?.messages.map((m) => {
+          const isHost = m.userType === MessageUserType.HOST;
+
+          return (
+            <div key={m._id} className="flex flex-col gap-4">
+              <div className="flex items-center gap-4">
+                <Image
+                  src={
+                    isHost
+                      ? messageHistory.host?.profilePicture ?? defaultAvatar
+                      : messageHistory.participant?.profilePicture ??
+                        defaultAvatar
+                  }
+                  alt="user"
+                  width={40}
+                  height={40}
+                  className="h-10 w-10 overflow-hidden rounded-full object-cover"
+                />
+                <p>{m.content}</p>
+              </div>
+              <div className="flex justify-end">
+                {formatDateTime(m.createdAt)}
+              </div>
             </div>
-            <div className="flex justify-end">time: 12:00</div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
-      <Reply />
+      <Reply replyHandler={replyHandler} />
     </div>
   );
 };

@@ -4,9 +4,12 @@ export enum MessageUserType {
 }
 
 export interface MessageDetail {
+  _id: string;
   userType: MessageUserType;
   content: string;
   receiverIsRead: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
 
 interface UserInfo {
@@ -26,9 +29,13 @@ export interface Message {
   createdAt: string;
   updatedAt: string;
 }
-
 export interface MessageListResult {
   data: Message[];
   page: number;
   total: number;
+}
+
+export interface MessageHistory extends Omit<Message, 'messages'> {
+  activity: { _id: string; name: string };
+  messages: MessageDetail[];
 }

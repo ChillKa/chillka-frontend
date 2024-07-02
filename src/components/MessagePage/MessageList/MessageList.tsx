@@ -2,6 +2,7 @@
 
 import { H3 } from '@components/ui/typography';
 import formatDateTime from '@lib/dateUtils';
+import { JWTPayload } from 'jose';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Message, MessageUserType } from 'src/types/message';
@@ -10,9 +11,10 @@ const defaultAvatar = '/header__defaultAvatar.svg';
 
 type MessageListProps = {
   messages: Message[];
+  user: JWTPayload;
 };
 
-const MessageList = ({ messages }: MessageListProps) => {
+const MessageList = ({ messages, user }: MessageListProps) => {
   if (messages.length === 0) {
     return <H3 className="mt-8 text-primary">目前尚未有訊息</H3>;
   }
@@ -20,6 +22,11 @@ const MessageList = ({ messages }: MessageListProps) => {
   return (
     <div className="overflow-y-auto">
       {messages.map((m, index) => {
+        const currentUserType =
+          user._id === m.host._id
+            ? MessageUserType.HOST
+            : MessageUserType.PARTICIPANT;
+        const isCurrentUser = currentUserType === m.messages.userType;
         const isHost = m.messages.userType === MessageUserType.HOST;
 
         return (
@@ -30,9 +37,9 @@ const MessageList = ({ messages }: MessageListProps) => {
               <div className="flex items-center gap-4">
                 <Image
                   src={
-                    (isHost
-                      ? m.host.profilePicture
-                      : m.participant.profilePicture) ?? defaultAvatar
+                    isHost
+                      ? m.host?.profilePicture ?? defaultAvatar
+                      : m.participant?.profilePicture ?? defaultAvatar
                   }
                   alt="user"
                   width={40}
@@ -43,7 +50,7 @@ const MessageList = ({ messages }: MessageListProps) => {
               </div>
               <div className="flex justify-end gap-4">
                 <p>{formatDateTime(m.updatedAt)}</p>
-                {isHost && <p>{m.messages.receiverIsRead}</p>}
+                {!isCurrentUser && <p>{m.messages.receiverIsRead}</p>}
               </div>
             </div>
           </Link>
