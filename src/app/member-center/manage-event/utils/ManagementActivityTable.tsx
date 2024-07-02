@@ -12,27 +12,29 @@ import {
   TableRow,
 } from '@components/ui/table';
 import { H2 } from '@components/ui/typography';
+import { Participant } from './types';
 
 type ManagementActivityTableProps = {
-  id: string;
+  participants: Participant[];
 };
 
-const ManagementActivityTable = ({ id }: ManagementActivityTableProps) => {
+const ManagementActivityTable = ({
+  participants,
+}: ManagementActivityTableProps) => {
   return (
     <>
       <div className="flex flex-row justify-between">
         <H2>參加者名單</H2>
-        <Button variant="outline">檢驗票券</Button>
+        <Button variant="default">檢驗票券</Button>
       </div>
       <div>
         <div className="mb-4 flex justify-between">
-          <Input placeholder="搜索名稱" className="max-w-sm" />
+          <Input variant="form" placeholder="搜索名稱" className="max-w-sm" />
           <div>
-            <Button variant="outline" disabled className="mr-2">
+            <Button variant="default" disabled className="mr-2">
               傳送訊息
             </Button>
           </div>
-          {id}
         </div>
 
         <Table>
@@ -49,18 +51,17 @@ const ManagementActivityTable = ({ id }: ManagementActivityTableProps) => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {Array.from({ length: 12 }).map((_, index) => {
-              const num = index;
+            {participants.map((participant) => {
               return (
-                <TableRow key={num}>
+                <TableRow key={participant.user.userId}>
                   <TableCell>
                     <Checkbox />
                   </TableCell>
-                  <TableCell>Tester01</TableCell>
-                  <TableCell>qwe123456@gmail.com</TableCell>
-                  <TableCell>18</TableCell>
-                  <TableCell>已付款</TableCell>
-                  <TableCell>2020-01-10</TableCell>
+                  <TableCell>{participant.user.userRealName}</TableCell>
+                  <TableCell>{participant.user.email}</TableCell>
+                  <TableCell>{participant.user.age}</TableCell>
+                  <TableCell>{participant.paymentStatus}</TableCell>
+                  <TableCell>{participant.user.lastOnlineTime}</TableCell>
                 </TableRow>
               );
             })}
