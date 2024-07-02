@@ -29,7 +29,7 @@ const ActivityCreationMap = ({
 }: ActivityCreationMapProps) => {
   const { isLoaded, loadError } = useJsApiLoader({
     id: 'google-map-script',
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAP_API as string,
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY as string,
     libraries: libraries as Libraries,
     language: 'zh-TW',
   });

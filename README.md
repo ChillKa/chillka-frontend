@@ -84,7 +84,7 @@ http://localhost:3535/
 ```env
 JWT_SECRET= # JWT 認證密鑰
 API_ENDPOINT= # 後端網址
-NEXT_PUBLIC_MAPS_API_KEY= # Google 地圖 API 密鑰
+NEXT_PUBLIC_GOOGLE_MAP_API_KEY= # Google 地圖 API 密鑰
 ```
 
 ## 資料夾說明
