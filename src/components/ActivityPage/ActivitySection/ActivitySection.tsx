@@ -1,5 +1,6 @@
 import { fetchActivity } from '@action/activity';
-import { Large, P } from '@components/ui/typography';
+import RichTextEditor from '@components/RichTextEditor';
+import { Large } from '@components/ui/typography';
 import { formatActivityTime } from '@lib/dateUtils';
 import cn from '@lib/utils';
 import { CalendarDays, Link as LinkIcon, MapPin, User } from 'lucide-react';
@@ -97,7 +98,11 @@ const ActivitySection = async ({
         <div className="text-2xl font-bold -tracking-[0.006em] xl:text-3xl xl:-tracking-[0.0075em]">
           活動說明
         </div>
-        <P className="mt-4 xl:mt-6">{data.activity.details}</P>
+        <RichTextEditor
+          className="mt-4 text-base/7 font-normal xl:mt-6"
+          editable={false}
+          description={data.activity.details}
+        />
       </div>
     </section>
   );
