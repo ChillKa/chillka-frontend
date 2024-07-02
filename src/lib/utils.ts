@@ -3,6 +3,40 @@ import { twMerge } from 'tailwind-merge';
 
 const cn = (...inputs: ClassValue[]) => twMerge(clsx(inputs));
 
+type Callback<T extends any[], R> = (...args: T) => Promise<R>;
+/**
+ * Creates a debounced version of the provided async callback function.
+ *
+ * @template T - The type of the callback arguments.
+ * @template R - The type of the callback return value.
+ * @param {Callback<T, R>} callback - The async function to be debounced.
+ * @param {number} delay - The delay in milliseconds for debouncing.
+ * @returns {Callback<T, R>} - The debounced version of the async callback function.
+ */
+export const createDebounce = <T extends any[], R>(
+  callback: Callback<T, R>,
+  delay: number
+): Callback<T, R> => {
+  let timeout: ReturnType<typeof setTimeout> | null = null;
+
+  const debouncedCallback: Callback<T, R> = (...args) => {
+    if (timeout) {
+      clearTimeout(timeout);
+    }
+
+    return new Promise<R>((resolve, reject) => {
+      timeout = setTimeout(() => {
+        timeout = null;
+        callback(...args)
+          .then(resolve)
+          .catch(reject);
+      }, delay);
+    });
+  };
+
+  return debouncedCallback;
+};
+
 export const formatBytes = (
   bytes: number,
   opts: {

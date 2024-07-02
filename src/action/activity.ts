@@ -2,6 +2,7 @@
 
 import { SearchParams } from '@components/SearchBar/fields/utils';
 import { userCommentSchema } from '@lib/definitions';
+import { createDebounce } from '@lib/utils';
 import { z } from 'zod';
 import { IAcitivityResponse } from '../types/activity';
 import { fetchAPI, getJwtPayload, validateWithSchema } from './utils';
@@ -86,6 +87,51 @@ export async function getActivitiesByFilter(
     total: result.total,
   };
 }
+
+export async function getRecommendActivitiesByKeyword(keyword: string) {
+  const api = keyword
+    ? `/activities?limit=4&keyword=${keyword}`
+    : '/activities?limit=4';
+
+  try {
+    const [activitiesResponse, keywordsResponse] = await Promise.all([
+      fetchAPI({ api, method: 'GET' }),
+      fetchAPI({ api: '/activities/popular-keywords', method: 'GET' }),
+    ]);
+
+    if (!activitiesResponse.ok || !keywordsResponse.ok) {
+      return {
+        keyword: [],
+        pictures: [],
+      };
+    }
+
+    const activitiesResult = await activitiesResponse.json();
+    const keywordsResult = await keywordsResponse.json();
+
+    return {
+      // FIXME: server response maybe change data: { url, keyword }
+      keyword: keywordsResult.keywords.map((result: string) => ({
+        url: '/',
+        keyword: result,
+      })),
+      pictures: activitiesResult.data.map((activity: Activity) => ({
+        thumbnail: activity.thumbnail,
+        url: activity.link,
+        description: activity.name,
+      })),
+    };
+  } catch (e) {
+    return {
+      keyword: [],
+      pictures: [],
+    };
+  }
+}
+export const getRecommendActivitiesByKeywordWithDebounce = createDebounce(
+  getRecommendActivitiesByKeyword,
+  1000
+);
 
 export interface ActivityFetchState {
   result: IAcitivityResponse | null;
