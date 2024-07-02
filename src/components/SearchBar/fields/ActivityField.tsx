@@ -18,7 +18,8 @@ import { motion } from 'framer-motion';
 import { SearchIcon } from 'lucide-react';
 import Link from 'next/link';
 import { useRef, useState } from 'react';
-import menuAnimationVariants, { ActivityResultThumbnail } from './utils';
+import ActivityResultThumbnail from './ActivityResultThumbnail';
+import menuAnimationVariants from './utils';
 
 export type ActivityKeyword = {
   url: string;
