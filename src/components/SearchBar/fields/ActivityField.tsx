@@ -18,7 +18,9 @@ import { motion } from 'framer-motion';
 import { SearchIcon } from 'lucide-react';
 import Link from 'next/link';
 import { useRef, useState } from 'react';
-import ActivityResultThumbnail from './ActivityResultThumbnail';
+import ActivityResultThumbnail, {
+  SkeletonActivityResultThumbnail,
+} from './ActivityResultThumbnail';
 import menuAnimationVariants from './utils';
 
 export type ActivityKeyword = {
@@ -37,6 +39,7 @@ export type ActivityFieldProps = {
   activityKeywords: ActivityKeyword[];
   activityPictures: ActivityPicture[];
   value: string;
+  isLoading?: boolean;
   onChange: (value: string) => void;
   menuOpen?: boolean;
   onMenuOpen?: (isOpen: boolean) => void;
@@ -47,6 +50,7 @@ const ActivityField = ({
   activityKeywords,
   activityPictures,
   value,
+  isLoading = false,
   onChange,
   menuOpen = false,
   onMenuOpen,
@@ -122,17 +126,23 @@ const ActivityField = ({
         >
           <p className="ml-4 text-base font-bold">推薦活動</p>
           <div className="no-scrollbar mt-6 flex gap-4 overflow-x-auto overflow-y-hidden px-4">
-            {activityPictures.map((item, index) => {
-              const num = index;
-              return (
-                <ActivityResultThumbnail
-                  key={num}
-                  thumbnail={item.thumbnail}
-                  description={item.description}
-                  link={item.url}
-                />
-              );
-            })}
+            {isLoading &&
+              Array.from({ length: 3 }).map((_, index) => {
+                const id = index;
+                return <SkeletonActivityResultThumbnail key={id} />;
+              })}
+            {!isLoading &&
+              activityPictures.map((item, index) => {
+                const num = index;
+                return (
+                  <ActivityResultThumbnail
+                    key={num}
+                    thumbnail={item.thumbnail}
+                    description={item.description}
+                    link={item.url}
+                  />
+                );
+              })}
           </div>
           <div className="mt-10 px-4 xl:mt-12">
             <p className="text-base font-bold">熱門關鍵字</p>
@@ -158,6 +168,7 @@ const ActivityField = ({
 export type ActivityMobileFieldProps = {
   activityKeywords: ActivityKeyword[];
   activityPictures: ActivityPicture[];
+  isLoading?: boolean;
   value: string;
   onChange: (value: string) => void;
 };
@@ -165,6 +176,7 @@ export type ActivityMobileFieldProps = {
 export const ActivityMobileField = ({
   activityKeywords,
   activityPictures,
+  isLoading = false,
   value,
   onChange,
 }: ActivityMobileFieldProps) => {
@@ -189,17 +201,23 @@ export const ActivityMobileField = ({
       <div className="mt-4">
         <p className="ml-3 text-base font-bold">推薦活動</p>
         <div className="no-scrollbar mt-6 flex gap-4 overflow-x-auto overflow-y-hidden px-3">
-          {activityPictures.map((item, index) => {
-            const num = index;
-            return (
-              <ActivityResultThumbnail
-                key={num}
-                thumbnail={item.thumbnail}
-                description={item.description}
-                link={item.url}
-              />
-            );
-          })}
+          {isLoading &&
+            Array.from({ length: 3 }).map((_, index) => {
+              const id = index;
+              return <SkeletonActivityResultThumbnail key={id} />;
+            })}
+          {!isLoading &&
+            activityPictures.map((item, index) => {
+              const num = index;
+              return (
+                <ActivityResultThumbnail
+                  key={num}
+                  thumbnail={item.thumbnail}
+                  description={item.description}
+                  link={item.url}
+                />
+              );
+            })}
         </div>
         <div className="mt-10 px-3">
           <p className="text-base font-bold">熱門關鍵字</p>
@@ -224,6 +242,7 @@ export const ActivityMobileField = ({
 export type AdvancedActivityMobileFieldProps = {
   activityKeywords: ActivityKeyword[];
   activityPictures: ActivityPicture[];
+  isLoading?: boolean;
   value: string;
   onChange: (value: string) => void;
 };
@@ -231,6 +250,7 @@ export type AdvancedActivityMobileFieldProps = {
 export const AdvancedActivityMobileField = ({
   activityKeywords,
   activityPictures,
+  isLoading = false,
   value,
   onChange,
 }: AdvancedActivityMobileFieldProps) => {
@@ -249,6 +269,7 @@ export const AdvancedActivityMobileField = ({
           <ActivityMobileField
             activityKeywords={activityKeywords}
             activityPictures={activityPictures}
+            isLoading={isLoading}
             value={value}
             onChange={onChange}
           />

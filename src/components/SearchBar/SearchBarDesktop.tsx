@@ -83,6 +83,7 @@ const SearchBarDesktop = ({
   onSearchSubmit,
 }: SearchBarDesktopProps) => {
   const isSticky = useStickyToFixed('header');
+  const [isLoading, setIsLoading] = useState(false);
   const [keywords, setKeywords] = useState<ActivityKeyword[]>([]);
   const [pictures, setPictures] = useState<ActivityPicture[]>([]);
 
@@ -111,14 +112,18 @@ const SearchBarDesktop = ({
               <ActivityField
                 activityKeywords={keywords}
                 activityPictures={pictures}
+                isLoading={isLoading}
                 value={value}
                 onChange={(keyword) => {
-                  getRecommendActivitiesByKeywordWithDebounce(keyword).then(
-                    (response) => {
+                  setIsLoading(true);
+                  getRecommendActivitiesByKeywordWithDebounce(keyword)
+                    .then((response) => {
                       setKeywords(response.keyword);
                       setPictures(response.pictures);
-                    }
-                  );
+                    })
+                    .finally(() => {
+                      setIsLoading(false);
+                    });
                   onChange(keyword);
                 }}
               />

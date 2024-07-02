@@ -1,7 +1,18 @@
+import { Skeleton } from '@components/ui/skeleton';
 import { Small } from '@components/ui/typography';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
+
+export const SkeletonActivityResultThumbnail = () => {
+  return (
+    <div className="min-w-fit space-y-2">
+      <Skeleton className="h-[100px] w-[200px]" />
+
+      <Skeleton />
+    </div>
+  );
+};
 
 type ActivityResultThumbnailProps = {
   link?: string;

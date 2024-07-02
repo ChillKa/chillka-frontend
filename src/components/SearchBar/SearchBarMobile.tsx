@@ -44,6 +44,7 @@ const SearchBarMobile = ({
 }: SearchBarMobileProps) => {
   const [isCategoryMenuOpen, setIsCategoryMenuOpen] = useState(false);
   const [isLocationMenuOpen, setIsLocationMenuOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [keywords, setKeywords] = useState<ActivityKeyword[]>([]);
   const [pictures, setPictures] = useState<ActivityPicture[]>([]);
   const containerRef = useRef(null);
@@ -94,14 +95,17 @@ const SearchBarMobile = ({
               <ActivityMobileField
                 activityKeywords={keywords}
                 activityPictures={pictures}
+                isLoading={isLoading}
                 value={value}
                 onChange={(keyword) => {
-                  getRecommendActivitiesByKeywordWithDebounce(keyword).then(
-                    (response) => {
+                  getRecommendActivitiesByKeywordWithDebounce(keyword)
+                    .then((response) => {
                       setKeywords(response.keyword);
                       setPictures(response.pictures);
-                    }
-                  );
+                    })
+                    .finally(() => {
+                      setIsLoading(false);
+                    });
                   onChange(keyword);
                 }}
               />

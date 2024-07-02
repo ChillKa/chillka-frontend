@@ -130,7 +130,7 @@ export async function getRecommendActivitiesByKeyword(keyword: string) {
 }
 export const getRecommendActivitiesByKeywordWithDebounce = createDebounce(
   getRecommendActivitiesByKeyword,
-  1500
+  1000
 );
 
 export interface ActivityFetchState {
