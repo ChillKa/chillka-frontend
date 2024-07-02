@@ -114,10 +114,22 @@ const TicketInquiry = () => {
         <TabsContent value="usableTicket">
           {usableTickets.length > 0 ? (
             usableTickets.map((ticket: TicketsInfoType) => (
-              <TicketPopUp key={ticket._id}>
+              <TicketPopUp
+                ticketName={`${ticket.activity.name} | ${ticket.ticket.name}`}
+                ticketQuantity={ticket.payment.orderNumber}
+                orderNumber={ticket.ticket.activityId}
+                endTime={ticket.ticket.endDateTime}
+                organizer={ticket.activity.organizer.websiteName}
+                purchaseDate={ticket.ticket.createdAt}
+                price={ticket.ticket.price}
+                pay={ticket.payment.type}
+                state={ticket.payment.status}
+                // link={ticket.paymen.link}
+                key={ticket._id}
+              >
                 <div className="block grid-cols-[7fr_2fr_2fr_2fr] py-4 text-xl font-bold xl:grid">
                   <h3 className="mb-[1.25rem] text-left xl:mb-0 xl:font-bold">
-                    {ticket.ticket.name}
+                    {`${ticket.activity.name} | ${ticket.ticket.name}`}
                   </h3>
                   <p className="mr-2 inline-block bg-primary px-2 py-1 text-xs/5 font-medium text-white xl:mr-0 xl:flex xl:items-center xl:justify-center xl:bg-surface xl:p-0 xl:text-xl xl:font-bold xl:text-primary">
                     {width > 1366
@@ -147,7 +159,19 @@ const TicketInquiry = () => {
         <TabsContent value="unusableTicket">
           {unusableTickets.length > 0 ? (
             unusableTickets.map((ticket: TicketsInfoType) => (
-              <TicketPopUp key={ticket._id}>
+              <TicketPopUp
+                ticketName={`${ticket.activity.name} | ${ticket.ticket.name}`}
+                ticketQuantity={ticket.payment.orderNumber}
+                orderNumber={ticket.ticket.activityId}
+                endTime={ticket.ticket.endDateTime}
+                organizer={ticket.activity.organizer.websiteName}
+                purchaseDate={ticket.ticket.createdAt}
+                price={ticket.ticket.price}
+                pay={ticket.payment.type}
+                state={ticket.payment.status}
+                // link={ticket.paymen.link}
+                key={ticket._id}
+              >
                 <div className="block grid-cols-[7fr_2fr_2fr_2fr] py-4 text-xl font-bold xl:grid">
                   <h3 className="mb-[1.25rem] text-left xl:mb-0 xl:font-bold">
                     {ticket.ticket.name}

@@ -11,10 +11,32 @@ import { QrCode, X } from 'lucide-react';
 import { ReactNode, useState } from 'react';
 
 type TicketPopUpProps = {
+  ticketName: string;
+  ticketQuantity: number;
+  orderNumber: string;
+  endTime: string;
+  organizer: string;
+  purchaseDate: string;
+  price: number;
+  pay: string;
+  state: string;
+  // link?: string;
   children?: ReactNode;
 };
 
-const TicketPopUp = ({ children }: TicketPopUpProps) => {
+const TicketPopUp = ({
+  ticketName,
+  ticketQuantity,
+  orderNumber,
+  endTime,
+  organizer,
+  purchaseDate,
+  price,
+  pay,
+  state,
+  // link,
+  children,
+}: TicketPopUpProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleOpen = (e: React.MouseEvent) => {
@@ -25,6 +47,14 @@ const TicketPopUp = ({ children }: TicketPopUpProps) => {
   const handleClose = (e: React.MouseEvent) => {
     e.stopPropagation();
     setIsOpen(false);
+  };
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const year = date.getUTCFullYear();
+    const month = (date.getUTCMonth() + 1).toString().padStart(2, '0');
+    const day = date.getUTCDate().toString().padStart(2, '0');
+    return `${year}.${month}.${day}`;
   };
 
   return (
@@ -49,40 +79,42 @@ const TicketPopUp = ({ children }: TicketPopUpProps) => {
             票券內容
           </DialogTitle>
           <p className="mb-4 text-2xl font-bold underline xl:mb-[1.625rem] xl:text-3xl xl:no-underline">
-            東京地鐵一日券/二日券/三日券|Tokyo Subway Ticket 半票
+            {ticketName}
           </p>
           <div className="mb-[1.125rem] flex text-base xl:mb-[1.625rem]">
             <p className="font-normal">訂單編號：</p>
-            <p className="font-medium">N987654321987654321</p>
+            <p className="font-medium">{orderNumber}</p>
           </div>
           <div className="flex">
             <div className="mr-2 bg-primary px-2 py-1 text-xs/5 font-medium text-white">
-              數量：4
+              數量：{ticketQuantity}
             </div>
             <div className="bg-primary px-2 py-1 text-xs/5 font-medium text-white">
-              使用期限：2024.1.1
+              使用期限：{formatDate(endTime)}
             </div>
           </div>
           <ul className="xl:py- mt-4 border-b-[0.0625rem] border-t-[0.0625rem] pb-2 pt-4 xl:my-6 xl:flex xl:border-none xl:py-4">
             <li className="mb-2 flex justify-between border-primary xl:w-[30.25rem] xl:flex-col xl:border-x-[0.0625rem] xl:px-4">
               <p className="text-sm/6 font-medium xl:mb-2">主辦方</p>
-              <p className="text-base/7 font-normal">音樂之夜有限公司</p>
+              <p className="text-base/7 font-normal">{organizer}</p>
             </li>
             <li className="mb-2 flex justify-between border-primary xl:w-[8.5rem] xl:flex-col xl:border-r-[0.0625rem] xl:px-4 ">
               <p className="text-sm/6 font-medium xl:mb-2">購買日期</p>
-              <p className="text-base/7 font-normal">2020.10.10</p>
+              <p className="text-base/7 font-normal">
+                {formatDate(purchaseDate)}
+              </p>
             </li>
             <li className="mb-2 flex justify-between border-primary xl:w-[8.5rem] xl:flex-col xl:border-r-[0.0625rem] xl:px-4">
               <p className="text-sm/6 font-medium xl:mb-2">總共金額</p>
-              <p className="text-base/7 font-normal">NT $9999,999</p>
+              <p className="text-base/7 font-normal">NT ${price}</p>
             </li>
             <li className="justify-betwee xl:px-4n mb-2 flex border-primary xl:w-[8.5rem] xl:flex-col xl:border-r-[0.0625rem] xl:px-4">
               <p className="text-sm/6 font-medium xl:mb-2">付款方式</p>
-              <p className="text-base/7 font-normal">信用卡</p>
+              <p className="text-base/7 font-normal">{pay}</p>
             </li>
             <li className="xl:px-4n mb-2 flex justify-between border-primary xl:w-[8.5rem] xl:flex-col xl:border-r-[0.0625rem] xl:px-4">
               <p className="text-sm/6 font-medium xl:mb-2">訂單狀態</p>
-              <p className="text-base/7 font-normal">已付款</p>
+              <p className="text-base/7 font-normal">{state}</p>
             </li>
           </ul>
         </div>
