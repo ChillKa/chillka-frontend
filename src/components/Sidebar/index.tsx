@@ -96,22 +96,6 @@ const Sidebar = ({ isLoggedin, onSignOut }: SidebarProps) => {
             >
               {isLoggedin ? (
                 <>
-                  {userList.map((user: List) => (
-                    <motion.li
-                      variants={menuAnimation}
-                      whileHover={{ scale: 1.025 }}
-                      whileTap={{ scale: 0.95 }}
-                      key={user.name}
-                    >
-                      <Link
-                        className="mb-4 flex justify-between px-[1.5rem] py-[0.375rem] text-xl font-bold hover:bg-primary/[0.03]"
-                        href={user.url}
-                      >
-                        <p>{user.name}</p>
-                        {user.icon && user.icon}
-                      </Link>
-                    </motion.li>
-                  ))}
                   {phoneList.map((mobile: List) => (
                     <motion.li
                       variants={menuAnimation}
@@ -125,6 +109,22 @@ const Sidebar = ({ isLoggedin, onSignOut }: SidebarProps) => {
                       >
                         <p>{mobile.name}</p>
                         {mobile.icon && mobile.icon}
+                      </Link>
+                    </motion.li>
+                  ))}
+                  {userList.map((user: List) => (
+                    <motion.li
+                      variants={menuAnimation}
+                      whileHover={{ scale: 1.025 }}
+                      whileTap={{ scale: 0.95 }}
+                      key={user.name}
+                    >
+                      <Link
+                        className="mb-4 flex justify-between px-[1.5rem] py-[0.375rem] text-xl font-bold hover:bg-primary/[0.03]"
+                        href={user.url}
+                      >
+                        <p>{user.name}</p>
+                        {user.icon && user.icon}
                       </Link>
                     </motion.li>
                   ))}
