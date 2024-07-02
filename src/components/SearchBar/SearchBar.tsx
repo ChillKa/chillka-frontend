@@ -1,19 +1,3 @@
-/*
-- [x] add a hook for mobile verstion detection
-- [x] add modal component from shadcn
-- [x] built-up mobile version
-  - [x] modal title
-  - [x] modal content
-- [x] feature: add framer motion
-  - [x] add animation on menu items
-- [x] mobile:
-  - [x] add animation
-  - [x] modify menu animation
-  - [x] set hover effect propperly
-- [] desktop
-
-*/
-
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -23,12 +7,7 @@ import { z } from 'zod';
 import SearchBarDesktop from './SearchBarDesktop';
 import SearchBarMobile from './SearchBarMobile';
 import SearchProvider from './SearchProvider';
-import {
-  DUMMY_KEYWORDS,
-  DUMMY_PICTURES,
-  categories,
-  locations,
-} from './fields/utils';
+import { categories, locations } from './fields/utils';
 
 //
 const debugMode = false;
@@ -73,8 +52,6 @@ const SearchBar = ({ className = '' }: SearchBarProps) => {
       {isMobile ? (
         <SearchBarMobile
           className=""
-          activityPictures={DUMMY_PICTURES}
-          activityKeywords={DUMMY_KEYWORDS}
           locations={locations}
           categories={categories}
           onSearchSubmit={handleSearchSubmit}
@@ -83,8 +60,6 @@ const SearchBar = ({ className = '' }: SearchBarProps) => {
       ) : (
         <SearchBarDesktop
           className={className}
-          activityPictures={DUMMY_PICTURES}
-          activityKeywords={DUMMY_KEYWORDS}
           locations={locations}
           categories={categories}
           onSearchSubmit={handleSearchSubmit}

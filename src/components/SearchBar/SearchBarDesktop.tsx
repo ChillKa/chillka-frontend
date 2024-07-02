@@ -1,5 +1,6 @@
 'use client';
 
+import { getRecommendActivitiesByKeywordWithDebounce } from '@action/activity';
 import { Button } from '@components/ui/button';
 import { H3 } from '@components/ui/typography';
 import cn from '@lib/utils';
@@ -15,8 +16,6 @@ import LocationFieldMenu, { Location } from './fields/LocationFieldMenu';
 
 type SearchBarDesktopProps = {
   className: string;
-  activityPictures: ActivityPicture[];
-  activityKeywords: ActivityKeyword[];
   locations: Location[];
   categories: Category[];
   onSearchSubmit?: (data: FieldValues) => Promise<void>;
@@ -79,13 +78,14 @@ const useStickyToFixed = (tagName: string) => {
 
 const SearchBarDesktop = ({
   className = '',
-  activityPictures,
-  activityKeywords,
   locations,
   categories,
   onSearchSubmit,
 }: SearchBarDesktopProps) => {
   const isSticky = useStickyToFixed('header');
+  const [isLoading, setIsLoading] = useState(false);
+  const [keywords, setKeywords] = useState<ActivityKeyword[]>([]);
+  const [pictures, setPictures] = useState<ActivityPicture[]>([]);
 
   const { handleSubmit } = useSearch();
   const handleSearchSubmit = handleSubmit(async (data) => {
@@ -107,14 +107,28 @@ const SearchBarDesktop = ({
       <H3>依照需求搜尋適合你的活動</H3>
       <form onSubmit={handleSearchSubmit} className="flex grow">
         <SearchField name="keyword" className="grow">
-          {({ value, onChange }) => (
-            <ActivityField
-              activityKeywords={activityKeywords}
-              activityPictures={activityPictures}
-              value={value}
-              onChange={onChange}
-            />
-          )}
+          {({ value, onChange }) => {
+            return (
+              <ActivityField
+                activityKeywords={keywords}
+                activityPictures={pictures}
+                isLoading={isLoading}
+                value={value}
+                onChange={(keyword) => {
+                  setIsLoading(true);
+                  getRecommendActivitiesByKeywordWithDebounce(keyword)
+                    .then((response) => {
+                      setKeywords(response.keyword);
+                      setPictures(response.pictures);
+                    })
+                    .finally(() => {
+                      setIsLoading(false);
+                    });
+                  onChange(keyword);
+                }}
+              />
+            );
+          }}
         </SearchField>
         <SearchField name="category" className="min-w-64">
           {({ value, onChange }) => (

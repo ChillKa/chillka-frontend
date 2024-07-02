@@ -1,11 +1,15 @@
 'use client';
 
+import { getRecommendActivitiesByKeywordWithDebounce } from '@action/activity';
 import { Button } from '@components/ui/button';
 import cn from '@lib/utils';
 import { XSquare } from 'lucide-react';
-import { MouseEventHandler } from 'react';
+import { MouseEventHandler, useState } from 'react';
 import { SearchField, useSearch } from './SearchProvider';
-import ActivityField from './fields/ActivityField';
+import ActivityField, {
+  ActivityKeyword,
+  ActivityPicture,
+} from './fields/ActivityField';
 import CategoryFieldMenu from './fields/CategoryFieldMenu';
 import DateFieldMenu from './fields/DateFieldMenu';
 import DistanceFieldMenu from './fields/DistanceFieldMenu';
@@ -13,8 +17,6 @@ import EventTypeFieldMenu from './fields/EventTypeFieldMenu';
 import LocationFieldMenu from './fields/LocationFieldMenu';
 import SortFieldMenu from './fields/SortFieldMenu';
 import {
-  DUMMY_KEYWORDS,
-  DUMMY_PICTURES,
   SearchParams,
   categories,
   dates,
@@ -31,6 +33,10 @@ const AdvancedSearchBarDesktop = ({
   onSearchSubmit,
   onClearFilter,
 }: AdvancedSearchBarDesktopProps) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [keywords, setKeywords] = useState<ActivityKeyword[]>([]);
+  const [pictures, setPictures] = useState<ActivityPicture[]>([]);
+
   const { handleSubmit, reset, getValues } = useSearch<SearchParams>();
   const handleSearchSubmit = handleSubmit((data) => {
     onSearchSubmit?.(data);
@@ -57,10 +63,22 @@ const AdvancedSearchBarDesktop = ({
             {({ value, onChange }) => (
               <ActivityField
                 side="bottom"
-                activityKeywords={DUMMY_KEYWORDS}
-                activityPictures={DUMMY_PICTURES}
+                activityKeywords={keywords}
+                activityPictures={pictures}
+                isLoading={isLoading}
                 value={value}
-                onChange={onChange}
+                onChange={(keyword) => {
+                  setIsLoading(true);
+                  getRecommendActivitiesByKeywordWithDebounce(keyword)
+                    .then((response) => {
+                      setKeywords(response.keyword);
+                      setPictures(response.pictures);
+                    })
+                    .finally(() => {
+                      setIsLoading(false);
+                    });
+                  onChange(keyword);
+                }}
               />
             )}
           </SearchField>

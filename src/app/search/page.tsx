@@ -2,6 +2,8 @@ import { getActivitiesByFilter } from '@action/activity';
 import { SearchParams } from '@components/SearchBar/fields/utils';
 import SearchClient from './search.client';
 
+export const runtime = 'edge';
+
 const getSearchFilter = (params: SearchPageProps['searchParams']) => {
   const allowedParams: (keyof SearchParams)[] = [
     'keyword',
