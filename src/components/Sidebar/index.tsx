@@ -149,24 +149,29 @@ const Sidebar = ({ isLoggedin, onSignOut }: SidebarProps) => {
                   ))}
                 </>
               )}
-              <motion.div variants={menuAnimation}>
-                <Separator className="mb-4 h-[0.0625rem] bg-primary" />
-              </motion.div>
-              {SITEMAP.map((map: List) => (
-                <motion.li
-                  variants={menuAnimation}
-                  whileHover={{ scale: 1.025 }}
-                  whileTap={{ scale: 0.95 }}
-                  key={map.name}
-                >
-                  <Link
-                    className="mb-4 flex justify-between px-[1.5rem] py-[0.5rem] text-base/7 hover:bg-primary/[0.03]"
-                    href={map.url}
-                  >
-                    <div>{map.name}</div>
-                  </Link>
-                </motion.li>
-              ))}
+              {!isLoggedin && (
+                <>
+                  <motion.div variants={menuAnimation}>
+                    <Separator className="mb-4 h-[0.0625rem] bg-primary" />
+                  </motion.div>
+
+                  {SITEMAP.map((map: List) => (
+                    <motion.li
+                      variants={menuAnimation}
+                      whileHover={{ scale: 1.025 }}
+                      whileTap={{ scale: 0.95 }}
+                      key={map.name}
+                    >
+                      <Link
+                        className="mb-4 flex justify-between px-[1.5rem] py-[0.5rem] text-base/7 hover:bg-primary/[0.03]"
+                        href={map.url}
+                      >
+                        <div>{map.name}</div>
+                      </Link>
+                    </motion.li>
+                  ))}
+                </>
+              )}
               {isLoggedin && (
                 <>
                   <motion.div variants={menuAnimation}>

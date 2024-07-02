@@ -117,24 +117,28 @@ const HamburgerBotton = ({ isLoggedin, onSignOut }: HamburgerProps) => {
                 ))}
               </>
             )}
-            <motion.li variants={menuAnimation}>
-              <Separator className="mb-4 h-[0.0625rem] bg-primary" />
-            </motion.li>
-            {SITEMAP.map((map: List) => (
-              <motion.li
-                variants={menuAnimation}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                key={map.name}
-              >
-                <Link
-                  className="mb-4 flex justify-between px-8 py-2 hover:bg-primary/[0.03]"
-                  href={map.url}
-                >
-                  <div className="text-base leading-7">{map.name}</div>
-                </Link>
-              </motion.li>
-            ))}
+            {!isLoggedin && (
+              <>
+                <motion.li variants={menuAnimation}>
+                  <Separator className="mb-4 h-[0.0625rem] bg-primary" />
+                </motion.li>
+                {SITEMAP.map((map: List) => (
+                  <motion.li
+                    variants={menuAnimation}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    key={map.name}
+                  >
+                    <Link
+                      className="mb-4 flex justify-between px-8 py-2 hover:bg-primary/[0.03]"
+                      href={map.url}
+                    >
+                      <div className="text-base leading-7">{map.name}</div>
+                    </Link>
+                  </motion.li>
+                ))}
+              </>
+            )}
             {isLoggedin && (
               <>
                 <motion.li
