@@ -34,11 +34,23 @@ const ManagementActivityTable = ({
     });
   }, [participants, searchTerm]);
 
+  // FIXME: extract to divide component
+  const openCamera = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      console.log('Camera opened successfully', stream);
+    } catch (error) {
+      console.error('Error opening camera:', error);
+    }
+  };
+
   return (
     <>
       <div className="flex flex-row justify-between">
         <H2>參加者名單</H2>
-        <Button variant="default">檢驗票券</Button>
+        <Button variant="default" onClick={openCamera}>
+          檢驗票券
+        </Button>
       </div>
       <div>
         <div className="mb-4 flex justify-between">
