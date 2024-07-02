@@ -117,7 +117,7 @@ const SearchContentSection = ({
             ) : (
               <SearchResultEventCard
                 key={activity._id}
-                link="123" // FIXME: change to use activity link
+                link={activity._id}
                 title={activity.name}
                 cover={activity.thumbnail}
                 description={activity.details}
