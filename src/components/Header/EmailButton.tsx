@@ -88,7 +88,7 @@ const EmailButton = () => {
           )}
           <Separator className="h-[0.0625rem] bg-primary" />
           <Link
-            href="/"
+            href="/member-center/email"
             className="flex h-[4.5rem] w-full items-center justify-center hover:bg-primary/[0.03]"
           >
             查看所有訊息
