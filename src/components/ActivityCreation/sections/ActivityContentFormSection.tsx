@@ -1,5 +1,6 @@
 'use client';
 
+import RichTextEditor from '@components/RichTextEditor';
 import { Checkbox } from '@components/ui/checkbox';
 import {
   FormControl,
@@ -24,7 +25,6 @@ import ActivityDateWrapper from '../fields/ActitvityDateWraper';
 import ActivityCreationDropdownMenu from '../fields/ActivityCreationDropdownMenu';
 import ActivityCreationMap from '../fields/ActivityCreationMap';
 import ImageDropzone from '../fields/ImageDropzone';
-import RichTextEditor from '../fields/RichTextEditor';
 import {
   COVERS_MAX_SIZE,
   categories,
