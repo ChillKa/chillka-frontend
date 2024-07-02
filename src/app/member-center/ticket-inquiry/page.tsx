@@ -130,7 +130,12 @@ const TicketInquiry = () => {
                       : `使用期限：${formatDate(ticket.ticket.endDateTime)}`}
                   </p>
                   <div className="xl:flex xl:items-center xl:justify-center">
-                    <QRCodePopUp />
+                    <QRCodePopUp
+                      name={ticket.orderContact.name}
+                      startTime={ticket.ticket.startDateTime}
+                      endTime={ticket.ticket.endDateTime}
+                      id={ticket.ticket._id}
+                    />
                   </div>
                 </div>
               </TicketPopUp>
@@ -158,7 +163,12 @@ const TicketInquiry = () => {
                       : `使用期限：${formatDate(ticket.ticket.endDateTime)}`}
                   </p>
                   <div className="xl:flex xl:items-center xl:justify-center">
-                    <QRCodePopUp />
+                    <QRCodePopUp
+                      name={ticket.orderContact.name}
+                      startTime={ticket.ticket.startDateTime}
+                      endTime={ticket.ticket.endDateTime}
+                      id={ticket.ticket._id}
+                    />
                   </div>
                 </div>
               </TicketPopUp>
