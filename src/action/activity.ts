@@ -52,7 +52,8 @@ export interface SearchResult {
 }
 
 export async function getActivitiesByFilter(
-  params: Partial<SearchParams>
+  params: Partial<SearchParams>,
+  option?: RequestInit
 ): Promise<SearchResult> {
   const queryParams = new URLSearchParams();
 
@@ -71,6 +72,7 @@ export async function getActivitiesByFilter(
   const response = await fetchAPI({
     api,
     method: 'GET',
+    option,
   });
 
   if (!response.ok) {
