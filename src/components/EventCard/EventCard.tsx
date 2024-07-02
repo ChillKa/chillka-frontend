@@ -15,7 +15,7 @@ import {
 type EventCardProps = {
   title?: string;
   cover?: string;
-  description?: string;
+  summary?: string;
   startTime?: FormatDate<'YY.MM.DD'>;
   endTime?: string;
   attendeeCount?: number;
@@ -34,7 +34,7 @@ const EventCard = forwardRef<HTMLDivElement, EventCardProps>(
     {
       title = 'Unknown Title',
       cover = '/default.webp',
-      description = 'Unknown description',
+      summary = '快點來加入吧！',
       startTime = '1900.01.01',
       endTime = '1900.01.02',
       attendeeCount = 0,
@@ -78,7 +78,7 @@ const EventCard = forwardRef<HTMLDivElement, EventCardProps>(
           <div className="flex h-[5.5rem] w-full flex-col gap-4">
             <H3 className="truncate">{title}</H3>
             <p className="line-clamp-2 overflow-hidden text-ellipsis text-sm">
-              {description}
+              {summary}
             </p>
           </div>
 

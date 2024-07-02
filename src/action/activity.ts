@@ -26,6 +26,7 @@ export interface Activity {
   thumbnail: string;
   name: string;
   collected: boolean;
+  summary?: string;
   details: string;
   location: string;
   participantAmount: number; // FIXME: unchecked whether has bought or just register

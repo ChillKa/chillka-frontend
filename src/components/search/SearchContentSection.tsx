@@ -120,7 +120,7 @@ const SearchContentSection = ({
                 link={activity._id}
                 title={activity.name}
                 cover={activity.thumbnail}
-                description={activity.details}
+                summary={activity.summary}
                 startTime={
                   format(
                     new Date(activity.startDateTime),
