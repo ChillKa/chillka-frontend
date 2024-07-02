@@ -84,7 +84,7 @@ const SearchContentSection = ({
             return isMobile ? (
               <IntersectionObserverEventCard
                 key={activity._id}
-                link="123" // FIXME: change to use activity link
+                link={activity._id}
                 title={activity.name}
                 cover={activity.thumbnail}
                 description={activity.details}
@@ -103,7 +103,9 @@ const SearchContentSection = ({
                 attendeeCount={activity.participantAmount}
                 isCollected={activity.collected}
                 location={activity.location}
-                organizer={activity.organizer?.contactName ?? 'Fake organizer'} // FIXME: Wait for backend fixed data
+                organizer={
+                  activity.organizer?.contactName ?? 'Unknown organizer'
+                } // FIXME: Wait for backend fixed data
                 pricing={activity.price}
                 isContinuous={activity.isContinuous}
                 discount={0} // FIXME: remove, this is deprecated
@@ -115,10 +117,10 @@ const SearchContentSection = ({
             ) : (
               <SearchResultEventCard
                 key={activity._id}
-                link="123" // FIXME: change to use activity link
+                link={activity._id}
                 title={activity.name}
                 cover={activity.thumbnail}
-                description={activity.details}
+                summary={activity.summary}
                 startTime={
                   format(
                     new Date(activity.startDateTime),
@@ -134,7 +136,7 @@ const SearchContentSection = ({
                 attendeeCount={activity.participantAmount}
                 isCollected={activity.collected}
                 location={activity.location}
-                organizer={activity.organizer?.contactName ?? 'Fake organizer'} // FIXME: Wait for backend fixed data
+                organizer={activity.organizer?.contactName} // FIXME: Wait for backend fixed data
                 pricing={activity.price}
                 isContinuous={activity.isContinuous}
                 discount={0} // FIXME: remove, this is deprecated

@@ -1,5 +1,6 @@
 'use client';
 
+import { SearchResult } from '@action/activity';
 import EventCard, {
   FormatDate,
   SkeletonEventCard,
@@ -8,118 +9,26 @@ import { Button } from '@components/ui/button';
 import { H1 } from '@components/ui/typography';
 import useMediaQuery from '@hooks/use-media-query';
 import cn from '@lib/utils';
+import { format } from 'date-fns';
 import { ArrowUpRight } from 'lucide-react';
+import Link from 'next/link';
+import { Suspense, use } from 'react';
+import ErrorBoundarySection from './error/ErrorBoundarySection';
 
 type NearbyActivityProps = {
   className: string;
+  getNearByActivities: Promise<SearchResult>;
 };
 
-const NearbyActivity = ({ className }: NearbyActivityProps) => {
+const NearbyActivity = ({
+  className,
+  getNearByActivities,
+}: NearbyActivityProps) => {
   const { matches: isDefault } = useMediaQuery();
+  const data = use(getNearByActivities);
+  const { activities = [] } = data;
 
-  const result = {
-    status: 'success',
-    data: [
-      {
-        id: 0,
-        title: '夕陽海灘派對夕陽海灘派對夕陽海灘派對',
-        cover:
-          'https://fastly.picsum.photos/id/495/200/200.jpg?hmac=WzrKoNNBWVnlSjTRFVRlUyZghnLUBZJXeXdHNugLsQ4',
-        description:
-          '在金色夕陽下，與夥伴們一同沙灘狂歡，享受音樂、美食和海浪聲。在金色夕陽下，與夥伴們一同沙灘狂歡，享受音樂、美食和海浪聲。',
-        startTime: '2024.01.01',
-        endTime: '2024.06.30',
-        attendeeCount: 999,
-        location: '台北市 / 信義區',
-        organizer: '台灣蜘蛛人登高社團',
-        pricing: 100,
-        discount: 70,
-        isCollected: true,
-      },
-      {
-        id: 1,
-        title: '城市探險尋寶',
-        cover:
-          'https://fastly.picsum.photos/id/495/200/200.jpg?hmac=WzrKoNNBWVnlSjTRFVRlUyZghnLUBZJXeXdHNugLsQ4',
-        description:
-          '穿梭於城市的街巷間，透過尋寶遊戲，探索隱藏的文化景點與歷史故事。',
-        startTime: '2024.07.06',
-        endTime: '2024.06.30',
-        attendeeCount: 999,
-        location: '台北市 / 中正區',
-        organizer: '臺灣健康教育暨長',
-        pricing: 100,
-        discount: 30,
-        isCollected: false,
-      },
-      {
-        id: 2,
-        title: '極光露營體驗',
-        cover:
-          'https://fastly.picsum.photos/id/495/200/200.jpg?hmac=WzrKoNNBWVnlSjTRFVRlUyZghnLUBZJXeXdHNugLsQ4',
-        description:
-          '在極光閃耀的北極圈，搭建帳篷，與夥伴們共享營火溫暖，目睹極光的壯麗奇景。',
-        startTime: '2024.07.06',
-        endTime: '2024.06.30',
-        attendeeCount: 999,
-        location: '台北市 / 中正區',
-        organizer: '安妮雅喜歡這個',
-        pricing: 100,
-        discount: 25,
-        isCollected: false,
-      },
-      {
-        id: 3,
-        title: '夕陽海灘派對夕陽海灘派對夕陽海灘派對',
-        cover:
-          'https://fastly.picsum.photos/id/495/200/200.jpg?hmac=WzrKoNNBWVnlSjTRFVRlUyZghnLUBZJXeXdHNugLsQ4',
-        description:
-          '在金色夕陽下，與夥伴們一同沙灘狂歡，享受音樂、美食和海浪聲。在金色夕陽下，與夥伴們一同沙灘狂歡，享受音樂、美食和海浪聲。',
-        startTime: '2024.01.01',
-        endTime: '2024.06.30',
-        attendeeCount: 999,
-        location: '台北市 / 信義區',
-        organizer: '台灣蜘蛛人登高社團',
-        pricing: 100,
-        discount: 70,
-        isCollected: true,
-      },
-      {
-        id: 4,
-        title: '夕陽海灘派對夕陽海灘派對夕陽海灘派對',
-        cover:
-          'https://fastly.picsum.photos/id/495/200/200.jpg?hmac=WzrKoNNBWVnlSjTRFVRlUyZghnLUBZJXeXdHNugLsQ4',
-        description:
-          '在金色夕陽下，與夥伴們一同沙灘狂歡，享受音樂、美食和海浪聲。在金色夕陽下，與夥伴們一同沙灘狂歡，享受音樂、美食和海浪聲。',
-        startTime: '2024.01.01',
-        endTime: '2024.06.30',
-        attendeeCount: 999,
-        location: '台北市 / 信義區',
-        organizer: '台灣蜘蛛人登高社團',
-        pricing: 100,
-        discount: 70,
-        isCollected: true,
-      },
-      {
-        id: 5,
-        title: '夕陽海灘派對夕陽海灘派對夕陽海灘派對',
-        cover:
-          'https://fastly.picsum.photos/id/495/200/200.jpg?hmac=WzrKoNNBWVnlSjTRFVRlUyZghnLUBZJXeXdHNugLsQ4',
-        description:
-          '在金色夕陽下，與夥伴們一同沙灘狂歡，享受音樂、美食和海浪聲。在金色夕陽下，與夥伴們一同沙灘狂歡，享受音樂、美食和海浪聲。',
-        startTime: '2024.01.01',
-        endTime: '2024.06.30',
-        attendeeCount: 999,
-        location: '台北市 / 信義區',
-        organizer: '台灣蜘蛛人登高社團',
-        pricing: 100,
-        discount: 70,
-        isCollected: true,
-      },
-    ],
-  };
-
-  const eventsToShow = isDefault ? result.data.slice(0, 3) : result.data;
+  const eventsToShow = isDefault ? activities.slice(0, 3) : activities;
 
   return (
     <section
@@ -132,61 +41,81 @@ const NearbyActivity = ({ className }: NearbyActivityProps) => {
     >
       <div className="flex w-full items-start justify-between">
         <H1>附近活動</H1>
-        <button
-          type="button"
-          className={cn(
-            'relative hidden h-12 w-24 justify-between px-0 pb-4 pt-2 font-medium',
-            'after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:border-t after:bg-primary',
-            'after:transition-colors after:duration-300 after:ease-out hover:after:border-primary',
-            'xl:flex'
-          )}
-        >
-          查看更多
-          <ArrowUpRight />
-        </button>
+        <Link href="/search">
+          <button
+            type="button"
+            className={cn(
+              'relative hidden h-12 w-24 justify-between px-0 pb-4 pt-2 font-medium',
+              'after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:border-t after:bg-primary',
+              'after:transition-colors after:duration-300 after:ease-out hover:after:border-primary',
+              'xl:flex'
+            )}
+          >
+            查看更多
+            <ArrowUpRight />
+          </button>
+        </Link>
       </div>
       <hr className="mb-12 mt-12 w-12 border-t-2 border-primary" />
       <div
         className={cn(
           'flex w-full flex-col justify-between space-y-12',
-          'xl:flex-row xl:flex-wrap xl:gap-y-12 xl:space-y-0'
+          'xl:flex-row xl:flex-wrap xl:gap-6 xl:gap-y-12 xl:space-y-0'
         )}
       >
-        {result.status === 'loading'
-          ? Array.from({ length: 3 }).map((_, index) => {
+        <ErrorBoundarySection>
+          <Suspense
+            fallback={Array.from({ length: 3 }).map((_, index) => {
               const id = index;
               return <SkeletonEventCard key={id} />;
-            })
-          : eventsToShow.map((event) => (
+            })}
+          >
+            {eventsToShow.map((activity) => (
               <EventCard
-                key={event.id}
-                link="123" // FIXME: change to use event link
-                title={event.title}
-                cover={event.cover}
-                description={event.description}
-                startTime={event.startTime as FormatDate<'YY.MM.DD'>}
-                endTime={event.endTime as FormatDate<'YY.MM.DD'>}
-                attendeeCount={event.attendeeCount}
-                location={event.location}
-                organizer={event.organizer}
-                pricing={event.pricing}
-                discount={event.discount}
-                isCollected={event.isCollected}
+                key={activity._id}
+                className="xl:w-[26rem]"
+                link={activity._id}
+                title={activity?.name}
+                cover={activity?.thumbnail}
+                summary={activity?.summary}
+                startTime={
+                  format(
+                    new Date(activity.startDateTime),
+                    'MM.dd'
+                  ) as FormatDate<'YY.MM.DD'>
+                }
+                endTime={
+                  format(
+                    new Date(activity.endDateTime),
+                    'MM.dd'
+                  ) as FormatDate<'YY.MM.DD'>
+                }
+                attendeeCount={activity?.participantAmount}
+                location={activity?.location}
+                organizer={activity.organizer?.contactName}
+                pricing={activity?.price} // FIXME: change to use ticket price
+                discount={activity?.discount}
+                isCollected={activity?.collected}
               />
             ))}
-        <Button
-          variant="outline"
-          className={cn(
-            'flex h-14 w-full items-center justify-center gap-4',
-            'border border-primary px-8 py-4',
-            'text-base font-medium text-primary',
-            'xl:hidden',
-            'transition-colors hover:bg-primary hover:fill-surface hover:text-surface'
-          )}
-        >
-          查看更多附近活動
-          <ArrowUpRight size={16} />
-        </Button>
+          </Suspense>
+        </ErrorBoundarySection>
+
+        <Link href="/search">
+          <Button
+            variant="outline"
+            className={cn(
+              'flex h-14 w-full items-center justify-center gap-4',
+              'border border-primary px-8 py-4',
+              'text-base font-medium text-primary',
+              'xl:hidden',
+              'transition-colors hover:bg-primary hover:fill-surface hover:text-surface'
+            )}
+          >
+            查看更多附近活動
+            <ArrowUpRight size={16} />
+          </Button>
+        </Link>
       </div>
     </section>
   );

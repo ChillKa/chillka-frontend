@@ -1,3 +1,4 @@
+import { getRecommendActivitiesByKeywordWithDebounce } from '@action/activity';
 import { Button } from '@components/ui/button';
 import { Checkbox } from '@components/ui/checkbox';
 import {
@@ -15,7 +16,11 @@ import cn from '@lib/utils';
 import { XIcon } from 'lucide-react';
 import { MouseEventHandler, useState } from 'react';
 import { SearchField, useSearch } from './SearchProvider';
-import { AdvancedActivityMobileField } from './fields/ActivityField';
+import {
+  ActivityKeyword,
+  ActivityPicture,
+  AdvancedActivityMobileField,
+} from './fields/ActivityField';
 import { AdvancedCategoryMobileField } from './fields/CategoryFieldMenu';
 import { AdvancedDateMobileField } from './fields/DateFieldMenu';
 import { AdvancedDistanceMobileField } from './fields/DistanceFieldMenu';
@@ -35,6 +40,9 @@ const AdvancedSearchBarMobile = ({
 }: AdvancedSearchBarMobileProps) => {
   const { handleSubmit, reset, getValues } = useSearch<SearchParams>();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [keywords, setKeywords] = useState<ActivityKeyword[]>([]);
+  const [pictures, setPictures] = useState<ActivityPicture[]>([]);
 
   const toggleDialog = () => {
     setIsDialogOpen((prev) => !prev);
@@ -81,14 +89,28 @@ const AdvancedSearchBarMobile = ({
             className="no-scrollbar max-h-[80vh] overflow-y-scroll px-3 py-10"
           >
             <SearchField name="keyword">
-              {({ value, onChange }) => (
-                <AdvancedActivityMobileField
-                  activityKeywords={[]}
-                  activityPictures={[]}
-                  value={value}
-                  onChange={onChange}
-                />
-              )}
+              {({ value, onChange }) => {
+                return (
+                  <AdvancedActivityMobileField
+                    activityKeywords={keywords}
+                    activityPictures={pictures}
+                    isLoading={isLoading}
+                    value={value}
+                    onChange={(keyword) => {
+                      setIsLoading(true);
+                      getRecommendActivitiesByKeywordWithDebounce(keyword)
+                        .then((response) => {
+                          setKeywords(response.keyword);
+                          setPictures(response.pictures);
+                        })
+                        .finally(() => {
+                          setIsLoading(false);
+                        });
+                      onChange(keyword);
+                    }}
+                  />
+                );
+              }}
             </SearchField>
 
             <SearchField name="location">
