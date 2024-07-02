@@ -113,10 +113,16 @@ const RichTextEditor = ({
 
   useEffect(() => {
     if (description && editor && !editable) {
-      editor.commands.setContent({
-        type: 'doc',
-        content: [JSON.parse(description)],
-      });
+      let editorContent: any;
+      try {
+        editorContent = {
+          type: 'doc',
+          content: [JSON.parse(description)],
+        };
+      } catch (e) {
+        editorContent = description;
+      }
+      editor.commands.setContent(editorContent);
     }
   }, [description, editor, editable]);
 
