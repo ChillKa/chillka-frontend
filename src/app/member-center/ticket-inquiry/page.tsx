@@ -7,7 +7,7 @@ import SortOrder from '@components/SortOrder';
 import TicketPopUp from '@components/TicketPopUp';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@components/ui/tabs';
 import useWindowSize from '@hooks/use-window-size';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 const TicketInquiry = () => {
   const [usableTickets, setUsableTickets] = useState<any[]>([]);
@@ -16,25 +16,29 @@ const TicketInquiry = () => {
   const { width } = useWindowSize();
 
   const changeSort = (value: string) => setSort(value);
-  // const handleSort = (value: any) =>
-  //   value.sort((a: any, b: any) => {
-  //     switch (sort) {
-  //       case 'paymentDate':
-  //         return (
-  //           new Date(b.ticket.createdAt).getTime() -
-  //           new Date(a.ticket.createdAt).getTime()
-  //         );
-  //       case 'endTime':
-  //         return (
-  //           new Date(b.ticket.endDateTime).getTime() -
-  //           new Date(a.ticket.endDateTime).getTime()
-  //         );
-  //       case 'paymentAmount':
-  //         return b.ticket.price - a.ticket.price;
-  //       default:
-  //         return 0;
-  //     }
-  //   });
+  const handleSort = useCallback(
+    (value: any) => {
+      return value.sort((a: any, b: any) => {
+        switch (sort) {
+          case 'paymentDate':
+            return (
+              new Date(b.ticket.createdAt).getTime() -
+              new Date(a.ticket.createdAt).getTime()
+            );
+          case 'endTime':
+            return (
+              new Date(b.ticket.endDateTime).getTime() -
+              new Date(a.ticket.endDateTime).getTime()
+            );
+          case 'paymentAmount':
+            return b.ticket.price - a.ticket.price;
+          default:
+            return 0;
+        }
+      });
+    },
+    [sort]
+  );
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     const year = date.getUTCFullYear();
@@ -42,6 +46,11 @@ const TicketInquiry = () => {
     const day = date.getUTCDate().toString().padStart(2, '0');
     return `${year}.${month}.${day}`;
   };
+
+  useEffect(() => {
+    setUsableTickets((prev) => handleSort([...prev]));
+    setUnusableTickets((prev) => handleSort([...prev]));
+  }, [sort, handleSort]);
 
   useEffect(() => {
     (async () => {
@@ -100,31 +109,28 @@ const TicketInquiry = () => {
         </ul>
         <TabsContent value="usableTicket">
           {usableTickets.length > 0 ? (
-            usableTickets.map((ticket: any) => {
-              // console.log('@@@', ticket);
-              return (
-                <TicketPopUp key={ticket._id}>
-                  <div className="block grid-cols-[7fr_2fr_2fr_2fr] py-4 text-xl font-bold xl:grid">
-                    <h3 className="mb-[1.25rem] text-left xl:mb-0 xl:font-bold">
-                      {ticket.ticket.name}
-                    </h3>
-                    <p className="mr-2 inline-block bg-primary px-2 py-1 text-xs/5 font-medium text-white xl:mr-0 xl:flex xl:items-center xl:justify-center xl:bg-surface xl:p-0 xl:text-xl xl:font-bold xl:text-primary">
-                      {width > 1366
-                        ? ticket.payment.orderNumber
-                        : `數量：${ticket.payment.orderNumber}`}
-                    </p>
-                    <p className="inline-block bg-primary px-2 py-1 text-xs/5 font-medium text-white xl:flex xl:items-center xl:justify-center xl:bg-surface xl:p-0 xl:text-xl xl:font-bold xl:text-primary">
-                      {width > 1366
-                        ? formatDate(ticket.ticket.endDateTime)
-                        : `使用期限：${formatDate(ticket.ticket.endDateTime)}`}
-                    </p>
-                    <div className="xl:flex xl:items-center xl:justify-center">
-                      <QRCodePopUp />
-                    </div>
+            usableTickets.map((ticket: any) => (
+              <TicketPopUp key={ticket._id}>
+                <div className="block grid-cols-[7fr_2fr_2fr_2fr] py-4 text-xl font-bold xl:grid">
+                  <h3 className="mb-[1.25rem] text-left xl:mb-0 xl:font-bold">
+                    {ticket.ticket.name}
+                  </h3>
+                  <p className="mr-2 inline-block bg-primary px-2 py-1 text-xs/5 font-medium text-white xl:mr-0 xl:flex xl:items-center xl:justify-center xl:bg-surface xl:p-0 xl:text-xl xl:font-bold xl:text-primary">
+                    {width > 1366
+                      ? ticket.payment.orderNumber
+                      : `數量：${ticket.payment.orderNumber}`}
+                  </p>
+                  <p className="inline-block bg-primary px-2 py-1 text-xs/5 font-medium text-white xl:flex xl:items-center xl:justify-center xl:bg-surface xl:p-0 xl:text-xl xl:font-bold xl:text-primary">
+                    {width > 1366
+                      ? formatDate(ticket.ticket.endDateTime)
+                      : `使用期限：${formatDate(ticket.ticket.endDateTime)}`}
+                  </p>
+                  <div className="xl:flex xl:items-center xl:justify-center">
+                    <QRCodePopUp />
                   </div>
-                </TicketPopUp>
-              );
-            })
+                </div>
+              </TicketPopUp>
+            ))
           ) : (
             <NoTicket />
           )}
