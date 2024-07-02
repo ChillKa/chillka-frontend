@@ -13,6 +13,7 @@ import {
 } from '@components/ui/table';
 import { H2 } from '@components/ui/typography';
 import { useMemo, useState } from 'react';
+import QRCodeScannerButton from './QRCodeScannerButton';
 import { Participant } from './types';
 
 type ManagementActivityTableProps = {
@@ -34,23 +35,19 @@ const ManagementActivityTable = ({
     });
   }, [participants, searchTerm]);
 
-  // FIXME: extract to divide component
-  const openCamera = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-      console.log('Camera opened successfully', stream);
-    } catch (error) {
-      console.error('Error opening camera:', error);
-    }
+  // TODO: use route handler to call the method to call api
+  const handleScanSuccess = (result: string) => {
+    console.log('The result is ', result);
   };
 
   return (
     <>
       <div className="flex flex-row justify-between">
         <H2>參加者名單</H2>
-        <Button variant="default" onClick={openCamera}>
-          檢驗票券
-        </Button>
+        <QRCodeScannerButton
+          onScanSuccess={handleScanSuccess}
+          name="檢驗票券"
+        />
       </div>
       <div>
         <div className="mb-4 flex justify-between">
