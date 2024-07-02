@@ -9,7 +9,7 @@ const ManageEventPage = () => {
       <section className="flex flex-col gap-2">
         {Array.from({ length: 8 }).map((_, index) => {
           const num = index;
-          return <ManagementCard key={num} />;
+          return <ManagementCard key={num} category="興趣嗜好" />;
         })}
       </section>
     </div>
