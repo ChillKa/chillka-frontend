@@ -12,6 +12,7 @@ import {
   TableRow,
 } from '@components/ui/table';
 import { H2 } from '@components/ui/typography';
+import { useMemo, useState } from 'react';
 import { Participant } from './types';
 
 type ManagementActivityTableProps = {
@@ -21,6 +22,18 @@ type ManagementActivityTableProps = {
 const ManagementActivityTable = ({
   participants,
 }: ManagementActivityTableProps) => {
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const filteredParticipants = useMemo(() => {
+    return participants.filter((participant) => {
+      const searchLower = searchTerm.toLowerCase();
+      return (
+        participant.user.userRealName.toLowerCase().includes(searchLower) ||
+        participant.user.email.toLowerCase().includes(searchLower)
+      );
+    });
+  }, [participants, searchTerm]);
+
   return (
     <>
       <div className="flex flex-row justify-between">
@@ -29,7 +42,13 @@ const ManagementActivityTable = ({
       </div>
       <div>
         <div className="mb-4 flex justify-between">
-          <Input variant="form" placeholder="搜索名稱" className="max-w-sm" />
+          <Input
+            variant="form"
+            placeholder="搜索名稱或電子郵件"
+            className="max-w-sm"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
           <div>
             <Button variant="default" disabled className="mr-2">
               傳送訊息
@@ -51,7 +70,7 @@ const ManagementActivityTable = ({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {participants.map((participant) => {
+            {filteredParticipants.map((participant) => {
               return (
                 <TableRow key={participant.user.userId}>
                   <TableCell>
