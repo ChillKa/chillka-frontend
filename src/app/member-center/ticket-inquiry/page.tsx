@@ -1,6 +1,10 @@
 'use client';
 
-import { getTickets } from '@action/ticket';
+import {
+  TicketsAPIResponse,
+  TicketsInfoType,
+  getTickets,
+} from '@action/ticket';
 import NoTicket from '@app/member-center/ticket-inquiry/NoTicket';
 import QRCodePopUp from '@components/QRCodePopUp';
 import SortOrder from '@components/SortOrder';
@@ -10,15 +14,15 @@ import useWindowSize from '@hooks/use-window-size';
 import { useCallback, useEffect, useState } from 'react';
 
 const TicketInquiry = () => {
-  const [usableTickets, setUsableTickets] = useState<any[]>([]);
-  const [unusableTickets, setUnusableTickets] = useState<any[]>([]);
-  const [sort, setSort] = useState('paymentDate');
+  const [usableTickets, setUsableTickets] = useState<TicketsInfoType[]>([]);
+  const [unusableTickets, setUnusableTickets] = useState<TicketsInfoType[]>([]);
+  const [sort, setSort] = useState<string>('paymentDate');
   const { width } = useWindowSize();
 
   const changeSort = (value: string) => setSort(value);
   const handleSort = useCallback(
-    (value: any) => {
-      return value.sort((a: any, b: any) => {
+    (tickets: TicketsInfoType[]) => {
+      return tickets.sort((a: TicketsInfoType, b: TicketsInfoType) => {
         switch (sort) {
           case 'paymentDate':
             return (
@@ -39,6 +43,7 @@ const TicketInquiry = () => {
     },
     [sort]
   );
+
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     const year = date.getUTCFullYear();
@@ -54,20 +59,19 @@ const TicketInquiry = () => {
 
   useEffect(() => {
     (async () => {
-      const result = await getTickets();
-      const usableTicketList = result.data
-        .filter((ticket: any) => ticket.orderStatus === '有效')
-        .map((ticket: any) => ticket)
+      const result: TicketsAPIResponse = await getTickets();
+      if (result.status === 'failed' || !result.data) return;
+      const usableTicketList = result.data.data
+        .filter((ticket: TicketsInfoType) => ticket.orderStatus === '有效')
         .sort(
-          (a: any, b: any) =>
+          (a: TicketsInfoType, b: TicketsInfoType) =>
             new Date(b.ticket.createdAt).getTime() -
             new Date(a.ticket.createdAt).getTime()
         );
-      const unusableTicketList = result.data
-        .filter((ticket: any) => ticket.orderStatus === '無效')
-        .map((ticket: any) => ticket)
+      const unusableTicketList = result.data.data
+        .filter((ticket: TicketsInfoType) => ticket.orderStatus === '無效')
         .sort(
-          (a: any, b: any) =>
+          (a: TicketsInfoType, b: TicketsInfoType) =>
             new Date(b.ticket.createdAt).getTime() -
             new Date(a.ticket.createdAt).getTime()
         );
@@ -109,7 +113,7 @@ const TicketInquiry = () => {
         </ul>
         <TabsContent value="usableTicket">
           {usableTickets.length > 0 ? (
-            usableTickets.map((ticket: any) => (
+            usableTickets.map((ticket: TicketsInfoType) => (
               <TicketPopUp key={ticket._id}>
                 <div className="block grid-cols-[7fr_2fr_2fr_2fr] py-4 text-xl font-bold xl:grid">
                   <h3 className="mb-[1.25rem] text-left xl:mb-0 xl:font-bold">
@@ -137,7 +141,7 @@ const TicketInquiry = () => {
         </TabsContent>
         <TabsContent value="unusableTicket">
           {unusableTickets.length > 0 ? (
-            unusableTickets.map((ticket: any) => (
+            unusableTickets.map((ticket: TicketsInfoType) => (
               <TicketPopUp key={ticket._id}>
                 <div className="block grid-cols-[7fr_2fr_2fr_2fr] py-4 text-xl font-bold xl:grid">
                   <h3 className="mb-[1.25rem] text-left xl:mb-0 xl:font-bold">
