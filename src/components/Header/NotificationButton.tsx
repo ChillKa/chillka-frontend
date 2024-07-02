@@ -4,6 +4,7 @@ import {
   PopoverTrigger,
 } from '@components/ui/popover';
 import { Separator } from '@components/ui/separator';
+import { H3, P, Small } from '@components/ui/typography';
 import { Bell, Lightbulb } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -53,26 +54,24 @@ const NotificationButton = () => {
         onClickCapture={handlePopoverClick}
         className="h-0 w-0 border-none bg-transparent p-0 text-primary"
       >
-        <div className="absolute right-[-1.875rem] box-content w-[39.75rem] rounded-[2rem] border-4 border-primary bg-surface pt-6 ">
-          <h2 className="mb-4 px-8 text-3xl font-bold tracking-[-0.0140625rem]">
-            通知
-          </h2>
+        <div className="absolute right-[-1.875rem] box-content w-96 rounded-[2rem] border-4 border-primary bg-surface pt-6 ">
+          <H3 className="mb-2 p-2 px-8">通知</H3>
           {fakeData.map(
             (message, i) =>
               i < 4 && (
                 <div
-                  className="mb-4 flex items-center justify-center px-8 py-2"
+                  className={`flex items-center px-8 py-2 ${i !== 3 ? 'mb-2' : 'mb-4'}`}
                   key={message.content}
                 >
-                  <div className="mr-6 rounded-full bg-[#403E3D] p-2">
+                  <div className="mr-4 rounded-full bg-[#403E3D] p-2">
                     <Lightbulb className="text-white" size={24} />
                   </div>
-                  <p className="max-h-14 flex-1 overflow-hidden text-xl font-bold">
-                    {message.content}
-                  </p>
-                  <p className="ml-6 w-[5rem] text-right text-sm font-medium leading-[0.875rem]">
-                    {message.time}
-                  </p>
+                  <div>
+                    <P className="line-clamp-2 max-h-14 font-bold">
+                      {message.content}
+                    </P>
+                    <Small className="mt-2">{message.time}</Small>
+                  </div>
                 </div>
               )
           )}

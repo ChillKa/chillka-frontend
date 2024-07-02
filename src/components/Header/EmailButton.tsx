@@ -4,6 +4,7 @@ import {
   PopoverTrigger,
 } from '@components/ui/popover';
 import { Separator } from '@components/ui/separator';
+import { H3, H4, P, Small } from '@components/ui/typography';
 import { Mail } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -61,31 +62,26 @@ const EmailButton = () => {
         onClickCapture={handlePopoverClick}
         className="h-0 w-0 border-none bg-transparent p-0 text-primary"
       >
-        <div className="absolute right-[-1.875rem] box-content w-[39.75rem] rounded-[2rem] border-4 border-primary bg-surface pt-6 ">
-          <h2 className="mb-4 p-2 px-8 text-3xl font-bold tracking-[-0.0140625rem]">
-            信箱
-          </h2>
+        <div className="absolute right-[-1.875rem] box-content w-96 rounded-[2rem] border-4 border-primary bg-surface pt-6 ">
+          <H3 className="mb-2 p-2 px-8">信箱</H3>
           {fakeData.map(
             (message, i) =>
               i < 4 && (
-                <div className="mb-4 flex px-8 py-2" key={message.content}>
-                  <div className="mr-6">
-                    <Image
-                      className="mt-7 h-10 w-10"
-                      src={message.avatar}
-                      alt="avatar"
-                      width={40}
-                      height={40}
-                    />
-                  </div>
+                <div
+                  className={`flex items-center px-8 py-2 ${i !== 3 ? 'mb-2' : 'mb-4'}`}
+                  key={message.content}
+                >
+                  <Image
+                    className="mr-4"
+                    src={message.avatar}
+                    alt="avatar"
+                    width={40}
+                    height={40}
+                  />
                   <div>
-                    <p className="mb-2 text-xl font-bold">{message.user}</p>
-                    <p className="mb-2 h-7 overflow-hidden text-base/7">
-                      {message.content}
-                    </p>
-                    <p className="text-sm font-medium leading-[0.875rem]">
-                      {message.time}
-                    </p>
+                    <H4 className="mb-2">{message.user}</H4>
+                    <P className="mb-2 line-clamp-1 h-7">{message.content}</P>
+                    <Small>{message.time}</Small>
                   </div>
                 </div>
               )
