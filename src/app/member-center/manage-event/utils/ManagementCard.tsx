@@ -2,12 +2,13 @@
 
 import { Button } from '@components/ui/button';
 import { Card } from '@components/ui/card';
+import { format } from 'date-fns';
 import { SquareArrowOutUpRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
 type ManagementCardProps = {
-  _id?: string;
+  id?: string;
   name?: string;
   thumbnail?: string;
   startDateTime?: string;
@@ -17,7 +18,7 @@ type ManagementCardProps = {
 };
 
 const ManagementCard = ({
-  _id,
+  id,
   name = '未知活動',
   thumbnail = '/default.webp',
   startDateTime = '2008/02/10',
@@ -27,19 +28,13 @@ const ManagementCard = ({
 }: ManagementCardProps) => {
   return (
     <Card className="flex h-32 w-full flex-row items-center gap-4 rounded-r-2xl pr-2">
-      <div className="h-full w-32">
-        <Image
-          src={thumbnail}
-          alt={name}
-          width={500}
-          height={500}
-          objectFit="cover"
-        />
+      <div className="relative h-full w-32 flex-shrink-0 overflow-hidden">
+        <Image src={thumbnail} alt={name} fill objectFit="cover" />
       </div>
       <div className="flex h-full flex-grow flex-col justify-between py-4">
         <div className="w-fit bg-primary text-sm text-white">{category}</div>
         <div className=" grid grid-cols-4 gap-4 text-xs">
-          <Link href={`/activity/${_id}`}>
+          <Link href={`/activity/${id}`}>
             <div className="flex flex-row items-center gap-2">
               <div className="font-semibold">活動名稱</div>
               <SquareArrowOutUpRight className="size-3" />
@@ -50,7 +45,8 @@ const ManagementCard = ({
           <div className="font-semibold">參加人數</div>
           <div>{name}</div>
           <div>
-            {startDateTime} - {endDateTime}
+            {format(startDateTime, 'yyyy-MM-dd')} -{' '}
+            {format(endDateTime, 'yyyy-MM-dd')}
           </div>
           <div>{address}</div>
           <div>60</div>
@@ -60,7 +56,7 @@ const ManagementCard = ({
         <Button variant="outline" className="px-2 py-1 text-sm">
           詳情
         </Button>
-        <Button variant="outline" className="px-2 py-1 text-sm">
+        <Button variant="outline" disabled className="px-2 py-1 text-sm">
           取消活動
         </Button>
       </div>
