@@ -20,14 +20,30 @@ const ActivitySection = async ({
 }: ActivitySectionProps) => {
   const response = await fetchActivity(activityId as string);
   const data = response.result ?? existingData!;
+  const {
+    category,
+    name,
+    startDateTime,
+    endDateTime,
+    noEndDate,
+    type,
+    address,
+    location,
+    unlimitedQuantity,
+    totalParticipantCapacity,
+    summary,
+    details,
+    organizer,
+  } = data.activity;
+  const { websiteURL, websiteName } = organizer;
 
   return (
     <section className={cn('w-full text-primary', className)}>
       <div className="mb-4 w-fit bg-primary px-2 py-1 text-xs/5 font-medium text-white xl:mb-6">
-        {data.activity.category}
+        {category}
       </div>
       <div className="text-3xl font-bold -tracking-[0.0075em] xl:text-5xl xl:-tracking-[0.012em]">
-        {data.activity.name}
+        {name}
       </div>
       <div className="mt-6 space-y-6 border-y py-6 xl:mt-12 xl:space-y-8 xl:py-12">
         <div className="flex">
@@ -38,11 +54,7 @@ const ActivitySection = async ({
             </div>
             <div className="w-full">
               <div className="mt-2 text-base font-medium xl:text-lg xl:font-bold">
-                {formatActivityTime(
-                  data.activity.startDateTime,
-                  data.activity.endDateTime,
-                  data.activity.noEndDate
-                )}
+                {formatActivityTime(startDateTime, endDateTime, noEndDate)}
               </div>
             </div>
           </div>
@@ -54,13 +66,11 @@ const ActivitySection = async ({
               舉辦位置
             </div>
             <div className="mt-2 text-base font-medium xl:text-lg xl:font-bold">
-              {data.activity.type === '線上'
-                ? '線上活動'
-                : `${data.activity.address}（${data?.activity.location}）`}
+              {type === '線上' ? '線上活動' : `${address}（${location!}）`}
             </div>
           </div>
         </div>
-        {!data.activity.unlimitedQuantity && (
+        {!unlimitedQuantity && (
           <div className="flex">
             <User className="h-8 w-8 xl:h-12 xl:w-12" />
             <div className="ml-6 xl:ml-10">
@@ -68,7 +78,7 @@ const ActivitySection = async ({
                 活動人數
               </div>
               <div className="mt-2 text-base font-medium xl:text-lg xl:font-bold">
-                {data.activity.totalParticipantCapacity}人
+                {totalParticipantCapacity}人
               </div>
             </div>
           </div>
@@ -81,18 +91,18 @@ const ActivitySection = async ({
             </div>
             <div className="mt-2 text-base font-medium xl:text-lg xl:font-bold">
               <Link
-                href={data.activity.organizer.websiteURL}
+                href={websiteURL}
                 target="_blank"
                 className="underline underline-offset-2"
               >
-                {data?.activity.organizer.websiteName}
+                {websiteName!}
               </Link>
             </div>
           </div>
         </div>
       </div>
       <div className="border-b py-6 xl:py-12">
-        <Large>{data.activity.summary}</Large>
+        <Large>{summary}</Large>
       </div>
       <div className="py-6 xl:py-12">
         <div className="text-2xl font-bold -tracking-[0.006em] xl:text-3xl xl:-tracking-[0.0075em]">
@@ -101,7 +111,7 @@ const ActivitySection = async ({
         <RichTextEditor
           className="mt-4 text-base/7 font-normal xl:mt-6"
           editable={false}
-          description={data.activity.details}
+          description={details}
         />
       </div>
     </section>
