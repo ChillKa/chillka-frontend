@@ -82,7 +82,7 @@ const RichTextEditor = ({
     editable,
     editorProps: {
       attributes: {
-        class: `${cn('max-w-[53.5rem] h-60 w-full rounded-t-[0.375rem] px-3 py-2 border-b-0 ring-offset-background placeholder:text-primary-light focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 overflow-auto', editable ? 'border border-primary-super-light bg-white' : 'bg-inherit', className)}`,
+        class: `${cn('rounded-t-[0.375rem] px-3 py-2 border-b-0 ring-offset-background placeholder:text-primary-light focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 overflow-auto', editable ? 'border border-primary-super-light bg-white' : 'bg-inherit', className)}`,
       },
     },
     extensions: [

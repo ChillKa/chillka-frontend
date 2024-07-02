@@ -441,6 +441,7 @@ const ActivityContentFormSection = ({
                 </FormLabel>
                 <FormControl>
                   <RichTextEditor
+                    className="h-60 w-full max-w-[53.5rem]"
                     name={field.name}
                     description={field.value}
                     onChange={field.onChange}
