@@ -101,7 +101,7 @@ const FavoriteEvent = () => {
                 link="123" // FIXME: change to use event link
                 title={event.title}
                 cover={event.cover}
-                description={event.description}
+                summary={event.description}
                 startTime={event.startTime as FormatDate<'YY.MM.DD'>}
                 endTime={event.endTime as FormatDate<'YY.MM.DD'>}
                 attendeeCount={event.attendeeCount}

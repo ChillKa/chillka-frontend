@@ -6,15 +6,14 @@ import { useToast } from '@components/ui/use-toast';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createActivityFormSchema } from '@lib/definitions';
 import cn from '@lib/utils';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useFormState } from 'react-dom';
 import { FieldPath, useForm } from 'react-hook-form';
 import { z } from 'zod';
-import OrganizerFormSection from './fields/OrganizerFormSection';
-/* TODO: Fix typo ActivityTimePicker */
-import ActivityContentFormSection from './fields/ActivityContentFormSection';
-import TicketFormSection from './fields/TicketFormSection';
-import UploadFormButton from './ui/UploadFormButton';
+import UploadFormButton from './fields/UploadFormButton';
+import ActivityContentFormSection from './sections/ActivityContentFormSection';
+import OrganizerFormSection from './sections/OrganizerFormSection';
+import TicketFormSection from './sections/TicketFormSection';
 
 type ActivityCreationFormProps = {
   className: string;
@@ -24,22 +23,12 @@ export interface FormValues {
   lastName: string;
 }
 
-// const initialState = {
-//   message: '',
-//   imageUrl: '',
-// };
-
 const ActivityCreationForm = ({ className }: ActivityCreationFormProps) => {
-  // const [selectedImage, setSelectedImage] = useState<File | null>(null);
-  // const [files, setFiles] = useState<FileList | null>(null);
+  const [uploadCount, setUploadCount] = useState<number>(0);
   const [formState, formAction] = useFormState<FormState, FormData>(
     uploadActivity,
     { message: '' }
   );
-  // const [imageFormState, imageFormAction] = useFormState(
-  //   uploadImage,
-  //   initialState
-  // );
   const { toast } = useToast();
 
   const form = useForm<z.output<typeof createActivityFormSchema>>({
@@ -63,7 +52,7 @@ const ActivityCreationForm = ({ className }: ActivityCreationFormProps) => {
       endDateTime: undefined,
       noEndDate: false,
       category: '',
-      type: '',
+      type: '線上',
       link: '',
       location: '',
       address: '',
@@ -73,11 +62,13 @@ const ActivityCreationForm = ({ className }: ActivityCreationFormProps) => {
       displayRemainingTickets: false,
       isRecurring: false,
       recurring: {
-        period: '',
+        period: '每週',
         week: '',
         day: '',
       },
       status: '',
+      lat: 121.5654,
+      lng: 25.033,
       tickets: [
         {
           _id: '',
@@ -89,7 +80,7 @@ const ActivityCreationForm = ({ className }: ActivityCreationFormProps) => {
           noEndDate: false,
           participantCapacity: 0,
           unlimitedQuantity: false,
-          purchaseLimit: 0,
+          purchaseLimit: 1,
           description: '',
           purchaseDuplicate: false,
           ticketStatus: '',
@@ -101,6 +92,7 @@ const ActivityCreationForm = ({ className }: ActivityCreationFormProps) => {
 
   useEffect(() => {
     if (Array.isArray(formState?.issues)) {
+      form.clearErrors();
       formState?.issues.forEach((err) => {
         form.setError(
           err.path as FieldPath<z.output<typeof createActivityFormSchema>>,
@@ -109,6 +101,8 @@ const ActivityCreationForm = ({ className }: ActivityCreationFormProps) => {
           }
         );
       });
+    }
+    if (formState?.message) {
       toast({
         title: 'chillka 溫馨小提醒',
         description: `${formState?.message}`,
@@ -116,63 +110,19 @@ const ActivityCreationForm = ({ className }: ActivityCreationFormProps) => {
     }
   }, [formState?.issues, formState?.message, form, toast]);
 
-  // useEffect(() => {
-  //   toast({
-  //     title: 'chillka 溫馨小提醒',
-  //     description: `${imageFormState?.imageUrl}`,
-  //   });
-  // }, [imageFormState.message, toast]);
-
   return (
     <section className={cn('', className)}>
       <Form {...form}>
         <form className="mt-12 space-y-12" action={formAction}>
-          <OrganizerFormSection form={form} />
-          <ActivityContentFormSection form={form} />
+          <OrganizerFormSection form={form} onImageUploading={setUploadCount} />
+          <ActivityContentFormSection
+            form={form}
+            onImageUploading={setUploadCount}
+          />
           <TicketFormSection form={form} />
-          <UploadFormButton>送出</UploadFormButton>
+          <UploadFormButton uploadCount={uploadCount}>送出</UploadFormButton>
         </form>
       </Form>
-
-      {/* Testing Area */}
-
-      {/* <Separator className="mt-24" />
-      <H2>以下為測試區</H2>
-      <Separator className="mt-24" />
-      <form className="space-y-6" action={imageFormAction}>
-        <H3 className="text-primary">Server actions Method</H3>
-        <h2>Upload and Display Image</h2>
-        <h3>using React Hooks</h3> */}
-
-      {/* Conditionally render the selected image if it exists */}
-      {/* {selectedImage && (
-          <div>
-            <img
-              alt="not found"
-              width="250px"
-              src={URL.createObjectURL(selectedImage)}
-            />
-            <br /> <br />
-            <button type="button" onClick={() => setSelectedImage(null)}>
-              Remove
-            </button>
-          </div>
-        )}
-
-        <br />
-        <input
-          type="file"
-          name="uploadImage"
-          // Event handler to capture file selection and update the state
-          onChange={(event) => {
-            if (event.target.files) {
-              console.log(event.target.files[0]); // Log the selected file
-              setSelectedImage(event.target.files[0]); // Update the state with the selected file
-            }
-          }}
-        />
-        <UploadFormButton>Image Upload</UploadFormButton>
-      </form> */}
     </section>
   );
 };

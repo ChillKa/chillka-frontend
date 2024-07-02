@@ -60,7 +60,7 @@ const NearbyActivity = ({
       <div
         className={cn(
           'flex w-full flex-col justify-between space-y-12',
-          'xl:flex-row xl:flex-wrap xl:gap-y-12 xl:space-y-0'
+          'xl:flex-row xl:flex-wrap xl:gap-6 xl:gap-y-12 xl:space-y-0'
         )}
       >
         <ErrorBoundarySection>
@@ -73,10 +73,11 @@ const NearbyActivity = ({
             {eventsToShow.map((activity) => (
               <EventCard
                 key={activity._id}
+                className="xl:w-[26rem]"
                 link={activity._id}
                 title={activity?.name}
                 cover={activity?.thumbnail}
-                description={activity?.details}
+                summary={activity?.summary}
                 startTime={
                   format(
                     new Date(activity.startDateTime),

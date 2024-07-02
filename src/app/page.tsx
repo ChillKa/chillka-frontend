@@ -15,11 +15,14 @@ const Home = () => {
       <HeroSection className="mx-auto xl:mt-14" />
       <SearchBar className="mx-auto xl:mt-2" />
       <NearbyActivity
-        getNearByActivities={getActivitiesByFilter({
-          lat: '121.5598',
-          lng: '25.09108',
-          limit: '6',
-        })}
+        getNearByActivities={getActivitiesByFilter(
+          {
+            lat: '121.5598',
+            lng: '25.09108',
+            limit: '6',
+          },
+          { cache: 'no-store' }
+        )}
         className="mx-auto mt-24 xl:mt-36"
       />
       <TopCategoryMenu className="mx-auto mt-24 xl:mt-36" />

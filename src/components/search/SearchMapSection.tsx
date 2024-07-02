@@ -1,5 +1,6 @@
 'use client';
 
+import { Skeleton } from '@components/ui/skeleton';
 import cn from '@lib/utils';
 import {
   GoogleMap,
@@ -71,12 +72,20 @@ const SearchMapSection = ({ markers, centerId }: SearchMapSectionProps) => {
   if (loadError)
     return (
       <div className="h-[47.5rem] w-full">
-        Encountered error while loading google maps
+        <Skeleton className="h-full w-full text-center">
+          Encountered error while loading google maps
+        </Skeleton>
       </div>
     );
 
   if (!scriptLoaded)
-    return <div className="h-[47.5rem] w-full">Map Script is loading ...</div>;
+    return (
+      <div className="h-[47.5rem] w-full">
+        <Skeleton className="h-full w-full text-center">
+          <p>Map is Loading ...</p>
+        </Skeleton>
+      </div>
+    );
 
   return (
     <GoogleMap
