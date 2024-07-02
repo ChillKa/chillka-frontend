@@ -83,6 +83,7 @@ interface FetchOptions<T> {
   data?: T;
   headers?: Record<string, string>;
   shouldAuth?: boolean;
+  option?: RequestInit;
 }
 
 /**
@@ -131,6 +132,7 @@ export async function fetchAPI<T>({
   data,
   headers = {},
   shouldAuth = false,
+  option = {},
 }: FetchOptions<T>): Promise<Response> {
   const finalHeaders: Record<string, string> = {
     'Content-Type': 'application/json',
@@ -149,6 +151,7 @@ export async function fetchAPI<T>({
     method,
     headers: finalHeaders,
     body: data ? JSON.stringify(data) : undefined,
+    ...option,
   });
 
   return response;
