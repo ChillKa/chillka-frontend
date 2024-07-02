@@ -1,6 +1,6 @@
 'use client';
 
-import { aboutAccount, aboutEventist } from '@components/Navbar/fixedData';
+import { aboutAccount, aboutEventList } from '@components/Navbar/fixedData';
 import { Separator } from '@components/ui/separator';
 import cn from '@lib/utils';
 import { motion } from 'framer-motion';
@@ -18,7 +18,7 @@ const Navbar = ({ className }: NavbarProps) => {
     <nav className={cn('text-primary', className)}>
       <ul>
         <li className="mb-6 text-xl font-bold">活動相關</li>
-        {aboutEventist.map((item) => (
+        {aboutEventList.map((item) => (
           <motion.li
             className={`mb-6 text-2xl font-bold hover:bg-primary/[0.03] ${pathname === item.url ? 'border-l-4 border-primary pl-[1.25rem]' : 'pl-6'}`}
             whileHover={{ scale: 1.05 }}
