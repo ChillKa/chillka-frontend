@@ -35,7 +35,6 @@ const ActivitySection = async ({
     details,
     organizer,
   } = data.activity;
-  const { websiteURL, websiteName } = organizer;
 
   return (
     <section className={cn('w-full text-primary', className)}>
@@ -90,13 +89,17 @@ const ActivitySection = async ({
               相關連結
             </div>
             <div className="mt-2 text-base font-medium xl:text-lg xl:font-bold">
-              <Link
-                href={websiteURL}
-                target="_blank"
-                className="underline underline-offset-2"
-              >
-                {websiteName!}
-              </Link>
+              {organizer?.websiteURL ? (
+                <Link
+                  href={organizer?.websiteURL}
+                  target="_blank"
+                  className="underline underline-offset-2"
+                >
+                  {organizer?.websiteName}
+                </Link>
+              ) : (
+                '暫無提供'
+              )}
             </div>
           </div>
         </div>
