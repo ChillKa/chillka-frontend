@@ -13,7 +13,7 @@ const MessageDetailLayout = ({
   const messageListId = params.id;
   const _query = { messageListId };
 
-  return <SocketProvider query={_query}> {children} </SocketProvider>;
+  return <SocketProvider query={_query}>{children}</SocketProvider>;
 };
 
 export default MessageDetailLayout;

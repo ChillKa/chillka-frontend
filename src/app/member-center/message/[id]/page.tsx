@@ -10,14 +10,22 @@ import { useEffect, useState } from 'react';
 import { useSocket } from '@store/SocketProvider/SocketProvider';
 import { MessageHistory, MessageUserType } from 'src/types/message';
 import formatDateTime from '@lib/dateUtils';
+import { useAuthContext } from '@store/AuthProvider/AuthProvider';
+import cn from '@lib/utils';
 
 const defaultAvatar = '/header__defaultAvatar.svg';
 
 const MessageDetailPage = () => {
   const socket = useSocket();
+  const { auth } = useAuthContext();
   const [messageHistory, setMessageHistory] = useState<
     MessageHistory | undefined
   >();
+
+  const currentUserType =
+    auth?._id === messageHistory?.host._id
+      ? MessageUserType.HOST
+      : MessageUserType.PARTICIPANT;
 
   const replyHandler = (content: string) => {
     const userType = MessageUserType.PARTICIPANT;
@@ -28,8 +36,6 @@ const MessageDetailPage = () => {
     socket.on('history', (response) => {
       setMessageHistory(response);
     });
-
-    return () => {};
   }, [socket]);
 
   return (
@@ -41,29 +47,56 @@ const MessageDetailPage = () => {
         </Link>
       </div>
       <Separator />
-      <div className="overflow-y-auto">
-        {messageHistory?.messages.map((m) => {
+      <div className="flex grow flex-col-reverse gap-10 overflow-y-auto">
+        {messageHistory?.messages.toReversed().map((m) => {
+          let displayName = '';
           const isHost = m.userType === MessageUserType.HOST;
+          const isCurrentUser = m.userType === currentUserType;
+
+          if (isCurrentUser) {
+            displayName = '你';
+          } else if (isHost) {
+            displayName = messageHistory.host.displayName;
+          } else {
+            displayName = messageHistory.participant.displayName;
+          }
 
           return (
-            <div key={m._id} className="flex flex-col gap-4">
-              <div className="flex items-center gap-4">
-                <Image
-                  src={
-                    isHost
-                      ? messageHistory.host?.profilePicture ?? defaultAvatar
-                      : messageHistory.participant?.profilePicture ??
-                        defaultAvatar
-                  }
-                  alt="user"
-                  width={40}
-                  height={40}
-                  className="h-10 w-10 overflow-hidden rounded-full object-cover"
-                />
-                <p>{m.content}</p>
+            <div key={m._id} className="mx-4 flex flex-col gap-2">
+              <div
+                className={cn(
+                  `rounded-t-xl bg-slate-50 p-4 ${isCurrentUser ? 'rounded-bl-xl' : 'rounded-br-xl'}`
+                )}
+              >
+                {m.content}
               </div>
-              <div className="flex justify-end">
-                {formatDateTime(m.createdAt)}
+              <div
+                className={cn(
+                  `flex justify-between ${isCurrentUser ? 'flex-row-reverse' : ''}`
+                )}
+              >
+                <div
+                  className={cn(
+                    `flex items-center gap-4 ${isCurrentUser ? 'flex-row-reverse' : ''}`
+                  )}
+                >
+                  <Image
+                    src={
+                      isHost
+                        ? messageHistory.host?.profilePicture ?? defaultAvatar
+                        : messageHistory.participant?.profilePicture ??
+                          defaultAvatar
+                    }
+                    alt="user"
+                    width={40}
+                    height={40}
+                    className="h-10 w-10 overflow-hidden rounded-full object-cover"
+                  />
+                  <p className="text-sm">{displayName}</p>
+                </div>
+                <p className="self-end text-sm">
+                  {formatDateTime(m.createdAt)}
+                </p>
               </div>
             </div>
           );

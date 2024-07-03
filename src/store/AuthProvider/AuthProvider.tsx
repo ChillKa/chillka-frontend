@@ -7,6 +7,7 @@ import {
 } from '@action/auth';
 import { fetchMe } from '@action/user';
 import { FormState, loginFormSchema } from '@lib/definitions';
+import { set } from 'date-fns';
 import { useRouter } from 'next/navigation';
 import React, {
   PropsWithChildren,
@@ -17,6 +18,7 @@ import React, {
   useMemo,
   useState,
 } from 'react';
+import { UserData } from 'src/types/user';
 import { z } from 'zod';
 
 export interface AuthContextType {
@@ -25,7 +27,6 @@ export interface AuthContextType {
   logout: () => Promise<void>;
   getUser: () => Promise<void>;
   userName: string;
-  userAvatar: string;
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(
@@ -43,7 +44,6 @@ export const useAuthContext = (): AuthContextType => {
 const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [isLoggedin, setIsLoggedin] = useState(false);
   const [userName, setUserName] = useState('');
-  const [userAvatar, setUserAvatar] = useState('');
   const router = useRouter();
 
   const getUser = useCallback(async () => {
@@ -64,14 +64,25 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
       if (session) getUser();
     };
+    const getAuth = async () => {
+      const result = await fetchMe();
+      const authData = result.status === 'success' ? result.data : null;
+      setAuth(authData);
+    };
 
     checkSession();
-  }, [getUser]);
+  }, []);
 
   const login = useCallback(
     async (formData: z.infer<typeof loginFormSchema>) => {
       const result = await authLogin(formData);
       const session = await getSession();
+      const response = await fetchMe();
+
+      if (response.status === 'success' && response.data) {
+        const { data } = response;
+        setUserName(data.displayName);
+      }
 
       setIsLoggedin(!!session);
       // if (session) router.push('/user/about');
@@ -99,9 +110,8 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
       logout,
       getUser,
       userName,
-      userAvatar,
     }),
-    [isLoggedin, login, logout, getUser, userName, userAvatar]
+    [isLoggedin, login, logout, userName]
   );
 
   return (
