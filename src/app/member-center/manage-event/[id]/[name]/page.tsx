@@ -1,17 +1,19 @@
 import { ArrowLeftFromLine } from 'lucide-react';
 import Link from 'next/link';
-import ManagementActivityTable from '../utils/ManagementActivityTable';
-import { DummyParticipants } from '../utils/dummy';
+import ManagementActivityTable from '../../utils/ManagementActivityTable';
+import { DummyParticipants } from '../../utils/dummy';
 
 type ManageEventIdPageProps = {
-  params: { id: string };
+  params: { id: string; name: string };
 };
 
 const ManageEventIdPage = async ({ params }: ManageEventIdPageProps) => {
-  const { id } = params;
+  const { id, name } = params;
 
+  const decodeName = decodeURIComponent(name);
   // FIXME: Change to use real api
   // const { participants } = await getParticipant(id);
+  console.log(id);
   const participants = DummyParticipants;
 
   return (
@@ -22,11 +24,8 @@ const ManageEventIdPage = async ({ params }: ManageEventIdPageProps) => {
           className="flex flex-row gap-2"
         >
           <ArrowLeftFromLine className="size-12" />
-          <h1 className="mb-8 text-5xl/none font-bold xl:mb-0">
-            台北101觀景票
-          </h1>
+          <h1 className="mb-8 text-5xl/none font-bold xl:mb-0">{decodeName}</h1>
         </Link>
-        {id}
       </div>
 
       <section className="flex flex-col gap-2">
