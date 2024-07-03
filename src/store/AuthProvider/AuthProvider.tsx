@@ -4,8 +4,8 @@ import {
   login as authLogin,
   logout as authLogout,
   getSession,
-  getUserName,
 } from '@action/auth';
+import { fetchMe } from '@action/user';
 import { FormState, loginFormSchema } from '@lib/definitions';
 import { useRouter } from 'next/navigation';
 import React, {
@@ -46,9 +46,7 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   useEffect(() => {
     const checkSession = async () => {
       const session = await getSession();
-      const displayName = await getUserName();
 
-      setUserName(displayName);
       setIsLoggedin(!!session);
     };
 
@@ -59,6 +57,13 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     async (formData: z.infer<typeof loginFormSchema>) => {
       const result = await authLogin(formData);
       const session = await getSession();
+      const response = await fetchMe();
+
+      if (response.status === 'success' && response.data) {
+        const { data } = response;
+        setUserName(data.displayName);
+      }
+
       setIsLoggedin(!!session);
 
       // if (session) router.push('/user/about');
