@@ -65,7 +65,7 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ defaultData }) => {
             disabled={isEditing}
           >
             編輯會員資料
-            <EditIcon />
+            <EditIcon className="size-4" />
           </Button>
         </section>
         <FormField
@@ -76,7 +76,7 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ defaultData }) => {
               <FormLabel>顯示名稱</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="Please Type Username"
+                  placeholder={isEditing ? '請輸入你喜歡的稱呼' : '無'}
                   disabled={!isEditing}
                   {...field}
                 />
@@ -93,7 +93,7 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ defaultData }) => {
               <FormLabel>真實名稱</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="請輸入真實名稱"
+                  placeholder={isEditing ? '請輸入真實姓名' : '無'}
                   disabled={!isEditing}
                   {...field}
                 />
@@ -110,7 +110,7 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ defaultData }) => {
               <FormLabel>生日</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="請輸入你的生日"
+                  placeholder={isEditing ? '請輸入你的生日' : '無'}
                   disabled={!isEditing}
                   {...field}
                 />
@@ -127,7 +127,7 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ defaultData }) => {
               <FormLabel>年齡</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="請輸入你的歲數"
+                  placeholder={isEditing ? '請輸入你的歲數' : '無'}
                   disabled={!isEditing}
                   {...field}
                 />
@@ -144,7 +144,7 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ defaultData }) => {
               <FormLabel>性別</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="請輸入你的性別"
+                  placeholder={isEditing ? '請輸入你的性別' : '無'}
                   disabled={!isEditing}
                   {...field}
                 />
@@ -161,7 +161,11 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ defaultData }) => {
               <FormLabel>自我介紹</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="請輸入你喜歡的介紹，寫下一些有趣的事項也可以。"
+                  placeholder={
+                    isEditing
+                      ? '請輸入你喜歡的介紹，寫下一些有趣的事項也可以。'
+                      : '尚無，等待你的精彩簡介'
+                  }
                   disabled={!isEditing}
                   {...field}
                 />
@@ -178,7 +182,7 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ defaultData }) => {
               <FormLabel>電話</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="請輸入你喜歡的介紹，寫下一些有趣的事項也可以。"
+                  placeholder={isEditing ? '請輸入你的電話號碼' : '無'}
                   disabled={!isEditing}
                   {...field}
                 />
@@ -195,11 +199,7 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ defaultData }) => {
               <FormLabel>手機載具</FormLabel>
               <FormControl>
                 <Input
-                  placeholder={
-                    isEditing
-                      ? '請輸入你喜歡的介紹，寫下一些有趣的事項也可以。'
-                      : field.value
-                  }
+                  placeholder={isEditing ? '請輸入你的發票手機載具' : '無'}
                   disabled={!isEditing}
                   {...field}
                 />
@@ -216,7 +216,7 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ defaultData }) => {
               <FormLabel>地址</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="請輸入你的住址"
+                  placeholder={isEditing ? '請輸入你的住址' : '無'}
                   disabled={!isEditing}
                   {...field}
                 />
@@ -233,7 +233,7 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ defaultData }) => {
               <FormLabel>e-mail</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="請輸入你的email"
+                  placeholder={isEditing ? '請輸入你的email' : '無'}
                   disabled={!isEditing}
                   {...field}
                 />
