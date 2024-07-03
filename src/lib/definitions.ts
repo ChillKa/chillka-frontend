@@ -76,7 +76,10 @@ export const userFormSchema = z.object({
   realName: z.string().optional(),
   birthday: z.string().optional(),
   gender: z.string().optional(),
-  age: z.number().optional(),
+  age: z.preprocess(
+    (val) => (typeof val === 'string' ? Number(val) : val),
+    z.number({ invalid_type_error: '請輸入數字' }).min(0).optional()
+  ),
   introduction: z.string().optional(),
   phoneAreaCode: z.string().optional(),
   phoneNumber: z.string().optional(),
