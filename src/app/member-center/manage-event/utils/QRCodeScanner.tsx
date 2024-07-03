@@ -30,7 +30,7 @@ const QRCodeScanner = ({ onScanSuccess }: QRCodeScannerProps) => {
         console.error('Failed to clear, ', error);
       });
     };
-  }, []);
+  }, [handleScanSuccess]);
 
   return <div id="reader" />;
 };
