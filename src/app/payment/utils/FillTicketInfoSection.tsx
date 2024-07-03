@@ -14,6 +14,7 @@ import {
 import { Input } from '@components/ui/input';
 import { Label } from '@components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@components/ui/radio-group';
+import { toast } from '@components/ui/use-toast';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { formatActivityTime } from '@lib/dateUtils';
 import { useRouter } from 'next/navigation';
@@ -62,7 +63,10 @@ const FillTicketInfoSection = ({
     );
 
     if (!firstSelectedTicket) {
-      console.error('No tickets selected');
+      toast({
+        variant: 'destructive',
+        title: 'No tickets selected ',
+      });
       return;
     }
 
@@ -70,7 +74,10 @@ const FillTicketInfoSection = ({
     const ticket = data.tickets.find((t) => t._id === ticketId);
 
     if (!ticket) {
-      console.error('Ticket not found');
+      toast({
+        variant: 'destructive',
+        title: 'Ticket not found',
+      });
       return;
     }
 
@@ -95,10 +102,16 @@ const FillTicketInfoSection = ({
       if (result.status === 'success') {
         router.push('/payment/complete');
       } else {
-        console.error('Payment failed');
+        toast({
+          variant: 'destructive',
+          title: 'Payment failed',
+        });
       }
     } catch (error) {
-      console.error('Error during payment:', error);
+      toast({
+        variant: 'destructive',
+        title: `Error during payment: ${error}`,
+      });
     }
   };
 
