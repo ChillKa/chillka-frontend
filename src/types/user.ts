@@ -4,7 +4,7 @@ export type UserData = {
   email: string;
   realName: string;
   birthday: string;
-  gender: string;
+  gender: '男' | '女';
   age: number;
   introduction: string;
   phoneNumber: string;
