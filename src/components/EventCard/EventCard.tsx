@@ -4,7 +4,7 @@ import { H3 } from '@components/ui/typography';
 import cn from '@lib/utils';
 import { Building2, CalendarDays, MapPin, Users } from 'lucide-react';
 import Link from 'next/link';
-import { forwardRef, useState } from 'react';
+import { forwardRef } from 'react';
 import { FormatDate } from './EventCard-types';
 import {
   ContinuousCardField,
@@ -49,12 +49,6 @@ const EventCard = forwardRef<HTMLDivElement, EventCardProps>(
     },
     ref
   ) => {
-    const [collected, setCollected] = useState(isCollected);
-
-    const handleToggle = () => {
-      setCollected((prev) => !prev);
-    };
-
     return (
       <Link href={`/activity/${link}`}>
         <div
@@ -71,8 +65,8 @@ const EventCard = forwardRef<HTMLDivElement, EventCardProps>(
         >
           <EventCardCoverSection
             src={cover}
-            collected={collected}
-            onToggle={handleToggle}
+            collected={isCollected}
+            activityId={link}
           />
 
           <div className="flex h-[5.5rem] w-full flex-col gap-4">

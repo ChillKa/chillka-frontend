@@ -13,6 +13,7 @@ import { z } from 'zod';
 import {
   clearSessionCookie,
   fetchAPI,
+  getJwtPayload,
   getSessionCookie,
   setSessionCookie,
   validateWithSchema,
@@ -103,6 +104,22 @@ export async function getSession(): Promise<{
         token,
       }
     : null;
+}
+
+export async function isLoggedIn(): Promise<boolean> {
+  const session = await getSession();
+  return session !== null;
+}
+
+export async function getUserName(): Promise<string> {
+  const payload = await getJwtPayload();
+  let userName = '';
+
+  if (payload && typeof payload.displayName === 'string') {
+    userName = payload.displayName;
+  }
+
+  return userName;
 }
 
 export async function googleOAuth(): Promise<void> {

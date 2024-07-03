@@ -15,6 +15,7 @@ import { toast } from '@components/ui/use-toast';
 import GoogleOAuthButton from '@components/user/GoogleOAuthButton';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { registerFormSchema } from '@lib/definitions';
+import { LoaderCircle } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useTransition } from 'react';
@@ -125,7 +126,7 @@ const RegisterForm: React.FC = () => {
           )}
         />
         <Button disabled={isPending} type="submit">
-          註冊
+          {isPending ? <LoaderCircle className="animate-spin" /> : '註冊'}
         </Button>
         <section className="flex items-center justify-center">
           <Small className="mr-2 font-normal text-primary">已經有帳號？</Small>

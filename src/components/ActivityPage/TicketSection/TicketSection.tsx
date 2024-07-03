@@ -61,7 +61,7 @@ const TicketSection = ({
         className
       )}
     >
-      <OrganizerName className="" data={data} />
+      <OrganizerName className="min-h-12" data={data} />
       <H3>{data.activity.name}</H3>
       <div className="space-y-2">
         <div className="flex items-center">
