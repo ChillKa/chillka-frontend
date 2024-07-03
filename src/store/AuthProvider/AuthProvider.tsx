@@ -7,6 +7,7 @@ import {
 } from '@action/auth';
 import { fetchMe } from '@action/user';
 import { FormState, loginFormSchema } from '@lib/definitions';
+import { set } from 'date-fns';
 import { useRouter } from 'next/navigation';
 import React, {
   PropsWithChildren,
@@ -26,6 +27,8 @@ export interface AuthContextType {
   logout: () => Promise<void>;
   getUser: () => Promise<void>;
   userName: string;
+  userAvatar: string;
+  auth: UserData | null;
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(
@@ -43,6 +46,8 @@ export const useAuthContext = (): AuthContextType => {
 const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [isLoggedin, setIsLoggedin] = useState(false);
   const [userName, setUserName] = useState('');
+  const [userAvatar, setUserAvatar] = useState('');
+  const [auth, setAuth] = useState<UserData | null>(null);
   const router = useRouter();
 
   const getUser = useCallback(async () => {
@@ -70,7 +75,8 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     };
 
     checkSession();
-  }, []);
+    getAuth();
+  }, [getUser]);
 
   const login = useCallback(
     async (formData: z.infer<typeof loginFormSchema>) => {
@@ -80,6 +86,7 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
       if (response.status === 'success' && response.data) {
         const { data } = response;
+        setAuth(data);
         setUserName(data.displayName);
       }
 
@@ -109,8 +116,10 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
       logout,
       getUser,
       userName,
+      userAvatar,
+      auth,
     }),
-    [isLoggedin, login, logout, userName]
+    [isLoggedin, login, logout, getUser, userName, userAvatar, auth]
   );
 
   return (
