@@ -1,6 +1,7 @@
 'use client';
 
 import { updateUser } from '@action/user';
+import ImageDropzone from '@components/ActivityCreation/fields/ImageDropzone';
 import {
   Accordion,
   AccordionContent,
@@ -24,6 +25,7 @@ import { toast } from '@components/ui/use-toast';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { userFormSchema } from '@lib/definitions';
 import { EditIcon } from 'lucide-react';
+import Image from 'next/image';
 import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -35,6 +37,7 @@ interface UserProfileFormProps {
 const UserProfileForm: React.FC<UserProfileFormProps> = ({ defaultData }) => {
   const [isPending, startTransition] = useTransition();
   const [isEditing, setIsEditing] = useState(false);
+  const [uploadingCount, setUploadingCount] = useState(0);
 
   const form = useForm({
     mode: 'all',
@@ -89,6 +92,42 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ defaultData }) => {
             <AccordionContent>
               <Separator />
               <div className="max-w-[26rem] space-y-6 px-2 py-6">
+                <FormField
+                  control={form.control}
+                  name="profilePicture"
+                  render={({ field }) => (
+                    <div className="relative size-40">
+                      <Image
+                        src={
+                          field.value ? field.value : 'header__fakeAvatar.svg'
+                        }
+                        fill
+                        alt="User's Avatar"
+                        className="rounded-full"
+                      />
+                    </div>
+                  )}
+                />
+                {isEditing && (
+                  <FormField
+                    control={form.control}
+                    name="profilePicture"
+                    disabled={!isEditing}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <ImageDropzone
+                            onFiledChange={field.onChange}
+                            fieldName={field.name}
+                            maxFiles={1}
+                            onUploading={setUploadingCount}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                )}
                 <FormField
                   control={form.control}
                   name="displayName"
@@ -301,7 +340,11 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ defaultData }) => {
               >
                 取消
               </Button>
-              <Button disabled={isPending} variant="form" type="submit">
+              <Button
+                disabled={isPending && uploadingCount === 0}
+                variant="form"
+                type="submit"
+              >
                 確定
               </Button>
             </>
