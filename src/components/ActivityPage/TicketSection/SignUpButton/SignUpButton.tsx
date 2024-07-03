@@ -30,20 +30,23 @@ const SignUpButton = ({ className, data, previewMode }: SignUpButtonProps) => {
     return '立即報名';
   };
 
-  const button = (
+  return (
     <Button
       className={cn('h-10 w-full text-base xl:h-14', className)}
       disabled={!canSignUp}
     >
-      {buttonContent()}
+      {canSignUp ? (
+        <Link
+          href="/payment/select-tickets"
+          className="flex h-full w-full items-center justify-center"
+        >
+          {buttonContent()}
+        </Link>
+      ) : (
+        buttonContent()
+      )}
     </Button>
   );
-
-  if (canSignUp) {
-    return <Link href="/payment/select-tickets">{button}</Link>;
-  }
-
-  return button;
 };
 
 export default SignUpButton;
