@@ -106,6 +106,11 @@ export async function getSession(): Promise<{
     : null;
 }
 
+export async function isLoggedIn(): Promise<boolean> {
+  const session = await getSession();
+  return session !== null;
+}
+
 export async function getUserName(): Promise<string> {
   const payload = await getJwtPayload();
   let userName = '';
