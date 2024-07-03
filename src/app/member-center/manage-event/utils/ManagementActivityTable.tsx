@@ -12,6 +12,7 @@ import {
   TableRow,
 } from '@components/ui/table';
 import { H2 } from '@components/ui/typography';
+import { SquareCheckBig } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import QRCodeScannerDialogButton from './QRCodeScannerDialogButton';
 import { Participant } from './types';
@@ -70,7 +71,7 @@ const ManagementActivityTable = ({
           <TableHeader>
             <TableRow>
               <TableHead className="w-[50px]">
-                <Checkbox />
+                <SquareCheckBig className="size-4" />
               </TableHead>
               <TableHead>參加者</TableHead>
               <TableHead>帳號</TableHead>
@@ -82,9 +83,9 @@ const ManagementActivityTable = ({
           <TableBody>
             {filteredParticipants.map((participant) => {
               return (
-                <TableRow key={participant.user.userId}>
+                <TableRow key={participant.user.userId} className="h-14">
                   <TableCell>
-                    <Checkbox />
+                    <Checkbox className="size-4" />
                   </TableCell>
                   <TableCell>{participant.user.userRealName}</TableCell>
                   <TableCell>{participant.user.email}</TableCell>
