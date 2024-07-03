@@ -13,7 +13,7 @@ import {
 } from '@components/ui/table';
 import { H2 } from '@components/ui/typography';
 import { useMemo, useState } from 'react';
-import QRCodeScannerButton from './QRCodeScannerButton';
+import QRCodeScannerDialogButton from './QRCodeScannerDialogButton';
 import { Participant } from './types';
 
 type ManagementActivityTableProps = {
@@ -44,7 +44,8 @@ const ManagementActivityTable = ({
     <>
       <div className="flex flex-row justify-between">
         <H2>參加者名單</H2>
-        <QRCodeScannerButton
+
+        <QRCodeScannerDialogButton
           onScanSuccess={handleScanSuccess}
           name="檢驗票券"
         />
