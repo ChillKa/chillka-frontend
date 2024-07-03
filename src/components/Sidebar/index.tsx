@@ -7,6 +7,7 @@ import {
   registerAndLoginList,
   userList,
 } from '@components/Header/menu';
+import { menuAnimation } from '@components/Header/utils';
 import {
   Dialog,
   DialogClose,
@@ -26,23 +27,6 @@ type List = {
   name: string;
   icon?: JSX.Element;
   url: string;
-};
-
-const menuAnimation = {
-  open: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      y: { stiffness: 1000, velocity: -100 },
-    },
-  },
-  closed: {
-    y: 50,
-    opacity: 0,
-    transition: {
-      y: { stiffness: 1000 },
-    },
-  },
 };
 
 const Sidebar = ({ isLoggedin, onSignOut }: SidebarProps) => {

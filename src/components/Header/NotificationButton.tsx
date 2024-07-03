@@ -8,6 +8,7 @@ import { H3, P, Small } from '@components/ui/typography';
 import { motion, useCycle } from 'framer-motion';
 import { Bell, Lightbulb } from 'lucide-react';
 import Link from 'next/link';
+import { menuAnimation } from './utils';
 
 const fakeData = [
   {
@@ -36,23 +37,6 @@ const fakeData = [
     time: '2024-03-21',
   },
 ];
-
-const menuAnimation = {
-  open: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      y: { stiffness: 1000, velocity: -100 },
-    },
-  },
-  closed: {
-    y: 50,
-    opacity: 0,
-    transition: {
-      y: { stiffness: 1000 },
-    },
-  },
-};
 
 const NotificationButton = () => {
   const [isOpen, toggleOpen] = useCycle(false, true);

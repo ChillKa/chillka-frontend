@@ -12,6 +12,7 @@ import {
 import { Separator } from '@components/ui/separator';
 import { motion, useCycle } from 'framer-motion';
 import Link from 'next/link';
+import { menuAnimation } from './utils';
 
 type HamburgerProps = {
   isLoggedin: boolean;
@@ -22,23 +23,6 @@ type List = {
   name: string;
   icon?: JSX.Element;
   url: string;
-};
-
-const menuAnimation = {
-  open: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      y: { stiffness: 1000, velocity: -100 },
-    },
-  },
-  closed: {
-    y: 50,
-    opacity: 0,
-    transition: {
-      y: { stiffness: 1000 },
-    },
-  },
 };
 
 const HamburgerBotton = ({ isLoggedin, onSignOut }: HamburgerProps) => {

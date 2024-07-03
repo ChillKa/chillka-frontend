@@ -9,6 +9,7 @@ import { motion, useCycle } from 'framer-motion';
 import { Mail } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { menuAnimation } from './utils';
 
 const fakeAvatar = '/header__fakeAvatar.svg';
 
@@ -44,23 +45,6 @@ const fakeData = [
     time: '2024-03-21',
   },
 ];
-
-const menuAnimation = {
-  open: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      y: { stiffness: 1000, velocity: -100 },
-    },
-  },
-  closed: {
-    y: 50,
-    opacity: 0,
-    transition: {
-      y: { stiffness: 1000 },
-    },
-  },
-};
 
 const EmailButton = () => {
   const [isOpen, toggleOpen] = useCycle(false, true);
