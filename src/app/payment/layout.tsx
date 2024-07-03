@@ -8,10 +8,11 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@components/ui/breadcrumb';
-import { usePathname } from 'next/navigation';
+import { useParams, usePathname } from 'next/navigation';
 
 const PaymentLayout = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
+  const { activityId } = useParams();
 
   return (
     <section className="mx-auto flex max-w-[81rem] flex-col gap-1">
@@ -19,7 +20,7 @@ const PaymentLayout = ({ children }: { children: React.ReactNode }) => {
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              {pathname === '/payment/select-tickets' ? (
+              {pathname === `/payment/${activityId}/select-tickets` ? (
                 <BreadcrumbPage>選擇票券</BreadcrumbPage>
               ) : (
                 <BreadcrumbLink asChild>
@@ -29,7 +30,7 @@ const PaymentLayout = ({ children }: { children: React.ReactNode }) => {
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              {pathname === '/payment/fill-info' ? (
+              {pathname === `/payment/${activityId}/fill-info` ? (
                 <BreadcrumbPage>填寫資料</BreadcrumbPage>
               ) : (
                 <BreadcrumbLink asChild>
@@ -39,7 +40,7 @@ const PaymentLayout = ({ children }: { children: React.ReactNode }) => {
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              {pathname === '/payment/complete' ? (
+              {pathname === `/payment/${activityId}/complete` ? (
                 <BreadcrumbPage>訂票完成</BreadcrumbPage>
               ) : (
                 <BreadcrumbLink asChild>
