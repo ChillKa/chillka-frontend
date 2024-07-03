@@ -20,6 +20,7 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { IAcitivityResponse } from 'src/types/activity';
 import { z } from 'zod';
+import { sendPayment } from './actions';
 
 const formSchema = z.object({
   name: z.string().min(1, '名子是必須的'),
@@ -34,11 +35,13 @@ const formSchema = z.object({
 type FillTicketInfoSectionProps = {
   data: IAcitivityResponse;
   selectedTickets: { [key: string]: number };
+  activityId: string;
   totalAmount: number;
 };
 const FillTicketInfoSection = ({
   data,
   selectedTickets,
+  activityId,
   totalAmount,
 }: FillTicketInfoSectionProps) => {
   const router = useRouter();
@@ -53,9 +56,50 @@ const FillTicketInfoSection = ({
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
-    router.push('/payment/complete');
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const firstSelectedTicket = Object.entries(selectedTickets).find(
+      ([_, quantity]) => quantity > 0
+    );
+
+    if (!firstSelectedTicket) {
+      console.error('No tickets selected');
+      return;
+    }
+
+    const [ticketId, quantity] = firstSelectedTicket;
+    const ticket = data.tickets.find((t) => t._id === ticketId);
+
+    if (!ticket) {
+      console.error('Ticket not found');
+      return;
+    }
+
+    const paymentProps = {
+      activityId,
+      ticketId,
+      orderContact: {
+        name: values.name,
+        email: values.email,
+        phone: values.phone,
+      },
+      payment: {
+        amount: (ticket.price * quantity).toString(),
+        orderNumber: quantity,
+      },
+      itemName: ticket.name,
+      tradeDesc: `${data.activity.name} - ${ticket.name}`,
+    };
+
+    try {
+      const result = await sendPayment(paymentProps);
+      if (result) {
+        router.push('/payment/complete');
+      } else {
+        console.error('Payment failed');
+      }
+    } catch (error) {
+      console.error('Error during payment:', error);
+    }
   };
 
   return (

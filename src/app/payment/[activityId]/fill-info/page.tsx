@@ -32,6 +32,7 @@ const FillInfoPage = async ({ params, searchParams }: FillInfoPageProps) => {
         <FillTicketInfoSection
           data={activityData}
           selectedTickets={selectedTickets}
+          activityId={activityId}
           totalAmount={totalAmount}
         />
       )}
