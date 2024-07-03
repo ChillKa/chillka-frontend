@@ -1,12 +1,12 @@
-export const aboutEventist = [
+export const aboutEventList = [
   {
     title: '查詢票券',
     url: '/member-center/ticket-inquiry',
   },
-  // {
-  //   title: '管理活動',
-  //   url: '/member-center/manage-event',
-  // },
+  {
+    title: '管理活動',
+    url: '/member-center/manage-event',
+  },
   {
     title: '收藏活動',
     url: '/member-center/favorite-event',
