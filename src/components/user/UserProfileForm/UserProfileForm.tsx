@@ -14,6 +14,7 @@ import { Input } from '@components/ui/input';
 import { toast } from '@components/ui/use-toast';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { userFormSchema } from '@lib/definitions';
+import { EditIcon } from 'lucide-react';
 import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -63,7 +64,8 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ defaultData }) => {
             onClick={() => setIsEditing(true)}
             disabled={isEditing}
           >
-            Edit
+            編輯會員資料
+            <EditIcon />
           </Button>
         </section>
         <FormField
@@ -83,7 +85,163 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ defaultData }) => {
             </FormItem>
           )}
         />
-
+        <FormField
+          control={form.control}
+          name="realName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>真實名稱</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="請輸入真實名稱"
+                  disabled={!isEditing}
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="birthday"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>生日</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="請輸入你的生日"
+                  disabled={!isEditing}
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="age"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>年齡</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="請輸入你的歲數"
+                  disabled={!isEditing}
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="gender"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>性別</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="請輸入你的性別"
+                  disabled={!isEditing}
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="introduction"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>自我介紹</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="請輸入你喜歡的介紹，寫下一些有趣的事項也可以。"
+                  disabled={!isEditing}
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="phoneNumber"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>電話</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="請輸入你喜歡的介紹，寫下一些有趣的事項也可以。"
+                  disabled={!isEditing}
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="phoneBarcode"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>手機載具</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder={
+                    isEditing
+                      ? '請輸入你喜歡的介紹，寫下一些有趣的事項也可以。'
+                      : field.value
+                  }
+                  disabled={!isEditing}
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="address"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>地址</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="請輸入你的住址"
+                  disabled={!isEditing}
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>e-mail</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="請輸入你的email"
+                  disabled={!isEditing}
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         {isEditing && (
           <div className="flex w-full justify-center space-x-2">
             <Button variant="secondary" onClick={handleCancel}>
