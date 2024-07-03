@@ -28,7 +28,7 @@ const MessageDetailPage = () => {
       : MessageUserType.PARTICIPANT;
 
   const replyHandler = (content: string) => {
-    const userType = MessageUserType.PARTICIPANT;
+    const userType = currentUserType;
     socket.emit('message', { userType, content });
   };
 

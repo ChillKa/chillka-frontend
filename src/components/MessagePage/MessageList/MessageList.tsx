@@ -62,7 +62,11 @@ const MessageList = ({ messages }: MessageListProps) => {
               </div>
               <div className="flex justify-end gap-4 text-sm">
                 <p>{formatDateTime(m.updatedAt)}</p>
-                {!isCurrentUser && <p>{m.messages.receiverIsRead}</p>}
+                {!isCurrentUser && (
+                  <p className="text-gray-500">
+                    {m.messages.receiverIsRead ? '已讀' : '未讀'}
+                  </p>
+                )}
               </div>
             </div>
           </Link>
