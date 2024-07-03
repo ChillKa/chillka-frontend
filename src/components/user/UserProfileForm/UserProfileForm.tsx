@@ -1,6 +1,12 @@
 'use client';
 
 import { updateUser } from '@action/user';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@components/ui/accordion';
 import { Button } from '@components/ui/button';
 import {
   Form,
@@ -11,6 +17,9 @@ import {
   FormMessage,
 } from '@components/ui/form';
 import { Input } from '@components/ui/input';
+import { RadioGroup, RadioGroupItem } from '@components/ui/radio-group';
+import { Separator } from '@components/ui/separator';
+import { H2, P } from '@components/ui/typography';
 import { toast } from '@components/ui/use-toast';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { userFormSchema } from '@lib/definitions';
@@ -53,205 +62,256 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ defaultData }) => {
     <Form {...form}>
       <form
         onSubmit={handleEditUser}
-        className="flex w-full flex-col justify-center space-y-2"
+        className="flex w-full flex-col justify-center"
       >
-        <section className="item-center flex">
-          <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
-            會員資料
-          </h2>
+        <section className="flex items-baseline justify-between px-2">
+          <H2>會員帳號中心</H2>
           <Button
             variant="ghost"
             onClick={() => setIsEditing(true)}
             disabled={isEditing}
+            className="inline-flex items-center gap-2 hover:bg-primary-super-light"
           >
-            編輯會員資料
-            <EditIcon className="size-4" />
+            <P>編輯</P>
+            <EditIcon className="mt-0.5 size-4" />
           </Button>
         </section>
-        <FormField
-          control={form.control}
-          name="displayName"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>顯示名稱</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder={isEditing ? '請輸入你喜歡的稱呼' : '無'}
-                  disabled={!isEditing}
-                  {...field}
+        <Accordion type="multiple" className="w-full">
+          <AccordionItem value="item-1">
+            <AccordionTrigger className="px-2 text-xl font-bold -tracking-[0.005em]">
+              基本資料
+            </AccordionTrigger>
+            <AccordionContent>
+              <Separator />
+              <div className="max-w-[26rem] space-y-6 px-2 py-6">
+                <FormField
+                  control={form.control}
+                  name="displayName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="">顯示名稱</FormLabel>
+                      <FormControl>
+                        <Input
+                          variant="form"
+                          placeholder={isEditing ? '請輸入你喜歡的稱呼' : '無'}
+                          disabled={!isEditing}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="realName"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>真實名稱</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder={isEditing ? '請輸入真實姓名' : '無'}
-                  disabled={!isEditing}
-                  {...field}
+                <FormField
+                  control={form.control}
+                  name="realName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>真實名稱</FormLabel>
+                      <FormControl>
+                        <Input
+                          variant="form"
+                          placeholder={isEditing ? '請輸入真實姓名' : '無'}
+                          disabled={!isEditing}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="birthday"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>生日</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder={isEditing ? '請輸入你的生日' : '無'}
-                  disabled={!isEditing}
-                  {...field}
+                <FormField
+                  control={form.control}
+                  name="birthday"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>生日</FormLabel>
+                      <FormControl>
+                        <Input
+                          variant="form"
+                          placeholder={isEditing ? '請輸入你的生日' : '無'}
+                          disabled={!isEditing}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="age"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>年齡</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder={isEditing ? '請輸入你的歲數' : '無'}
-                  disabled={!isEditing}
-                  {...field}
+                <FormField
+                  control={form.control}
+                  name="age"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>年齡</FormLabel>
+                      <FormControl>
+                        <Input
+                          variant="form"
+                          placeholder={isEditing ? '請輸入你的歲數' : '無'}
+                          disabled={!isEditing}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="gender"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>性別</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder={isEditing ? '請輸入你的性別' : '無'}
-                  disabled={!isEditing}
-                  {...field}
+                <FormField
+                  control={form.control}
+                  name="gender"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>性別</FormLabel>
+                      <FormControl>
+                        <RadioGroup
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                          className="flex gap-8"
+                          disabled={!isEditing}
+                        >
+                          <FormItem className="flex items-center space-x-3 space-y-0">
+                            <FormControl>
+                              <RadioGroupItem variant="form" value="男" />
+                            </FormControl>
+                            <FormLabel className="font-normal">男</FormLabel>
+                          </FormItem>
+                          <FormItem className="flex items-center space-x-3 space-y-0">
+                            <FormControl>
+                              <RadioGroupItem variant="form" value="女" />
+                            </FormControl>
+                            <FormLabel className="font-normal">女</FormLabel>
+                          </FormItem>
+                        </RadioGroup>
+                      </FormControl>
+                    </FormItem>
+                  )}
                 />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="introduction"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>自我介紹</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder={
-                    isEditing
-                      ? '請輸入你喜歡的介紹，寫下一些有趣的事項也可以。'
-                      : '尚無，等待你的精彩簡介'
-                  }
-                  disabled={!isEditing}
-                  {...field}
+                <FormField
+                  control={form.control}
+                  name="introduction"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>自我介紹</FormLabel>
+                      <FormControl>
+                        <Input
+                          variant="form"
+                          placeholder={
+                            isEditing
+                              ? '請輸入你喜歡的介紹，寫下一些有趣的事項也可以。'
+                              : '尚無，等待你的精彩簡介'
+                          }
+                          disabled={!isEditing}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="phoneNumber"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>電話</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder={isEditing ? '請輸入你的電話號碼' : '無'}
-                  disabled={!isEditing}
-                  {...field}
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="item-2">
+            <AccordionTrigger className="px-2 text-xl font-bold -tracking-[0.005em]">
+              聯絡資料
+            </AccordionTrigger>
+            <AccordionContent>
+              <Separator />
+              <div className="max-w-[26rem] space-y-6 px-2 py-6">
+                <FormField
+                  control={form.control}
+                  name="phoneNumber"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>電話</FormLabel>
+                      <FormControl>
+                        <Input
+                          variant="form"
+                          placeholder={isEditing ? '請輸入你的電話號碼' : '無'}
+                          disabled={!isEditing}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="phoneBarcode"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>手機載具</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder={isEditing ? '請輸入你的發票手機載具' : '無'}
-                  disabled={!isEditing}
-                  {...field}
+                <FormField
+                  control={form.control}
+                  name="phoneBarcode"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>手機載具</FormLabel>
+                      <FormControl>
+                        <Input
+                          variant="form"
+                          placeholder={
+                            isEditing ? '請輸入你的發票手機載具' : '無'
+                          }
+                          disabled={!isEditing}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="address"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>地址</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder={isEditing ? '請輸入你的住址' : '無'}
-                  disabled={!isEditing}
-                  {...field}
+                <FormField
+                  control={form.control}
+                  name="address"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>地址</FormLabel>
+                      <FormControl>
+                        <Input
+                          variant="form"
+                          placeholder={isEditing ? '請輸入你的住址' : '無'}
+                          disabled={!isEditing}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>e-mail</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder={isEditing ? '請輸入你的email' : '無'}
-                  disabled={!isEditing}
-                  {...field}
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>e-mail</FormLabel>
+                      <FormControl>
+                        <Input
+                          variant="form"
+                          placeholder={isEditing ? '請輸入你的email' : '無'}
+                          disabled={!isEditing}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+        <div className="mb-12 mt-6 flex min-h-2 w-full gap-x-2">
+          {isEditing && (
+            <>
+              <Button
+                variant="secondary"
+                className="rounded-[0.375rem] bg-primary-super-light text-primary hover:bg-white"
+                onClick={handleCancel}
+              >
+                取消
+              </Button>
+              <Button disabled={isPending} variant="form" type="submit">
+                確定
+              </Button>
+            </>
           )}
-        />
-        {isEditing && (
-          <div className="flex w-full justify-center space-x-2">
-            <Button variant="secondary" onClick={handleCancel}>
-              取消
-            </Button>
-            <Button disabled={isPending} type="submit">
-              確定
-            </Button>
-          </div>
-        )}
+        </div>
       </form>
     </Form>
   );
