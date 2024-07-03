@@ -11,9 +11,9 @@ import { motion } from 'framer-motion';
 import { ArrowUpDown, Check } from 'lucide-react';
 
 const sortOptions = [
-  { key: '購買日期', value: '1' },
-  { key: '活動到期日', value: '2' },
-  { key: '金額', value: '3' },
+  { key: '購買日期', value: 'paymentDate' },
+  { key: '活動到期日', value: 'endTime' },
+  { key: '金額', value: 'paymentAmount' },
 ];
 
 type SortOrderProps = {

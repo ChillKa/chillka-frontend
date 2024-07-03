@@ -13,35 +13,35 @@ import {
 } from './EventCard-utils';
 
 type EventCardProps = {
-  title: string;
-  cover: string;
-  description: string;
-  startTime: FormatDate<'YY.MM.DD'>;
-  endTime: string;
-  attendeeCount: number;
-  isCollected: boolean;
-  location: string;
-  organizer: string;
-  pricing: number;
+  title?: string;
+  cover?: string;
+  summary?: string;
+  startTime?: FormatDate<'YY.MM.DD'>;
+  endTime?: string;
+  attendeeCount?: number;
+  isCollected?: boolean;
+  location?: string;
+  organizer?: string;
+  pricing?: number;
   isContinuous?: boolean;
   link?: string;
-  discount: number | undefined; // -1 is free, 0 is none discount, positive is off discount
+  discount?: number; // -1 is free, 0 is none discount, positive is off discount
   className?: string;
 };
 
 const EventCard = forwardRef<HTMLDivElement, EventCardProps>(
   (
     {
-      title,
-      cover,
-      description,
-      startTime,
-      endTime,
-      attendeeCount,
+      title = 'Unknown Title',
+      cover = '/default.webp',
+      summary = '快點來加入吧！',
+      startTime = '1900.01.01',
+      endTime = '1900.01.02',
+      attendeeCount = 0,
       isCollected = false,
-      location,
-      organizer,
-      pricing,
+      location = 'Unknown location',
+      organizer = 'Unknown Organizer',
+      pricing = 0,
       isContinuous = false,
       link = '',
       discount = 0,
@@ -78,7 +78,7 @@ const EventCard = forwardRef<HTMLDivElement, EventCardProps>(
           <div className="flex h-[5.5rem] w-full flex-col gap-4">
             <H3 className="truncate">{title}</H3>
             <p className="line-clamp-2 overflow-hidden text-ellipsis text-sm">
-              {description}
+              {summary}
             </p>
           </div>
 

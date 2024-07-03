@@ -13,35 +13,35 @@ import {
 } from './EventCard-utils';
 
 export type SearchResultEventCardProps = {
-  title: string;
-  cover: string;
-  description: string;
-  startTime: FormatDate<'YY.MM.DD'>;
-  endTime: string;
-  attendeeCount: number;
-  isCollected: boolean;
-  location: string;
-  organizer: string;
-  pricing: number;
+  title?: string;
+  cover?: string;
+  summary?: string;
+  startTime?: FormatDate<'YY.MM.DD'>;
+  endTime?: string;
+  attendeeCount?: number;
+  isCollected?: boolean;
+  location?: string;
+  organizer?: string;
+  pricing?: number;
   isContinuous?: boolean;
-  discount: number;
+  discount?: number;
   link?: string;
   onHoverCard?: () => void;
 };
 
 const SearchResultEventCard = ({
-  title,
-  cover,
-  description,
-  startTime,
-  endTime,
-  attendeeCount,
+  title = 'Unknown Title',
+  cover = '/default.webp',
+  summary = 'Unknown description',
+  startTime = '1900.01.01',
+  endTime = '1900.01.02',
+  attendeeCount = 0,
   isCollected = false,
-  location,
-  organizer,
+  location = 'Unknown location',
+  organizer = 'Unknown Organizer',
   isContinuous = false,
-  pricing,
-  discount,
+  pricing = 0,
+  discount = 0,
   link = '',
   onHoverCard,
 }: SearchResultEventCardProps) => {
@@ -93,7 +93,7 @@ const SearchResultEventCard = ({
         <div className="flex h-full w-[32.875rem] flex-col items-stretch justify-start gap-4">
           <div id="activity-header" className="flex flex-col gap-2">
             <H3>{title}</H3>
-            <p className="truncate text-sm font-normal">{description}</p>
+            <p className="truncate text-sm font-normal">{summary}</p>
           </div>
           <div id="activity-info" className="flex flex-col gap-2">
             <div className="flex justify-start gap-4">

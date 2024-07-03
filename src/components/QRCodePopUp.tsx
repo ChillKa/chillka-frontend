@@ -14,7 +14,14 @@ import { useState } from 'react';
 
 const qrcode = '/qrcode.png';
 
-const QRCodePopUp = () => {
+type QRCodeType = {
+  name: string;
+  startTime: string;
+  endTime: string;
+  id: string;
+};
+
+const QRCodePopUp = ({ name, startTime, endTime, id }: QRCodeType) => {
   const [isOpen, setIsOpen] = useState(false);
   const { width } = useWindowSize();
 
@@ -26,6 +33,21 @@ const QRCodePopUp = () => {
   const handleClose = (e: React.MouseEvent) => {
     e.stopPropagation();
     setIsOpen(false);
+  };
+
+  const formatDateTime = (dateString: string) => {
+    const date = new Date(dateString);
+    const hours = String(date.getUTCHours()).padStart(2, '0');
+    const minutes = String(date.getUTCMinutes()).padStart(2, '0');
+    const year = date.getUTCFullYear();
+    const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // 月份从0开始
+    const day = String(date.getUTCDate()).padStart(2, '0');
+    const timeString = `${hours}:${minutes}`;
+    const dateStringFormatted = `${year}.${month}.${day}`;
+    return {
+      date: dateStringFormatted,
+      tiem: timeString,
+    };
   };
 
   return (
@@ -66,13 +88,17 @@ const QRCodePopUp = () => {
             </DialogTitle>
             <div className="mb-6 flex items-center justify-center">
               <div className="max-w-[12rem] flex-1 text-center">
-                <p className="mb-2 text-3xl font-bold">00:00</p>
-                <p className="text-sm/7">2024.01.10</p>
+                <p className="mb-2 text-3xl font-bold">
+                  {formatDateTime(startTime).tiem}
+                </p>
+                <p className="text-sm/7">{formatDateTime(startTime).date}</p>
               </div>
               <ArrowRight className="mx-6" size={24} />
               <div className="max-w-[12rem] flex-1 text-center">
-                <p className="mb-2 text-3xl font-bold">00:00</p>
-                <p className="text-sm/7">2024.01.10</p>
+                <p className="mb-2 text-3xl font-bold">
+                  {formatDateTime(endTime).tiem}
+                </p>
+                <p className="text-sm/7">{formatDateTime(endTime).date}</p>
               </div>
             </div>
             <div className="flex items-center justify-center">
@@ -84,10 +110,10 @@ const QRCodePopUp = () => {
               />
             </div>
             <div className="my-6 h-1 w-full border-t border-dashed border-black" />
-            <p className="m-auto py-4 text-center">參加人：ZIM</p>
+            <p className="m-auto py-4 text-center">參加人：{name}</p>
           </div>
           <DialogFooter className="flex h-[1.875rem] items-center justify-center bg-primary text-sm text-white">
-            票券編號：2403280558401308152642
+            票券編號：{id}
           </DialogFooter>
         </DialogContent>
       </Dialog>
