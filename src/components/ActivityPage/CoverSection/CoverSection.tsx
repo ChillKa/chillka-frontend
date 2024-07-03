@@ -10,6 +10,7 @@ import {
 import cn from '@lib/utils';
 import Autoplay from 'embla-carousel-autoplay';
 import Image from 'next/image';
+import { useState } from 'react';
 import { IAcitivityResponse } from 'src/types/activity';
 
 type CoverSectionProps = {
@@ -18,6 +19,17 @@ type CoverSectionProps = {
 };
 
 const CoverSection = ({ className, data }: CoverSectionProps) => {
+  const [loaded, setLoaded] = useState(false);
+  const defaultImgSrc = '/defaultCover.webp';
+
+  const handleImageLoaded = () => {
+    setLoaded(true);
+  };
+
+  const handleImageError = () => {
+    setLoaded(false);
+  };
+
   return (
     <section className={cn('w-full', className)}>
       <Carousel
@@ -48,8 +60,25 @@ const CoverSection = ({ className, data }: CoverSectionProps) => {
                   alt={cover}
                   style={{
                     objectFit: 'cover',
+                    display: loaded ? 'block' : 'none',
                   }}
+                  onLoad={handleImageLoaded}
+                  onError={handleImageError}
                 />
+                {!loaded && (
+                  <Image
+                    src={defaultImgSrc}
+                    width={200}
+                    height={160}
+                    sizes="100vw"
+                    loading="eager"
+                    className="h-full w-full"
+                    alt="default"
+                    style={{
+                      objectFit: 'cover',
+                    }}
+                  />
+                )}
               </CarouselItem>
             );
           })}

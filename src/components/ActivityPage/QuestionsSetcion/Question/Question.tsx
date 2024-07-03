@@ -1,9 +1,9 @@
 import DeleteQuestionButton from '@components/ActivityPage/QuestionsSetcion/DeleteQuestionButton';
 import ReplyArea from '@components/ActivityPage/QuestionsSetcion/ReplyArea';
+import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar';
 import { Large, Lead, Small } from '@components/ui/typography';
 import formatDateTime from '@lib/dateUtils';
 import cn from '@lib/utils';
-import Image from 'next/image';
 import { IAcitivityResponse, IQuestion } from 'src/types/activity';
 
 type QuestionProps = {
@@ -22,25 +22,20 @@ const Question = ({
   getActivity,
 }: QuestionProps) => {
   const createdAt = formatDateTime(question.createdAt);
-
   const showDeleteButton =
     userId === question.userId || userId === data.activity.creatorId;
+  const firstLetter = question.displayName.charAt(0);
 
   return (
     <div className={cn('py-6', className)}>
       <div className="flex flex-row items-center justify-between">
         <div className="flex">
-          <Image
-            src="https://picsum.photos/id/65/1200/1200"
-            width={48}
-            height={48}
-            className="h-12 w-12 rounded-full"
-            loading="eager"
-            alt="user"
-            style={{
-              objectFit: 'cover',
-            }}
-          />
+          <Avatar className="h-12 w-12 rounded-full">
+            <AvatarImage src="" alt="Organizer" />
+            <AvatarFallback className="rounded-2xl bg-primary text-white">
+              {firstLetter}
+            </AvatarFallback>
+          </Avatar>
           <div className="ml-6 space-y-2">
             <div className="flex">
               <Lead>{question.displayName}</Lead>
