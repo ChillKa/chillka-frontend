@@ -37,6 +37,7 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ defaultData }) => {
   const [isEditing, setIsEditing] = useState(false);
 
   const form = useForm({
+    mode: 'all',
     resolver: zodResolver(userFormSchema),
     defaultValues: defaultData,
   });
@@ -64,7 +65,7 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ defaultData }) => {
         onSubmit={handleEditUser}
         className="flex w-full flex-col justify-center"
       >
-        <section className="flex items-baseline justify-between px-2">
+        <section className="flex items-baseline justify-between">
           <H2>會員帳號中心</H2>
           <Button
             variant="ghost"
@@ -76,7 +77,11 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ defaultData }) => {
             <EditIcon className="mt-0.5 size-4" />
           </Button>
         </section>
-        <Accordion type="multiple" className="w-full">
+        <Accordion
+          type="multiple"
+          className="w-full px-2"
+          defaultValue={['item-1', 'item-2']}
+        >
           <AccordionItem value="item-1">
             <AccordionTrigger className="px-2 text-xl font-bold -tracking-[0.005em]">
               基本資料
@@ -95,7 +100,8 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ defaultData }) => {
                           variant="form"
                           placeholder={isEditing ? '請輸入你喜歡的稱呼' : '無'}
                           disabled={!isEditing}
-                          {...field}
+                          defaultValue={field.value}
+                          onChange={field.onChange}
                         />
                       </FormControl>
                       <FormMessage />
@@ -113,25 +119,8 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ defaultData }) => {
                           variant="form"
                           placeholder={isEditing ? '請輸入真實姓名' : '無'}
                           disabled={!isEditing}
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="birthday"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>生日</FormLabel>
-                      <FormControl>
-                        <Input
-                          variant="form"
-                          placeholder={isEditing ? '請輸入你的生日' : '無'}
-                          disabled={!isEditing}
-                          {...field}
+                          defaultValue={field.value}
+                          onChange={field.onChange}
                         />
                       </FormControl>
                       <FormMessage />
@@ -149,7 +138,8 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ defaultData }) => {
                           variant="form"
                           placeholder={isEditing ? '請輸入你的歲數' : '無'}
                           disabled={!isEditing}
-                          {...field}
+                          defaultValue={field.value}
+                          onChange={field.onChange}
                         />
                       </FormControl>
                       <FormMessage />
@@ -201,7 +191,8 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ defaultData }) => {
                               : '尚無，等待你的精彩簡介'
                           }
                           disabled={!isEditing}
-                          {...field}
+                          defaultValue={field.value}
+                          onChange={field.onChange}
                         />
                       </FormControl>
                       <FormMessage />
@@ -229,7 +220,8 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ defaultData }) => {
                           variant="form"
                           placeholder={isEditing ? '請輸入你的電話號碼' : '無'}
                           disabled={!isEditing}
-                          {...field}
+                          defaultValue={field.value}
+                          onChange={field.onChange}
                         />
                       </FormControl>
                       <FormMessage />
@@ -249,7 +241,8 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ defaultData }) => {
                             isEditing ? '請輸入你的發票手機載具' : '無'
                           }
                           disabled={!isEditing}
-                          {...field}
+                          defaultValue={field.value}
+                          onChange={field.onChange}
                         />
                       </FormControl>
                       <FormMessage />
@@ -267,7 +260,8 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ defaultData }) => {
                           variant="form"
                           placeholder={isEditing ? '請輸入你的住址' : '無'}
                           disabled={!isEditing}
-                          {...field}
+                          defaultValue={field.value}
+                          onChange={field.onChange}
                         />
                       </FormControl>
                       <FormMessage />
@@ -285,7 +279,8 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ defaultData }) => {
                           variant="form"
                           placeholder={isEditing ? '請輸入你的email' : '無'}
                           disabled={!isEditing}
-                          {...field}
+                          defaultValue={field.value}
+                          onChange={field.onChange}
                         />
                       </FormControl>
                       <FormMessage />
