@@ -105,6 +105,11 @@ export async function getSession(): Promise<{
     : null;
 }
 
+export async function isLoggedIn(): Promise<boolean> {
+  const session = await getSession();
+  return session !== null;
+}
+
 export async function googleOAuth(): Promise<void> {
   redirect(`${endpoint}/google-oauth`);
 }

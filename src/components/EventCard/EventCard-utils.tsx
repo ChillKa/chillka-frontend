@@ -1,10 +1,25 @@
 'use client';
 
+import { toggleFavoriteActivity } from '@action/activity';
+import { isLoggedIn } from '@action/auth';
+import { toast } from '@components/ui/use-toast';
 import cn from '@lib/utils';
 import { cva } from 'class-variance-authority';
-import { Bookmark, Check, ChevronLeft, ChevronRight } from 'lucide-react';
+import {
+  Bookmark,
+  Check,
+  ChevronLeft,
+  ChevronRight,
+  LoaderCircle,
+} from 'lucide-react';
 import Image from 'next/image';
-import { HTMLAttributes, useRef, useState } from 'react';
+import {
+  HTMLAttributes,
+  useCallback,
+  useRef,
+  useState,
+  useTransition,
+} from 'react';
 
 export const collectedVariants = cva(
   'absolute bottom-0 right-0 flex h-20 w-20 flex-col items-center justify-center gap-2 text-xs transition ease-out duration-300 font-medium leading-5',
@@ -34,23 +49,74 @@ type EventCardCoverSectionProps = {
   src: string;
   alt?: string;
   collected: boolean;
-  onToggle: () => void;
+  activityId: string;
   hoverEffect?: boolean;
   className?: string;
 };
 export const EventCardCoverSection = ({
   src,
   alt = 'event-card-cover',
-  collected,
-  onToggle,
+  collected: initialCollected,
+  activityId,
   className,
   hoverEffect = true,
 }: EventCardCoverSectionProps) => {
-  const handleToggle: HTMLAttributes<HTMLButtonElement>['onClick'] = (e) => {
-    e.preventDefault();
-    onToggle();
-  };
+  const [collected, setCollected] = useState(initialCollected);
+  const [isPending, startTransition] = useTransition();
   const [imageSrc, setImageSrc] = useState(src);
+
+  const handleToggle = useCallback<
+    NonNullable<HTMLAttributes<HTMLButtonElement>['onClick']>
+  >(
+    async (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const loggedIn = await isLoggedIn();
+
+      if (!loggedIn) {
+        toast({
+          title: '請先登入',
+          description: '您需要登入才能收藏活動',
+          variant: 'destructive',
+        });
+        return;
+      }
+
+      startTransition(async () => {
+        try {
+          const response = await toggleFavoriteActivity(activityId);
+          if (response?.message) {
+            toast({
+              title: response.message,
+              variant:
+                response.status === 'success' ? 'default' : 'destructive',
+            });
+          }
+          if (response?.status === 'success') {
+            setCollected((prev) => !prev);
+          }
+        } catch (error) {
+          console.error('Error toggling favorite activity:', error);
+          toast({
+            title: 'An error occurred',
+            variant: 'destructive',
+          });
+        }
+      });
+    },
+    [activityId]
+  );
+
+  const renderStatusIcon = () => {
+    if (isPending) {
+      return <LoaderCircle className="animate-spin" />;
+    }
+    if (collected) {
+      return <Check />;
+    }
+    return <Bookmark />;
+  };
 
   return (
     <div className={cn('relative h-[13rem] w-full overflow-hidden', className)}>
@@ -74,9 +140,10 @@ export const EventCardCoverSection = ({
       <button
         type="button"
         onClick={handleToggle}
+        disabled={isPending}
         className={collectedVariants({ collected })}
       >
-        {collected ? <Check /> : <Bookmark />}
+        {renderStatusIcon()}
         {collected ? '已收藏' : '收藏'}
       </button>
     </div>
