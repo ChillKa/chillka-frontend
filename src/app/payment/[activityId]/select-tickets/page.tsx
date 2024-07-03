@@ -8,8 +8,8 @@ type PaymentPageProps = {
 const PaymentPage = async ({ params }: PaymentPageProps) => {
   const { activityId } = params;
 
-  const reponse = await fetchActivity(activityId);
-  const data = reponse.result;
+  const response = await fetchActivity(activityId);
+  const data = response.result;
 
   return (
     <section className="flex flex-row gap-2">
