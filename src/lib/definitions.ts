@@ -72,6 +72,20 @@ export const userFormSchema = z.object({
     .string()
     .min(2, { message: MIN_LENGTH_MESSAGE(2) })
     .max(50, { message: MAX_LENGTH_MESSAGE(50) }),
+  email: z.string().email(),
+  realName: z.string().optional(),
+  birthday: z.string().optional(),
+  gender: z.string().optional(),
+  age: z.number().optional(),
+  introduction: z.string().optional(),
+  phoneAreaCode: z.string().optional(),
+  phoneNumber: z.string().optional(),
+  phoneBarcode: z.string().optional(),
+  address: z.string().optional(),
+  isEmailValidate: z.boolean().optional(),
+  profilePicture: z.string().optional(),
+  savedActivities: z.array(z.string().optional()).optional(),
+  favoriteCategories: z.array(z.string().optional()).optional(),
 });
 
 export const createActivityFormSchema = z
