@@ -92,7 +92,7 @@ const FillTicketInfoSection = ({
 
     try {
       const result = await sendPayment(paymentProps);
-      if (result) {
+      if (result.status === 'success') {
         router.push('/payment/complete');
       } else {
         console.error('Payment failed');
