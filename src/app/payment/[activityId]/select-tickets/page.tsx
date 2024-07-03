@@ -64,7 +64,12 @@ const data = {
   questions: [],
 };
 
-const PaymentPage = () => {
+type PaymentPageProps = {
+  params: { activityId: string };
+};
+
+const PaymentPage = ({ params }: PaymentPageProps) => {
+  const { activityId } = params;
   return (
     <section className="flex flex-row gap-2">
       <section
@@ -119,7 +124,7 @@ const PaymentPage = () => {
         <div className="mb-2 flex flex-row items-center justify-between">
           <H4>請選擇票券</H4>
           <Button variant="default">
-            <Link href="/payment/fill-info">下一步</Link>
+            <Link href={`/payment/${activityId}/fill-info`}>下一步</Link>
           </Button>
         </div>
         {Array.from({ length: 6 }).map((_, index) => {

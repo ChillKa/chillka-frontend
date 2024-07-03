@@ -31,7 +31,14 @@ const DUMMY = {
   totalAmount: 1840,
 };
 
-const FillInfoPage = () => {
+type FillInfoPageProps = {
+  params: {
+    activityId: string;
+  };
+};
+
+const FillInfoPage = ({ params }: FillInfoPageProps) => {
+  const { activityId } = params;
   return (
     <section className="mb-4 flex flex-col gap-6 xl:flex-row">
       <section id="ticket-detail" className="flex-1">
@@ -108,7 +115,15 @@ const FillInfoPage = () => {
           <p className="mt-4 text-sm text-gray-600">
             選擇本次訂單付款方式，使用信用卡付款將會有額外手續費，請您小心核對金額，一旦付款將無法取消退款。
           </p>
-          <Button className="mt-6 w-full">確認付款</Button>
+          <Button
+            className="mt-6 w-full"
+            onClick={() => {
+              // FIXME: Change to implement to pay order
+              console.log(activityId);
+            }}
+          >
+            確認付款
+          </Button>
         </Card>
       </section>
     </section>

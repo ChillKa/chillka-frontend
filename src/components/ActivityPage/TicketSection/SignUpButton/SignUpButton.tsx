@@ -37,7 +37,7 @@ const SignUpButton = ({ className, data, previewMode }: SignUpButtonProps) => {
     >
       {canSignUp ? (
         <Link
-          href="/payment/select-tickets"
+          href={`/payment/${data.activity._id}/select-tickets`}
           className="flex h-full w-full items-center justify-center"
         >
           {buttonContent()}
