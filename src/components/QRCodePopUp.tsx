@@ -100,7 +100,10 @@ const QRCodePopUp = ({ name, startTime, endTime, id }: QRCodeType) => {
               </div>
             </div>
             <div className="flex items-center justify-center">
-              <QRCodeSVG value={id} size={width > 1366 ? 368 : 351} />
+              <QRCodeSVG
+                value={`api/qrcode/${id}`}
+                size={width > 1366 ? 368 : 351}
+              />
             </div>
             <div className="my-6 h-1 w-full border-t border-dashed border-black" />
             <p className="m-auto py-4 text-center">參加人：{name}</p>
