@@ -69,12 +69,16 @@ export const getJwtPayload = async () => {
   const sessionCookie = getSessionCookie();
   if (!sessionCookie) return null;
 
-  const { payload } = await jwtVerify(
-    sessionCookie,
-    new TextEncoder().encode(process.env.JWT_SECRET)
-  );
-
-  return payload;
+  try {
+    const { payload } = await jwtVerify(
+      sessionCookie,
+      new TextEncoder().encode(process.env.JWT_SECRET)
+    );
+    return payload;
+  } catch (error) {
+    console.error('JWT Verification Error:', error);
+    throw new Error('JWT Verification Failed');
+  }
 };
 
 interface FetchOptions<T> {
