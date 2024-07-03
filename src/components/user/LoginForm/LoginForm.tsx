@@ -16,6 +16,7 @@ import GoogleOAuthButton from '@components/user/GoogleOAuthButton';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginFormSchema } from '@lib/definitions';
 import { useAuthContext } from '@store/AuthProvider/AuthProvider';
+import { LoaderCircle } from 'lucide-react';
 import Link from 'next/link';
 import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
@@ -87,7 +88,7 @@ const LoginForm: React.FC = () => {
           )}
         />
         <Button type="submit" disabled={isPending}>
-          登入
+          {isPending ? <LoaderCircle className="animate-spin" /> : '登入'}
         </Button>
         <Link
           className="flex justify-end text-primary transition hover:text-primary/70"

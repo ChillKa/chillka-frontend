@@ -4,7 +4,7 @@ import { H3 } from '@components/ui/typography';
 import cn from '@lib/utils';
 import { Building2, CalendarDays, MapPin, Users } from 'lucide-react';
 import Link from 'next/link';
-import { HTMLAttributes, useRef, useState } from 'react';
+import { HTMLAttributes, useRef } from 'react';
 import { FormatDate } from './EventCard-types';
 import {
   ContinuousCardField,
@@ -45,12 +45,7 @@ const SearchResultEventCard = ({
   link = '',
   onHoverCard,
 }: SearchResultEventCardProps) => {
-  const [collected, setCollected] = useState(isCollected);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
-
-  const handleToggle = () => {
-    setCollected((prev) => !prev);
-  };
 
   const handleMouseEnter: HTMLAttributes<HTMLDivElement>['onMouseEnter'] =
     () => {
@@ -85,9 +80,9 @@ const SearchResultEventCard = ({
           src={cover}
           alt="search-event-card-result-item"
           hoverEffect
-          onToggle={handleToggle}
-          collected={collected}
+          collected={isCollected}
           className="size-[19.125rem]"
+          activityId={link}
         />
 
         <div className="flex h-full w-[32.875rem] flex-col items-stretch justify-start gap-4">
