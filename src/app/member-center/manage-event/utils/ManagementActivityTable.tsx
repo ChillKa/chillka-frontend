@@ -15,26 +15,24 @@ import { H2 } from '@components/ui/typography';
 import { SquareCheckBig } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import QRCodeScannerDialogButton from './QRCodeScannerDialogButton';
-import { Participant } from './types';
+import { Order } from './types';
 
 type ManagementActivityTableProps = {
-  participants: Participant[];
+  orders: Order[];
 };
 
-const ManagementActivityTable = ({
-  participants,
-}: ManagementActivityTableProps) => {
+const ManagementActivityTable = ({ orders }: ManagementActivityTableProps) => {
   const [searchTerm, setSearchTerm] = useState('');
 
   const filteredParticipants = useMemo(() => {
-    return participants.filter((participant) => {
+    return orders.filter((order) => {
       const searchLower = searchTerm.toLowerCase();
       return (
-        participant.user.userRealName.toLowerCase().includes(searchLower) ||
-        participant.user.email.toLowerCase().includes(searchLower)
+        order.user.displayName.toLowerCase().includes(searchLower) ||
+        order.user.email.toLowerCase().includes(searchLower)
       );
     });
-  }, [participants, searchTerm]);
+  }, [orders, searchTerm]);
 
   // TODO: use route handler to call the method to call api
   const handleScanSuccess = (result: string) => {
@@ -77,21 +75,19 @@ const ManagementActivityTable = ({
               <TableHead>帳號</TableHead>
               <TableHead>年齡</TableHead>
               <TableHead>狀態</TableHead>
-              <TableHead>最後上線時間</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {filteredParticipants.map((participant) => {
               return (
-                <TableRow key={participant.user.userId} className="h-14">
+                <TableRow key={participant.user._id} className="h-14">
                   <TableCell>
                     <Checkbox className="size-4" />
                   </TableCell>
-                  <TableCell>{participant.user.userRealName}</TableCell>
+                  <TableCell>{participant.user.displayName}</TableCell>
                   <TableCell>{participant.user.email}</TableCell>
                   <TableCell>{participant.user.age}</TableCell>
-                  <TableCell>{participant.paymentStatus}</TableCell>
-                  <TableCell>{participant.user.lastOnlineTime}</TableCell>
+                  <TableCell>{participant.payment.status}</TableCell>
                 </TableRow>
               );
             })}
