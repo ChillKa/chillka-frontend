@@ -7,6 +7,7 @@ import {
   registerAndLoginList,
   userList,
 } from '@components/Header/menu';
+import { menuAnimation } from '@components/Header/utils';
 import {
   Dialog,
   DialogClose,
@@ -26,23 +27,6 @@ type List = {
   name: string;
   icon?: JSX.Element;
   url: string;
-};
-
-const menuAnimation = {
-  open: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      y: { stiffness: 1000, velocity: -100 },
-    },
-  },
-  closed: {
-    y: 50,
-    opacity: 0,
-    transition: {
-      y: { stiffness: 1000 },
-    },
-  },
 };
 
 const Sidebar = ({ isLoggedin, onSignOut }: SidebarProps) => {
@@ -96,22 +80,6 @@ const Sidebar = ({ isLoggedin, onSignOut }: SidebarProps) => {
             >
               {isLoggedin ? (
                 <>
-                  {userList.map((user: List) => (
-                    <motion.li
-                      variants={menuAnimation}
-                      whileHover={{ scale: 1.025 }}
-                      whileTap={{ scale: 0.95 }}
-                      key={user.name}
-                    >
-                      <Link
-                        className="mb-4 flex justify-between px-[1.5rem] py-[0.375rem] text-xl font-bold hover:bg-primary/[0.03]"
-                        href={user.url}
-                      >
-                        <p>{user.name}</p>
-                        {user.icon && user.icon}
-                      </Link>
-                    </motion.li>
-                  ))}
                   {phoneList.map((mobile: List) => (
                     <motion.li
                       variants={menuAnimation}
@@ -125,6 +93,22 @@ const Sidebar = ({ isLoggedin, onSignOut }: SidebarProps) => {
                       >
                         <p>{mobile.name}</p>
                         {mobile.icon && mobile.icon}
+                      </Link>
+                    </motion.li>
+                  ))}
+                  {userList.map((user: List) => (
+                    <motion.li
+                      variants={menuAnimation}
+                      whileHover={{ scale: 1.025 }}
+                      whileTap={{ scale: 0.95 }}
+                      key={user.name}
+                    >
+                      <Link
+                        className="mb-4 flex justify-between px-[1.5rem] py-[0.375rem] text-xl font-bold hover:bg-primary/[0.03]"
+                        href={user.url}
+                      >
+                        <p>{user.name}</p>
+                        {user.icon && user.icon}
                       </Link>
                     </motion.li>
                   ))}
@@ -149,24 +133,29 @@ const Sidebar = ({ isLoggedin, onSignOut }: SidebarProps) => {
                   ))}
                 </>
               )}
-              <motion.div variants={menuAnimation}>
-                <Separator className="mb-4 h-[0.0625rem] bg-primary" />
-              </motion.div>
-              {SITEMAP.map((map: List) => (
-                <motion.li
-                  variants={menuAnimation}
-                  whileHover={{ scale: 1.025 }}
-                  whileTap={{ scale: 0.95 }}
-                  key={map.name}
-                >
-                  <Link
-                    className="mb-4 flex justify-between px-[1.5rem] py-[0.5rem] text-base/7 hover:bg-primary/[0.03]"
-                    href={map.url}
-                  >
-                    <div>{map.name}</div>
-                  </Link>
-                </motion.li>
-              ))}
+              {!isLoggedin && (
+                <>
+                  <motion.div variants={menuAnimation}>
+                    <Separator className="mb-4 h-[0.0625rem] bg-primary" />
+                  </motion.div>
+
+                  {SITEMAP.map((map: List) => (
+                    <motion.li
+                      variants={menuAnimation}
+                      whileHover={{ scale: 1.025 }}
+                      whileTap={{ scale: 0.95 }}
+                      key={map.name}
+                    >
+                      <Link
+                        className="mb-4 flex justify-between px-[1.5rem] py-[0.5rem] text-base/7 hover:bg-primary/[0.03]"
+                        href={map.url}
+                      >
+                        <div>{map.name}</div>
+                      </Link>
+                    </motion.li>
+                  ))}
+                </>
+              )}
               {isLoggedin && (
                 <>
                   <motion.div variants={menuAnimation}>
