@@ -1,7 +1,9 @@
 import { fetchAPI } from '@action/utils';
+import { NextRequest } from 'next/server';
 
-export async function PUT(ticketID?: string) {
+export async function PUT(request: NextRequest) {
   try {
+    const { ticketID } = await request.json();
     const response = await fetchAPI({
       api: `/api/auth/orders/use-serial-number`,
       method: 'PUT',
