@@ -1,6 +1,6 @@
 import { ArrowLeftFromLine } from 'lucide-react';
 import Link from 'next/link';
-import ManagementActivityTable from '../../utils/ManagementActivityTable';
+import ManagementActivitySection from '../../utils/ManagementActivitySection';
 import { DummyOrders } from '../../utils/dummy';
 
 type ManageEventIdPageProps = {
@@ -29,7 +29,7 @@ const ManageEventIdPage = async ({ params }: ManageEventIdPageProps) => {
       </div>
 
       <section className="flex flex-col gap-2">
-        <ManagementActivityTable orders={orders} />
+        <ManagementActivitySection orders={orders} />
       </section>
     </div>
   );

@@ -11,10 +11,8 @@ import {
   TableHeader,
   TableRow,
 } from '@components/ui/table';
-import { H2 } from '@components/ui/typography';
 import { SquareCheckBig } from 'lucide-react';
 import { useMemo, useState } from 'react';
-import QRCodeScannerDialogButton from './QRCodeScannerDialogButton';
 import { Order } from './types';
 
 type ManagementActivityTableProps = {
@@ -34,67 +32,50 @@ const ManagementActivityTable = ({ orders }: ManagementActivityTableProps) => {
     });
   }, [orders, searchTerm]);
 
-  // TODO: use route handler to call the method to call api
-  const handleScanSuccess = (result: string) => {
-    console.log('The result is ', result);
-  };
-
   return (
-    <>
-      <div className="flex flex-row justify-between">
-        <H2>參加者名單</H2>
-
-        <QRCodeScannerDialogButton
-          onScanSuccess={handleScanSuccess}
-          name="檢驗票券"
+    <div>
+      <div className="mb-4 flex justify-between">
+        <Input
+          variant="form"
+          placeholder="搜索名稱或電子郵件"
+          className="max-w-sm"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
         />
+        <Button variant="default" disabled>
+          傳送訊息
+        </Button>
       </div>
-      <div>
-        <div className="mb-4 flex justify-between">
-          <Input
-            variant="form"
-            placeholder="搜索名稱或電子郵件"
-            className="max-w-sm"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <div>
-            <Button variant="default" disabled className="mr-2">
-              傳送訊息
-            </Button>
-          </div>
-        </div>
 
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="w-[50px]">
-                <SquareCheckBig className="size-4" />
-              </TableHead>
-              <TableHead>參加者</TableHead>
-              <TableHead>帳號</TableHead>
-              <TableHead>年齡</TableHead>
-              <TableHead>狀態</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {filteredParticipants.map((participant) => {
-              return (
-                <TableRow key={participant.user._id} className="h-14">
-                  <TableCell>
-                    <Checkbox className="size-4" />
-                  </TableCell>
-                  <TableCell>{participant.user.displayName}</TableCell>
-                  <TableCell>{participant.user.email}</TableCell>
-                  <TableCell>{participant.user.age}</TableCell>
-                  <TableCell>{participant.payment.status}</TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </div>
-    </>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead className="w-[50px]">
+              <SquareCheckBig className="size-4" />
+            </TableHead>
+            <TableHead>參加者</TableHead>
+            <TableHead>帳號</TableHead>
+            <TableHead>年齡</TableHead>
+            <TableHead>狀態</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {filteredParticipants.map((participant) => {
+            return (
+              <TableRow key={participant.user._id} className="h-14">
+                <TableCell>
+                  <Checkbox className="size-4" />
+                </TableCell>
+                <TableCell>{participant.user.displayName}</TableCell>
+                <TableCell>{participant.user.email}</TableCell>
+                <TableCell>{participant.user.age}</TableCell>
+                <TableCell>{participant.payment.status}</TableCell>
+              </TableRow>
+            );
+          })}
+        </TableBody>
+      </Table>
+    </div>
   );
 };
 
