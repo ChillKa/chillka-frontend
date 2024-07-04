@@ -1,6 +1,6 @@
 import { fetchAPI } from '@action/utils';
 
-export async function PUT(ticketID: string) {
+export async function PUT(ticketID?: string) {
   try {
     const response = await fetchAPI({
       api: `/api/auth/orders/use-serial-number`,
@@ -12,7 +12,7 @@ export async function PUT(ticketID: string) {
     });
 
     if (!response.ok) {
-      const errorMessage = await response.text();
+      const errorMessage = await response.json();
       return Response.json({ status: 'failed', message: errorMessage });
     }
 
