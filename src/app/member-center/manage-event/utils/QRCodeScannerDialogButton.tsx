@@ -2,7 +2,10 @@
 
 import { Button } from '@components/ui/button';
 import { Dialog, DialogContent, DialogTrigger } from '@components/ui/dialog';
-import QRCodeScanner from './QRCodeScanner';
+import { Input } from '@components/ui/input';
+import { H3, P } from '@components/ui/typography';
+import { useState } from 'react';
+import QRCodeScanner, { QRCodeScannerProps } from './QRCodeScanner';
 
 type QRCodeScannerButtonProps = {
   name: string;
@@ -13,6 +16,13 @@ const QRCodeScannerDialogButton = ({
   name,
   onScanSuccess,
 }: QRCodeScannerButtonProps) => {
+  const [currentSerials, setCurrentSerials] = useState('');
+
+  const handleScanSuccess: QRCodeScannerProps['onScanSuccess'] = (result) => {
+    setCurrentSerials(result);
+    onScanSuccess(result);
+  };
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -24,8 +34,23 @@ const QRCodeScannerDialogButton = ({
           e.stopPropagation();
         }}
       >
-        <div className="flex w-full items-center justify-center">
-          <QRCodeScanner onScanSuccess={onScanSuccess} />
+        <div className="my-4 flex w-full flex-col items-center justify-start gap-4">
+          <H3 asChild className="mb-4">
+            <div>掃描QR Code以使用票券</div>
+          </H3>
+          <div>
+            <P>序號: {currentSerials}</P>
+          </div>
+          <div>
+            <Input
+              variant="form"
+              placeholder="輸入序號"
+              onBlur={(e) => {
+                setCurrentSerials(e.currentTarget.value);
+              }}
+            />
+          </div>
+          <QRCodeScanner onScanSuccess={handleScanSuccess} />
         </div>
       </DialogContent>
     </Dialog>

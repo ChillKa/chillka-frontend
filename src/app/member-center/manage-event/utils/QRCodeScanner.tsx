@@ -1,19 +1,22 @@
 'use client';
 
-import { Html5QrcodeScanner } from 'html5-qrcode';
+import {
+  Html5QrcodeScanner,
+  QrcodeErrorCallback,
+  QrcodeSuccessCallback,
+} from 'html5-qrcode';
 import { useEffect } from 'react';
 
-type QRCodeScannerProps = {
+export type QRCodeScannerProps = {
   onScanSuccess: (result: string) => void;
 };
 
 const QRCodeScanner = ({ onScanSuccess }: QRCodeScannerProps) => {
-  const handleScanSuccess = (decodedText: string, decodedResult: any) => {
-    console.log(decodedText, decodedResult);
+  const handleScanSuccess: QrcodeSuccessCallback = (decodedText) => {
     onScanSuccess(decodedText);
   };
 
-  const handleScanError = (error: any) => {
+  const handleScanError: QrcodeErrorCallback = (error) => {
     console.warn(`Code scan error = ${error}`);
   };
 
