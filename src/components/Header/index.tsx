@@ -26,8 +26,8 @@ const Header = () => {
         <div className="flex items-center justify-center">
           {width > 1366 ? (
             <>
-              <EmailButton />
-              <NotificationButton />
+              {isLoggedin && <EmailButton />}
+              {isLoggedin && <NotificationButton />}
               <HamburgerBotton
                 isLoggedin={isLoggedin}
                 onSignOut={handleSignOut}

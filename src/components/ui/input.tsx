@@ -10,7 +10,7 @@ const inputVariants = cva(
       variant: {
         default:
           'border-input bg-background text-primary placeholder:text-muted-foreground',
-        form: 'border-primary-super-light bg-white text-primary placeholder:text-primary-light rounded-[0.375rem]',
+        form: 'border-primary-super-light bg-white text-primary placeholder:text-primary-light rounded-[0.375rem] disabled:opacity-80',
       },
     },
     defaultVariants: {
