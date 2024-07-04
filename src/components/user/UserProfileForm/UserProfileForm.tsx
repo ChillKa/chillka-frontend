@@ -39,8 +39,6 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ defaultData }) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [isUploading, setIsUploading] = useState<boolean>(false);
 
-  console.log(isUploading);
-
   const form = useForm({
     mode: 'all',
     resolver: zodResolver(userFormSchema),
@@ -94,27 +92,29 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ defaultData }) => {
             <AccordionContent>
               <Separator />
               <div className="max-w-[26rem] space-y-6 px-2 py-6">
-                <FormField
-                  control={form.control}
-                  name="profilePicture"
-                  render={({ field }) => (
-                    <div className="relative size-40">
-                      {field.value ? (
-                        <Image
-                          src={field.value}
-                          fill
-                          alt="User's Avatar"
-                          className="rounded-full"
-                        />
-                      ) : (
-                        <UserCircle2Icon
-                          className="size-full"
-                          strokeWidth={1}
-                        />
-                      )}
-                    </div>
-                  )}
-                />
+                {!isEditing && (
+                  <FormField
+                    control={form.control}
+                    name="profilePicture"
+                    render={({ field }) => (
+                      <div className="relative size-40">
+                        {field.value ? (
+                          <Image
+                            src={field.value}
+                            fill
+                            alt="User's Avatar"
+                            className="rounded-full"
+                          />
+                        ) : (
+                          <UserCircle2Icon
+                            className="size-full"
+                            strokeWidth={1}
+                          />
+                        )}
+                      </div>
+                    )}
+                  />
+                )}
                 {isEditing && (
                   <FormField
                     control={form.control}

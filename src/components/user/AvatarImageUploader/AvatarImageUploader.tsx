@@ -1,15 +1,14 @@
 import { uploadImage } from '@action/upload';
 import { Button } from '@components/ui/button';
-import { P } from '@components/ui/typography';
 import { useToast } from '@components/ui/use-toast';
 import { useControllableState } from '@hooks/use-controllable-state';
 import cn, { formatBytes } from '@lib/utils';
-import { Trash2Icon } from 'lucide-react';
+import { ImageUpIcon, Trash2Icon } from 'lucide-react';
 import Image from 'next/image';
 import { useCallback, useEffect, useState } from 'react';
 import { DropzoneState, useDropzone, type FileRejection } from 'react-dropzone';
 
-export type ImageDropzoneProps = React.HTMLAttributes<HTMLDivElement> & {
+export type AvatarImageUploaderProps = React.HTMLAttributes<HTMLDivElement> & {
   fieldName?: string;
   value?: File[];
   maxSize?: number;
@@ -35,14 +34,14 @@ const FileCard = ({ file, isUploading, onRemove }: FileCardProps) => {
     <div className="flex items-center gap-x-4 ">
       {isFileWithPreview(file) ? (
         <div>
-          <div className="group relative size-48">
+          <div className="group relative size-40">
             <Image
               src={file.preview}
               alt={file.name}
               fill
               loading="lazy"
               className={cn(
-                'aspect-square rounded-[0.375rem] object-cover',
+                'aspect-square rounded-full object-cover',
                 `${isUploading ? ' opacity-50' : ''}`
               )}
             />
@@ -51,7 +50,7 @@ const FileCard = ({ file, isUploading, onRemove }: FileCardProps) => {
                 type="button"
                 variant="form"
                 size="icon"
-                className="absolute right-0 top-0 size-10 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                className="absolute right-0 top-0 size-10 transition-opacity duration-300 xl:opacity-0 xl:group-hover:opacity-100"
                 onClick={onRemove}
               >
                 <Trash2Icon className="size-6" aria-hidden="true" />
@@ -76,7 +75,7 @@ const AvatarImageUploader = ({
   onValueChange,
   onUploading,
   className,
-}: ImageDropzoneProps) => {
+}: AvatarImageUploaderProps) => {
   const [files, setFiles] = useControllableState({
     prop: valueProp,
     onChange: onValueChange,
@@ -184,16 +183,15 @@ const AvatarImageUploader = ({
     onValueChange?.(newFiles);
   };
 
-  const { getRootProps, getInputProps, isDragActive }: DropzoneState =
-    useDropzone({
-      accept: {
-        'image/*': [],
-      },
-      maxSize,
-      maxFiles,
-      multiple,
-      onDrop,
-    });
+  const { getRootProps, getInputProps }: DropzoneState = useDropzone({
+    accept: {
+      'image/*': [],
+    },
+    maxSize,
+    maxFiles,
+    multiple,
+    onDrop,
+  });
 
   // Revoke preview url when component unmounts
   useEffect(() => {
@@ -210,20 +208,6 @@ const AvatarImageUploader = ({
 
   return (
     <div>
-      <div
-        {...getRootProps({})}
-        className={cn(
-          'group relative grid h-52 w-full cursor-pointer place-items-center rounded-[0.375rem] border-2 border-dashed border-primary/25 px-5 py-2.5 text-center ring-offset-background transition hover:bg-primary-super-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
-          className
-        )}
-      >
-        <input {...getInputProps()} />
-        {isDragActive ? (
-          <P>請將圖片放下...</P>
-        ) : (
-          <P>將圖片拖放到此處，或點選區域以選擇圖片</P>
-        )}
-      </div>
       {files?.length ? (
         <div className="h-fit w-full py-4">
           <div className="flex flex-wrap gap-4">
@@ -242,6 +226,20 @@ const AvatarImageUploader = ({
           </div>
         </div>
       ) : null}
+      <div
+        {...getRootProps({})}
+        className={cn(
+          'group relative grid size-40 cursor-pointer place-items-center rounded-full border-2 border-dashed border-primary/25 px-5 py-2.5 text-center ring-offset-background transition hover:bg-primary-super-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+          `${files?.length! > 0 ? 'hidden' : ''}`,
+          className
+        )}
+      >
+        <input {...getInputProps()} />
+        <ImageUpIcon
+          className="size-24 stroke-primary-light opacity-50 transition-opacity group-hover:opacity-100"
+          strokeWidth={1.5}
+        />
+      </div>
       <input name={fieldName} value={imageURLs.toString()} readOnly hidden />
     </div>
   );
