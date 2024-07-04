@@ -186,14 +186,7 @@ const TicketInquiry = () => {
                       ? formatDate(ticket.ticket.endDateTime)
                       : `使用期限：${formatDate(ticket.ticket.endDateTime)}`}
                   </p>
-                  <div className="xl:flex xl:items-center xl:justify-center">
-                    <QRCodePopUp
-                      name={ticket.orderContact.name}
-                      startTime={ticket.ticket.startDateTime}
-                      endTime={ticket.ticket.endDateTime}
-                      id={ticket.ticket._id}
-                    />
-                  </div>
+                  <div className="xl:flex xl:items-center xl:justify-center" />
                 </div>
               </TicketPopUp>
             ))

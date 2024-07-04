@@ -83,7 +83,7 @@ export const getJwtPayload = async () => {
 
 interface FetchOptions<T> {
   api: string;
-  method: 'GET' | 'POST' | 'PATCH' | 'DELETE';
+  method: 'GET' | 'POST' | 'PATCH' | 'DELETE' | 'PUT';
   data?: T;
   headers?: Record<string, string>;
   shouldAuth?: boolean;
