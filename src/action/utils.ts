@@ -81,6 +81,18 @@ export const getJwtPayload = async () => {
   }
 };
 
+export const isTokenExpiredOrError = async (): Promise<boolean> => {
+  try {
+    const payload = await getJwtPayload();
+    if (!payload || !payload.exp) return true;
+
+    const currentTime = Math.floor(Date.now() / 1000);
+    return payload.exp < currentTime;
+  } catch (error) {
+    return true;
+  }
+};
+
 interface FetchOptions<T> {
   api: string;
   method: 'GET' | 'POST' | 'PATCH' | 'DELETE';
@@ -89,7 +101,6 @@ interface FetchOptions<T> {
   shouldAuth?: boolean;
   option?: RequestInit;
 }
-
 /**
  * Executes an Next fetch.
  *
