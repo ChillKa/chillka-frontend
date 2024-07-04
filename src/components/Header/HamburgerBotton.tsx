@@ -12,6 +12,7 @@ import {
 import { Separator } from '@components/ui/separator';
 import { motion, useCycle } from 'framer-motion';
 import Link from 'next/link';
+import { menuAnimation } from './utils';
 
 type HamburgerProps = {
   isLoggedin: boolean;
@@ -22,23 +23,6 @@ type List = {
   name: string;
   icon?: JSX.Element;
   url: string;
-};
-
-const menuAnimation = {
-  open: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      y: { stiffness: 1000, velocity: -100 },
-    },
-  },
-  closed: {
-    y: 50,
-    opacity: 0,
-    transition: {
-      y: { stiffness: 1000 },
-    },
-  },
 };
 
 const HamburgerBotton = ({ isLoggedin, onSignOut }: HamburgerProps) => {
@@ -117,24 +101,28 @@ const HamburgerBotton = ({ isLoggedin, onSignOut }: HamburgerProps) => {
                 ))}
               </>
             )}
-            <motion.li variants={menuAnimation}>
-              <Separator className="mb-4 h-[0.0625rem] bg-primary" />
-            </motion.li>
-            {SITEMAP.map((map: List) => (
-              <motion.li
-                variants={menuAnimation}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                key={map.name}
-              >
-                <Link
-                  className="mb-4 flex justify-between px-8 py-2 hover:bg-primary/[0.03]"
-                  href={map.url}
-                >
-                  <div className="text-base leading-7">{map.name}</div>
-                </Link>
-              </motion.li>
-            ))}
+            {!isLoggedin && (
+              <>
+                <motion.li variants={menuAnimation}>
+                  <Separator className="mb-4 h-[0.0625rem] bg-primary" />
+                </motion.li>
+                {SITEMAP.map((map: List) => (
+                  <motion.li
+                    variants={menuAnimation}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    key={map.name}
+                  >
+                    <Link
+                      className="mb-4 flex justify-between px-8 py-2 hover:bg-primary/[0.03]"
+                      href={map.url}
+                    >
+                      <div className="text-base leading-7">{map.name}</div>
+                    </Link>
+                  </motion.li>
+                ))}
+              </>
+            )}
             {isLoggedin && (
               <>
                 <motion.li
