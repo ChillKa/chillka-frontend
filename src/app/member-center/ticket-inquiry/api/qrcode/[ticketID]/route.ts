@@ -13,19 +13,11 @@ export async function PUT(ticketID: string) {
 
     if (!response.ok) {
       const errorMessage = await response.text();
-      return {
-        status: 'failed',
-        message: errorMessage,
-      };
+      return Response.json({ status: 'failed', message: errorMessage });
     }
 
-    return {
-      status: 'success',
-    };
+    return Response.json({ status: 'success' });
   } catch (error) {
-    return {
-      status: 'failed',
-      message: `${error}`,
-    };
+    return Response.json({ status: 'failed', message: `${error}` });
   }
 }
