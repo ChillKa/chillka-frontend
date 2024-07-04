@@ -1,7 +1,6 @@
 'use client';
 
 import { updateUser } from '@action/user';
-import ImageDropzone from '@components/ActivityCreation/fields/ImageDropzone';
 import {
   Accordion,
   AccordionContent,
@@ -24,11 +23,12 @@ import { H2, P } from '@components/ui/typography';
 import { toast } from '@components/ui/use-toast';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { userFormSchema } from '@lib/definitions';
-import { EditIcon } from 'lucide-react';
+import { EditIcon, UserCircle2Icon } from 'lucide-react';
 import Image from 'next/image';
 import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+import AvatarImageUploader from '../AvatarImageUploader';
 
 interface UserProfileFormProps {
   defaultData: z.infer<typeof userFormSchema>;
@@ -36,8 +36,10 @@ interface UserProfileFormProps {
 
 const UserProfileForm: React.FC<UserProfileFormProps> = ({ defaultData }) => {
   const [isPending, startTransition] = useTransition();
-  const [isEditing, setIsEditing] = useState(false);
-  const [uploadingCount, setUploadingCount] = useState(0);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [isUploading, setIsUploading] = useState<boolean>(false);
+
+  console.log(isUploading);
 
   const form = useForm({
     mode: 'all',
@@ -97,14 +99,19 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ defaultData }) => {
                   name="profilePicture"
                   render={({ field }) => (
                     <div className="relative size-40">
-                      <Image
-                        src={
-                          field.value ? field.value : 'header__fakeAvatar.svg'
-                        }
-                        fill
-                        alt="User's Avatar"
-                        className="rounded-full"
-                      />
+                      {field.value ? (
+                        <Image
+                          src={field.value}
+                          fill
+                          alt="User's Avatar"
+                          className="rounded-full"
+                        />
+                      ) : (
+                        <UserCircle2Icon
+                          className="size-full"
+                          strokeWidth={1}
+                        />
+                      )}
                     </div>
                   )}
                 />
@@ -116,11 +123,11 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ defaultData }) => {
                     render={({ field }) => (
                       <FormItem>
                         <FormControl>
-                          <ImageDropzone
+                          <AvatarImageUploader
                             onFiledChange={field.onChange}
                             fieldName={field.name}
                             maxFiles={1}
-                            onUploading={setUploadingCount}
+                            onUploading={setIsUploading}
                           />
                         </FormControl>
                         <FormMessage />
@@ -341,7 +348,7 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ defaultData }) => {
                 取消
               </Button>
               <Button
-                disabled={isPending && uploadingCount === 0}
+                disabled={isPending || isUploading}
                 variant="form"
                 type="submit"
               >
