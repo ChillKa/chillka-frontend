@@ -1,7 +1,7 @@
 'use server';
 
 import { fetchAPI } from '@action/utils';
-import { Participant } from './types';
+import { Order } from './types';
 
 export async function getCreatedActivities() {
   const response = await fetchAPI({
@@ -26,7 +26,7 @@ export async function getCreatedActivities() {
 }
 
 interface GetParticipantResult {
-  participants: Participant[];
+  participants: Order[];
   total?: number;
 }
 export async function getParticipant(
