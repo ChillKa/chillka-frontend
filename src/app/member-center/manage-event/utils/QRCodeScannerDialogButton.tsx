@@ -17,10 +17,26 @@ const QRCodeScannerDialogButton = ({
   onScanSuccess,
 }: QRCodeScannerButtonProps) => {
   const [currentSerials, setCurrentSerials] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [scanResult, setScanResult] = useState<{
+    status: string;
+    message: string;
+  } | null>(null);
 
-  const handleScanSuccess: QRCodeScannerProps['onScanSuccess'] = (result) => {
+  const handleScanSuccess: QRCodeScannerProps['onScanSuccess'] = async (
+    result
+  ) => {
     setCurrentSerials(result);
-    onScanSuccess(result);
+    setIsLoading(true);
+    setScanResult(null);
+    try {
+      await onScanSuccess(result);
+      setScanResult({ status: 'success', message: '成功註冊' });
+    } catch {
+      setScanResult({ status: 'failed', message: '發生錯誤' });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -50,6 +66,18 @@ const QRCodeScannerDialogButton = ({
               }}
             />
           </div>
+          {isLoading && <P>正在處理...</P>}
+          {scanResult && (
+            <P
+              className={
+                scanResult.status === 'success'
+                  ? 'text-green-500'
+                  : 'text-red-500'
+              }
+            >
+              {scanResult.message}
+            </P>
+          )}
           <QRCodeScanner onScanSuccess={handleScanSuccess} />
         </div>
       </DialogContent>

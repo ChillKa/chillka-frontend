@@ -1,18 +1,19 @@
 import { fetchAPI } from '@action/utils';
 import { NextRequest } from 'next/server';
 
-export async function PUT(
+export async function GET(
   request: NextRequest,
   { params }: { params: { ticketID: string } }
 ) {
   try {
+    const { ticketID } = params;
     const response = await fetchAPI({
       api: `/api/auth/orders/use-serial-number`,
-      method: 'PUT',
-      shouldAuth: true,
+      method: 'PATCH',
       data: {
-        serialNumber: params.ticketID,
+        serialNumber: ticketID,
       },
+      shouldAuth: true,
     });
 
     if (!response.ok) {

@@ -12,9 +12,21 @@ type ManagementActivitySectionProps = {
 const ManagementActivitySection = ({
   orders,
 }: ManagementActivitySectionProps) => {
-  // TODO: use route handler to call the method to call api
-  const handleScanSuccess = (result: string) => {
-    console.log('The result is ', result);
+  const handleScanSuccess = async (result: string) => {
+    try {
+      const response = await fetch(`/api/qrcode/${result}`);
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || '發生錯誤');
+      }
+
+      const data = await response.json();
+      console.log('API 回應:', data);
+    } catch (error) {
+      console.error('API 呼叫失敗:', error);
+      throw error;
+    }
   };
 
   return (
