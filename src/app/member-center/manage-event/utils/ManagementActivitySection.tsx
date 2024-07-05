@@ -32,8 +32,8 @@ const ManagementActivitySection = ({
 
   return (
     <Tabs defaultValue="table" className="w-full">
-      <div className="mb-6 flex w-full flex-row justify-between">
-        <TabsList className="grid w-[50%] grid-cols-2">
+      <div className="mb-6 flex w-full flex-col justify-between xl:flex-row">
+        <TabsList className="grid w-full grid-cols-2 xl:w-[50%]">
           <TabsTrigger value="table">參加者名單</TabsTrigger>
           <TabsTrigger value="report">報表</TabsTrigger>
         </TabsList>
@@ -42,10 +42,14 @@ const ManagementActivitySection = ({
           name="檢驗票券"
         />
       </div>
-      <TabsContent value="table" asChild>
-        <ManagementActivityTable orders={orders} />
-      </TabsContent>
-      <TabsContent value="report" />
+      <div className="w-full overflow-x-auto xl:overflow-x-visible">
+        <TabsContent className="min-w-[37.5rem]" value="table" asChild>
+          <ManagementActivityTable orders={orders} />
+        </TabsContent>
+        <TabsContent className="min-w-[37.5rem]" value="report">
+          report
+        </TabsContent>
+      </div>
     </Tabs>
   );
 };

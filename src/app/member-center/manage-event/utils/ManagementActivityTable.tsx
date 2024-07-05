@@ -33,12 +33,12 @@ const ManagementActivityTable = ({ orders }: ManagementActivityTableProps) => {
   }, [orders, searchTerm]);
 
   return (
-    <div>
-      <div className="mb-4 flex justify-between">
+    <>
+      <div className="mb-4 flex flex-col justify-between gap-2 xl:flex-row xl:gap-0">
         <Input
           variant="form"
           placeholder="搜索名稱或電子郵件"
-          className="max-w-sm"
+          className="w-full xl:max-w-sm"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
@@ -75,7 +75,7 @@ const ManagementActivityTable = ({ orders }: ManagementActivityTableProps) => {
           })}
         </TableBody>
       </Table>
-    </div>
+    </>
   );
 };
 
