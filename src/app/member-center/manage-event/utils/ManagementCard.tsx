@@ -33,15 +33,15 @@ const ManagementCard = ({
     <Card
       className={cn(
         'flex w-full gap-4',
-        'h-auto flex-col items-stretch rounded-2xl ',
-        'xl:h-32 xl:flex-row xl:items-center xl:rounded-r-2xl xl:pr-2'
+        'h-auto flex-col items-stretch rounded-none p-2',
+        'xl:h-32 xl:flex-row xl:items-center xl:rounded-r-2xl xl:py-0 xl:pl-0 xl:pr-2'
       )}
     >
       <div
         className={cn(
           'relative flex-shrink-0 overflow-hidden ',
-          'h-48 w-full rounded-t-2xl',
-          'xl:h-full xl:w-32 xl:rounded-none'
+          'h-48 w-full',
+          'xl:h-full xl:w-32'
         )}
       >
         <Image src={thumbnail} alt={name} fill objectFit="cover" />
