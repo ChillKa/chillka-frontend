@@ -37,13 +37,13 @@ export async function generateMetadata(
   return {
     title: name,
     openGraph: {
-      description: `ChillKa 活動： ${summary}`,
+      description: `chillka 揪咖活動名稱： ${summary}`,
       images: [
         {
           url: thumbnail,
           width: 1294,
           height: 693,
-          alt: `chillka 揪咖活動圖片 ${name}`,
+          alt: `chillka 揪咖活動圖片： ${name}`,
         },
         ...previousImages,
       ],
