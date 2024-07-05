@@ -9,7 +9,7 @@ export async function GET(
     const { ticketID } = params;
     const response = await fetchAPI({
       api: `/api/auth/orders/use-serial-number`,
-      method: 'PATCH',
+      method: 'PUT',
       data: {
         serialNumber: ticketID,
       },
