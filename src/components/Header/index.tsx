@@ -13,7 +13,7 @@ export type UserProfileButtonProps = {
 };
 
 const Header = () => {
-  const { isLoggedin, logout } = useAuthContext();
+  const { isLoggedin, logout, userName, userAvatar } = useAuthContext();
   const { width } = useWindowSize();
   const handleSignOut: UserProfileButtonProps['onSignOut'] = () => {
     logout();
@@ -31,10 +31,17 @@ const Header = () => {
               <HamburgerBotton
                 isLoggedin={isLoggedin}
                 onSignOut={handleSignOut}
+                userName={userName}
+                userAvatar={userAvatar}
               />
             </>
           ) : (
-            <Sidebar isLoggedin={isLoggedin} onSignOut={handleSignOut} />
+            <Sidebar
+              isLoggedin={isLoggedin}
+              onSignOut={handleSignOut}
+              userName={userName}
+              userAvatar={userAvatar}
+            />
           )}
         </div>
       </div>
