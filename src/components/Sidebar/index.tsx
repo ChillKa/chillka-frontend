@@ -55,7 +55,7 @@ const Sidebar = ({ isLoggedin, onSignOut }: SidebarProps) => {
         </DialogTrigger>
         <DialogContent
           hideCloseButton
-          className="block h-svh w-svw"
+          className="block h-svh w-svw text-primary"
           onClickCapture={handleDialogClick}
         >
           <DialogClose asChild>
