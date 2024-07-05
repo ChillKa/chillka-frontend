@@ -11,7 +11,45 @@ import QuestionsSetcion from '@components/ActivityPage/QuestionsSetcion';
 import SkeletonQuestionsSetcion from '@components/ActivityPage/QuestionsSetcion/SkeletonQuestionsSetcion';
 import TicketSection from '@components/ActivityPage/TicketSection';
 import SkeletonTicketSection from '@components/ActivityPage/TicketSection/SkeletonTicketSection';
+import { Metadata, ResolvingMetadata } from 'next';
 import { Suspense } from 'react';
+
+type Props = {
+  params: { id: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+};
+
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const { id } = params;
+
+  const reponse = await fetchActivity(id);
+  const data = reponse.result;
+
+  const previousImages = (await parent).openGraph?.images || [];
+
+  const name = data?.activity.name ?? 'chillka';
+  const thumbnail = data?.activity.thumbnail ?? '/ogimage.png';
+  const summary = data?.activity.summary;
+
+  return {
+    title: name,
+    openGraph: {
+      description: `ChillKa 活動： ${summary}`,
+      images: [
+        {
+          url: thumbnail,
+          width: 1294,
+          height: 693,
+          alt: `chillka 揪咖活動圖片 ${name}`,
+        },
+        ...previousImages,
+      ],
+    },
+  };
+}
 
 const Page = async ({ params }: { params: { id: string } }) => {
   const reponse = await fetchActivity(params.id);
