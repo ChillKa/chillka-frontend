@@ -74,9 +74,10 @@ const ManagementCard = ({
         </div>
       </div>
       <div className="flex flex-col gap-2">
-        <Button variant="outline" className="px-2 py-1 text-sm">
+        <Button variant="outline" className="px-2 py-1 text-sm" asChild>
           <Link href={`/member-center/manage-event/${id}/${name}`}>詳情</Link>
         </Button>
+
         <Button variant="outline" disabled className="px-2 py-1 text-sm">
           取消活動
         </Button>
