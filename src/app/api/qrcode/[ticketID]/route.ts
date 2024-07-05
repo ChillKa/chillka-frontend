@@ -8,7 +8,7 @@ export async function GET(
   try {
     const { ticketID } = params;
     const response = await fetchAPI({
-      api: `/api/auth/orders/use-serial-number`,
+      api: `/auth/orders/use-serial-number`,
       method: 'PUT',
       data: {
         serialNumber: ticketID,
@@ -17,7 +17,10 @@ export async function GET(
     });
 
     if (!response.ok) {
-      const errorMessage = await response.json();
+      const contentType = response.headers.get('content-type');
+      const errorMessage = contentType?.includes('application/json')
+        ? await response.json()
+        : await response.text();
       return Response.json({ status: 'failed', message: errorMessage });
     }
 
