@@ -66,7 +66,7 @@ const QRCodeScannerDialogButton = ({
           <div>
             <P>序號: {currentSerials}</P>
           </div>
-          <div>
+          <div className="flex flex-row gap-2">
             <Input
               variant="form"
               placeholder="輸入序號"
