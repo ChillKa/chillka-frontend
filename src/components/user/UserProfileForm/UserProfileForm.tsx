@@ -103,7 +103,7 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ defaultData }) => {
                             src={field.value}
                             fill
                             alt="User's Avatar"
-                            className="rounded-full"
+                            className="rounded-full object-cover"
                           />
                         ) : (
                           <UserCircle2Icon
