@@ -25,13 +25,13 @@ export async function getCreatedActivities() {
   };
 }
 
-interface GetParticipantResult {
-  participants: Order[];
+interface GetOrderParticipantResult {
+  orders: Order[];
   total?: number;
 }
-export async function getParticipant(
+export async function getOrderParticipant(
   id: string
-): Promise<GetParticipantResult> {
+): Promise<GetOrderParticipantResult> {
   const response = await fetchAPI({
     api: `/auth/activities/${id}/participants`,
     method: 'GET',
@@ -40,7 +40,7 @@ export async function getParticipant(
 
   if (!response.ok) {
     return {
-      participants: [],
+      orders: [],
       total: 0,
     };
   }
@@ -48,7 +48,7 @@ export async function getParticipant(
   const result = await response.json();
 
   return {
-    participants: result.data,
+    orders: result.data,
     total: result.total,
   };
 }

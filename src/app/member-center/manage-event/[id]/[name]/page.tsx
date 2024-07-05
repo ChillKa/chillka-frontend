@@ -1,7 +1,7 @@
 import { ArrowLeftFromLine } from 'lucide-react';
 import Link from 'next/link';
 import ManagementActivitySection from '../../utils/ManagementActivitySection';
-import { DummyOrders } from '../../utils/dummy';
+import { getOrderParticipant } from '../../utils/actions';
 
 type ManageEventIdPageProps = {
   params: { id: string; name: string };
@@ -11,10 +11,7 @@ const ManageEventIdPage = async ({ params }: ManageEventIdPageProps) => {
   const { id, name } = params;
 
   const decodeName = decodeURIComponent(name);
-  // FIXME: Change to use real api
-  // const { participants } = await getParticipant(id);
-  console.log(id);
-  const orders = DummyOrders;
+  const { orders } = await getOrderParticipant(id);
 
   return (
     <div className="relative text-primary">
