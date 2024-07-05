@@ -16,16 +16,32 @@ export async function GET(
       shouldAuth: true,
     });
 
+    const contentType = response.headers.get('content-type');
+    const responseData = contentType?.includes('application/json')
+      ? await response.json()
+      : await response.text();
+
     if (!response.ok) {
-      const contentType = response.headers.get('content-type');
-      const errorMessage = contentType?.includes('application/json')
-        ? await response.json()
-        : await response.text();
-      return Response.json({ status: 'failed', message: errorMessage });
+      return Response.json({
+        status: 'failed',
+        message:
+          typeof responseData === 'string'
+            ? responseData
+            : responseData.message || '未知錯誤',
+      });
     }
 
-    return Response.json({ status: 'success', message: '成功註冊' });
+    return Response.json({
+      status: 'success',
+      message:
+        typeof responseData === 'string'
+          ? '成功註冊'
+          : responseData.message || '成功註冊',
+    });
   } catch (error) {
-    return Response.json({ status: 'failed', message: `${error}` });
+    return Response.json({
+      status: 'failed',
+      message: error instanceof Error ? error.message : '發生未知錯誤',
+    });
   }
 }
