@@ -7,19 +7,22 @@ import { H3, P } from '@components/ui/typography';
 import { useState } from 'react';
 import QRCodeScanner, { QRCodeScannerProps } from './QRCodeScanner';
 
-type QRCodeScannerButtonProps = {
+export type QRCodeScannerDialogButtonProps = {
   name: string;
-  onScanSuccess: (result: string) => void;
+  onScanSuccess: (result: string) => Promise<{
+    status: 'fail' | 'success';
+    message: string;
+  }>;
 };
 
 const QRCodeScannerDialogButton = ({
   name,
   onScanSuccess,
-}: QRCodeScannerButtonProps) => {
+}: QRCodeScannerDialogButtonProps) => {
   const [currentSerials, setCurrentSerials] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [scanResult, setScanResult] = useState<{
-    status: string;
+    status: 'fail' | 'success';
     message: string;
   } | null>(null);
 
@@ -30,12 +33,18 @@ const QRCodeScannerDialogButton = ({
     setIsLoading(true);
     setScanResult(null);
     try {
-      await onScanSuccess(result);
-      setScanResult({ status: 'success', message: '成功註冊' });
-    } catch {
-      setScanResult({ status: 'failed', message: '發生錯誤' });
+      const response = await onScanSuccess(result);
+      setScanResult(response);
+    } catch (error) {
+      setScanResult({ status: 'fail', message: '發生未知錯誤' });
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleManualInput = () => {
+    if (currentSerials) {
+      handleScanSuccess(currentSerials);
     }
   };
 
@@ -61,10 +70,16 @@ const QRCodeScannerDialogButton = ({
             <Input
               variant="form"
               placeholder="輸入序號"
-              onBlur={(e) => {
-                setCurrentSerials(e.currentTarget.value);
-              }}
+              value={currentSerials}
+              onChange={(e) => setCurrentSerials(e.target.value)}
             />
+            <Button
+              variant="default"
+              onClick={handleManualInput}
+              disabled={isLoading}
+            >
+              提交
+            </Button>
           </div>
           {isLoading && <P>正在處理...</P>}
           {scanResult && (

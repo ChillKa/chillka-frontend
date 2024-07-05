@@ -2,7 +2,9 @@
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@components/ui/tabs';
 import ManagementActivityTable from './ManagementActivityTable';
-import QRCodeScannerDialogButton from './QRCodeScannerDialogButton';
+import QRCodeScannerDialogButton, {
+  QRCodeScannerDialogButtonProps,
+} from './QRCodeScannerDialogButton';
 import { Order } from './types';
 
 type ManagementActivitySectionProps = {
@@ -12,22 +14,21 @@ type ManagementActivitySectionProps = {
 const ManagementActivitySection = ({
   orders,
 }: ManagementActivitySectionProps) => {
-  const handleScanSuccess = async (result: string) => {
-    try {
-      const response = await fetch(`/api/qrcode/${result}`);
+  const handleScanSuccess: QRCodeScannerDialogButtonProps['onScanSuccess'] =
+    async (result: string) => {
+      try {
+        const response = await fetch(`/api/qrcode/${result}`);
+        const data = await response.json();
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || '發生錯誤');
+        if (data.status === 'failed') {
+          return { status: 'fail', message: data.message || '發生未知錯誤' };
+        }
+
+        return { status: 'success', message: data.message || '成功註冊' };
+      } catch (error) {
+        return { status: 'fail', message: '網絡錯誤，請稍後再試' };
       }
-
-      const data = await response.json();
-      console.log('API 回應:', data);
-    } catch (error) {
-      console.error('API 呼叫失敗:', error);
-      throw error;
-    }
-  };
+    };
 
   return (
     <Tabs defaultValue="table" className="w-full">
