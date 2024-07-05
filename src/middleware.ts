@@ -1,10 +1,21 @@
+import { isTokenExpiredOrError } from '@action/utils';
 import { NextRequest, NextResponse } from 'next/server';
 
-const middleware = (req: NextRequest) => {
-  const url = req.nextUrl;
-  const { pathname } = url;
+const handlePrivatePaths = async (req: NextRequest, url: URL) => {
+  const tokenExpired = await isTokenExpiredOrError();
 
-  if (['/auth/login', '/auth/register'].includes(pathname)) {
+  if (tokenExpired) {
+    const response = NextResponse.redirect(new URL('/auth/login', url));
+    response.cookies.set('last_visited_path', url.pathname);
+    response.cookies.delete('session');
+    return response;
+  }
+
+  return NextResponse.next();
+};
+
+const handleAuthRelatedPaths = (req: NextRequest, url: URL) => {
+  if (['/auth/login', '/auth/register'].includes(url.pathname)) {
     const response = NextResponse.next();
     const lastVisitedPath =
       req.headers.get('referer')?.replace(url.origin, '') || '/';
@@ -15,7 +26,7 @@ const middleware = (req: NextRequest) => {
     return response;
   }
 
-  if (pathname === '/callback') {
+  if (url.pathname === '/callback') {
     const accessToken = url.searchParams.get('accessToken');
     const lastVisitedPath = req.cookies.get('last_visited_path')?.value;
 
@@ -33,6 +44,23 @@ const middleware = (req: NextRequest) => {
       }
       return response;
     }
+  }
+
+  return NextResponse.next();
+};
+
+const middleware = async (req: NextRequest) => {
+  const url = req.nextUrl;
+  const { pathname } = url;
+
+  const authRelatedPaths = ['/auth/login', '/auth/register', '/callback'];
+  if (authRelatedPaths.includes(pathname)) {
+    return handleAuthRelatedPaths(req, url);
+  }
+
+  const privatePaths = ['/member-center'];
+  if (privatePaths.some((path) => pathname.startsWith(path))) {
+    return handlePrivatePaths(req, url);
   }
 
   if (pathname === '/member-center') {
