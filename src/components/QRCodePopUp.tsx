@@ -9,10 +9,8 @@ import {
 } from '@components/ui/dialog';
 import useWindowSize from '@hooks/use-window-size';
 import { ArrowRight, QrCode, X } from 'lucide-react';
-import Image from 'next/image';
+import { QRCodeSVG } from 'qrcode.react';
 import { useState } from 'react';
-
-const qrcode = '/qrcode.png';
 
 type QRCodeType = {
   name: string;
@@ -102,11 +100,9 @@ const QRCodePopUp = ({ name, startTime, endTime, id }: QRCodeType) => {
               </div>
             </div>
             <div className="flex items-center justify-center">
-              <Image
-                src={qrcode}
-                width={width > 1366 ? 368 : 351}
-                height={width > 1366 ? 368 : 351}
-                alt="QRCode"
+              <QRCodeSVG
+                value={`api/qrcode/${id}`}
+                size={width > 1366 ? 368 : 351}
               />
             </div>
             <div className="my-6 h-1 w-full border-t border-dashed border-black" />
