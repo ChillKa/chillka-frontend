@@ -15,6 +15,7 @@ const OrganizerName = ({ className, data }: OrganizerNameProps) => {
       <div className="h-12 w-12 xl:h-20 xl:w-20">
         <Avatar className="h-full w-full rounded-2xl">
           <AvatarImage
+            className="object-cover"
             src={data.activity.organizer.profilePicture}
             alt="Organizer"
           />
