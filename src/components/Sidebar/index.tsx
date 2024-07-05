@@ -88,7 +88,7 @@ const Sidebar = ({ isLoggedin, onSignOut }: SidebarProps) => {
                       key={mobile.name}
                     >
                       <Link
-                        className="mb-4 flex justify-between px-[1.5rem] py-[0.375rem] text-xl font-bold hover:bg-primary/[0.03]"
+                        className="mb-4 flex justify-between px-[1.5rem] py-2.5 text-xl font-bold hover:bg-primary/[0.03]"
                         href={mobile.url}
                       >
                         <p>{mobile.name}</p>
@@ -104,7 +104,7 @@ const Sidebar = ({ isLoggedin, onSignOut }: SidebarProps) => {
                       key={user.name}
                     >
                       <Link
-                        className="mb-4 flex justify-between px-[1.5rem] py-[0.375rem] text-xl font-bold hover:bg-primary/[0.03]"
+                        className="mb-4 flex justify-between px-[1.5rem] py-2.5 text-xl font-bold hover:bg-primary/[0.03]"
                         href={user.url}
                       >
                         <p>{user.name}</p>
@@ -123,7 +123,7 @@ const Sidebar = ({ isLoggedin, onSignOut }: SidebarProps) => {
                       key={list.name}
                     >
                       <Link
-                        className="mb-4 flex justify-between px-[1.5rem] py-[0.375rem] text-xl font-bold hover:bg-primary/[0.03]"
+                        className="mb-4 flex justify-between px-[1.5rem] py-2.5 text-xl font-bold hover:bg-primary/[0.03]"
                         href={list.url}
                       >
                         <p>{list.name}</p>
@@ -136,7 +136,7 @@ const Sidebar = ({ isLoggedin, onSignOut }: SidebarProps) => {
               {!isLoggedin && (
                 <>
                   <motion.div variants={menuAnimation}>
-                    <Separator className="mb-4 h-[0.0625rem] bg-primary" />
+                    <Separator className="mb-6 h-[0.0625rem] bg-primary" />
                   </motion.div>
 
                   {SITEMAP.map((map: List) => (
@@ -159,7 +159,7 @@ const Sidebar = ({ isLoggedin, onSignOut }: SidebarProps) => {
               {isLoggedin && (
                 <>
                   <motion.div variants={menuAnimation}>
-                    <Separator className="mb-4 h-[0.0625rem] bg-primary" />
+                    <Separator className="h-[0.0625rem] bg-primary" />
                   </motion.div>
                   <Link href="/">
                     <motion.li
@@ -169,7 +169,7 @@ const Sidebar = ({ isLoggedin, onSignOut }: SidebarProps) => {
                     >
                       <button
                         type="button"
-                        className="block h-[4.75rem] w-full px-8 py-0 text-start text-base hover:bg-primary/[0.03]"
+                        className="block w-full p-6 text-start text-base hover:bg-primary/[0.03]"
                         onClick={() => {
                           onSignOut?.();
                         }}
