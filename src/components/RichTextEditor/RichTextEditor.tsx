@@ -280,8 +280,6 @@ const RichTextEditor = ({
         emojis: gitHubEmojis,
         enableEmoticons: true,
       }),
-      //   suggestion,
-      // } as SuggestionOptions),
     ],
     onUpdate({ editor: updatedEditor }) {
       if (onChange !== undefined) {
