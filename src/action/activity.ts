@@ -51,7 +51,6 @@ export interface Activity {
   noEndDate: boolean;
   type: string;
   link: string;
-  isCollected?: boolean;
   isContinuous: boolean; // FIXME: deprecated, but remaining this field
   continuous: ContinuousActivity; // FIXME: deprecated, remove
 }
