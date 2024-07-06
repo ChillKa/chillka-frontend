@@ -17,6 +17,8 @@ import { menuAnimation } from './utils';
 type HamburgerProps = {
   isLoggedin: boolean;
   onSignOut: () => void;
+  userName: string;
+  userAvatar: string;
 };
 
 type List = {
@@ -25,7 +27,12 @@ type List = {
   url: string;
 };
 
-const HamburgerBotton = ({ isLoggedin, onSignOut }: HamburgerProps) => {
+const HamburgerBotton = ({
+  isLoggedin,
+  onSignOut,
+  userName,
+  userAvatar,
+}: HamburgerProps) => {
   const [isOpen, toggleOpen] = useCycle(false, true);
 
   const handlePopoverClick = (event: React.MouseEvent) => {
@@ -40,7 +47,12 @@ const HamburgerBotton = ({ isLoggedin, onSignOut }: HamburgerProps) => {
   return (
     <Popover open={isOpen} onOpenChange={changeIsOpen}>
       <PopoverTrigger>
-        <Hamburger isOpen={isOpen} isLoggedin={isLoggedin} />
+        <Hamburger
+          isOpen={isOpen}
+          isLoggedin={isLoggedin}
+          userName={userName}
+          userAvatar={userAvatar}
+        />
       </PopoverTrigger>
       <PopoverContent
         onClickCapture={handlePopoverClick}

@@ -1,11 +1,9 @@
 'use client';
 
+import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar';
 import cn from '@lib/utils';
 import { SVGMotionProps, motion } from 'framer-motion';
-import Image from 'next/image';
-
-const defaultAvatar = '/header__defaultAvatar.svg';
-const fakeAvatar = '/header__fakeAvatar.svg';
+import { User } from 'lucide-react';
 
 const Path = (props: SVGMotionProps<SVGPathElement>) => (
   <motion.path
@@ -21,9 +19,19 @@ type HamburgerProps = {
   isOpen: boolean;
   isLoggedin: boolean;
   className?: string;
+  userName: string;
+  userAvatar: string;
 };
 
-const Hamburger = ({ isOpen, isLoggedin, className = '' }: HamburgerProps) => {
+const Hamburger = ({
+  isOpen,
+  isLoggedin,
+  className = '',
+  userName,
+  userAvatar,
+}: HamburgerProps) => {
+  const firstLetter = userName.charAt(0);
+
   return (
     <div
       className={cn(
@@ -62,13 +70,19 @@ const Hamburger = ({ isOpen, isLoggedin, className = '' }: HamburgerProps) => {
           />
         </svg>
       </div>
-      <Image
-        className="ml-2"
-        src={isLoggedin ? fakeAvatar : defaultAvatar}
-        alt="user"
-        width={40}
-        height={40}
-      />
+      {!isLoggedin ? (
+        <User className="ml-2 size-10 rounded-full bg-slate-100 p-2" />
+      ) : (
+        <Avatar className="ml-2 h-10 w-10">
+          <AvatarImage
+            className="h-auto w-full object-cover"
+            src={userAvatar}
+          />
+          <AvatarFallback className="bg-primary-light text-white">
+            {firstLetter}
+          </AvatarFallback>
+        </Avatar>
+      )}
     </div>
   );
 };

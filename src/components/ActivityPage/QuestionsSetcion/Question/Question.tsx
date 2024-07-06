@@ -31,12 +31,16 @@ const Question = ({
       <div className="flex flex-row items-center justify-between">
         <div className="flex">
           <Avatar className="h-12 w-12 rounded-full">
-            <AvatarImage src="" alt="Organizer" />
-            <AvatarFallback className="rounded-2xl bg-primary text-white">
+            <AvatarImage
+              className="object-cover"
+              src={question.profilePicture}
+              alt={question.displayName}
+            />
+            <AvatarFallback className="rounded-2xl bg-primary-light text-white">
               {firstLetter}
             </AvatarFallback>
           </Avatar>
-          <div className="ml-6 space-y-2">
+          <div className="ml-4 space-y-2">
             <div className="flex">
               <Lead>{question.displayName}</Lead>
               {userId === question.userId && (
