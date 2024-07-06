@@ -27,8 +27,8 @@ export interface IActivity {
   category: string;
   type: string;
   link: string;
-  location: string;
-  address: string;
+  location?: string;
+  address?: string;
   summary: string;
   details: string;
   isRecurring: boolean;
@@ -42,13 +42,14 @@ export interface IActivity {
   status: string;
   createdAt: string;
   updatedAt: string;
-  lat: number;
-  lng: number;
+  lat?: number;
+  lng?: number;
   saved?: boolean;
   participated?: boolean;
   unlimitedQuantity: boolean;
   remainingTickets: number;
   totalParticipantCapacity: number;
+  participantAmount?: number;
   __v: number;
 }
 
