@@ -30,6 +30,7 @@ import {
   ReactPortal,
   useEffect,
 } from 'react';
+import { toLocaleEmojiGroupName } from './utils';
 
 const RichTextEditorToolbar = ({ editor }: { editor: Editor }) => {
   const emojiArray = editor.storage.emoji.emojis;
@@ -104,7 +105,9 @@ const RichTextEditorToolbar = ({ editor }: { editor: Editor }) => {
             const emojiArr = emojiMap.get(key);
             return (
               <div key={key}>
-                <P className="text-primary">{key}</P>
+                <P className="uppercase text-primary">
+                  {toLocaleEmojiGroupName(key)}
+                </P>
                 {emojiArr.map(
                   (emoji: {
                     name: Key;
