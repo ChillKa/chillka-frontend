@@ -36,7 +36,7 @@ const FavoriteEvent = async () => {
                 ) as FormatDate<'YY.MM.DD'>
               }
               attendeeCount={activity.participantAmount}
-              location={activity.location}
+              location={activity.type === '線下' ? activity.location : '線上'}
               organizer={activity.organizer.name}
               isCollected
               revalidate
