@@ -9,8 +9,7 @@ import cn from '@lib/utils';
 import { format } from 'date-fns';
 import { ArrowUpRight } from 'lucide-react';
 import Link from 'next/link';
-import { Suspense } from 'react';
-import ErrorBoundarySection from './error/ErrorBoundarySection';
+import WithErrorBoundaryAndSuspense from './hoc/WithErrorBoundaryAndSuspense';
 
 type RecommendActivityProps = {
   className: string;
@@ -48,42 +47,40 @@ const RecommendActivity = async ({ className }: RecommendActivityProps) => {
       </div>
       <hr className="mb-12 mt-12 w-12 border-t-2 border-primary" />
       <div className="flex w-full flex-col justify-between space-y-12 xl:flex-row xl:gap-6 xl:space-y-0">
-        <ErrorBoundarySection>
-          <Suspense
-            fallback={
-              <>
-                {Array.from({ length: 3 }).map((_, index) => {
-                  const id = index;
-                  return <SkeletonEventCard key={id} />;
-                })}
-              </>
-            }
-          >
-            {activities.map((activity) => (
-              <EventCard
-                className="xl:w-[26rem]"
-                key={activity._id}
-                link={activity._id}
-                title={activity?.name}
-                cover={activity?.thumbnail}
-                summary={activity?.summary}
-                startTime={
-                  format(
-                    new Date(activity.startDateTime),
-                    'MM.dd'
-                  ) as FormatDate<'YY.MM.DD'>
-                }
-                endTime={format(new Date(), 'MM.dd') as FormatDate<'YY.MM.DD'>}
-                attendeeCount={activity?.participantNumber}
-                location={activity?.location}
-                organizer={activity?.organizerName}
-                pricing={activity?.ticketPrice[0]?.price}
-                discount={activity?.discount}
-                isCollected={activity?.collected}
-              />
-            ))}
-          </Suspense>
-        </ErrorBoundarySection>
+        <WithErrorBoundaryAndSuspense
+          fallback={
+            <>
+              {Array.from({ length: 3 }).map((_, index) => {
+                const id = index;
+                return <SkeletonEventCard key={id} />;
+              })}
+            </>
+          }
+        >
+          {activities.map((activity) => (
+            <EventCard
+              className="xl:w-[26rem]"
+              key={activity._id}
+              link={activity._id}
+              title={activity?.name}
+              cover={activity?.thumbnail}
+              summary={activity?.summary}
+              startTime={
+                format(
+                  new Date(activity.startDateTime),
+                  'MM.dd'
+                ) as FormatDate<'YY.MM.DD'>
+              }
+              endTime={format(new Date(), 'MM.dd') as FormatDate<'YY.MM.DD'>}
+              attendeeCount={activity?.participantNumber}
+              location={activity?.location}
+              organizer={activity?.organizerName}
+              pricing={activity?.ticketPrice[0]?.price}
+              discount={activity?.discount}
+              isCollected={activity?.collected}
+            />
+          ))}
+        </WithErrorBoundaryAndSuspense>
         <Link href="/search">
           <Button
             variant="outline"
