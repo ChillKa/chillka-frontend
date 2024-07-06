@@ -18,7 +18,7 @@ const TicketInquiry = () => {
   const [usableTickets, setUsableTickets] = useState<TicketsInfoType[]>([]);
   const [unusableTickets, setUnusableTickets] = useState<TicketsInfoType[]>([]);
   const [sort, setSort] = useState<string>('paymentDate');
-  const [isLoading, seIstLoading] = useState(true);
+  const [isLoading, seIsLoading] = useState(true);
   const { width } = useWindowSize();
 
   const changeSort = (value: string) => setSort(value);
@@ -79,7 +79,7 @@ const TicketInquiry = () => {
         );
       setUsableTickets(usableTicketList);
       setUnusableTickets(unusableTicketList);
-      seIstLoading(false);
+      seIsLoading(false);
     })();
   }, []);
 
