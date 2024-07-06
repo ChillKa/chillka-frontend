@@ -149,11 +149,7 @@ const RichTextEditorToolbar = ({ editor }: { editor: Editor }) => {
             <Input
               variant="form"
               value={urlString}
-              onChange={(e) => {
-                setUrlString(e.target.value);
-                console.log('e.target.value', e.target.value);
-                console.log(urlString);
-              }}
+              onChange={(e) => setUrlString(e.target.value)}
             />
             <DialogFooter>
               <Button
