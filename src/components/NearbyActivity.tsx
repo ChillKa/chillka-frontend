@@ -104,7 +104,7 @@ const NearbyActivity = ({
                 location={
                   activity?.type === '線下' ? activity?.address : '線上'
                 }
-                organizer={activity.organizer?.contactName}
+                organizer={activity.organizer?.contactName ?? '未知舉辦者'}
                 pricing={activity?.ticketPrice[0].price} // FIXME: change to use ticket price
                 discount={activity?.discount}
                 isCollected={activity?.collected}
