@@ -23,6 +23,7 @@ export interface AuthContextType {
   isLoggedin: boolean;
   login: (formData: z.infer<typeof loginFormSchema>) => Promise<FormState>;
   logout: () => Promise<void>;
+  getUser: () => Promise<void>;
   userName: string;
   userAvatar: string;
 }
@@ -96,10 +97,11 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
       isLoggedin,
       login,
       logout,
+      getUser,
       userName,
       userAvatar,
     }),
-    [isLoggedin, login, logout, userName, userAvatar]
+    [isLoggedin, login, logout, getUser, userName, userAvatar]
   );
 
   return (

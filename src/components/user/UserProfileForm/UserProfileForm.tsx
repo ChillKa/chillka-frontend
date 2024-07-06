@@ -23,6 +23,7 @@ import { H2, P } from '@components/ui/typography';
 import { toast } from '@components/ui/use-toast';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { userFormSchema } from '@lib/definitions';
+import { useAuthContext } from '@store/AuthProvider/AuthProvider';
 import { EditIcon, UserCircle2Icon } from 'lucide-react';
 import Image from 'next/image';
 import { useState, useTransition } from 'react';
@@ -35,6 +36,7 @@ interface UserProfileFormProps {
 }
 
 const UserProfileForm: React.FC<UserProfileFormProps> = ({ defaultData }) => {
+  const { getUser } = useAuthContext();
   const [isPending, startTransition] = useTransition();
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [isUploading, setIsUploading] = useState<boolean>(false);
@@ -53,6 +55,7 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ defaultData }) => {
           title: result?.message,
         });
         setIsEditing(false);
+        getUser();
       }
     });
   });
