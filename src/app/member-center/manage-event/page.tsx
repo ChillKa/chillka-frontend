@@ -6,10 +6,10 @@ const ManageEventPage = async () => {
 
   return (
     <div className="relative text-primary">
-      <div className="relative mb-6 h-[8.125rem] xl:flex xl:h-fit xl:items-center xl:justify-between">
-        <h1 className="mb-8 text-5xl/none font-bold xl:mb-0">管理活動</h1>
-      </div>
-      <section className="flex flex-col gap-2">
+      <h1 className="mb-6 h-[5rem] border-b-[0.0625rem] text-5xl/none font-bold xl:h-[6.25rem]">
+        管理活動
+      </h1>
+      <section className="flex flex-col gap-4">
         {/* // FIXME: Change the proper type */}
         {activities.length > 0 &&
           activities.map((activity: any) => (
