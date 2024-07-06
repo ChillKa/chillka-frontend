@@ -1,6 +1,5 @@
-import { getActivitiesByFilter } from '@action/activity';
+import { getActivitiesByFilter, getFavoriteActivities } from '@action/activity';
 import { isLoggedIn } from '@action/auth';
-import { getFavoriteActivities } from '@app/member-center/favorite-event/utils/action';
 import { Button } from '@components/ui/button';
 import { H1 } from '@components/ui/typography';
 import cn from '@lib/utils';

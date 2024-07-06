@@ -5,7 +5,7 @@ import { userCommentSchema } from '@lib/definitions';
 import { createDebounce } from '@lib/utils';
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
-import { IAcitivityResponse } from '../types/activity';
+import { IAcitivityResponse, IActivity } from '../types/activity';
 import { fetchAPI, getJwtPayload, validateWithSchema } from './utils';
 
 interface ContinuousActivity {
@@ -284,6 +284,33 @@ export async function toggleFavoriteActivity(
         error instanceof Error ? error.message : 'An unknown error occurred',
     };
   }
+}
+
+interface FavoriteActivitiesResult {
+  activities: IActivity[];
+  total?: number;
+}
+
+export async function getFavoriteActivities(): Promise<FavoriteActivitiesResult> {
+  const response = await fetchAPI({
+    api: `/auth/saved-activities`,
+    method: 'GET',
+    shouldAuth: true,
+  });
+
+  if (!response.ok) {
+    return {
+      activities: [],
+      total: 0,
+    };
+  }
+
+  const result = await response.json();
+
+  return {
+    activities: result.data,
+    total: result.total,
+  };
 }
 
 export type FavoriteActivityState =

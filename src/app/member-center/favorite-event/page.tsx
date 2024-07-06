@@ -1,7 +1,7 @@
+import { getFavoriteActivities } from '@action/activity';
 import EventCard, { FormatDate } from '@components/EventCard';
 import { Lead } from '@components/ui/typography';
 import { format } from 'date-fns';
-import { getFavoriteActivities } from './utils/action';
 
 const FavoriteEvent = async () => {
   const result = await getFavoriteActivities();
