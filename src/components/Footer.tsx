@@ -1,7 +1,7 @@
+import LogoButton from '@components/LogoButton';
 import { Button } from '@components/ui/button';
 import cn from '@lib/utils';
 import { ArrowUpRight } from 'lucide-react';
-import Image from 'next/image';
 import Link from 'next/link';
 import FooterMenu from './FooterMenu';
 
@@ -39,15 +39,7 @@ const Footer = ({ className }: FooterProps) => {
         )}
       >
         <div className="space-y-6">
-          <Link href="/">
-            <Image
-              src="/logo.svg"
-              width={139.85}
-              height={32}
-              loading="eager"
-              alt="chillka"
-            />
-          </Link>
+          <LogoButton />
           <div className="text-xl font-bold">建立你的揪咖團</div>
         </div>
         <div className="space-y-6 xl:space-y-4">

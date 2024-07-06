@@ -123,16 +123,16 @@ export const EventCardCoverSection = ({
       <Image
         src={imageSrc}
         alt={alt}
-        layout="fill"
+        fill
+        sizes="(max-width: 1366px) 100vw, 33vw"
         placeholder="blur"
         blurDataURL="/loading.webp"
-        onLoadingComplete={(result) => {
-          if (result.naturalWidth === 0) setImageSrc('/default.webp');
+        onLoad={(e) => {
+          if (e.currentTarget.naturalWidth === 0) setImageSrc('/default.webp');
         }}
         onError={() => setImageSrc('/default.webp')}
-        objectFit="cover"
         className={cn(
-          'absolute left-0 top-0 h-full w-full',
+          'absolute left-0 top-0 h-full w-full object-cover',
           hoverEffect &&
             'transition-transform duration-300 ease-out hover:scale-150'
         )}

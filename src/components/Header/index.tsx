@@ -2,8 +2,8 @@
 
 import EmailButton from '@components/Header/EmailButton';
 import HamburgerBotton from '@components/Header/HamburgerBotton';
-import LogoButton from '@components/Header/LogoButton';
 import NotificationButton from '@components/Header/NotificationButton';
+import LogoButton from '@components/LogoButton';
 import Sidebar from '@components/Sidebar';
 import useWindowSize from '@hooks/use-window-size';
 import { useAuthContext } from 'src/store/AuthProvider/AuthProvider';
