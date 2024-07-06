@@ -38,8 +38,6 @@ const FavoriteEvent = async () => {
               attendeeCount={activity.participantAmount}
               location={activity.location}
               organizer={activity.organizer.name}
-              // pricing={activity.pricing}
-              // discount={activity.discount}
               isCollected
               revalidate
             />

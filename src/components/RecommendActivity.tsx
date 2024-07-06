@@ -75,7 +75,7 @@ const RecommendActivity = async ({ className }: RecommendActivityProps) => {
               attendeeCount={activity?.participantNumber}
               location={activity?.location}
               organizer={activity?.organizerName}
-              pricing={activity?.ticketPrice[0]?.price}
+              ticketPrices={activity?.ticketPrice ?? []}
               discount={activity?.discount}
               isCollected={activity?.collected}
             />

@@ -48,7 +48,7 @@ const NearbyActivityContent = ({ activities }: NearbyActivityContentProps) => {
           }
           location={activity?.type === '線下' ? activity?.address : '線上'}
           organizer={activity.organizer?.contactName ?? '未知舉辦者'}
-          pricing={activity?.ticketPrice[0].price} // FIXME: should add logic to check
+          ticketPrices={activity?.ticketPrice ?? []}
           discount={0}
           isCollected={activity?.collected}
         />

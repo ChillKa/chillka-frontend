@@ -205,6 +205,8 @@ export interface RecommendedActivityFetchState {
     ticketPrice: {
       name: string;
       price: number;
+      startDateTime: string;
+      endDateTime: string;
     }[];
   }[];
 }

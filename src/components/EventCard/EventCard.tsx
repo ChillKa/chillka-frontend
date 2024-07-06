@@ -28,7 +28,6 @@ type EventCardProps = {
     startDateTime: string;
     endDateTime: string;
   }[];
-  pricing?: number;
   isContinuous?: boolean;
   link?: string;
   discount?: number; // -1 is free, 0 is none discount, positive is off discount
@@ -49,7 +48,6 @@ const EventCard = forwardRef<HTMLDivElement, EventCardProps>(
       location = 'Unknown location',
       organizer = 'Unknown Organizer',
       ticketPrices = [],
-      pricing = 0,
       isContinuous = false,
       link = '',
       discount = 0,
@@ -58,22 +56,24 @@ const EventCard = forwardRef<HTMLDivElement, EventCardProps>(
     },
     ref
   ) => {
-    console.log(pricing); // FIXME: remove it
     const nearestTicket = useMemo(() => {
+      if (!ticketPrices || ticketPrices.length === 0) return null;
       const now = Date.now();
-      return ticketPrices
-        .map((ticket) => ({
-          ...ticket,
-          startTime: new Date(ticket.startDateTime).getTime(),
-        }))
-        .reduce(
-          (nearest, current) => {
-            const currentDiff = Math.abs(current.startTime - now);
-            const nearestDiff = Math.abs(nearest.startTime - now);
-            return currentDiff < nearestDiff ? current : nearest;
-          },
-          { startTime: Infinity, price: 0 }
-        );
+
+      const ticketsWithTimeDiff = ticketPrices.map((ticket) => ({
+        ...ticket,
+        startTime: new Date(ticket.startDateTime).getTime(),
+        timeDiff: Math.abs(new Date(ticket.startDateTime).getTime() - now),
+      }));
+
+      const minTimeDiff = Math.min(
+        ...ticketsWithTimeDiff.map((t) => t.timeDiff)
+      );
+
+      return (
+        ticketsWithTimeDiff.find((ticket) => ticket.timeDiff === minTimeDiff) ||
+        null
+      );
     }, [ticketPrices]);
 
     return (
@@ -144,7 +144,7 @@ const EventCard = forwardRef<HTMLDivElement, EventCardProps>(
           </div>
 
           <div className="flex h-7 items-center justify-start gap-2">
-            {nearestTicket.price > 0 ? (
+            {nearestTicket && nearestTicket.price > 0 ? (
               <>
                 <span className="text-lg font-bold">
                   NT${nearestTicket.price}
