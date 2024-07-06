@@ -174,7 +174,7 @@ const RichTextEditorToolbar = ({ editor }: { editor: Editor }) => {
         <PopoverContent
           side="top"
           align="start"
-          className="flex max-h-64 max-w-[21rem] flex-wrap gap-6 overflow-y-scroll rounded-[0.375rem] border-primary-super-light px-3"
+          className="flex max-h-64 w-[21rem] flex-wrap overflow-y-scroll rounded-[0.375rem] border-primary-super-light px-3"
         >
           {emojiGroupKeys.map((key: string) => {
             const emojiArr = emojiMap.get(key);
