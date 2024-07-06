@@ -35,7 +35,16 @@ const FavoriteEvent = async () => {
                   'MM.dd'
                 ) as FormatDate<'YY.MM.DD'>
               }
-              attendeeCount={activity.participantAmount}
+              attendeeCount={
+                activity?.totalParticipantCapacity != null &&
+                activity?.remainingTickets != null &&
+                !Number.isNaN(
+                  activity.totalParticipantCapacity - activity.remainingTickets
+                )
+                  ? activity.totalParticipantCapacity -
+                    activity.remainingTickets
+                  : 0
+              }
               location={activity.type === '線下' ? activity.location : '線上'}
               organizer={activity.organizer.name}
               isCollected
