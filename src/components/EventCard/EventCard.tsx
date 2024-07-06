@@ -4,7 +4,7 @@ import { H3 } from '@components/ui/typography';
 import cn from '@lib/utils';
 import { Building2, CalendarDays, MapPin, Users } from 'lucide-react';
 import Link from 'next/link';
-import { forwardRef } from 'react';
+import { forwardRef, useMemo } from 'react';
 import { FormatDate } from './EventCard-types';
 import {
   ContinuousCardField,
@@ -22,6 +22,12 @@ type EventCardProps = {
   isCollected?: boolean;
   location?: string;
   organizer?: string;
+  ticketPrices?: {
+    name: string;
+    price: number;
+    startDateTime: string;
+    endDateTime: string;
+  }[];
   pricing?: number;
   isContinuous?: boolean;
   link?: string;
@@ -41,6 +47,7 @@ const EventCard = forwardRef<HTMLDivElement, EventCardProps>(
       isCollected = false,
       location = 'Unknown location',
       organizer = 'Unknown Organizer',
+      ticketPrices = [],
       pricing = 0,
       isContinuous = false,
       link = '',
@@ -49,6 +56,24 @@ const EventCard = forwardRef<HTMLDivElement, EventCardProps>(
     },
     ref
   ) => {
+    console.log(pricing); // FIXME: remove it
+    const nearestTicket = useMemo(() => {
+      const now = Date.now();
+      return ticketPrices
+        .map((ticket) => ({
+          ...ticket,
+          startTime: new Date(ticket.startDateTime).getTime(),
+        }))
+        .reduce(
+          (nearest, current) => {
+            const currentDiff = Math.abs(current.startTime - now);
+            const nearestDiff = Math.abs(nearest.startTime - now);
+            return currentDiff < nearestDiff ? current : nearest;
+          },
+          { startTime: Infinity, price: 0 }
+        );
+    }, [ticketPrices]);
+
     return (
       <Link href={`/activity/${link}`}>
         <div
@@ -116,8 +141,16 @@ const EventCard = forwardRef<HTMLDivElement, EventCardProps>(
           </div>
 
           <div className="flex h-7 items-center justify-start gap-2">
-            <span className="text-lg font-bold">NT${pricing}</span>
-            {discountLabel(discount)}
+            {nearestTicket.price > 0 ? (
+              <>
+                <span className="text-lg font-bold">
+                  NT${nearestTicket.price}
+                </span>
+                {discountLabel(discount)}
+              </>
+            ) : (
+              <span className="text-lg font-bold">價格未定</span>
+            )}
           </div>
           {isContinuous && <ContinuousCardField />}
         </div>
