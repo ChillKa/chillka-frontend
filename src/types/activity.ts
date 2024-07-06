@@ -85,6 +85,7 @@ export interface IReply {
   createdAt: string;
   updatedAt: string;
   __v: number;
+  profilePicture?: string;
 }
 
 export interface IQuestion {
@@ -98,6 +99,7 @@ export interface IQuestion {
   createdAt: string;
   updatedAt: string;
   __v: number;
+  profilePicture?: string;
 }
 
 export interface IAcitivityResponse {
