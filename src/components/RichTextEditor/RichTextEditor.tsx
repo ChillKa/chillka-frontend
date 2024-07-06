@@ -145,7 +145,7 @@ const RichTextEditorToolbar = ({ editor }: { editor: Editor }) => {
             hideCloseButton
             className="max-h-64 max-w-[21rem] gap-6 rounded-[0.375rem] border border-primary-super-light p-3"
           >
-            <DialogHeader className="text-left">請輸入url超連結</DialogHeader>
+            <DialogHeader className="text-left">請輸入連結網址</DialogHeader>
             <Input
               variant="form"
               value={urlString}
@@ -158,7 +158,7 @@ const RichTextEditorToolbar = ({ editor }: { editor: Editor }) => {
                 type="button"
                 onClick={setUrlLink}
               >
-                設定連結
+                設定網址
               </Button>
             </DialogFooter>
           </DialogContent>
