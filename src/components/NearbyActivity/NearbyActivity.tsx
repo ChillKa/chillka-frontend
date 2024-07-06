@@ -1,4 +1,6 @@
 import { getActivitiesByFilter } from '@action/activity';
+import { isLoggedIn } from '@action/auth';
+import { getFavoriteActivities } from '@app/member-center/favorite-event/utils/action';
 import { Button } from '@components/ui/button';
 import { H1 } from '@components/ui/typography';
 import cn from '@lib/utils';
@@ -11,7 +13,9 @@ type NearbyActivityProps = {
 };
 
 const NearbyActivity = async ({ className }: NearbyActivityProps) => {
-  const data = await getActivitiesByFilter(
+  const loggedIn = await isLoggedIn();
+
+  const activitiesData = await getActivitiesByFilter(
     {
       lat: '121.5598',
       lng: '25.09108',
@@ -20,7 +24,24 @@ const NearbyActivity = async ({ className }: NearbyActivityProps) => {
     { next: { revalidate: 1800 } }
   );
 
-  const { activities = [] } = data;
+  let { activities = [] } = activitiesData;
+
+  if (loggedIn) {
+    const favoriteActivities = await getFavoriteActivities();
+    const favoriteActivityIds = new Set(
+      favoriteActivities.activities.map((activity) => activity._id)
+    );
+
+    activities = activities.map((activity) => ({
+      ...activity,
+      isCollected: favoriteActivityIds.has(activity._id),
+    }));
+  } else {
+    activities = activities.map((activity) => ({
+      ...activity,
+      isCollected: false,
+    }));
+  }
 
   return (
     <section

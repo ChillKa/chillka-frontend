@@ -50,7 +50,7 @@ const NearbyActivityContent = ({ activities }: NearbyActivityContentProps) => {
           organizer={activity.organizer?.contactName ?? '未知舉辦者'}
           ticketPrices={activity?.ticketPrice ?? []}
           discount={0}
-          isCollected={activity?.collected}
+          isCollected={activity?.isCollected}
         />
       ))}
     </>

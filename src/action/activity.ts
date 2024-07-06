@@ -26,7 +26,7 @@ export interface Activity {
   organizer: Organizer;
   thumbnail: string;
   name: string;
-  collected: boolean;
+  isCollected: boolean;
   summary?: string;
   details: string;
   location: string;
@@ -51,6 +51,7 @@ export interface Activity {
   noEndDate: boolean;
   type: string;
   link: string;
+  isCollected?: boolean;
   isContinuous: boolean; // FIXME: deprecated, but remaining this field
   continuous: ContinuousActivity; // FIXME: deprecated, remove
 }

@@ -111,7 +111,7 @@ const SearchContentSection = ({
                       activity.remainingTickets
                     : 0
                 }
-                isCollected={activity.collected}
+                isCollected={activity.isCollected}
                 location={
                   activity?.type === '線下' ? activity?.address : '線上'
                 }
@@ -154,7 +154,7 @@ const SearchContentSection = ({
                       activity.remainingTickets
                     : 0
                 }
-                isCollected={activity.collected}
+                isCollected={activity.isCollected}
                 location={
                   activity?.type === '線下' ? activity?.address : '線上'
                 }
