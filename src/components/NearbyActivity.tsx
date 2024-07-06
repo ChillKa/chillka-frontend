@@ -90,10 +90,22 @@ const NearbyActivity = ({
                     'MM.dd'
                   ) as FormatDate<'YY.MM.DD'>
                 }
-                attendeeCount={activity?.participantAmount}
-                location={activity?.location}
+                attendeeCount={
+                  activity?.totalParticipantCapacity != null &&
+                  activity?.remainingTickets != null &&
+                  !Number.isNaN(
+                    activity.totalParticipantCapacity -
+                      activity.remainingTickets
+                  )
+                    ? activity.totalParticipantCapacity -
+                      activity.remainingTickets
+                    : 0
+                }
+                location={
+                  activity?.type === '線下' ? activity?.address : '線上'
+                }
                 organizer={activity.organizer?.contactName}
-                pricing={activity?.price} // FIXME: change to use ticket price
+                pricing={activity?.ticketPrice[0].price} // FIXME: change to use ticket price
                 discount={activity?.discount}
                 isCollected={activity?.collected}
               />

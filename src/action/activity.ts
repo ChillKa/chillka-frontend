@@ -29,11 +29,20 @@ export interface Activity {
   summary?: string;
   details: string;
   location: string;
+  address: string;
   participantAmount: number; // FIXME: unchecked whether has bought or just register
   lat: number;
   lng: number;
   category: string;
   price: number;
+  totalParticipantCapacity: number;
+  remainingTickets: number;
+  ticketPrice: {
+    name: string;
+    price: number;
+    startDateTime: string;
+    endDateTime: string;
+  }[];
   discount: number; // FIXME: deprecated, remove  -1 is free, 0 is none, positive
   startDate: string;
   startDateTime: string;
