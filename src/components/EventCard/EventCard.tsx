@@ -27,7 +27,7 @@ type EventCardProps = {
   link?: string;
   discount?: number; // -1 is free, 0 is none discount, positive is off discount
   className?: string;
-  callbackFunc?: () => Promise<void>;
+  revalidate?: boolean;
 };
 
 const EventCard = forwardRef<HTMLDivElement, EventCardProps>(
@@ -47,7 +47,7 @@ const EventCard = forwardRef<HTMLDivElement, EventCardProps>(
       link = '',
       discount = 0,
       className,
-      callbackFunc,
+      revalidate,
     },
     ref
   ) => {
@@ -69,7 +69,7 @@ const EventCard = forwardRef<HTMLDivElement, EventCardProps>(
             src={cover}
             collected={isCollected}
             activityId={link}
-            callbackFunc={callbackFunc}
+            revalidate={revalidate}
           />
 
           <div className="flex h-[5.5rem] w-full flex-col gap-4">
