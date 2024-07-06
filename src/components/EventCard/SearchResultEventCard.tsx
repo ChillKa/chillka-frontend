@@ -4,7 +4,7 @@ import { H3 } from '@components/ui/typography';
 import cn from '@lib/utils';
 import { Building2, CalendarDays, MapPin, Users } from 'lucide-react';
 import Link from 'next/link';
-import { HTMLAttributes, useRef } from 'react';
+import { HTMLAttributes, useMemo, useRef } from 'react';
 import { FormatDate } from './EventCard-types';
 import {
   ContinuousCardField,
@@ -22,7 +22,12 @@ export type SearchResultEventCardProps = {
   isCollected?: boolean;
   location?: string;
   organizer?: string;
-  pricing?: number;
+  ticketPrices?: {
+    name: string;
+    price: number;
+    startDateTime: string;
+    endDateTime: string;
+  }[];
   isContinuous?: boolean;
   discount?: number;
   link?: string;
@@ -40,12 +45,29 @@ const SearchResultEventCard = ({
   location = 'Unknown location',
   organizer = 'Unknown Organizer',
   isContinuous = false,
-  pricing = 0,
+  ticketPrices = [],
   discount = 0,
   link = '',
   onHoverCard,
 }: SearchResultEventCardProps) => {
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const nearestTicket = useMemo(() => {
+    if (!ticketPrices || ticketPrices.length === 0) return null;
+    const now = Date.now();
+
+    const ticketsWithTimeDiff = ticketPrices.map((ticket) => ({
+      ...ticket,
+      startTime: new Date(ticket.startDateTime).getTime(),
+      timeDiff: Math.abs(new Date(ticket.startDateTime).getTime() - now),
+    }));
+
+    const minTimeDiff = Math.min(...ticketsWithTimeDiff.map((t) => t.timeDiff));
+
+    return (
+      ticketsWithTimeDiff.find((ticket) => ticket.timeDiff === minTimeDiff) ||
+      null
+    );
+  }, [ticketPrices]);
 
   const handleMouseEnter: HTMLAttributes<HTMLDivElement>['onMouseEnter'] =
     () => {
@@ -128,12 +150,17 @@ const SearchResultEventCard = ({
               </p>
             </div>
           </div>
-          <div
-            id="activity-pricing"
-            className="flex h-7 items-center justify-start gap-2"
-          >
-            <span className="text-lg font-bold">NT${pricing}</span>
-            {discountLabel(discount)}
+          <div className="flex h-7 items-center justify-start gap-2">
+            {nearestTicket && nearestTicket.price > 0 ? (
+              <>
+                <span className="text-lg font-bold">
+                  NT${nearestTicket.price}
+                </span>
+                {discountLabel(discount)}
+              </>
+            ) : (
+              <span className="text-lg font-bold">價格未定</span>
+            )}
           </div>
           {isContinuous && <ContinuousCardField />}
         </div>

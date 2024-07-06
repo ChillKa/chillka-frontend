@@ -116,7 +116,7 @@ const SearchContentSection = ({
                   activity?.type === '線下' ? activity?.address : '線上'
                 }
                 organizer={activity.organizer?.contactName ?? '未知舉辦者'} // FIXME: Wait for backend fixed data
-                pricing={activity?.ticketPrice[0].price}
+                ticketPrices={activity?.ticketPrice ?? []}
                 isContinuous={activity.isContinuous}
                 discount={0}
                 className="gap-4"
@@ -159,7 +159,7 @@ const SearchContentSection = ({
                   activity?.type === '線下' ? activity?.address : '線上'
                 }
                 organizer={activity.organizer?.contactName ?? '未知舉辦者'} // FIXME: Wait for backend fixed data
-                pricing={activity?.ticketPrice[0].price}
+                ticketPrices={activity?.ticketPrice ?? []}
                 isContinuous={activity.isContinuous}
                 discount={0} // FIXME: remove, this is deprecated
                 onHoverCard={() => {

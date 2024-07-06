@@ -201,7 +201,7 @@ export interface RecommendedActivityFetchState {
     participantNumber: number;
     organizerName: string;
     discount: number | undefined; // FIXME: no this field
-    collected: boolean | undefined; //  FIXME: no this field
+    isCollected: boolean | undefined;
     ticketPrice: {
       name: string;
       price: number;

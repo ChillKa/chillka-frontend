@@ -1,4 +1,8 @@
-import { fetchRecommendedActivity } from '@action/activity';
+import {
+  fetchRecommendedActivity,
+  getFavoriteActivities,
+} from '@action/activity';
+import { isLoggedIn } from '@action/auth';
 import EventCard, {
   FormatDate,
   SkeletonEventCard,
@@ -16,8 +20,27 @@ type RecommendActivityProps = {
 };
 
 const RecommendActivity = async ({ className }: RecommendActivityProps) => {
+  const loggedIn = await isLoggedIn();
+
   const data = await fetchRecommendedActivity();
-  const { activities } = data;
+  let { activities = [] } = data;
+
+  if (loggedIn) {
+    const favoriteActivities = await getFavoriteActivities();
+    const favoriteActivityIds = new Set(
+      favoriteActivities.activities.map((activity) => activity._id)
+    );
+
+    activities = activities.map((activity) => ({
+      ...activity,
+      isCollected: favoriteActivityIds.has(activity._id),
+    }));
+  } else {
+    activities = activities.map((activity) => ({
+      ...activity,
+      isCollected: false,
+    }));
+  }
 
   return (
     <section
@@ -77,7 +100,7 @@ const RecommendActivity = async ({ className }: RecommendActivityProps) => {
               organizer={activity?.organizerName}
               ticketPrices={activity?.ticketPrice ?? []}
               discount={activity?.discount}
-              isCollected={activity?.collected}
+              isCollected={activity?.isCollected}
             />
           ))}
         </WithErrorBoundaryAndSuspense>
