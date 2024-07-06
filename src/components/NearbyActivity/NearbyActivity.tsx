@@ -17,7 +17,7 @@ const NearbyActivity = async ({ className }: NearbyActivityProps) => {
       lng: '25.09108',
       limit: '6',
     },
-    { cache: 'no-store' }
+    { next: { revalidate: 1800 } }
   );
 
   const { activities = [] } = data;
