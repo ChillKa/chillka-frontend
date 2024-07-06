@@ -118,7 +118,7 @@ const SearchContentSection = ({
                 organizer={activity.organizer?.contactName ?? '未知舉辦者'} // FIXME: Wait for backend fixed data
                 pricing={activity?.ticketPrice[0].price}
                 isContinuous={activity.isContinuous}
-                discount={0} // FIXME: remove, this is deprecated
+                discount={0}
                 className="gap-4"
                 onVisibleTrigger={() => {
                   setCenterId(activity._id);
