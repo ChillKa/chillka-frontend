@@ -16,7 +16,7 @@ const UserComment = ({
   getActivity,
   previewMode,
 }: UserCommentProps) => {
-  const { isLoggedin, userName } = useAuthContext();
+  const { isLoggedin, userName, userAvatar } = useAuthContext();
   const firstLetter = userName.charAt(0);
 
   return (
@@ -24,8 +24,12 @@ const UserComment = ({
       {isLoggedin && !previewMode ? (
         <div className="flex gap-4 xl:gap-6">
           <Avatar className="h-12 w-12 rounded-full">
-            <AvatarImage src="" alt="Organizer" />
-            <AvatarFallback className="rounded-2xl bg-primary text-white">
+            <AvatarImage
+              className="object-cover"
+              src={userAvatar}
+              alt={userName}
+            />
+            <AvatarFallback className="rounded-2xl bg-primary-light text-white">
               {firstLetter}
             </AvatarFallback>
           </Avatar>
