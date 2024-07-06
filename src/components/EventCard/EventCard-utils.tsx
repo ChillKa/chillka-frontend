@@ -107,7 +107,7 @@ export const EventCardCoverSection = ({
         }
       });
     },
-    [activityId]
+    [activityId, revalidate]
   );
 
   const renderStatusIcon = () => {
