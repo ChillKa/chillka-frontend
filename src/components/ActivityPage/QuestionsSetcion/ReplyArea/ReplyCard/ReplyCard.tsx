@@ -34,7 +34,11 @@ const ReplyCard = ({
       <div className="flex items-center justify-between">
         <div className="flex items-center">
           <Avatar className="mr-4 h-12 w-12 rounded-full">
-            <AvatarImage src={reply.profilePicture} alt={reply.displayName} />
+            <AvatarImage
+              className="object-cover"
+              src={reply.profilePicture}
+              alt={reply.displayName}
+            />
             <AvatarFallback className="rounded-2xl bg-primary text-white">
               {firstLetter}
             </AvatarFallback>

@@ -32,6 +32,7 @@ const Question = ({
         <div className="flex">
           <Avatar className="h-12 w-12 rounded-full">
             <AvatarImage
+              className="object-cover"
               src={question.profilePicture}
               alt={question.displayName}
             />
