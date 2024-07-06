@@ -1,7 +1,7 @@
 import { ArrowLeftFromLine } from 'lucide-react';
 import Link from 'next/link';
-import ManagementActivityTable from '../../utils/ManagementActivityTable';
-import { DummyParticipants } from '../../utils/dummy';
+import ManagementActivitySection from '../../utils/ManagementActivitySection';
+import { getOrderParticipant } from '../../utils/actions';
 
 type ManageEventIdPageProps = {
   params: { id: string; name: string };
@@ -11,10 +11,7 @@ const ManageEventIdPage = async ({ params }: ManageEventIdPageProps) => {
   const { id, name } = params;
 
   const decodeName = decodeURIComponent(name);
-  // FIXME: Change to use real api
-  // const { participants } = await getParticipant(id);
-  console.log(id);
-  const participants = DummyParticipants;
+  const { orders } = await getOrderParticipant(id);
 
   return (
     <div className="relative text-primary">
@@ -29,7 +26,7 @@ const ManageEventIdPage = async ({ params }: ManageEventIdPageProps) => {
       </div>
 
       <section className="flex flex-col gap-2">
-        <ManagementActivityTable participants={participants} />
+        <ManagementActivitySection orders={orders} />
       </section>
     </div>
   );

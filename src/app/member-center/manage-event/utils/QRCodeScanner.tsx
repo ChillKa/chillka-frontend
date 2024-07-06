@@ -1,21 +1,31 @@
 'use client';
 
-import { Html5QrcodeScanner } from 'html5-qrcode';
-import { useEffect } from 'react';
+import {
+  Html5QrcodeScanner,
+  QrcodeErrorCallback,
+  QrcodeSuccessCallback,
+} from 'html5-qrcode';
+import { useCallback, useEffect } from 'react';
 
-type QRCodeScannerProps = {
+export type QRCodeScannerProps = {
   onScanSuccess: (result: string) => void;
+  onScanError?: (error: string) => void;
 };
 
-const QRCodeScanner = ({ onScanSuccess }: QRCodeScannerProps) => {
-  const handleScanSuccess = (decodedText: string, decodedResult: any) => {
-    console.log(decodedText, decodedResult);
-    onScanSuccess(decodedText);
-  };
+const QRCodeScanner = ({ onScanSuccess, onScanError }: QRCodeScannerProps) => {
+  const handleScanSuccess: QrcodeSuccessCallback = useCallback(
+    (decodedText) => {
+      onScanSuccess(decodedText);
+    },
+    [onScanSuccess]
+  );
 
-  const handleScanError = (error: any) => {
-    console.warn(`Code scan error = ${error}`);
-  };
+  const handleScanError: QrcodeErrorCallback = useCallback(
+    (error) => {
+      onScanError?.(error);
+    },
+    [onScanError]
+  );
 
   useEffect(() => {
     const html5QRcodeScanner = new Html5QrcodeScanner(
@@ -27,10 +37,10 @@ const QRCodeScanner = ({ onScanSuccess }: QRCodeScannerProps) => {
 
     return () => {
       html5QRcodeScanner.clear().catch((error) => {
-        console.error('Failed to clear, ', error);
+        onScanError?.(error);
       });
     };
-  }, [handleScanSuccess]);
+  }, [handleScanError, handleScanSuccess, onScanError]);
 
   return <div id="reader" />;
 };
