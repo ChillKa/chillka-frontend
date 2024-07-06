@@ -1,6 +1,6 @@
 'use client';
 
-import { Loader } from '@googlemaps/js-api-loader';
+import { Libraries, Loader } from '@googlemaps/js-api-loader';
 import cn from '@lib/utils';
 import { useEffect, useRef } from 'react';
 
@@ -9,6 +9,8 @@ type ActivityLocationMarkerProps = {
   lat: number;
   lng: number;
 };
+
+const libraries: Libraries = ['places'];
 
 const ActivityLocationMarker = ({
   className,
@@ -29,6 +31,7 @@ const ActivityLocationMarker = ({
       const loader = new Loader({
         apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY as string,
         version: 'weekly',
+        libraries,
       });
 
       const { Map } = (await loader.importLibrary(
