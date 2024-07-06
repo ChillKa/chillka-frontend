@@ -7,7 +7,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogPortal,
-  DialogTrigger,
 } from '@components/ui/dialog';
 import { Input } from '@components/ui/input';
 import {
@@ -40,7 +39,6 @@ import {
   ReactElement,
   ReactNode,
   ReactPortal,
-  useCallback,
   useEffect,
   useState,
 } from 'react';
@@ -48,7 +46,7 @@ import { toLocaleEmojiGroupName } from './utils';
 
 const RichTextEditorToolbar = ({ editor }: { editor: Editor }) => {
   const [urlString, setUrlString] = useState('');
-  const [isDialogOpen, setIsDailogOpen] = useState(false);
+  const [isUrlDialogOpen, setIsUrlDailogOpen] = useState(false);
   const emojiArray = editor.storage.emoji.emojis;
   const emojiMap = new Map();
   const emojiGroupKeys = [];
@@ -63,7 +61,7 @@ const RichTextEditorToolbar = ({ editor }: { editor: Editor }) => {
     }
   }
 
-  const toggleDialog = useCallback(() => {
+  const toggleUrlDialog = () => {
     if (editor) {
       const previousUrl = editor.getAttributes('link').href;
       if (previousUrl) {
@@ -71,11 +69,12 @@ const RichTextEditorToolbar = ({ editor }: { editor: Editor }) => {
         setUrlString('');
         return;
       }
-      setIsDailogOpen(true);
+      setUrlString('');
+      setIsUrlDailogOpen(true);
     }
-  }, [editor]);
+  };
 
-  const setUrlLink = useCallback(() => {
+  const setUrlLink = () => {
     if (editor) {
       editor
         .chain()
@@ -83,11 +82,9 @@ const RichTextEditorToolbar = ({ editor }: { editor: Editor }) => {
         .extendMarkRange('link')
         .setLink({ href: urlString })
         .run();
-      setIsDailogOpen(false);
+      setIsUrlDailogOpen(false);
     }
-  }, [editor]);
-
-  console.log(editor.isActive('link'));
+  };
 
   return (
     <div className="flex flex-row items-center gap-1 rounded-b-[0.375rem] bg-primary-super-light p-1">
@@ -133,29 +130,30 @@ const RichTextEditorToolbar = ({ editor }: { editor: Editor }) => {
         <ListOrderedIcon className="h-4 w-4" />
       </Toggle>
       <Separator orientation="vertical" className="h-8 w-[1px]" />
-      <Toggle variant="editor" size="sm" pressed={editor.isActive('link')}>
-        <LinkIcon className="h-4 w-4" />
-      </Toggle>
-      <Dialog modal={false} open={isDialogOpen}>
-        <DialogTrigger asChild>
-          <Toggle
-            variant="editor"
-            size="sm"
-            pressed={editor.isActive('link')}
-            onPressedChange={toggleDialog}
-          >
-            <LinkIcon className="h-4 w-4" />
-          </Toggle>
-        </DialogTrigger>
+      <Dialog modal={false} open={isUrlDialogOpen}>
+        <Toggle
+          variant="editor"
+          size="sm"
+          pressed={editor.isActive('link')}
+          onPressedChange={toggleUrlDialog}
+        >
+          <LinkIcon className="h-4 w-4" />
+        </Toggle>
         <DialogPortal>
           <DialogContent
+            onInteractOutside={() => setIsUrlDailogOpen(false)}
             hideCloseButton
             className="max-h-64 max-w-[21rem] gap-6 rounded-[0.375rem] border border-primary-super-light p-3"
           >
             <DialogHeader className="text-left">請輸入url超連結</DialogHeader>
             <Input
               variant="form"
-              onChange={(e) => setUrlString(() => e.target.value)}
+              value={urlString}
+              onChange={(e) => {
+                setUrlString(e.target.value);
+                console.log('e.target.value', e.target.value);
+                console.log(urlString);
+              }}
             />
             <DialogFooter>
               <Button
