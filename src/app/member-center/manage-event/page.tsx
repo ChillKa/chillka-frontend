@@ -22,6 +22,10 @@ const ManageEventPage = async () => {
               endDateTime={activity.endDateTime}
               category={activity.category}
               address={activity.address}
+              participantCount={
+                (activity?.totalParticipantCapacity ?? 0) -
+                (activity?.remainingTickets ?? 0)
+              }
             />
           ))}
         {activities.length === 0 && (
