@@ -18,8 +18,9 @@ export const SocketProvider = ({ children, query }: SocketProviderProps) => {
     if (!isBrowser) return;
     const socket = io(process.env.NEXT_PUBLIC_BASE_URL!, {
       query,
-      transports: ['websocket'],
+      // transports: ['websocket'],
       path: '/socket.io',
+      withCredentials: true,
     });
 
     setInstance(socket);

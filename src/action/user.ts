@@ -2,12 +2,12 @@
 
 import { FormState, userFormSchema } from '@lib/definitions';
 import { UserData } from 'src/types/user';
+import { z } from 'zod';
 import { fetchAPI, getJwtPayload, validateWithSchema } from './utils';
 
-export async function updateUser(data: {
-  // FIXME: update userFormSchema
-  displayName: string;
-}): Promise<FormState> {
+export async function updateUser(
+  data: z.infer<typeof userFormSchema>
+): Promise<FormState> {
   try {
     const validatedData = validateWithSchema(userFormSchema, data);
     const { displayName } = validatedData;
