@@ -21,6 +21,8 @@ import Link from 'next/link';
 type SidebarProps = {
   isLoggedin: boolean;
   onSignOut: () => void;
+  userName: string;
+  userAvatar: string;
 };
 
 type List = {
@@ -29,7 +31,12 @@ type List = {
   url: string;
 };
 
-const Sidebar = ({ isLoggedin, onSignOut }: SidebarProps) => {
+const Sidebar = ({
+  isLoggedin,
+  onSignOut,
+  userName,
+  userAvatar,
+}: SidebarProps) => {
   const [isOpen, toggleOpen] = useCycle(false, true);
 
   const handleDialogClick = (event: React.MouseEvent) => {
@@ -51,6 +58,8 @@ const Sidebar = ({ isLoggedin, onSignOut }: SidebarProps) => {
             }
             isOpen={isOpen}
             isLoggedin={isLoggedin}
+            userName={userName}
+            userAvatar={userAvatar}
           />
         </DialogTrigger>
         <DialogContent
