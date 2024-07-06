@@ -52,6 +52,7 @@ type EventCardCoverSectionProps = {
   activityId: string;
   hoverEffect?: boolean;
   className?: string;
+  revalidate?: boolean;
 };
 export const EventCardCoverSection = ({
   src,
@@ -60,6 +61,7 @@ export const EventCardCoverSection = ({
   activityId,
   className,
   hoverEffect = true,
+  revalidate,
 }: EventCardCoverSectionProps) => {
   const [collected, setCollected] = useState(initialCollected);
   const [isPending, startTransition] = useTransition();
@@ -85,7 +87,7 @@ export const EventCardCoverSection = ({
 
       startTransition(async () => {
         try {
-          const response = await toggleFavoriteActivity(activityId);
+          const response = await toggleFavoriteActivity(activityId, revalidate);
           if (response?.message) {
             toast({
               title: response.message,
