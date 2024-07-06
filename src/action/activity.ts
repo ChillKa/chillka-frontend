@@ -3,6 +3,7 @@
 import { SearchParams } from '@components/SearchBar/fields/utils';
 import { userCommentSchema } from '@lib/definitions';
 import { createDebounce } from '@lib/utils';
+import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 import { IAcitivityResponse } from '../types/activity';
 import { fetchAPI, getJwtPayload, validateWithSchema } from './utils';
@@ -242,7 +243,8 @@ export type ActivityState =
     };
 
 export async function toggleFavoriteActivity(
-  activityId: string
+  activityId: string,
+  revalidate?: boolean
 ): Promise<ActivityState> {
   try {
     const response = await fetchAPI({
@@ -259,6 +261,8 @@ export async function toggleFavoriteActivity(
         message: `${errorMessage ?? '更新活動收藏狀態失敗，請稍後重新再試。'} (${response.status})`,
       };
     }
+
+    if (revalidate) revalidatePath('/member-center/favorite-event', 'layout');
 
     return {
       status: 'success',
