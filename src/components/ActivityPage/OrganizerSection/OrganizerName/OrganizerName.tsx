@@ -19,7 +19,9 @@ const OrganizerName = ({ className, data }: OrganizerNameProps) => {
             src={data.activity.organizer.profilePicture}
             alt="Organizer"
           />
-          <AvatarFallback className="rounded-2xl">{firstLetter}</AvatarFallback>
+          <AvatarFallback className="rounded-2xl bg-primary-light">
+            {firstLetter}
+          </AvatarFallback>
         </Avatar>
       </div>
       <div className="ml-4 text-xl font-bold -tracking-[0.005em] xl:ml-6 xl:text-2xl xl:-tracking-[0.006em]">

@@ -36,7 +36,7 @@ const Question = ({
               src={question.profilePicture}
               alt={question.displayName}
             />
-            <AvatarFallback className="rounded-2xl bg-primary text-white">
+            <AvatarFallback className="rounded-2xl bg-primary-light text-white">
               {firstLetter}
             </AvatarFallback>
           </Avatar>

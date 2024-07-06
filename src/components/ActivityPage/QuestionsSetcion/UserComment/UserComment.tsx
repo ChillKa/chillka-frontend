@@ -29,7 +29,7 @@ const UserComment = ({
               src={userAvatar}
               alt={userName}
             />
-            <AvatarFallback className="rounded-2xl bg-primary text-white">
+            <AvatarFallback className="rounded-2xl bg-primary-light text-white">
               {firstLetter}
             </AvatarFallback>
           </Avatar>

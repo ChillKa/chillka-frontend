@@ -3,9 +3,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar';
 import cn from '@lib/utils';
 import { SVGMotionProps, motion } from 'framer-motion';
-import Image from 'next/image';
-
-const defaultAvatar = '/header__defaultAvatar.svg';
+import { User } from 'lucide-react';
 
 const Path = (props: SVGMotionProps<SVGPathElement>) => (
   <motion.path
@@ -73,20 +71,14 @@ const Hamburger = ({
         </svg>
       </div>
       {!isLoggedin ? (
-        <Image
-          className="ml-2"
-          src={defaultAvatar}
-          alt="user"
-          width={40}
-          height={40}
-        />
+        <User className="ml-2 size-10 rounded-full bg-slate-100 p-2" />
       ) : (
         <Avatar className="ml-2 h-10 w-10">
           <AvatarImage
             className="h-auto w-full object-cover"
             src={userAvatar}
           />
-          <AvatarFallback className="bg-primary text-white">
+          <AvatarFallback className="bg-primary-light text-white">
             {firstLetter}
           </AvatarFallback>
         </Avatar>
