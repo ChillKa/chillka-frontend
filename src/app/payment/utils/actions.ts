@@ -1,7 +1,6 @@
 'use server';
 
 import { fetchAPI } from '@action/utils';
-import { redirect } from 'next/navigation';
 
 interface SendPaymentProps {
   activityId: string;
@@ -19,34 +18,29 @@ interface SendPaymentProps {
   tradeDesc: string;
 }
 
-const extractPaymentUrlFromHtml = (html: string): string | null => {
-  const match = html.match(/action="([^"]+)"/);
-  return match ? match[1] : null;
-};
-
 export async function sendPayment(props: SendPaymentProps) {
-  const response = await fetchAPI({
-    api: `/auth/payment`,
-    method: 'POST',
-    shouldAuth: true,
-    data: props,
-  });
+  try {
+    const response = await fetchAPI({
+      api: `/auth/payment`,
+      method: 'POST',
+      shouldAuth: true,
+      data: props,
+    });
 
-  if (!response.ok) {
-    const errorMessage = await response.text();
+    if (!response.ok) {
+      const errorMessage = await response.text();
+      throw new Error(
+        `${errorMessage ?? '失敗，請稍後重新再試。'} (${response.status})`
+      );
+    }
 
+    const html = await response.text();
+    return { status: 'success', html };
+  } catch (error) {
     return {
-      status: 'failed',
-      message: `${errorMessage ?? '失敗，請稍後重新再試。'} (${response.status})`,
+      status: 'error',
+      message:
+        error instanceof Error ? error.message : 'An unknown error occurred',
     };
-  }
-
-  const html = await response.text();
-  const paymentUrl = extractPaymentUrlFromHtml(html);
-
-  if (paymentUrl) {
-    redirect(paymentUrl);
-  } else {
-    throw new Error('無法獲取支付 URL');
   }
 }

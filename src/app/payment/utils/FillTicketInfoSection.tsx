@@ -97,11 +97,25 @@ const FillTicketInfoSection = ({
     };
 
     try {
-      await sendPayment(paymentProps);
+      const result = await sendPayment(paymentProps);
+      if (result.status === 'success' && result.html) {
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = result.html;
+
+        const tmpForm = tempDiv.querySelector('form');
+        if (tmpForm) {
+          document.body.appendChild(tmpForm);
+          tmpForm.submit();
+        } else {
+          throw new Error('無法找到支付表單');
+        }
+      } else {
+        throw new Error(result.message || '支付初始化失敗');
+      }
     } catch (error) {
       toast({
         variant: 'destructive',
-        title: `支付過程中發生錯誤: ${error}`,
+        title: `支付過程中發生錯誤: ${error instanceof Error ? error.message : String(error)}`,
       });
     }
   };
