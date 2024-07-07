@@ -89,7 +89,7 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ defaultData }) => {
           defaultValue={['item-1', 'item-2']}
         >
           <AccordionItem value="item-1">
-            <AccordionTrigger className="px-2 text-xl font-bold -tracking-[0.005em]">
+            <AccordionTrigger className="pr-2 text-xl font-bold -tracking-[0.005em] hover:no-underline">
               基本資料
             </AccordionTrigger>
             <AccordionContent>
@@ -252,7 +252,7 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ defaultData }) => {
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-2">
-            <AccordionTrigger className="px-2 text-xl font-bold -tracking-[0.005em]">
+            <AccordionTrigger className="pr-2 text-xl font-bold -tracking-[0.005em] hover:no-underline">
               聯絡資料
             </AccordionTrigger>
             <AccordionContent>
