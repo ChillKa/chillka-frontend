@@ -107,10 +107,12 @@ const EventCard = forwardRef<HTMLDivElement, EventCardProps>(
 
           <div className="flex h-[9rem] flex-col justify-between gap-4">
             <EventCardInfoSection
-              startTime={format(new Date(startTime), 'MM.dd EE ', {
+              startTime={format(new Date(startTime), 'MM.dd （EEEEE） ', {
                 locale: zhTW,
               })}
-              endTime={format(new Date(endTime), ' MM.dd EE', { locale: zhTW })}
+              endTime={format(new Date(endTime), ' MM.dd （EEEEE）', {
+                locale: zhTW,
+              })}
               attendeeCount={attendeeCount}
               location={location}
               organizer={organizer}
