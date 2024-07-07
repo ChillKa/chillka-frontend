@@ -73,7 +73,7 @@ const middleware = async (req: NextRequest) => {
     return handleAuthRelatedPaths(req, url);
   }
 
-  const privatePaths = ['/member-center'];
+  const privatePaths = ['/member-center', '/activity/new'];
   if (privatePaths.some((path) => pathname.startsWith(path))) {
     return handlePrivatePaths(req, url);
   }
