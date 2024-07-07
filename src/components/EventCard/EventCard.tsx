@@ -3,12 +3,12 @@
 import { H3 } from '@components/ui/typography';
 import cn from '@lib/utils';
 import { format } from 'date-fns';
-import { Building2, CalendarDays, MapPin, Users } from 'lucide-react';
 import Link from 'next/link';
 import { forwardRef, useMemo } from 'react';
 import {
   ContinuousCardField,
   EventCardCoverSection,
+  EventCardInfoSection,
   discountLabel,
 } from './EventCard-utils';
 
@@ -105,43 +105,13 @@ const EventCard = forwardRef<HTMLDivElement, EventCardProps>(
           </div>
 
           <div className="flex h-[9rem] flex-col justify-between gap-4">
-            <div className="flex justify-start gap-4">
-              <CalendarDays className="flex-shrink-0" size={24} />
-              <p className="h-6 w-16 flex-shrink-0 text-base font-normal">
-                活動時間
-              </p>
-              <p className="flex-grow truncate text-base font-medium">
-                {format(new Date(startTime), 'MM.dd EE ')}-
-                {format(new Date(endTime), ' MM.dd EE')}
-              </p>
-            </div>
-            <div className="flex justify-start gap-4">
-              <Users className="flex-shrink-0" size={24} />
-              <p className="h-6 w-16 flex-shrink-0 text-base font-normal">
-                參加人數
-              </p>
-              <p className="flex-grow truncate text-base font-medium">
-                {attendeeCount}
-              </p>
-            </div>
-            <div className="flex justify-start gap-4">
-              <MapPin className="flex-shrink-0" size={24} />
-              <p className="h-6 w-16 flex-shrink-0 text-base font-normal">
-                舉辦位置
-              </p>
-              <p className="flex-grow truncate text-base font-medium">
-                {location}
-              </p>
-            </div>
-            <div className="flex justify-start gap-4">
-              <Building2 className="flex-shrink-0" size={24} />
-              <p className="h-6 w-16 flex-shrink-0 text-base font-normal">
-                主辦單位
-              </p>
-              <p className="flex-grow truncate text-base font-medium">
-                {organizer}
-              </p>
-            </div>
+            <EventCardInfoSection
+              startTime={format(new Date(startTime), 'MM.dd EE ')}
+              endTime={format(new Date(endTime), ' MM.dd EE')}
+              attendeeCount={attendeeCount}
+              location={location}
+              organizer={organizer}
+            />
           </div>
 
           <div className="flex h-7 items-center justify-start gap-2">
