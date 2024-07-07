@@ -7,10 +7,14 @@ import cn from '@lib/utils';
 import { cva } from 'class-variance-authority';
 import {
   Bookmark,
+  Building2,
+  CalendarDays,
   Check,
   ChevronLeft,
   ChevronRight,
   LoaderCircle,
+  MapPin,
+  Users,
 } from 'lucide-react';
 import Image from 'next/image';
 import {
@@ -107,7 +111,7 @@ export const EventCardCoverSection = ({
         }
       });
     },
-    [activityId]
+    [activityId, revalidate]
   );
 
   const renderStatusIcon = () => {
@@ -149,6 +153,50 @@ export const EventCardCoverSection = ({
         {collected ? '已收藏' : '收藏'}
       </button>
     </div>
+  );
+};
+
+type EventCardInfoSectionProps = {
+  startTime: string;
+  endTime: string;
+  attendeeCount: number;
+  location: string;
+  organizer: string;
+};
+export const EventCardInfoSection = ({
+  startTime,
+  endTime,
+  attendeeCount,
+  location,
+  organizer,
+}: EventCardInfoSectionProps) => {
+  return (
+    <>
+      <div className="flex justify-start gap-4">
+        <CalendarDays className="flex-shrink-0" size={24} />
+        <p className="h-6 w-16 flex-shrink-0 text-base font-normal">活動時間</p>
+        <p className="flex-grow truncate text-base font-medium">
+          {startTime}-{endTime}
+        </p>
+      </div>
+      <div className="flex justify-start gap-4">
+        <Users className="flex-shrink-0" size={24} />
+        <p className="h-6 w-16 flex-shrink-0 text-base font-normal">參加人數</p>
+        <p className="flex-grow truncate text-base font-medium">
+          {attendeeCount}
+        </p>
+      </div>
+      <div className="flex justify-start gap-4">
+        <MapPin className="flex-shrink-0" size={24} />
+        <p className="h-6 w-16 flex-shrink-0 text-base font-normal">舉辦位置</p>
+        <p className="flex-grow truncate text-base font-medium">{location}</p>
+      </div>
+      <div className="flex justify-start gap-4">
+        <Building2 className="flex-shrink-0" size={24} />
+        <p className="h-6 w-16 flex-shrink-0 text-base font-normal">主辦單位</p>
+        <p className="flex-grow truncate text-base font-medium">{organizer}</p>
+      </div>
+    </>
   );
 };
 
