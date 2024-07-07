@@ -51,7 +51,7 @@ const HamburgerBotton = ({
     const redirectToHome =
       pathname.startsWith('/member-center/') || pathname === '/activity/new';
     onSignOut();
-
+    toggleOpen();
     if (redirectToHome) router.push('/');
   };
 
@@ -160,15 +160,13 @@ const HamburgerBotton = ({
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <Link href="/">
-                    <button
-                      type="button"
-                      className="block h-[4.75rem] w-full px-8 py-0 text-start text-base hover:bg-primary/[0.03]"
-                      onClick={handleLogout}
-                    >
-                      登出
-                    </button>
-                  </Link>
+                  <button
+                    type="button"
+                    className="block h-[4.75rem] w-full px-8 py-0 text-start text-base hover:bg-primary/[0.03]"
+                    onClick={handleLogout}
+                  >
+                    登出
+                  </button>
                 </motion.li>
               </>
             )}
