@@ -2,7 +2,6 @@
 
 import { Activity } from '@action/activity';
 import {
-  FormatDate,
   IntersectionObserverEventCard,
   SearchResultEventCard,
 } from '@components/EventCard';
@@ -12,7 +11,6 @@ import {
   updateQueryString,
 } from '@components/SearchBar';
 import useMediaQuery from '@hooks/use-media-query';
-import { format } from 'date-fns';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { H4 } from '../ui/typography';
@@ -88,27 +86,27 @@ const SearchContentSection = ({
                 title={activity.name}
                 cover={activity.thumbnail}
                 description={activity.details}
-                startTime={
-                  format(
-                    new Date(activity.startDateTime),
-                    'MM.dd'
-                  ) as FormatDate<'YY.MM.DD'>
-                } // FIXME: wrong type
-                endTime={
-                  format(
-                    new Date(activity.endDateTime),
-                    'MM.dd'
-                  ) as FormatDate<'YY.MM.DD'>
-                } // FIXME: wrong type
-                attendeeCount={activity.participantAmount}
-                isCollected={activity.collected}
-                location={activity.location}
-                organizer={
-                  activity.organizer?.contactName ?? 'Unknown organizer'
-                } // FIXME: Wait for backend fixed data
-                pricing={activity.price}
+                startTime={activity.startDateTime}
+                endTime={activity.endDateTime}
+                attendeeCount={
+                  activity?.totalParticipantCapacity != null &&
+                  activity?.remainingTickets != null &&
+                  !Number.isNaN(
+                    activity.totalParticipantCapacity -
+                      activity.remainingTickets
+                  )
+                    ? activity.totalParticipantCapacity -
+                      activity.remainingTickets
+                    : 0
+                }
+                isCollected={activity.isCollected}
+                location={
+                  activity?.type === '線下' ? activity?.address : '線上'
+                }
+                organizer={activity.organizer?.contactName ?? '未知舉辦者'} // FIXME: Wait for backend fixed data
+                ticketPrices={activity?.ticketPrice ?? []}
                 isContinuous={activity.isContinuous}
-                discount={0} // FIXME: remove, this is deprecated
+                discount={0}
                 className="gap-4"
                 onVisibleTrigger={() => {
                   setCenterId(activity._id);
@@ -121,23 +119,25 @@ const SearchContentSection = ({
                 title={activity.name}
                 cover={activity.thumbnail}
                 summary={activity.summary}
-                startTime={
-                  format(
-                    new Date(activity.startDateTime),
-                    'MM.dd'
-                  ) as FormatDate<'YY.MM.DD'>
-                } // FIXME: wrong type
-                endTime={
-                  format(
-                    new Date(activity.endDateTime),
-                    'MM.dd'
-                  ) as FormatDate<'YY.MM.DD'>
-                } // FIXME: wrong type
-                attendeeCount={activity.participantAmount}
-                isCollected={activity.collected}
-                location={activity.location}
-                organizer={activity.organizer?.contactName} // FIXME: Wait for backend fixed data
-                pricing={activity.price}
+                startTime={activity.startDateTime}
+                endTime={activity.endDateTime}
+                attendeeCount={
+                  activity?.totalParticipantCapacity != null &&
+                  activity?.remainingTickets != null &&
+                  !Number.isNaN(
+                    activity.totalParticipantCapacity -
+                      activity.remainingTickets
+                  )
+                    ? activity.totalParticipantCapacity -
+                      activity.remainingTickets
+                    : 0
+                }
+                isCollected={activity.isCollected}
+                location={
+                  activity?.type === '線下' ? activity?.location : '線上'
+                }
+                organizer={activity.organizer?.contactName ?? '未知舉辦者'} // FIXME: Wait for backend fixed data
+                ticketPrices={activity?.ticketPrice ?? []}
                 isContinuous={activity.isContinuous}
                 discount={0} // FIXME: remove, this is deprecated
                 onHoverCard={() => {

@@ -1,25 +1,29 @@
-import {
-  fetchRecommendedActivity,
-  getFavoriteActivities,
-} from '@action/activity';
+import { getActivitiesByFilter, getFavoriteActivities } from '@action/activity';
 import { isLoggedIn } from '@action/auth';
-import EventCard, { SkeletonEventCard } from '@components/EventCard';
 import { Button } from '@components/ui/button';
 import { H1 } from '@components/ui/typography';
 import cn from '@lib/utils';
 import { ArrowUpRight } from 'lucide-react';
 import Link from 'next/link';
-import WithErrorBoundaryAndSuspense from './hoc/WithErrorBoundaryAndSuspense';
+import NearbyActivityContent from './NearbyActivityContent';
 
-type RecommendActivityProps = {
+type NearbyActivityProps = {
   className: string;
 };
 
-const RecommendActivity = async ({ className }: RecommendActivityProps) => {
+const NearbyActivity = async ({ className }: NearbyActivityProps) => {
   const loggedIn = await isLoggedIn();
 
-  const data = await fetchRecommendedActivity();
-  let { activities = [] } = data;
+  const activitiesData = await getActivitiesByFilter(
+    {
+      lat: '121.5598',
+      lng: '25.09108',
+      limit: '6',
+    },
+    { next: { revalidate: 1800 } }
+  );
+
+  let { activities = [] } = activitiesData;
 
   if (loggedIn) {
     const favoriteActivities = await getFavoriteActivities();
@@ -48,7 +52,7 @@ const RecommendActivity = async ({ className }: RecommendActivityProps) => {
       )}
     >
       <div className="flex w-full items-start justify-between">
-        <H1>推薦活動</H1>
+        <H1>附近活動</H1>
         <Link href="/search">
           <button
             type="button"
@@ -65,36 +69,14 @@ const RecommendActivity = async ({ className }: RecommendActivityProps) => {
         </Link>
       </div>
       <hr className="mb-12 mt-12 w-12 border-t-2 border-primary" />
-      <div className="flex w-full flex-col justify-between space-y-12 xl:flex-row xl:gap-6 xl:space-y-0">
-        <WithErrorBoundaryAndSuspense
-          fallback={
-            <>
-              {Array.from({ length: 3 }).map((_, index) => {
-                const id = index;
-                return <SkeletonEventCard key={id} />;
-              })}
-            </>
-          }
-        >
-          {activities.map((activity) => (
-            <EventCard
-              className="xl:w-[26rem]"
-              key={activity._id}
-              link={activity._id}
-              title={activity?.name}
-              cover={activity?.thumbnail}
-              summary={activity?.summary}
-              startTime={activity.startDateTime}
-              endTime={activity.endDateTime}
-              attendeeCount={activity?.participantNumber}
-              location={activity?.location ?? '線上'} // FIXME: backend shoud add type props
-              organizer={activity?.organizerName}
-              ticketPrices={activity?.ticketPrice ?? []}
-              discount={activity?.discount}
-              isCollected={activity?.isCollected}
-            />
-          ))}
-        </WithErrorBoundaryAndSuspense>
+      <div
+        className={cn(
+          'flex w-full flex-col justify-between space-y-12',
+          'xl:flex-row xl:flex-wrap xl:gap-6 xl:gap-y-12 xl:space-y-0'
+        )}
+      >
+        <NearbyActivityContent activities={activities} />
+
         <Link href="/search">
           <Button
             variant="outline"
@@ -106,7 +88,7 @@ const RecommendActivity = async ({ className }: RecommendActivityProps) => {
               'transition-colors hover:bg-primary hover:fill-surface hover:text-surface'
             )}
           >
-            查看更多推薦活動
+            查看更多附近活動
             <ArrowUpRight size={16} />
           </Button>
         </Link>
@@ -115,4 +97,4 @@ const RecommendActivity = async ({ className }: RecommendActivityProps) => {
   );
 };
 
-export default RecommendActivity;
+export default NearbyActivity;

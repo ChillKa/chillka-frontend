@@ -2,19 +2,23 @@
 
 import useIntersectionObserver from '@hooks/use-intersection-observer';
 import EventCard from './EventCard';
-import { FormatDate } from './EventCard-types';
 
 type IntersectionObserverEventCardProps = {
   title: string;
   cover: string;
   description: string;
-  startTime: FormatDate<'YY.MM.DD'>;
-  endTime: FormatDate<'YY.MM.DD'>;
+  startTime: string | Date;
+  endTime: string | Date;
   attendeeCount: number;
   isCollected: boolean;
   location: string;
   organizer: string;
-  pricing: number;
+  ticketPrices?: {
+    name: string;
+    price: number;
+    startDateTime: string;
+    endDateTime: string;
+  }[];
   isContinuous?: boolean;
   link?: string;
   discount: number | undefined; // -1 is free, 0 is none discount, positive is off discount

@@ -5,6 +5,7 @@ import { Card } from '@components/ui/card';
 import { Lead } from '@components/ui/typography';
 import cn from '@lib/utils';
 import { format } from 'date-fns';
+import { zhTW } from 'date-fns/locale';
 import { SquareArrowOutUpRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -67,8 +68,8 @@ const ManagementCard = ({
           </Lead>
           <Lead className="order-4 col-span-2 font-medium">
             {' '}
-            {format(startDateTime, 'yyyy-MM-dd')} -{' '}
-            {format(endDateTime, 'yyyy-MM-dd')}
+            {format(startDateTime, 'yyyy-MM-dd', { locale: zhTW })} -{' '}
+            {format(endDateTime, 'yyyy-MM-dd', { locale: zhTW })}
           </Lead>
           <Lead className="order-6 col-span-2 line-clamp-1 font-medium">
             {address}
