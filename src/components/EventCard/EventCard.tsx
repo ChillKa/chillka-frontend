@@ -2,13 +2,14 @@
 
 import { H3 } from '@components/ui/typography';
 import cn from '@lib/utils';
-import { Building2, CalendarDays, MapPin, Users } from 'lucide-react';
+import { format } from 'date-fns';
+import { zhTW } from 'date-fns/locale';
 import Link from 'next/link';
-import { forwardRef } from 'react';
-import { FormatDate } from './EventCard-types';
+import { forwardRef, useMemo } from 'react';
 import {
   ContinuousCardField,
   EventCardCoverSection,
+  EventCardInfoSection,
   discountLabel,
 } from './EventCard-utils';
 
@@ -16,16 +17,21 @@ type EventCardProps = {
   title?: string;
   cover?: string;
   summary?: string;
-  startTime?: FormatDate<'YY.MM.DD'>;
-  endTime?: string;
+  startTime?: string | Date;
+  endTime?: string | Date;
   attendeeCount?: number;
   isCollected?: boolean;
   location?: string;
   organizer?: string;
-  pricing?: number;
+  ticketPrices?: {
+    name: string;
+    price: number;
+    startDateTime: string;
+    endDateTime: string;
+  }[];
   isContinuous?: boolean;
   link?: string;
-  discount?: number; // -1 is free, 0 is none discount, positive is off discount
+  discount?: number;
   className?: string;
   revalidate?: boolean;
 };
@@ -42,7 +48,7 @@ const EventCard = forwardRef<HTMLDivElement, EventCardProps>(
       isCollected = false,
       location = 'Unknown location',
       organizer = 'Unknown Organizer',
-      pricing = 0,
+      ticketPrices = [],
       isContinuous = false,
       link = '',
       discount = 0,
@@ -51,6 +57,26 @@ const EventCard = forwardRef<HTMLDivElement, EventCardProps>(
     },
     ref
   ) => {
+    const nearestTicket = useMemo(() => {
+      if (!ticketPrices || ticketPrices.length === 0) return null;
+      const now = Date.now();
+
+      const ticketsWithTimeDiff = ticketPrices.map((ticket) => ({
+        ...ticket,
+        startTime: new Date(ticket.startDateTime).getTime(),
+        timeDiff: Math.abs(new Date(ticket.startDateTime).getTime() - now),
+      }));
+
+      const minTimeDiff = Math.min(
+        ...ticketsWithTimeDiff.map((t) => t.timeDiff)
+      );
+
+      return (
+        ticketsWithTimeDiff.find((ticket) => ticket.timeDiff === minTimeDiff) ||
+        null
+      );
+    }, [ticketPrices]);
+
     return (
       <Link href={`/activity/${link}`}>
         <div
@@ -80,47 +106,30 @@ const EventCard = forwardRef<HTMLDivElement, EventCardProps>(
           </div>
 
           <div className="flex h-[9rem] flex-col justify-between gap-4">
-            <div className="flex justify-start gap-4">
-              <CalendarDays className="flex-shrink-0" size={24} />
-              <p className="h-6 w-16 flex-shrink-0 text-base font-normal">
-                活動時間
-              </p>
-              <p className="flex-grow truncate text-base font-medium">
-                {startTime}-{endTime}
-              </p>
-            </div>
-            <div className="flex justify-start gap-4">
-              <Users className="flex-shrink-0" size={24} />
-              <p className="h-6 w-16 flex-shrink-0 text-base font-normal">
-                參加人數
-              </p>
-              <p className="flex-grow truncate text-base font-medium">
-                {attendeeCount}
-              </p>
-            </div>
-            <div className="flex justify-start gap-4">
-              <MapPin className="flex-shrink-0" size={24} />
-              <p className="h-6 w-16 flex-shrink-0 text-base font-normal">
-                舉辦位置
-              </p>
-              <p className="flex-grow truncate text-base font-medium">
-                {location}
-              </p>
-            </div>
-            <div className="flex justify-start gap-4">
-              <Building2 className="flex-shrink-0" size={24} />
-              <p className="h-6 w-16 flex-shrink-0 text-base font-normal">
-                主辦單位
-              </p>
-              <p className="flex-grow truncate text-base font-medium">
-                {organizer}
-              </p>
-            </div>
+            <EventCardInfoSection
+              startTime={format(new Date(startTime), 'MM.dd （EEEEE） ', {
+                locale: zhTW,
+              })}
+              endTime={format(new Date(endTime), ' MM.dd （EEEEE）', {
+                locale: zhTW,
+              })}
+              attendeeCount={attendeeCount}
+              location={location}
+              organizer={organizer}
+            />
           </div>
 
           <div className="flex h-7 items-center justify-start gap-2">
-            <span className="text-lg font-bold">NT${pricing}</span>
-            {discountLabel(discount)}
+            {nearestTicket && nearestTicket.price > 0 ? (
+              <>
+                <span className="text-lg font-bold">
+                  NT${nearestTicket.price}
+                </span>
+                {discountLabel(discount)}
+              </>
+            ) : (
+              <span className="text-lg font-bold">價格未定</span>
+            )}
           </div>
           {isContinuous && <ContinuousCardField />}
         </div>

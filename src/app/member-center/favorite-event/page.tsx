@@ -1,7 +1,6 @@
-import EventCard, { FormatDate } from '@components/EventCard';
+import { getFavoriteActivities } from '@action/activity';
+import EventCard from '@components/EventCard';
 import { Lead } from '@components/ui/typography';
-import { format } from 'date-fns';
-import { getFavoriteActivities } from './utils/action';
 
 const FavoriteEvent = async () => {
   const result = await getFavoriteActivities();
@@ -23,23 +22,20 @@ const FavoriteEvent = async () => {
               title={activity.name}
               cover={activity.thumbnail}
               summary={activity.summary}
-              startTime={
-                format(
-                  new Date(activity.startDateTime),
-                  'MM.dd'
-                ) as FormatDate<'YY.MM.DD'>
+              startTime={activity.startDateTime}
+              endTime={activity.endDateTime}
+              attendeeCount={
+                activity?.totalParticipantCapacity != null &&
+                activity?.remainingTickets != null &&
+                !Number.isNaN(
+                  activity.totalParticipantCapacity - activity.remainingTickets
+                )
+                  ? activity.totalParticipantCapacity -
+                    activity.remainingTickets
+                  : 0
               }
-              endTime={
-                format(
-                  new Date(activity.endDateTime),
-                  'MM.dd'
-                ) as FormatDate<'YY.MM.DD'>
-              }
-              attendeeCount={activity.participantAmount}
-              location={activity.location}
+              location={activity.type === '線下' ? activity.location : '線上'}
               organizer={activity.organizer.name}
-              // pricing={activity.pricing}
-              // discount={activity.discount}
               isCollected
               revalidate
             />

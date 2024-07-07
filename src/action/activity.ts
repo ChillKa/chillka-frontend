@@ -5,7 +5,7 @@ import { userCommentSchema } from '@lib/definitions';
 import { createDebounce } from '@lib/utils';
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
-import { IAcitivityResponse } from '../types/activity';
+import { IAcitivityResponse, IActivity } from '../types/activity';
 import { fetchAPI, getJwtPayload, validateWithSchema } from './utils';
 
 interface ContinuousActivity {
@@ -26,16 +26,23 @@ export interface Activity {
   organizer: Organizer;
   thumbnail: string;
   name: string;
-  collected: boolean;
+  isCollected: boolean;
   summary?: string;
   details: string;
   location: string;
-  participantAmount: number; // FIXME: unchecked whether has bought or just register
+  address: string;
   lat: number;
   lng: number;
   category: string;
   price: number;
-  discount: number; // FIXME: deprecated, remove  -1 is free, 0 is none, positive
+  totalParticipantCapacity: number;
+  remainingTickets: number;
+  ticketPrice: {
+    name: string;
+    price: number;
+    startDateTime: string;
+    endDateTime: string;
+  }[];
   startDate: string;
   startDateTime: string;
   fromToday: boolean;
@@ -191,13 +198,16 @@ export interface RecommendedActivityFetchState {
     endDateTime: string;
     noEndDate: boolean;
     location: string;
+    type: string; // FIXME: backend should add this props
     participantNumber: number;
     organizerName: string;
     discount: number | undefined; // FIXME: no this field
-    collected: boolean | undefined; //  FIXME: no this field
+    isCollected: boolean | undefined;
     ticketPrice: {
       name: string;
       price: number;
+      startDateTime: string;
+      endDateTime: string;
     }[];
   }[];
 }
@@ -275,6 +285,33 @@ export async function toggleFavoriteActivity(
         error instanceof Error ? error.message : 'An unknown error occurred',
     };
   }
+}
+
+interface FavoriteActivitiesResult {
+  activities: IActivity[];
+  total?: number;
+}
+
+export async function getFavoriteActivities(): Promise<FavoriteActivitiesResult> {
+  const response = await fetchAPI({
+    api: `/auth/saved-activities`,
+    method: 'GET',
+    shouldAuth: true,
+  });
+
+  if (!response.ok) {
+    return {
+      activities: [],
+      total: 0,
+    };
+  }
+
+  const result = await response.json();
+
+  return {
+    activities: result.data,
+    total: result.total,
+  };
 }
 
 export type FavoriteActivityState =
