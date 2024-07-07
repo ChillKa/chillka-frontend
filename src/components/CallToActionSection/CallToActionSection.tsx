@@ -1,7 +1,10 @@
+'use client';
+
 import { Button } from '@components/ui/button';
 import { Separator } from '@components/ui/separator';
 import { H1, Small } from '@components/ui/typography';
 import cn from '@lib/utils';
+import { useAuthContext } from '@store/AuthProvider/AuthProvider';
 import Link from 'next/link';
 import CallToActionButtonBackground from './CallToActionButtonBackground';
 import Video from './Video';
@@ -11,6 +14,8 @@ type CalltoActionSectionProps = {
 };
 
 const CallToActionSection = ({ className }: CalltoActionSectionProps) => {
+  const { isLoggedin } = useAuthContext();
+
   return (
     <section
       className={cn(
@@ -46,7 +51,7 @@ const CallToActionSection = ({ className }: CalltoActionSectionProps) => {
             <CallToActionButtonBackground />
           </div>
           <Link
-            href="/activity/new"
+            href={isLoggedin ? '/activity/new' : '/auth/login'}
             className="z-10 px-[2.375rem] py-[3.4375rem] text-primary hover:text-surface"
           >
             開始揪咖

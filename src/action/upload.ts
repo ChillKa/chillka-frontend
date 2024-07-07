@@ -3,7 +3,6 @@
 import { createActivityFormSchema, endpoint } from '@lib/definitions';
 import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
 import { IActivityCreationResponse } from 'src/types/activity';
 import { IUploadImagesResult } from 'src/types/uploadImages';
 import { ZodError, z } from 'zod';
@@ -66,6 +65,7 @@ export type FormState =
       message: string;
       fields?: Record<string, string>;
       issues?: Partial<ZodError<z.infer<typeof createActivityFormSchema>>>;
+      activityId?: string;
     }
   | undefined;
 
@@ -141,8 +141,6 @@ export async function uploadActivity(
     };
   }
 
-  let activityId: string;
-
   try {
     const response = await fetchAPI({
       api: '/auth/activities',
@@ -159,11 +157,14 @@ export async function uploadActivity(
     const result = (await response.json()) as IActivityCreationResponse;
 
     const { _id } = result;
-    activityId = _id;
+    const activityId = _id;
 
     revalidatePath(`/activity`);
+    return {
+      message: '新增活動成功！跳轉至活動頁中，請稍候⋯⋯',
+      activityId,
+    };
   } catch (_e) {
     return { message: '請登入後再試' };
   }
-  redirect(`/activity/${activityId}`);
 }
