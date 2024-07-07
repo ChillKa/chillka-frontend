@@ -32,10 +32,20 @@ const ManagementActivitySection = ({
 
   return (
     <Tabs defaultValue="table" className="w-full">
-      <div className="mb-6 flex w-full flex-col justify-between xl:flex-row">
-        <TabsList className="grid w-full grid-cols-2 xl:w-[50%]">
-          <TabsTrigger value="table">參加者名單</TabsTrigger>
-          <TabsTrigger value="report">報表</TabsTrigger>
+      <div className="mb-6 flex w-full max-w-full flex-col justify-between xl:flex-row">
+        <TabsList className="mb-4 grid max-w-full grid-cols-2 bg-primary text-white xl:mb-0 xl:w-[50%]">
+          <TabsTrigger
+            value="table"
+            className="data-[state=active]:text-primary"
+          >
+            參加者名單
+          </TabsTrigger>
+          <TabsTrigger
+            value="report"
+            className="data-[state=active]:text-primary"
+          >
+            報表
+          </TabsTrigger>
         </TabsList>
         <QRCodeScannerDialogButton
           onScanSuccess={handleScanSuccess}
@@ -46,7 +56,7 @@ const ManagementActivitySection = ({
         <TabsContent className="min-w-[37.5rem]" value="table" asChild>
           <ManagementActivityTable orders={orders} />
         </TabsContent>
-        <TabsContent className="min-w-[37.5rem]" value="report">
+        <TabsContent className="min-w-[37.5rem]" value="report" asChild>
           report
         </TabsContent>
       </div>
