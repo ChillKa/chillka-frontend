@@ -50,7 +50,7 @@ const ActivityCreationSideBar = ({
       <H1>新增活動</H1>
       <div className="space-y-6">
         <Link
-          className="group flex items-center gap-2 pl-6"
+          className="group flex w-fit items-center gap-2 pl-6"
           href="#organizer-setting"
         >
           <H3 className={vissiblePosition === 0 ? 'border-l-4 pl-6' : ''}>
@@ -59,7 +59,7 @@ const ActivityCreationSideBar = ({
           <LinkIcon className="mt-1 size-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
         </Link>
         <Link
-          className="group flex items-center gap-2 pl-6"
+          className="group flex w-fit items-center gap-2 pl-6"
           href="#activity-setting"
         >
           <H3 className={vissiblePosition === 1 ? 'border-l-4 pl-6' : ''}>
@@ -79,7 +79,7 @@ const ActivityCreationSideBar = ({
           })}
         </div>
         <Link
-          className="group flex items-center gap-2 pl-6"
+          className="group flex w-fit items-center gap-2 pl-6"
           href="#ticket-setting"
         >
           <H3 className={vissiblePosition === 2 ? 'border-l-4 pl-6' : ''}>
