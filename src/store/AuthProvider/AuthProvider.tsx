@@ -28,6 +28,7 @@ export interface AuthContextType {
   userName: string;
   userAvatar: string;
   auth: UserData | null;
+  token: string;
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(
@@ -46,6 +47,7 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [isLoggedin, setIsLoggedin] = useState(false);
   const [userName, setUserName] = useState('');
   const [userAvatar, setUserAvatar] = useState('');
+  const [token, setToken] = useState('');
   const [auth, setAuth] = useState<UserData | null>(null);
   const router = useRouter();
 
@@ -65,7 +67,10 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
       setIsLoggedin(!!session);
 
-      if (session) getUser();
+      if (session) {
+        setToken(session.token);
+        getUser();
+      }
     };
     const getAuth = async () => {
       const result = await fetchMe();
@@ -117,8 +122,9 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
       userName,
       userAvatar,
       auth,
+      token,
     }),
-    [isLoggedin, login, logout, getUser, userName, userAvatar, auth]
+    [isLoggedin, login, logout, getUser, userName, userAvatar, auth, token]
   );
 
   return (
