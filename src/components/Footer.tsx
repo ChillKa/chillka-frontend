@@ -1,6 +1,9 @@
+'use client';
+
 import LogoButton from '@components/LogoButton';
 import { Button } from '@components/ui/button';
 import cn from '@lib/utils';
+import { useAuthContext } from '@store/AuthProvider/AuthProvider';
 import { ArrowUpRight } from 'lucide-react';
 import Link from 'next/link';
 import FooterMenu from './FooterMenu';
@@ -29,6 +32,8 @@ const SITEMAP = [
 ];
 
 const Footer = ({ className }: FooterProps) => {
+  const { isLoggedin } = useAuthContext();
+
   return (
     <>
       <div className="border-t" />
@@ -45,7 +50,7 @@ const Footer = ({ className }: FooterProps) => {
         <div className="space-y-6 xl:space-y-4">
           <div className="flex flex-wrap gap-6 text-xl font-bold xl:gap-12 xl:text-3xl">
             <FooterMenu
-              url="/activity/new"
+              url={isLoggedin ? '/activity/new' : '/auth/login'}
               name="開始揪咖"
               className="hidden"
             />
@@ -66,8 +71,8 @@ const Footer = ({ className }: FooterProps) => {
             className="flex h-14 w-full items-center border-primary text-center text-base font-medium transition-colors hover:bg-primary hover:fill-surface hover:text-surface xl:hidden"
           >
             <Link
+              href={isLoggedin ? '/activity/new' : '/auth/login'}
               className="flex items-center justify-center gap-4"
-              href="/activity/new"
             >
               開始揪咖
               <ArrowUpRight size={16} />
