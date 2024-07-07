@@ -37,8 +37,8 @@ const ManagementActivityTable = ({ orders }: ManagementActivityTableProps) => {
       <div className="mb-4 flex flex-col justify-between gap-2 xl:flex-row xl:gap-0">
         <Input
           variant="form"
-          placeholder="搜索名稱或電子郵件"
-          className="w-full xl:max-w-sm"
+          placeholder="搜尋名稱或電子郵件"
+          className="w-full focus-visible:ring-0 focus-visible:ring-offset-0 xl:w-[26rem]"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
@@ -50,13 +50,21 @@ const ManagementActivityTable = ({ orders }: ManagementActivityTableProps) => {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[50px]">
-              <SquareCheckBig className="size-4" />
+            <TableHead className="w-12">
+              <SquareCheckBig className="size-4 text-primary" />
             </TableHead>
-            <TableHead>參加者</TableHead>
-            <TableHead>帳號</TableHead>
-            <TableHead>年齡</TableHead>
-            <TableHead>狀態</TableHead>
+            <TableHead className="text-base font-bold text-primary">
+              參加者
+            </TableHead>
+            <TableHead className="text-base font-bold text-primary">
+              帳號
+            </TableHead>
+            <TableHead className="text-base font-bold text-primary">
+              年齡
+            </TableHead>
+            <TableHead className="text-base font-bold text-primary">
+              狀態
+            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
