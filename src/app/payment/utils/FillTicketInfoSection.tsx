@@ -17,7 +17,6 @@ import { RadioGroup, RadioGroupItem } from '@components/ui/radio-group';
 import { toast } from '@components/ui/use-toast';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { formatActivityTime } from '@lib/dateUtils';
-import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { IAcitivityResponse } from 'src/types/activity';
 import { z } from 'zod';
@@ -45,7 +44,7 @@ const FillTicketInfoSection = ({
   activityId,
   totalAmount,
 }: FillTicketInfoSectionProps) => {
-  const router = useRouter();
+  // const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -65,7 +64,7 @@ const FillTicketInfoSection = ({
     if (!firstSelectedTicket) {
       toast({
         variant: 'destructive',
-        title: 'No tickets selected ',
+        title: '為選擇票券',
       });
       return;
     }
@@ -76,7 +75,7 @@ const FillTicketInfoSection = ({
     if (!ticket) {
       toast({
         variant: 'destructive',
-        title: 'Ticket not found',
+        title: '找不到票券',
       });
       return;
     }
@@ -98,19 +97,11 @@ const FillTicketInfoSection = ({
     };
 
     try {
-      const result = await sendPayment(paymentProps);
-      if (result.status === 'success') {
-        router.push('/payment/complete');
-      } else {
-        toast({
-          variant: 'destructive',
-          title: 'Payment failed',
-        });
-      }
+      await sendPayment(paymentProps);
     } catch (error) {
       toast({
         variant: 'destructive',
-        title: `Error during payment: ${error}`,
+        title: `支付過程中發生錯誤: ${error}`,
       });
     }
   };
