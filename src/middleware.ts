@@ -23,7 +23,8 @@ const handleAuthRelatedPaths = (req: NextRequest, url: URL) => {
     if (!['/auth/login', '/auth/register'].includes(lastVisitedPath)) {
       response.cookies.set('last_visited_path', lastVisitedPath);
     }
-    return response;
+
+    if (lastVisitedPath) return response;
   }
 
   if (url.pathname === '/callback') {
@@ -46,6 +47,15 @@ const handleAuthRelatedPaths = (req: NextRequest, url: URL) => {
     }
   }
 
+  if (url.pathname === '/redirect') {
+    const lastVisitedPath = req.cookies.get('last_visited_path')?.value;
+    if (lastVisitedPath) {
+      const response = NextResponse.redirect(new URL(lastVisitedPath, url));
+      response.cookies.delete('last_visited_path');
+      return response;
+    }
+  }
+
   return NextResponse.next();
 };
 
@@ -53,7 +63,12 @@ const middleware = async (req: NextRequest) => {
   const url = req.nextUrl;
   const { pathname } = url;
 
-  const authRelatedPaths = ['/auth/login', '/auth/register', '/callback'];
+  const authRelatedPaths = [
+    '/auth/login',
+    '/auth/register',
+    '/callback',
+    '/redirect',
+  ];
   if (authRelatedPaths.includes(pathname)) {
     return handleAuthRelatedPaths(req, url);
   }
