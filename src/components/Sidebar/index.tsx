@@ -17,6 +17,7 @@ import {
 import { Separator } from '@components/ui/separator';
 import { motion, useCycle } from 'framer-motion';
 import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
 
 type SidebarProps = {
   isLoggedin: boolean;
@@ -38,6 +39,8 @@ const Sidebar = ({
   userAvatar,
 }: SidebarProps) => {
   const [isOpen, toggleOpen] = useCycle(false, true);
+  const router = useRouter();
+  const pathname = usePathname();
 
   const handleDialogClick = (event: React.MouseEvent) => {
     const isLinkClick = (event.target as HTMLElement).closest('a');
@@ -46,6 +49,14 @@ const Sidebar = ({
 
   const changeIsOpen = (open: boolean) => {
     if (open !== isOpen) toggleOpen();
+  };
+
+  const handleLogout = () => {
+    const redirectToHome =
+      pathname.startsWith('/member-center/') || pathname === '/activity/new';
+    onSignOut();
+    toggleOpen();
+    if (redirectToHome) router.push('/');
   };
 
   return (
@@ -170,23 +181,19 @@ const Sidebar = ({
                   <motion.div variants={menuAnimation}>
                     <Separator className="h-[0.0625rem] bg-primary" />
                   </motion.div>
-                  <Link href="/">
-                    <motion.li
-                      variants={menuAnimation}
-                      whileHover={{ scale: 1.025 }}
-                      whileTap={{ scale: 0.95 }}
+                  <motion.li
+                    variants={menuAnimation}
+                    whileHover={{ scale: 1.025 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <button
+                      type="button"
+                      className="block w-full p-6 text-start text-base hover:bg-primary/[0.03]"
+                      onClick={handleLogout}
                     >
-                      <button
-                        type="button"
-                        className="block w-full p-6 text-start text-base hover:bg-primary/[0.03]"
-                        onClick={() => {
-                          onSignOut?.();
-                        }}
-                      >
-                        登出
-                      </button>
-                    </motion.li>
-                  </Link>
+                      登出
+                    </button>
+                  </motion.li>
                 </>
               )}
             </motion.ul>

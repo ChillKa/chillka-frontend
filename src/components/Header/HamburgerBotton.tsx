@@ -12,6 +12,7 @@ import {
 import { Separator } from '@components/ui/separator';
 import { motion, useCycle } from 'framer-motion';
 import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
 import { menuAnimation } from './utils';
 
 type HamburgerProps = {
@@ -34,6 +35,8 @@ const HamburgerBotton = ({
   userAvatar,
 }: HamburgerProps) => {
   const [isOpen, toggleOpen] = useCycle(false, true);
+  const router = useRouter();
+  const pathname = usePathname();
 
   const handlePopoverClick = (event: React.MouseEvent) => {
     const isLinkClick = (event.target as HTMLElement).closest('a');
@@ -42,6 +45,14 @@ const HamburgerBotton = ({
 
   const changeIsOpen = (open: boolean) => {
     if (open !== isOpen) toggleOpen();
+  };
+
+  const handleLogout = () => {
+    const redirectToHome =
+      pathname.startsWith('/member-center/') || pathname === '/activity/new';
+    onSignOut();
+
+    if (redirectToHome) router.push('/');
   };
 
   return (
@@ -153,9 +164,7 @@ const HamburgerBotton = ({
                     <button
                       type="button"
                       className="block h-[4.75rem] w-full px-8 py-0 text-start text-base hover:bg-primary/[0.03]"
-                      onClick={() => {
-                        onSignOut?.();
-                      }}
+                      onClick={handleLogout}
                     >
                       登出
                     </button>
