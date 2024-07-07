@@ -2,10 +2,10 @@
 
 import { H3 } from '@components/ui/typography';
 import cn from '@lib/utils';
+import { format } from 'date-fns';
 import { Building2, CalendarDays, MapPin, Users } from 'lucide-react';
 import Link from 'next/link';
 import { forwardRef, useMemo } from 'react';
-import { FormatDate } from './EventCard-types';
 import {
   ContinuousCardField,
   EventCardCoverSection,
@@ -16,8 +16,8 @@ type EventCardProps = {
   title?: string;
   cover?: string;
   summary?: string;
-  startTime?: FormatDate<'YY.MM.DD'>;
-  endTime?: string;
+  startTime?: string | Date;
+  endTime?: string | Date;
   attendeeCount?: number;
   isCollected?: boolean;
   location?: string;
@@ -111,7 +111,8 @@ const EventCard = forwardRef<HTMLDivElement, EventCardProps>(
                 活動時間
               </p>
               <p className="flex-grow truncate text-base font-medium">
-                {startTime}-{endTime}
+                {format(new Date(startTime), 'MM.dd EE ')}-
+                {format(new Date(endTime), ' MM.dd EE')}
               </p>
             </div>
             <div className="flex justify-start gap-4">

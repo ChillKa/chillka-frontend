@@ -1,7 +1,6 @@
 import { getFavoriteActivities } from '@action/activity';
-import EventCard, { FormatDate } from '@components/EventCard';
+import EventCard from '@components/EventCard';
 import { Lead } from '@components/ui/typography';
-import { format } from 'date-fns';
 
 const FavoriteEvent = async () => {
   const result = await getFavoriteActivities();
@@ -23,18 +22,8 @@ const FavoriteEvent = async () => {
               title={activity.name}
               cover={activity.thumbnail}
               summary={activity.summary}
-              startTime={
-                format(
-                  new Date(activity.startDateTime),
-                  'MM.dd'
-                ) as FormatDate<'YY.MM.DD'>
-              }
-              endTime={
-                format(
-                  new Date(activity.endDateTime),
-                  'MM.dd'
-                ) as FormatDate<'YY.MM.DD'>
-              }
+              startTime={activity.startDateTime}
+              endTime={activity.endDateTime}
               attendeeCount={
                 activity?.totalParticipantCapacity != null &&
                 activity?.remainingTickets != null &&

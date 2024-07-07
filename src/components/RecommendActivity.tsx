@@ -3,14 +3,10 @@ import {
   getFavoriteActivities,
 } from '@action/activity';
 import { isLoggedIn } from '@action/auth';
-import EventCard, {
-  FormatDate,
-  SkeletonEventCard,
-} from '@components/EventCard';
+import EventCard, { SkeletonEventCard } from '@components/EventCard';
 import { Button } from '@components/ui/button';
 import { H1 } from '@components/ui/typography';
 import cn from '@lib/utils';
-import { format } from 'date-fns';
 import { ArrowUpRight } from 'lucide-react';
 import Link from 'next/link';
 import WithErrorBoundaryAndSuspense from './hoc/WithErrorBoundaryAndSuspense';
@@ -88,13 +84,8 @@ const RecommendActivity = async ({ className }: RecommendActivityProps) => {
               title={activity?.name}
               cover={activity?.thumbnail}
               summary={activity?.summary}
-              startTime={
-                format(
-                  new Date(activity.startDateTime),
-                  'MM.dd'
-                ) as FormatDate<'YY.MM.DD'>
-              }
-              endTime={format(new Date(), 'MM.dd') as FormatDate<'YY.MM.DD'>}
+              startTime={activity.startDateTime}
+              endTime={activity.endDateTime}
               attendeeCount={activity?.participantNumber}
               location={activity?.location}
               organizer={activity?.organizerName}

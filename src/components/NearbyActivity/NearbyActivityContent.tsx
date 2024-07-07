@@ -1,13 +1,9 @@
 'use client';
 
 import { Activity } from '@action/activity';
-import EventCard, {
-  FormatDate,
-  SkeletonEventCard,
-} from '@components/EventCard';
+import EventCard, { SkeletonEventCard } from '@components/EventCard';
 import { withErrorBoundaryAndSuspense } from '@components/hoc/WithErrorBoundaryAndSuspense';
 import useMediaQuery from '@hooks/use-media-query';
-import { format } from 'date-fns';
 
 type NearbyActivityContentProps = {
   activities: Activity[];
@@ -25,18 +21,8 @@ const NearbyActivityContent = ({ activities }: NearbyActivityContentProps) => {
           title={activity?.name}
           cover={activity?.thumbnail}
           summary={activity?.summary}
-          startTime={
-            format(
-              new Date(activity.startDateTime),
-              'MM.dd'
-            ) as FormatDate<'YY.MM.DD'>
-          }
-          endTime={
-            format(
-              new Date(activity.endDateTime),
-              'MM.dd'
-            ) as FormatDate<'YY.MM.DD'>
-          }
+          startTime={activity.startDateTime}
+          endTime={activity.endDateTime}
           attendeeCount={
             activity?.totalParticipantCapacity != null &&
             activity?.remainingTickets != null &&
