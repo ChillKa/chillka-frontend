@@ -30,7 +30,7 @@ type EventCardProps = {
   }[];
   isContinuous?: boolean;
   link?: string;
-  discount?: number; // -1 is free, 0 is none discount, positive is off discount
+  discount?: number;
   className?: string;
   revalidate?: boolean;
 };
