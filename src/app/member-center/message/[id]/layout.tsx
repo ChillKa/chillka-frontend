@@ -1,3 +1,6 @@
+'use client';
+
+import { useAuthContext } from '@store/AuthProvider/AuthProvider';
 import { SocketProvider } from '@store/SocketProvider/SocketProvider';
 import { ReactNode } from 'react';
 
@@ -11,7 +14,8 @@ const MessageDetailLayout = ({
   params,
 }: MessageDetailLayoutProps) => {
   const messageListId = params.id;
-  const _query = { messageListId };
+  const { auth } = useAuthContext();
+  const _query = { messageListId, userId: auth?._id };
 
   return <SocketProvider query={_query}>{children}</SocketProvider>;
 };

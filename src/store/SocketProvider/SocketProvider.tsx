@@ -1,6 +1,5 @@
 'use client';
 
-import { useAuthContext } from '@store/AuthProvider/AuthProvider';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { Socket, io } from 'socket.io-client';
 
@@ -14,17 +13,13 @@ export interface SocketProviderProps {
 export const SocketProvider = ({ children, query }: SocketProviderProps) => {
   const isBrowser = typeof window !== 'undefined';
   const [instance, setInstance] = useState<Socket | null>(null);
-  const { token } = useAuthContext();
 
   useEffect(() => {
     if (!isBrowser) return;
     const socket = io(process.env.NEXT_PUBLIC_BASE_URL!, {
       query,
+      transports: ['websocket'],
       path: '/socket.io',
-      withCredentials: true,
-      extraHeaders: {
-        Authorization: `Bearer ${token}`,
-      },
     });
 
     setInstance(socket);
