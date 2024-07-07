@@ -20,6 +20,7 @@ import {
   RadioGroupItem,
 } from '@radix-ui/react-radio-group';
 import { format } from 'date-fns';
+import { zhTW } from 'date-fns/locale';
 import { motion } from 'framer-motion';
 import { Circle } from 'lucide-react';
 import { ReactNode, useEffect, useState } from 'react';
@@ -168,7 +169,7 @@ const DateFieldMenu = ({
                         >
                           {customDate ? (
                             <Lead className="text-primary">
-                              {format(customDate, 'PPP')}
+                              {format(customDate, 'PPP', { locale: zhTW })}
                             </Lead>
                           ) : (
                             <Lead className="text-primary">自訂日期</Lead>
@@ -264,7 +265,7 @@ export const AdvancedDateMobileField = ({
                         <div className="flex w-full items-center justify-between">
                           {customDate ? (
                             <Lead className="text-primary">
-                              {format(customDate, 'PPP')}
+                              {format(customDate, 'PPP', { locale: zhTW })}
                             </Lead>
                           ) : (
                             <Lead className="text-primary">自訂日期</Lead>

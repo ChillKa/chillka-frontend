@@ -1,21 +1,91 @@
 'use client';
 
+import { Button } from '@components/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogPortal,
+} from '@components/ui/dialog';
+import { Input } from '@components/ui/input';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@components/ui/popover';
 import { Separator } from '@components/ui/separator';
 import { Toggle } from '@components/ui/toggle';
+import { P } from '@components/ui/typography';
 import cn from '@lib/utils';
+import Emoji, { gitHubEmojis } from '@tiptap-pro/extension-emoji';
+import Link from '@tiptap/extension-link';
 import Placeholder from '@tiptap/extension-placeholder';
 import { EditorContent, useEditor, type Editor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import {
   BoldIcon,
   ItalicIcon,
+  LinkIcon,
   ListIcon,
   ListOrderedIcon,
+  SmileIcon,
   StrikethroughIcon,
 } from 'lucide-react';
-import { useEffect } from 'react';
+import {
+  AwaitedReactNode,
+  JSXElementConstructor,
+  Key,
+  ReactElement,
+  ReactNode,
+  ReactPortal,
+  useEffect,
+  useState,
+} from 'react';
+import { toLocaleEmojiGroupName } from './utils';
 
 const RichTextEditorToolbar = ({ editor }: { editor: Editor }) => {
+  const [urlString, setUrlString] = useState('');
+  const [isUrlDialogOpen, setIsUrlDailogOpen] = useState(false);
+  const emojiArray = editor.storage.emoji.emojis;
+  const emojiMap = new Map();
+  const emojiGroupKeys = [];
+  for (let i = 0; i < emojiArray.length; i += 1) {
+    const emoji = emojiArray[i];
+    const group = emojiMap.get(emoji.group);
+    if (group) {
+      emojiMap.set(emoji.group, [...group, emoji]);
+    } else {
+      emojiGroupKeys.push(emoji.group);
+      emojiMap.set(emoji.group, [emoji]);
+    }
+  }
+
+  const toggleUrlDialog = () => {
+    if (editor) {
+      const previousUrl = editor.getAttributes('link').href;
+      if (previousUrl) {
+        editor.chain().focus().extendMarkRange('link').unsetLink().run();
+        setUrlString('');
+        return;
+      }
+      setUrlString('');
+      setIsUrlDailogOpen(true);
+    }
+  };
+
+  const setUrlLink = () => {
+    if (editor) {
+      editor
+        .chain()
+        .focus()
+        .extendMarkRange('link')
+        .setLink({ href: urlString })
+        .run();
+      setIsUrlDailogOpen(false);
+    }
+  };
+
   return (
     <div className="flex flex-row items-center gap-1 rounded-b-[0.375rem] bg-primary-super-light p-1">
       <Toggle
@@ -59,6 +129,101 @@ const RichTextEditorToolbar = ({ editor }: { editor: Editor }) => {
       >
         <ListOrderedIcon className="h-4 w-4" />
       </Toggle>
+      <Separator orientation="vertical" className="h-8 w-[1px]" />
+      <Dialog modal={false} open={isUrlDialogOpen}>
+        <Toggle
+          variant="editor"
+          size="sm"
+          pressed={editor.isActive('link')}
+          onPressedChange={toggleUrlDialog}
+        >
+          <LinkIcon className="h-4 w-4" />
+        </Toggle>
+        <DialogPortal>
+          <DialogContent
+            onInteractOutside={() => setIsUrlDailogOpen(false)}
+            hideCloseButton
+            className="max-h-64 max-w-[21rem] gap-6 rounded-[0.375rem] border border-primary-super-light p-3"
+          >
+            <DialogHeader className="text-left">請輸入連結網址</DialogHeader>
+            <Input
+              variant="form"
+              value={urlString}
+              onChange={(e) => setUrlString(e.target.value)}
+            />
+            <DialogFooter>
+              <Button
+                className="ml-auto w-fit"
+                variant="form"
+                type="button"
+                onClick={setUrlLink}
+              >
+                設定網址
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </DialogPortal>
+      </Dialog>
+      <Separator orientation="vertical" className="h-8 w-[1px]" />
+      <Popover modal={false}>
+        <PopoverTrigger asChild>
+          <Toggle variant="editor" size="sm">
+            <SmileIcon className="size-4" />
+          </Toggle>
+        </PopoverTrigger>
+        <PopoverContent
+          side="top"
+          align="start"
+          className="flex max-h-64 w-[21rem] flex-wrap overflow-y-scroll rounded-[0.375rem] border-primary-super-light px-3"
+        >
+          {emojiGroupKeys.map((key: string) => {
+            const emojiArr = emojiMap.get(key);
+            return (
+              <div key={key}>
+                <P className="pl-1 uppercase text-primary">
+                  {toLocaleEmojiGroupName(key)}
+                </P>
+                {emojiArr.map(
+                  (emoji: {
+                    name: Key;
+                    emoji:
+                      | string
+                      | number
+                      | bigint
+                      | boolean
+                      | ReactElement<any, string | JSXElementConstructor<any>>
+                      | Iterable<ReactNode>
+                      | ReactPortal
+                      | Promise<AwaitedReactNode>
+                      | null
+                      | undefined;
+                    fallbackImage: any;
+                  }) => {
+                    return (
+                      <button
+                        className="p-2.5"
+                        type="button"
+                        key={emoji.name}
+                        onClick={() =>
+                          editor
+                            .chain()
+                            .focus()
+                            .setEmoji(emoji.name?.toString())
+                            .run()
+                        }
+                      >
+                        <div className="scale-150 leading-none">
+                          {emoji.emoji}
+                        </div>
+                      </button>
+                    );
+                  }
+                )}
+              </div>
+            );
+          })}
+        </PopoverContent>
+      </Popover>
     </div>
   );
 };
@@ -102,6 +267,18 @@ const RichTextEditor = ({
         placeholder: '請輸入活動說明',
         emptyEditorClass:
           'before:text-primary-light  before:content-[attr(data-placeholder)] before:float-left before:h-0',
+      }),
+      Link.configure({
+        openOnClick: false,
+        autolink: true,
+        HTMLAttributes: {
+          class: 'border-b border-sky-500 text-sky-500',
+        },
+        validate: (href) => /^https?:\/\//.test(href),
+      }),
+      Emoji.configure({
+        emojis: gitHubEmojis,
+        enableEmoticons: true,
       }),
     ],
     onUpdate({ editor: updatedEditor }) {

@@ -2,8 +2,10 @@
 
 import { Button } from '@components/ui/button';
 import { Card } from '@components/ui/card';
+import { Lead } from '@components/ui/typography';
 import cn from '@lib/utils';
 import { format } from 'date-fns';
+import { zhTW } from 'date-fns/locale';
 import { SquareArrowOutUpRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -32,53 +34,64 @@ const ManagementCard = ({
   return (
     <Card
       className={cn(
-        'flex w-full gap-4',
-        'h-auto flex-col items-stretch rounded-none p-2',
-        'xl:h-32 xl:flex-row xl:items-center xl:rounded-r-2xl xl:py-0 xl:pl-0 xl:pr-2'
+        'flex w-full',
+        'h-auto flex-col items-stretch rounded-none',
+        'xl:h-60 xl:flex-row xl:items-center',
+        'bg-transparent text-primary'
       )}
     >
       <div
         className={cn(
           'relative flex-shrink-0 overflow-hidden ',
           'h-48 w-full',
-          'xl:h-full xl:w-32'
+          'xl:h-full xl:w-60'
         )}
       >
         <Image src={thumbnail} alt={name} fill objectFit="cover" />
       </div>
-      <div className="flex h-full flex-grow flex-col justify-between py-4">
-        <div className="w-fit bg-primary text-sm text-white">{category}</div>
-        <div
-          className={cn(
-            'grid gap-4 text-xs',
-            'grid-cols-2  grid-rows-4',
-            'xl:grid-cols-4 xl:grid-rows-2'
-          )}
-        >
+      <div className="flex h-full flex-grow flex-col justify-between p-4">
+        <div className="mb-4 w-fit bg-primary px-2 py-1 text-xs/5 font-medium text-white">
+          {category}
+        </div>
+        <div className={cn('grid gap-4 text-xs', 'grid-cols-3  grid-rows-4')}>
           <Link href={`/activity/${id}`} className="order-1">
-            <div className="flex flex-row items-center gap-2">
-              <div className="font-semibold">活動名稱</div>
-              <SquareArrowOutUpRight className="size-3" />
+            <div className="flex w-full flex-row items-center gap-2">
+              <Lead>活動名稱</Lead>
+              <SquareArrowOutUpRight className="size-4" />
             </div>
           </Link>
-          <div className="order-3 font-semibold xl:order-2">日期</div>
-          <div className="order-5 font-semibold xl:order-3">位置</div>
-          <div className="order-7 font-semibold xl:order-4">參加人數</div>
-          <div className="order-2 xl:order-5">{name}</div>
-          <div className="order-4 xl:order-6">
-            {format(startDateTime, 'yyyy-MM-dd')} -{' '}
-            {format(endDateTime, 'yyyy-MM-dd')}
-          </div>
-          <div className="order-6 xl:order-7">{address}</div>
-          <div className="order-8 xl:order-8">{participantCount}</div>
+          <Lead className="order-3">日期</Lead>
+          <Lead className="order-5">位置</Lead>
+          <Lead className="order-7">參加人數</Lead>
+          <Lead className="order-2 col-span-2 line-clamp-1 font-medium">
+            {name}
+          </Lead>
+          <Lead className="order-4 col-span-2 font-medium">
+            {' '}
+            {format(startDateTime, 'yyyy-MM-dd', { locale: zhTW })} -{' '}
+            {format(endDateTime, 'yyyy-MM-dd', { locale: zhTW })}
+          </Lead>
+          <Lead className="order-6 col-span-2 line-clamp-1 font-medium">
+            {address}
+          </Lead>
+          <Lead className="order-8 col-span-2 font-medium">
+            {participantCount}
+          </Lead>
         </div>
       </div>
-      <div className="flex flex-col gap-2">
-        <Button variant="outline" className="px-2 py-1 text-sm" asChild>
+      <div className="flex flex-col gap-4 p-6 xl:pr-6">
+        <Button
+          variant="outline"
+          className="border-primary px-2 py-1 text-sm"
+          asChild
+        >
           <Link href={`/member-center/manage-event/${id}/${name}`}>詳情</Link>
         </Button>
-
-        <Button variant="outline" disabled className="px-2 py-1 text-sm">
+        <Button
+          variant="outline"
+          disabled
+          className="border-primary px-2 py-1 text-sm"
+        >
           取消活動
         </Button>
       </div>

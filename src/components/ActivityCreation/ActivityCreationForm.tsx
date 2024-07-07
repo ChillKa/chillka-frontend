@@ -6,6 +6,7 @@ import { useToast } from '@components/ui/use-toast';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createActivityFormSchema } from '@lib/definitions';
 import cn from '@lib/utils';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useFormState } from 'react-dom';
 import { FieldPath, useForm } from 'react-hook-form';
@@ -30,6 +31,7 @@ const ActivityCreationForm = ({ className }: ActivityCreationFormProps) => {
     { message: '' }
   );
   const { toast } = useToast();
+  const router = useRouter();
 
   const form = useForm<z.output<typeof createActivityFormSchema>>({
     mode: 'all',
@@ -107,6 +109,9 @@ const ActivityCreationForm = ({ className }: ActivityCreationFormProps) => {
         title: 'chillka 溫馨小提醒',
         description: `${formState?.message}`,
       });
+    }
+    if (formState?.activityId) {
+      router.push(`/activity/${formState.activityId}`);
     }
   }, [formState?.issues, formState?.message, form, toast]);
 

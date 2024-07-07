@@ -51,7 +51,7 @@ const QRCodeScannerDialogButton = ({
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="default" className="max-w-fit xl:w-full">
+        <Button variant="default" className="xl:w-full xl:max-w-fit">
           {name}
         </Button>
       </DialogTrigger>

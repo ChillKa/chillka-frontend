@@ -5,6 +5,7 @@ import {
   TicketsInfoType,
   getTickets,
 } from '@action/ticket';
+import Loading from '@app/member-center/ticket-inquiry/Loading';
 import NoTicket from '@app/member-center/ticket-inquiry/NoTicket';
 import QRCodePopUp from '@components/QRCodePopUp';
 import SortOrder from '@components/SortOrder';
@@ -17,6 +18,7 @@ const TicketInquiry = () => {
   const [usableTickets, setUsableTickets] = useState<TicketsInfoType[]>([]);
   const [unusableTickets, setUnusableTickets] = useState<TicketsInfoType[]>([]);
   const [sort, setSort] = useState<string>('paymentDate');
+  const [isLoading, seIsLoading] = useState(true);
   const { width } = useWindowSize();
 
   const changeSort = (value: string) => setSort(value);
@@ -77,6 +79,7 @@ const TicketInquiry = () => {
         );
       setUsableTickets(usableTicketList);
       setUnusableTickets(unusableTicketList);
+      seIsLoading(false);
     })();
   }, []);
 
@@ -112,7 +115,9 @@ const TicketInquiry = () => {
           <li className="text-center">開啟票券</li>
         </ul>
         <TabsContent value="usableTicket">
-          {usableTickets.length > 0 ? (
+          {isLoading && <Loading />}
+          {usableTickets.length > 0 &&
+            !isLoading &&
             usableTickets.map((ticket: TicketsInfoType) => (
               <TicketPopUp
                 ticketName={`${ticket.activity.name} | ${ticket.ticket.name}`}
@@ -151,13 +156,13 @@ const TicketInquiry = () => {
                   </div>
                 </div>
               </TicketPopUp>
-            ))
-          ) : (
-            <NoTicket />
-          )}
+            ))}
+          {usableTickets.length === 0 && !isLoading && <NoTicket />}
         </TabsContent>
         <TabsContent value="unusableTicket">
-          {unusableTickets.length > 0 ? (
+          {isLoading && <Loading />}
+          {unusableTickets.length > 0 &&
+            !isLoading &&
             unusableTickets.map((ticket: TicketsInfoType) => (
               <TicketPopUp
                 ticketName={`${ticket.activity.name} | ${ticket.ticket.name}`}
@@ -189,10 +194,8 @@ const TicketInquiry = () => {
                   <div className="xl:flex xl:items-center xl:justify-center" />
                 </div>
               </TicketPopUp>
-            ))
-          ) : (
-            <NoTicket />
-          )}
+            ))}
+          {unusableTickets.length === 0 && !isLoading && <NoTicket />}
         </TabsContent>
       </Tabs>
     </div>

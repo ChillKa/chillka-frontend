@@ -76,7 +76,7 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
       setIsLoggedin(!!session);
       // if (session) router.push('/user/about');
       if (session) {
-        router.push('/');
+        router.push('/redirect');
         getUser();
       }
 
