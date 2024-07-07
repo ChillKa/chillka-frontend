@@ -2,8 +2,8 @@
 
 import { Input } from '@components/ui/input';
 import { Label } from '@components/ui/label';
-import { Loader } from '@googlemaps/js-api-loader';
 import cn from '@lib/utils';
+import { useGoogleMaps } from '@store/GoogleMapsProvider';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 type ActivityCreationMapProps = {
@@ -25,8 +25,7 @@ const ActivityCreationMap = ({
     null
   );
 
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [loadError, setLoadError] = useState<Error | null>(null);
+  const { isLoaded, loadError } = useGoogleMaps();
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const [mapCenter, setMapCenter] = useState<{ lat: number; lng: number }>({
     lat: 25.033,
@@ -34,6 +33,19 @@ const ActivityCreationMap = ({
   });
 
   const [inputValue, setInputValue] = useState<string>('');
+
+  const updateMarker = useCallback(
+    (currentMap: google.maps.Map, position: google.maps.LatLngLiteral) => {
+      if (markerRef.current) {
+        markerRef.current.map = null;
+      }
+      markerRef.current = new google.maps.marker.AdvancedMarkerElement({
+        map: currentMap,
+        position,
+      });
+    },
+    []
+  );
 
   const onPlaceChanged = useCallback(() => {
     if (autocompleteRef.current) {
@@ -45,43 +57,17 @@ const ActivityCreationMap = ({
         setMapCenter({ lat, lng });
         setInputValue(address);
 
-        // Call the external setLat and setLng functions
         setLat(lat);
         setLng(lng);
         setAddress(address);
 
         if (map) {
           map.setCenter({ lat, lng });
-          if (markerRef.current) {
-            markerRef.current.map = null;
-          }
-          markerRef.current = new google.maps.marker.AdvancedMarkerElement({
-            map,
-            position: { lat, lng },
-          });
+          updateMarker(map, { lat, lng });
         }
       }
     }
   }, [map, setLat, setLng, setAddress]);
-
-  // Inintial the Loader
-  useEffect(() => {
-    const loader = new Loader({
-      apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY as string,
-      version: 'weekly',
-      libraries: ['places'],
-      language: 'zh-TW',
-    });
-
-    loader
-      .load()
-      .then(() => {
-        setIsLoaded(true);
-      })
-      .catch((error) => {
-        setLoadError(error);
-      });
-  }, []);
 
   useEffect(() => {
     if (!isLoaded || !mapRef.current) return;
@@ -90,9 +76,6 @@ const ActivityCreationMap = ({
       const { Map } = (await google.maps.importLibrary(
         'maps'
       )) as google.maps.MapsLibrary;
-      const { AdvancedMarkerElement } = (await google.maps.importLibrary(
-        'marker'
-      )) as google.maps.MarkerLibrary;
       const { Autocomplete } = (await google.maps.importLibrary(
         'places'
       )) as google.maps.PlacesLibrary;
@@ -120,11 +103,7 @@ const ActivityCreationMap = ({
 
       autocomplete.addListener('place_changed', onPlaceChanged);
 
-      // Initial marker
-      markerRef.current = new AdvancedMarkerElement({
-        map: newMap,
-        position: mapCenter,
-      });
+      updateMarker(newMap, mapCenter);
     };
 
     initMap();

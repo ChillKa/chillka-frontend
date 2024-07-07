@@ -1,7 +1,7 @@
 'use client';
 
-import { Loader } from '@googlemaps/js-api-loader';
 import cn from '@lib/utils';
+import { useGoogleMaps } from '@store/GoogleMapsProvider';
 import { useEffect, useRef } from 'react';
 
 type ActivityLocationMarkerProps = {
@@ -24,35 +24,31 @@ const ActivityLocationMarker = ({
 </svg>
 `;
 
-  useEffect(() => {
-    const initMap = async () => {
-      const loader = new Loader({
-        apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY as string,
-        version: 'weekly',
-      });
+  const { isLoaded, loadError } = useGoogleMaps();
 
-      const { Map } = (await loader.importLibrary(
+  useEffect(() => {
+    if (!isLoaded || !mapRef.current) return;
+
+    const initMap = async () => {
+      const { Map } = (await google.maps.importLibrary(
         'maps'
       )) as google.maps.MapsLibrary;
-      const { AdvancedMarkerElement } = await loader.importLibrary('marker');
-      const locationInMap = {
-        lat,
-        lng,
-      };
+      const { AdvancedMarkerElement } = (await google.maps.importLibrary(
+        'marker'
+      )) as google.maps.MarkerLibrary;
+
+      const locationInMap = { lat, lng };
       const mapOptions: google.maps.MapOptions = {
         center: locationInMap,
         zoom: 17,
         mapId: 'MY_NEXTJS_MAP',
       };
-      const map = new Map(mapRef.current as HTMLDivElement, mapOptions);
+      const map = new Map(mapRef.current!, mapOptions);
       const tag = document.createElement('div');
       tag.innerHTML = locationIcon;
       const marker = new AdvancedMarkerElement({
         map,
-        position: {
-          lat: locationInMap.lat,
-          lng: locationInMap.lng,
-        },
+        position: locationInMap,
         content: tag,
       });
 
@@ -60,7 +56,10 @@ const ActivityLocationMarker = ({
     };
 
     initMap();
-  }, [lat, lng, locationIcon]);
+  }, [isLoaded, lat, lng]);
+
+  if (loadError) return <div>讀取地圖時發生錯誤</div>;
+  if (!isLoaded) return <div>地圖資料載入中</div>;
 
   return <div className={cn('', className)} ref={mapRef} />;
 };

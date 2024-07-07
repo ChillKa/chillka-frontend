@@ -1,8 +1,8 @@
 'use client';
 
 import { Skeleton } from '@components/ui/skeleton';
-import { Loader } from '@googlemaps/js-api-loader';
 import cn from '@lib/utils';
+import { useGoogleMaps } from '@store/GoogleMapsProvider';
 import { useEffect, useRef, useState } from 'react';
 
 export type MarkerPosition = {
@@ -19,26 +19,9 @@ export type SearchMapSectionProps = {
 
 const SearchMapSection = ({ markers, centerId }: SearchMapSectionProps) => {
   const mapRef = useRef<HTMLDivElement>(null);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [loadError, setLoadError] = useState<Error | null>(null);
+  const { isLoaded, loadError } = useGoogleMaps();
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const markersRef = useRef<google.maps.marker.AdvancedMarkerElement[]>([]);
-
-  useEffect(() => {
-    const loader = new Loader({
-      apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY as string,
-      version: 'weekly',
-    });
-
-    loader
-      .load()
-      .then(() => {
-        setIsLoaded(true);
-      })
-      .catch((error) => {
-        setLoadError(error);
-      });
-  }, []);
 
   useEffect(() => {
     if (!isLoaded || !mapRef.current) return;
@@ -80,12 +63,14 @@ const SearchMapSection = ({ markers, centerId }: SearchMapSectionProps) => {
           setMap(newMap);
         }
 
+        // Clear existing markers
         markersRef.current.forEach((marker) => {
           // eslint-disable-next-line no-param-reassign
           marker.map = null;
         });
         markersRef.current = [];
 
+        // Create new markers
         markers.forEach((marker) => {
           const markerElement = document.createElement('div');
           markerElement.className = cn(
@@ -108,7 +93,7 @@ const SearchMapSection = ({ markers, centerId }: SearchMapSectionProps) => {
         // Center the map on the selected marker
         newMap.setCenter({ lat: centerMarker.lat, lng: centerMarker.lng });
       } catch (error) {
-        setLoadError(error as Error);
+        console.error('Error initializing map:', error);
       }
     };
 
