@@ -51,7 +51,7 @@ const ActivityCreationSideBar = ({
       <div className="space-y-6">
         <Link
           className="group flex w-fit items-center gap-2 pl-6"
-          href="#organizer-setting"
+          href={`#${sectionIds.organizer}`}
         >
           <H3 className={vissiblePosition === 0 ? 'border-l-4 pl-6' : ''}>
             主辦方資訊
@@ -60,7 +60,7 @@ const ActivityCreationSideBar = ({
         </Link>
         <Link
           className="group flex w-fit items-center gap-2 pl-6"
-          href="#activity-setting"
+          href={`#${sectionIds.activity}`}
         >
           <H3 className={vissiblePosition === 1 ? 'border-l-4 pl-6' : ''}>
             活動內容
@@ -80,7 +80,7 @@ const ActivityCreationSideBar = ({
         </div>
         <Link
           className="group flex w-fit items-center gap-2 pl-6"
-          href="#ticket-setting"
+          href={`#${sectionIds.tickets}`}
         >
           <H3 className={vissiblePosition === 2 ? 'border-l-4 pl-6' : ''}>
             票卷設定
