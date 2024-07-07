@@ -3,6 +3,7 @@
 import { H3 } from '@components/ui/typography';
 import cn from '@lib/utils';
 import { format } from 'date-fns';
+import { zhTW } from 'date-fns/locale';
 import Link from 'next/link';
 import { HTMLAttributes, useMemo, useRef } from 'react';
 import {
@@ -114,8 +115,10 @@ const SearchResultEventCard = ({
           </div>
           <div id="activity-info" className="flex flex-col gap-2">
             <EventCardInfoSection
-              startTime={format(new Date(startTime), 'MM.dd EE ')}
-              endTime={format(new Date(endTime), ' MM.dd EE')}
+              startTime={format(new Date(startTime), 'MM.dd EE ', {
+                locale: zhTW,
+              })}
+              endTime={format(new Date(endTime), ' MM.dd EE', { locale: zhTW })}
               attendeeCount={attendeeCount}
               location={location}
               organizer={organizer}

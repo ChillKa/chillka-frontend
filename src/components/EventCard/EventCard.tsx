@@ -3,6 +3,7 @@
 import { H3 } from '@components/ui/typography';
 import cn from '@lib/utils';
 import { format } from 'date-fns';
+import { zhTW } from 'date-fns/locale';
 import Link from 'next/link';
 import { forwardRef, useMemo } from 'react';
 import {
@@ -106,8 +107,10 @@ const EventCard = forwardRef<HTMLDivElement, EventCardProps>(
 
           <div className="flex h-[9rem] flex-col justify-between gap-4">
             <EventCardInfoSection
-              startTime={format(new Date(startTime), 'MM.dd EE ')}
-              endTime={format(new Date(endTime), ' MM.dd EE')}
+              startTime={format(new Date(startTime), 'MM.dd EE ', {
+                locale: zhTW,
+              })}
+              endTime={format(new Date(endTime), ' MM.dd EE', { locale: zhTW })}
               attendeeCount={attendeeCount}
               location={location}
               organizer={organizer}
