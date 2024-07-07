@@ -156,7 +156,7 @@ const SearchContentSection = ({
                 }
                 isCollected={activity.isCollected}
                 location={
-                  activity?.type === '線下' ? activity?.address : '線上'
+                  activity?.type === '線下' ? activity?.location : '線上'
                 }
                 organizer={activity.organizer?.contactName ?? '未知舉辦者'} // FIXME: Wait for backend fixed data
                 ticketPrices={activity?.ticketPrice ?? []}

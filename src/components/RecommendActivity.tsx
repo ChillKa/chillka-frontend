@@ -87,7 +87,7 @@ const RecommendActivity = async ({ className }: RecommendActivityProps) => {
               startTime={activity.startDateTime}
               endTime={activity.endDateTime}
               attendeeCount={activity?.participantNumber}
-              location={activity?.location}
+              location={activity?.location ?? '線上'} // FIXME: backend shoud add type props
               organizer={activity?.organizerName}
               ticketPrices={activity?.ticketPrice ?? []}
               discount={activity?.discount}

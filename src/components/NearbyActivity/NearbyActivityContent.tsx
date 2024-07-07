@@ -32,7 +32,7 @@ const NearbyActivityContent = ({ activities }: NearbyActivityContentProps) => {
               ? activity.totalParticipantCapacity - activity.remainingTickets
               : 0
           }
-          location={activity?.type === '線下' ? activity?.address : '線上'}
+          location={activity?.type === '線上' ? '線上' : activity?.location}
           organizer={activity.organizer?.contactName ?? '未知舉辦者'}
           ticketPrices={activity?.ticketPrice ?? []}
           discount={0}

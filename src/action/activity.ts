@@ -198,6 +198,7 @@ export interface RecommendedActivityFetchState {
     endDateTime: string;
     noEndDate: boolean;
     location: string;
+    type: string; // FIXME: backend should add this props
     participantNumber: number;
     organizerName: string;
     discount: number | undefined; // FIXME: no this field
