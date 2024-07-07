@@ -115,10 +115,12 @@ const SearchResultEventCard = ({
           </div>
           <div id="activity-info" className="flex flex-col gap-2">
             <EventCardInfoSection
-              startTime={format(new Date(startTime), 'MM.dd EE ', {
+              startTime={format(new Date(startTime), 'MM.dd （EEEEE） ', {
                 locale: zhTW,
               })}
-              endTime={format(new Date(endTime), ' MM.dd EE', { locale: zhTW })}
+              endTime={format(new Date(endTime), ' MM.dd （EEEEE）', {
+                locale: zhTW,
+              })}
               attendeeCount={attendeeCount}
               location={location}
               organizer={organizer}
