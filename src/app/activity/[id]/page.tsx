@@ -11,6 +11,7 @@ import QuestionsSetcion from '@components/ActivityPage/QuestionsSetcion';
 import SkeletonQuestionsSetcion from '@components/ActivityPage/QuestionsSetcion/SkeletonQuestionsSetcion';
 import TicketSection from '@components/ActivityPage/TicketSection';
 import SkeletonTicketSection from '@components/ActivityPage/TicketSection/SkeletonTicketSection';
+import ScrollToTop from '@components/ScrollToTop';
 import { Metadata, ResolvingMetadata } from 'next';
 import { Suspense } from 'react';
 
@@ -57,6 +58,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
 
   return (
     <>
+      <ScrollToTop />
       <Suspense fallback={<SkeletonCover />}>
         <CoverSection className="" data={data!} />
       </Suspense>
