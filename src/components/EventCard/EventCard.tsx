@@ -2,7 +2,7 @@
 
 import { H3 } from '@components/ui/typography';
 import cn from '@lib/utils';
-import { format } from 'date-fns';
+import { format, toZonedTime } from 'date-fns-tz';
 import { zhTW } from 'date-fns/locale';
 import Link from 'next/link';
 import { forwardRef, useMemo } from 'react';
@@ -107,12 +107,22 @@ const EventCard = forwardRef<HTMLDivElement, EventCardProps>(
 
           <div className="flex h-[9rem] flex-col justify-between gap-4 px-4">
             <EventCardInfoSection
-              startTime={format(new Date(startTime), 'MM.dd （EEEEE） ', {
-                locale: zhTW,
-              })}
-              endTime={format(new Date(endTime), ' MM.dd （EEEEE）', {
-                locale: zhTW,
-              })}
+              startTime={format(
+                toZonedTime(startTime, 'Asia/Taipei'),
+                'MM.dd （EEEEE） ',
+                {
+                  locale: zhTW,
+                  timeZone: 'Asia/Taipei',
+                }
+              )}
+              endTime={format(
+                toZonedTime(endTime, 'Asia/Taipei'),
+                'MM.dd （EEEEE） ',
+                {
+                  locale: zhTW,
+                  timeZone: 'Asia/Taipei',
+                }
+              )}
               attendeeCount={attendeeCount}
               location={location}
               organizer={organizer}

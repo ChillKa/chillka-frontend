@@ -4,7 +4,7 @@ import { Button } from '@components/ui/button';
 import { Card } from '@components/ui/card';
 import { Lead } from '@components/ui/typography';
 import cn from '@lib/utils';
-import { format } from 'date-fns';
+import { format, toZonedTime } from 'date-fns-tz';
 import { zhTW } from 'date-fns/locale';
 import { SquareArrowOutUpRight } from 'lucide-react';
 import Image from 'next/image';
@@ -68,8 +68,15 @@ const ManagementCard = ({
           </Lead>
           <Lead className="order-4 col-span-2 font-medium">
             {' '}
-            {format(startDateTime, 'yyyy-MM-dd', { locale: zhTW })} -{' '}
-            {format(endDateTime, 'yyyy-MM-dd', { locale: zhTW })}
+            {format(toZonedTime(startDateTime, 'Asia/Taipei'), 'yyyy-MM-dd', {
+              locale: zhTW,
+              timeZone: 'Asia/Taipei',
+            })}
+            {' - '}
+            {format(toZonedTime(endDateTime, 'Asia/Taipei'), 'yyyy-MM-dd', {
+              locale: zhTW,
+              timeZone: 'Asia/Taipei',
+            })}
           </Lead>
           <Lead className="order-6 col-span-2 line-clamp-1 font-medium">
             {address}
