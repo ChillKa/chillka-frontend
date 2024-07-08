@@ -24,10 +24,10 @@ const ActivityCreationMap = ({
   const markerRef = useRef<google.maps.marker.AdvancedMarkerElement | null>(
     null
   );
+  const mapInstanceRef = useRef<google.maps.Map | null>(null);
 
   const { isLoaded, loadError, initMap, initAutocomplete } =
     useGoogleMapsProvider();
-  const [map, setMap] = useState<google.maps.Map | null>(null);
   const [mapCenter, setMapCenter] = useState<{ lat: number; lng: number }>({
     lat: 25.033,
     lng: 121.5654,
@@ -35,18 +35,17 @@ const ActivityCreationMap = ({
 
   const [inputValue, setInputValue] = useState<string>('');
 
-  const updateMarker = useCallback(
-    (currentMap: google.maps.Map, position: google.maps.LatLngLiteral) => {
-      if (markerRef.current) {
-        markerRef.current.map = null;
-      }
+  const updateMarker = useCallback((position: google.maps.LatLngLiteral) => {
+    if (markerRef.current) {
+      markerRef.current.map = null;
+    }
+    if (mapInstanceRef.current) {
       markerRef.current = new google.maps.marker.AdvancedMarkerElement({
-        map: currentMap,
+        map: mapInstanceRef.current,
         position,
       });
-    },
-    []
-  );
+    }
+  }, []);
 
   const onPlaceChanged = useCallback(() => {
     if (autocompleteRef.current) {
@@ -62,13 +61,13 @@ const ActivityCreationMap = ({
         setLng(lng);
         setAddress(address);
 
-        if (map) {
-          map.setCenter({ lat, lng });
-          updateMarker(map, { lat, lng });
+        if (mapInstanceRef.current) {
+          mapInstanceRef.current.setCenter({ lat, lng });
+          updateMarker({ lat, lng });
         }
       }
     }
-  }, [setLat, setLng, setAddress, map, updateMarker]);
+  }, [setLat, setLng, setAddress, updateMarker]);
 
   useEffect(() => {
     if (!isLoaded || !mapRef.current) return;
@@ -84,7 +83,7 @@ const ActivityCreationMap = ({
         mapId: 'MY_NEXTJS_MAP',
       });
 
-      setMap(newMap);
+      mapInstanceRef.current = newMap;
 
       const autocomplete = await initAutocomplete(
         document.getElementById('autocomplete') as HTMLInputElement,
@@ -95,20 +94,26 @@ const ActivityCreationMap = ({
       autocompleteRef.current = autocomplete;
       autocomplete.addListener('place_changed', onPlaceChanged);
 
-      updateMarker(newMap, mapCenter);
+      updateMarker(mapCenter);
     };
 
     initCreateLocationMap();
-    // FIXME: the infinite render problem when added  onPlaceChanged, updateMarker to dependency
-  }, [isLoaded, initMap, initAutocomplete, mapCenter]);
+  }, [
+    isLoaded,
+    initMap,
+    initAutocomplete,
+    updateMarker,
+    onPlaceChanged,
+    mapCenter,
+  ]);
 
   // Update marker when mapCenter changes
   useEffect(() => {
-    if (map && mapCenter) {
-      updateMarker(map, mapCenter);
-      map.setCenter(mapCenter);
+    if (mapInstanceRef.current && mapCenter) {
+      updateMarker(mapCenter);
+      mapInstanceRef.current.setCenter(mapCenter);
     }
-  }, [map, mapCenter, updateMarker]);
+  }, [mapCenter, updateMarker]);
 
   if (loadError) return <div>讀取地圖時發生錯誤</div>;
 
