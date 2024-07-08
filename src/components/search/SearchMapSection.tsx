@@ -19,7 +19,8 @@ export type SearchMapSectionProps = {
 
 const SearchMapSection = ({ markers, centerId }: SearchMapSectionProps) => {
   const mapRef = useRef<HTMLDivElement>(null);
-  const { isLoaded, loadError } = useGoogleMapsProvider();
+  const { isLoaded, loadError, initMap, createMarker } =
+    useGoogleMapsProvider();
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const markersRef = useRef<google.maps.marker.AdvancedMarkerElement[]>([]);
 
@@ -38,17 +39,10 @@ const SearchMapSection = ({ markers, centerId }: SearchMapSectionProps) => {
     []
   );
 
-  const initMap = useCallback(async () => {
-    if (!isLoaded || !mapRef.current || !google.maps) return;
+  const initSearchMap = useCallback(async () => {
+    if (!isLoaded || !mapRef.current) return;
 
     try {
-      const { Map } = (await google.maps.importLibrary(
-        'maps'
-      )) as google.maps.MapsLibrary;
-      const { AdvancedMarkerElement } = (await google.maps.importLibrary(
-        'marker'
-      )) as google.maps.MarkerLibrary;
-
       const validMarkers = markers.filter(
         (marker) =>
           typeof marker.lat === 'number' &&
@@ -78,7 +72,7 @@ const SearchMapSection = ({ markers, centerId }: SearchMapSectionProps) => {
         fullscreenControl: false,
       };
 
-      const newMap = map ?? new Map(mapRef.current, mapOptions);
+      const newMap = map ?? (await initMap(mapRef.current, mapOptions));
       newMap.setOptions(mapOptions);
       if (!map) setMap(newMap);
 
@@ -90,23 +84,33 @@ const SearchMapSection = ({ markers, centerId }: SearchMapSectionProps) => {
       markersRef.current = [];
 
       // Create new markers
-      markersRef.current = validMarkers.map(
-        (marker) =>
-          new AdvancedMarkerElement({
-            map: newMap,
-            position: { lat: marker.lat, lng: marker.lng },
+      const markerPromises = validMarkers.map((marker) => {
+        return createMarker(
+          newMap,
+          { lat: marker.lat, lng: marker.lng },
+          {
             content: createMarkerElement(marker, marker.id === centerId),
-          })
-      );
+          }
+        );
+      });
+      markersRef.current = await Promise.all(markerPromises);
 
       newMap.setCenter({ lat: centerMarker.lat, lng: centerMarker.lng });
     } catch (error) {
       console.error('Error initializing map:', error);
     }
-  }, [isLoaded, markers, centerId, map, createMarkerElement]);
+  }, [
+    isLoaded,
+    markers,
+    map,
+    initMap,
+    centerId,
+    createMarker,
+    createMarkerElement,
+  ]);
 
   useEffect(() => {
-    initMap();
+    initSearchMap();
 
     return () => {
       markersRef.current.forEach((marker) => {
@@ -115,7 +119,7 @@ const SearchMapSection = ({ markers, centerId }: SearchMapSectionProps) => {
       });
       markersRef.current = [];
     };
-  }, [initMap]);
+  }, [initSearchMap]);
 
   if (loadError)
     return (
