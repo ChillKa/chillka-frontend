@@ -36,7 +36,7 @@ const handleAuthRelatedPaths = (req: NextRequest, url: URL) => {
       response.cookies.delete('last_visited_path');
 
       if (accessToken) {
-        const expiresISO = new Date(Date.now() + 3600 * 1000).toISOString();
+        const expiresISO = new Date(Date.now() + 10800 * 1000).toISOString();
         const expires = new Date(expiresISO);
 
         response.cookies.set('session', accessToken, {
