@@ -108,7 +108,7 @@ const SearchResultEventCard = ({
           activityId={link}
         />
 
-        <div className="flex h-full w-[32.875rem] flex-col items-stretch justify-start gap-4">
+        <div className="flex h-full w-[32.875rem] flex-col items-stretch justify-start gap-4 p-4">
           <div id="activity-header" className="flex flex-col gap-2">
             <H3>{title}</H3>
             <p className="truncate text-sm font-normal">{summary}</p>
