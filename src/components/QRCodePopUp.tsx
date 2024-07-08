@@ -58,7 +58,10 @@ const QRCodePopUp = ({ name, startTime, endTime, id }: QRCodeType) => {
       }
     >
       <Dialog open={isOpen}>
-        <DialogTrigger onClick={handleOpen}>
+        <DialogTrigger
+          className="xl:flex xl:items-center xl:justify-center"
+          onClick={handleOpen}
+        >
           {width > 1366 ? (
             <QrCode size={40} />
           ) : (

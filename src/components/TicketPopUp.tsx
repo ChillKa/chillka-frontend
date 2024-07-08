@@ -128,9 +128,10 @@ const TicketPopUp = ({
         <DialogFooter className="flex h-[5.5rem] flex-row items-center justify-center border-t-[0.0625rem] px-4 py-3 xl:h-[4.5rem] xl:flex-row-reverse xl:justify-between xl:border-none xl:p-0 xl:px-6 xl:pb-6">
           <button
             onClick={handleClose}
-            className="flex h-[3.5rem] flex-1 items-center justify-start text-base font-medium xl:h-[3rem] xl:w-[7rem] xl:flex-none xl:justify-center xl:border xl:border-primary"
+            className="flex h-[3.5rem] flex-1 items-center justify-start bg-[#dfdfdc] text-base font-medium text-white xl:h-[3rem] xl:w-[7rem] xl:flex-none xl:justify-center"
             aria-label="Cancel Participation"
             type="button"
+            disabled
           >
             取消參加
           </button>
