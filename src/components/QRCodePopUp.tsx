@@ -38,7 +38,7 @@ const QRCodePopUp = ({ name, startTime, endTime, id }: QRCodeType) => {
     const hours = String(date.getUTCHours()).padStart(2, '0');
     const minutes = String(date.getUTCMinutes()).padStart(2, '0');
     const year = date.getUTCFullYear();
-    const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // 月份从0开始
+    const month = String(date.getUTCMonth() + 1).padStart(2, '0');
     const day = String(date.getUTCDate()).padStart(2, '0');
     const timeString = `${hours}:${minutes}`;
     const dateStringFormatted = `${year}.${month}.${day}`;
@@ -69,7 +69,7 @@ const QRCodePopUp = ({ name, startTime, endTime, id }: QRCodeType) => {
           )}
         </DialogTrigger>
         <DialogContent
-          className="w-vh h-svh xl:h-[44.25rem] xl:w-[26rem]"
+          className="w-vh h-svh xl:h-[35rem] xl:w-[20rem]"
           hideCloseButton
         >
           <button
@@ -100,7 +100,7 @@ const QRCodePopUp = ({ name, startTime, endTime, id }: QRCodeType) => {
               </div>
             </div>
             <div className="flex items-center justify-center">
-              <QRCodeSVG value={id} size={width > 1366 ? 368 : 351} />
+              <QRCodeSVG value={id} size={width > 1366 ? 220 : 351} />
             </div>
             <div className="my-6 h-1 w-full border-t border-dashed border-black" />
             <p className="m-auto py-4 text-center">參加人：{name}</p>
