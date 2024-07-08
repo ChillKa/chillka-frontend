@@ -24,39 +24,28 @@ const ActivityLocationMarker = ({
 </svg>
 `;
 
-  const { isLoaded, loadError } = useGoogleMapsProvider();
+  const { isLoaded, loadError, initMap, createMarker } =
+    useGoogleMapsProvider();
 
   useEffect(() => {
     if (!isLoaded || !mapRef.current) return;
 
-    const initMap = async () => {
-      const { Map } = (await google.maps.importLibrary(
-        'maps'
-      )) as google.maps.MapsLibrary;
-      const { AdvancedMarkerElement } = (await google.maps.importLibrary(
-        'marker'
-      )) as google.maps.MarkerLibrary;
-
+    const initActivityMap = async () => {
       const locationInMap = { lat, lng };
       const mapOptions: google.maps.MapOptions = {
         center: locationInMap,
         zoom: 17,
         mapId: 'MY_NEXTJS_MAP',
       };
-      const map = new Map(mapRef.current!, mapOptions);
+      const map = await initMap(mapRef.current!, mapOptions);
+
       const tag = document.createElement('div');
       tag.innerHTML = locationIcon;
-      const marker = new AdvancedMarkerElement({
-        map,
-        position: locationInMap,
-        content: tag,
-      });
-
-      return marker;
+      await createMarker(map, locationInMap, { content: tag });
     };
 
-    initMap();
-  }, [isLoaded, lat, lng, locationIcon]);
+    initActivityMap();
+  }, [createMarker, initMap, isLoaded, lat, lng, locationIcon]);
 
   if (loadError) return <div>讀取地圖時發生錯誤</div>;
   if (!isLoaded) return <div>地圖資料載入中</div>;

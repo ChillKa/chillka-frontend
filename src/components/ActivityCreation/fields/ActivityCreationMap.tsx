@@ -25,7 +25,8 @@ const ActivityCreationMap = ({
     null
   );
 
-  const { isLoaded, loadError } = useGoogleMapsProvider();
+  const { isLoaded, loadError, initMap, initAutocomplete } =
+    useGoogleMapsProvider();
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const [mapCenter, setMapCenter] = useState<{ lat: number; lng: number }>({
     lat: 25.033,
@@ -72,15 +73,8 @@ const ActivityCreationMap = ({
   useEffect(() => {
     if (!isLoaded || !mapRef.current) return;
 
-    const initMap = async () => {
-      const { Map } = (await google.maps.importLibrary(
-        'maps'
-      )) as google.maps.MapsLibrary;
-      const { Autocomplete } = (await google.maps.importLibrary(
-        'places'
-      )) as google.maps.PlacesLibrary;
-
-      const newMap = new Map(mapRef.current!, {
+    const initCreateLocationMap = async () => {
+      const newMap = await initMap(mapRef.current!, {
         center: mapCenter,
         zoom: 15,
         streetViewControl: false,
@@ -92,36 +86,29 @@ const ActivityCreationMap = ({
 
       setMap(newMap);
 
-      const autocomplete = new Autocomplete(
+      const autocomplete = await initAutocomplete(
         document.getElementById('autocomplete') as HTMLInputElement,
         {
           componentRestrictions: { country: 'tw' },
         }
       );
-
       autocompleteRef.current = autocomplete;
-
       autocomplete.addListener('place_changed', onPlaceChanged);
 
       updateMarker(newMap, mapCenter);
     };
 
-    initMap();
-  }, [isLoaded, mapCenter]);
+    initCreateLocationMap();
+    // FIXME: the infinite render problem when added  onPlaceChanged, updateMarker to dependency
+  }, [isLoaded, initMap, initAutocomplete, mapCenter]);
 
   // Update marker when mapCenter changes
   useEffect(() => {
     if (map && mapCenter) {
-      if (markerRef.current) {
-        markerRef.current.map = null;
-      }
-      markerRef.current = new google.maps.marker.AdvancedMarkerElement({
-        map,
-        position: mapCenter,
-      });
+      updateMarker(map, mapCenter);
       map.setCenter(mapCenter);
     }
-  }, [map, mapCenter]);
+  }, [map, mapCenter, updateMarker]);
 
   if (loadError) return <div>讀取地圖時發生錯誤</div>;
 
