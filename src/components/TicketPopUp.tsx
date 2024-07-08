@@ -7,6 +7,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@components/ui/dialog';
+import { motion } from 'framer-motion';
 import { QrCode, X } from 'lucide-react';
 import { ReactNode, useState } from 'react';
 
@@ -59,9 +60,15 @@ const TicketPopUp = ({
 
   return (
     <Dialog open={isOpen}>
-      <DialogTrigger onClick={handleOpen} asChild>
-        {children}
-      </DialogTrigger>
+      <motion.div
+        className="group cursor-pointer hover:bg-primary/[0.03]"
+        whileHover={{ scale: 1.025 }}
+        whileTap={{ scale: 0.95 }}
+      >
+        <DialogTrigger onClick={handleOpen} asChild>
+          {children}
+        </DialogTrigger>
+      </motion.div>
       <DialogContent
         className="w-vw h-svh text-primary xl:h-fit xl:w-[67.25rem]"
         hideCloseButton
