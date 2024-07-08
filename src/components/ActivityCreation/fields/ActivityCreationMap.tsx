@@ -67,7 +67,7 @@ const ActivityCreationMap = ({
         }
       }
     }
-  }, [map, setLat, setLng, setAddress]);
+  }, [setLat, setLng, setAddress, map, updateMarker]);
 
   useEffect(() => {
     if (!isLoaded || !mapRef.current) return;

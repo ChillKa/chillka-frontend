@@ -56,7 +56,7 @@ const ActivityLocationMarker = ({
     };
 
     initMap();
-  }, [isLoaded, lat, lng]);
+  }, [isLoaded, lat, lng, locationIcon]);
 
   if (loadError) return <div>讀取地圖時發生錯誤</div>;
   if (!isLoaded) return <div>地圖資料載入中</div>;
