@@ -2,8 +2,6 @@
 
 import { H3 } from '@components/ui/typography';
 import cn from '@lib/utils';
-import { format, toZonedTime } from 'date-fns-tz';
-import { zhTW } from 'date-fns/locale';
 import Link from 'next/link';
 import { HTMLAttributes, useMemo, useRef } from 'react';
 import {
@@ -39,8 +37,8 @@ const SearchResultEventCard = ({
   title = 'Unknown Title',
   cover = '/default.webp',
   summary = 'Unknown description',
-  startTime = '1900.01.01',
-  endTime = '1900.01.02',
+  startTime,
+  endTime,
   attendeeCount = 0,
   isCollected = false,
   location = 'Unknown location',
@@ -115,22 +113,8 @@ const SearchResultEventCard = ({
           </div>
           <div id="activity-info" className="flex flex-col gap-2">
             <EventCardInfoSection
-              startTime={format(
-                toZonedTime(startTime, 'Asia/Taipei'),
-                'MM.dd （EEEEE） ',
-                {
-                  locale: zhTW,
-                  timeZone: 'Asia/Taipei',
-                }
-              )}
-              endTime={format(
-                toZonedTime(endTime, 'Asia/Taipei'),
-                ' MM.dd （EEEEE）',
-                {
-                  locale: zhTW,
-                  timeZone: 'Asia/Taipei',
-                }
-              )}
+              startTime={startTime}
+              endTime={endTime}
               attendeeCount={attendeeCount}
               location={location}
               organizer={organizer}
