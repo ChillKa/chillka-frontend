@@ -2,7 +2,7 @@
 
 import { Skeleton } from '@components/ui/skeleton';
 import cn from '@lib/utils';
-import { useGoogleMaps } from '@store/GoogleMapsProvider';
+import { useGoogleMapsProvider } from '@store/GoogleMapsProvider';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 export type MarkerPosition = {
@@ -19,7 +19,7 @@ export type SearchMapSectionProps = {
 
 const SearchMapSection = ({ markers, centerId }: SearchMapSectionProps) => {
   const mapRef = useRef<HTMLDivElement>(null);
-  const { isLoaded, loadError } = useGoogleMaps();
+  const { isLoaded, loadError } = useGoogleMapsProvider();
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const markersRef = useRef<google.maps.marker.AdvancedMarkerElement[]>([]);
 

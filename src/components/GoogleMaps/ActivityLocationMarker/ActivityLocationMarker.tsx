@@ -1,7 +1,7 @@
 'use client';
 
 import cn from '@lib/utils';
-import { useGoogleMaps } from '@store/GoogleMapsProvider';
+import { useGoogleMapsProvider } from '@store/GoogleMapsProvider';
 import { useEffect, useRef } from 'react';
 
 type ActivityLocationMarkerProps = {
@@ -24,7 +24,7 @@ const ActivityLocationMarker = ({
 </svg>
 `;
 
-  const { isLoaded, loadError } = useGoogleMaps();
+  const { isLoaded, loadError } = useGoogleMapsProvider();
 
   useEffect(() => {
     if (!isLoaded || !mapRef.current) return;

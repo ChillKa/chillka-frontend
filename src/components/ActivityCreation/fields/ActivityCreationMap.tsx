@@ -3,7 +3,7 @@
 import { Input } from '@components/ui/input';
 import { Label } from '@components/ui/label';
 import cn from '@lib/utils';
-import { useGoogleMaps } from '@store/GoogleMapsProvider';
+import { useGoogleMapsProvider } from '@store/GoogleMapsProvider';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 type ActivityCreationMapProps = {
@@ -25,7 +25,7 @@ const ActivityCreationMap = ({
     null
   );
 
-  const { isLoaded, loadError } = useGoogleMaps();
+  const { isLoaded, loadError } = useGoogleMapsProvider();
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const [mapCenter, setMapCenter] = useState<{ lat: number; lng: number }>({
     lat: 25.033,
