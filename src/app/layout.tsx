@@ -3,6 +3,7 @@ import Header from '@components/Header';
 import { Toaster } from '@components/ui/toaster';
 import cn from '@lib/utils';
 import AuthProvider from '@store/AuthProvider/AuthProvider';
+import { GoogleMapsProvider } from '@store/GoogleMapsProvider';
 import type { Metadata } from 'next';
 import { Noto_Sans_TC as FontSans } from 'next/font/google';
 import React from 'react';
@@ -44,12 +45,14 @@ const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => (
       )}
     >
       <AuthProvider>
-        <Header />
-        <main className="min-h-[calc(100vh-var(--header-height)-var(--footer-height))]">
-          {children}
-          <Toaster />
-        </main>
-        <Footer className="mx-auto" />
+        <GoogleMapsProvider>
+          <Header />
+          <main className="min-h-[calc(100vh-var(--header-height)-var(--footer-height))]">
+            {children}
+            <Toaster />
+          </main>
+          <Footer className="mx-auto" />
+        </GoogleMapsProvider>
       </AuthProvider>
     </body>
   </html>
