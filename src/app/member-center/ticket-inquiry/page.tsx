@@ -20,9 +20,6 @@ const TicketInquiry = () => {
   const [sort, setSort] = useState<string>('paymentDate');
   const [isLoading, seIsLoading] = useState(true);
   const [QRCodePopUpState, setQRCodePopUpState] = useState<boolean[]>([]);
-
-  console.log('QRCode', QRCodePopUpState);
-
   const { width } = useWindowSize();
 
   const changeSort = (value: string) => setSort(value);
@@ -63,6 +60,12 @@ const TicketInquiry = () => {
       state === 'usableTicket'
         ? usableTickets.map(() => false)
         : unusableTickets.map(() => false)
+    );
+  };
+
+  const handleOpenQRCodePopUp = (ticketIndex: number) => {
+    setQRCodePopUpState((prev) =>
+      prev.map((_, steteIndex: number) => steteIndex === ticketIndex && true)
     );
   };
 
@@ -136,7 +139,7 @@ const TicketInquiry = () => {
           {isLoading && <Loading />}
           {usableTickets.length > 0 &&
             !isLoading &&
-            usableTickets.map((ticket: TicketsInfoType) => (
+            usableTickets.map((ticket: TicketsInfoType, index: number) => (
               <TicketPopUp
                 ticketName={`${ticket.activity.name} | ${ticket.ticket.name}`}
                 ticketQuantity={ticket.payment.orderNumber}
@@ -166,6 +169,11 @@ const TicketInquiry = () => {
                   </p>
                   <div className="xl:flex xl:items-center xl:justify-center">
                     <QRCodePopUp
+                      popUpState={QRCodePopUpState[index]}
+                      handleOpenPopUp={() => handleOpenQRCodePopUp(index)}
+                      handleClosePopUp={() =>
+                        setQRCodePopUpState((prev) => prev.map(() => false))
+                      }
                       name={ticket.orderContact.name}
                       startTime={ticket.ticket.startDateTime}
                       endTime={ticket.ticket.endDateTime}

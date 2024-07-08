@@ -10,27 +10,39 @@ import {
 import useWindowSize from '@hooks/use-window-size';
 import { ArrowRight, QrCode, X } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
-import { useState } from 'react';
 
 type QRCodeType = {
+  popUpState: boolean;
+  handleOpenPopUp: () => void;
+  handleClosePopUp: () => void;
   name: string;
   startTime: string;
   endTime: string;
   id: string;
 };
 
-const QRCodePopUp = ({ name, startTime, endTime, id }: QRCodeType) => {
-  const [isOpen, setIsOpen] = useState(false);
+const QRCodePopUp = ({
+  name,
+  startTime,
+  endTime,
+  id,
+  popUpState,
+  handleOpenPopUp,
+  handleClosePopUp,
+}: QRCodeType) => {
+  // const [isOpen, setIsOpen] = useState(false);
   const { width } = useWindowSize();
 
   const handleOpen = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setIsOpen(true);
+    // setIsOpen(true);
+    handleOpenPopUp();
   };
 
   const handleClose = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setIsOpen(false);
+    // setIsOpen(false);
+    handleClosePopUp();
   };
 
   const formatDateTime = (dateString: string) => {
@@ -57,7 +69,7 @@ const QRCodePopUp = ({ name, startTime, endTime, id }: QRCodeType) => {
         e.stopPropagation()
       }
     >
-      <Dialog open={isOpen}>
+      <Dialog open={popUpState}>
         <DialogTrigger
           className="xl:flex xl:items-center xl:justify-center"
           onClick={handleOpen}
