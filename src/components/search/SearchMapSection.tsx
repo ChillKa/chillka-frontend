@@ -3,7 +3,7 @@
 import { Skeleton } from '@components/ui/skeleton';
 import cn from '@lib/utils';
 import { useGoogleMaps } from '@store/GoogleMapsProvider';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 export type MarkerPosition = {
   id: string;
@@ -23,82 +23,99 @@ const SearchMapSection = ({ markers, centerId }: SearchMapSectionProps) => {
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const markersRef = useRef<google.maps.marker.AdvancedMarkerElement[]>([]);
 
-  useEffect(() => {
-    if (!isLoaded || !mapRef.current) return;
+  const createMarkerElement = useCallback(
+    (marker: MarkerPosition, isCentered: boolean) => {
+      const element = document.createElement('div');
+      element.className = cn(
+        'flex h-10 w-20 items-center justify-center rounded-full border shadow-lg',
+        isCentered ? 'bg-primary text-white' : 'bg-surface'
+      );
+      element.innerHTML = `<p class="text-sm font-bold">${
+        marker.pricing === 0 ? '免費' : `NT$${marker.pricing}`
+      }</p>`;
+      return element;
+    },
+    []
+  );
 
-    const initMap = async () => {
-      try {
-        const { Map } = (await google.maps.importLibrary(
-          'maps'
-        )) as google.maps.MapsLibrary;
-        const { AdvancedMarkerElement } = (await google.maps.importLibrary(
-          'marker'
-        )) as google.maps.MarkerLibrary;
+  const initMap = useCallback(async () => {
+    if (!isLoaded || !mapRef.current || !google.maps) return;
 
-        const centerMarker = centerId
-          ? markers.find((el) => el.id === centerId)
-          : markers[0];
+    try {
+      const { Map } = (await google.maps.importLibrary(
+        'maps'
+      )) as google.maps.MapsLibrary;
+      const { AdvancedMarkerElement } = (await google.maps.importLibrary(
+        'marker'
+      )) as google.maps.MarkerLibrary;
 
-        if (!centerMarker) {
-          console.error('No valid center marker found');
-          return;
-        }
+      const validMarkers = markers.filter(
+        (marker) =>
+          typeof marker.lat === 'number' &&
+          !Number.isNaN(marker.lat) &&
+          typeof marker.lng === 'number' &&
+          !Number.isNaN(marker.lng)
+      );
 
-        const mapOptions: google.maps.MapOptions = {
-          center: { lat: centerMarker.lat, lng: centerMarker.lng },
-          zoom: 15,
-          mapId: 'MY_NEXTJS_MAP',
-          streetViewControl: false,
-          mapTypeControl: false,
-          zoomControl: true,
-          fullscreenControl: false,
-        };
+      if (validMarkers.length === 0) {
+        console.warn('No valid markers found');
+        return;
+      }
 
-        let newMap: google.maps.Map;
-        if (map) {
-          newMap = map;
-          newMap.setOptions(mapOptions);
-        } else {
-          newMap = new Map(mapRef.current!, mapOptions);
-          setMap(newMap);
-        }
+      let centerMarker = validMarkers.find((el) => el.id === centerId);
+      if (!centerMarker) {
+        console.warn('No valid center marker found, using first valid marker');
+        [centerMarker] = validMarkers;
+      }
 
-        // Clear existing markers
-        markersRef.current.forEach((marker) => {
-          // eslint-disable-next-line no-param-reassign
-          marker.map = null;
-        });
-        markersRef.current = [];
+      const mapOptions: google.maps.MapOptions = {
+        center: { lat: centerMarker.lat, lng: centerMarker.lng },
+        zoom: 16,
+        mapId: 'MY_NEXTJS_MAP',
+        streetViewControl: false,
+        mapTypeControl: false,
+        zoomControl: true,
+        fullscreenControl: false,
+      };
 
-        // Create new markers
-        markers.forEach((marker) => {
-          const markerElement = document.createElement('div');
-          markerElement.className = cn(
-            'flex h-10 w-20 items-center justify-center rounded-full border shadow-lg',
-            marker.id === centerId ? 'bg-primary text-white' : 'bg-surface'
-          );
-          markerElement.innerHTML = `<p class="text-sm font-bold">${
-            marker.pricing === 0 ? '免費' : `NT$${marker.pricing}`
-          }</p>`;
+      const newMap = map ?? new Map(mapRef.current, mapOptions);
+      newMap.setOptions(mapOptions);
+      if (!map) setMap(newMap);
 
-          const advancedMarker = new AdvancedMarkerElement({
+      // Clear existing markers
+      markersRef.current.forEach((marker) => {
+        // eslint-disable-next-line no-param-reassign
+        marker.map = null;
+      });
+      markersRef.current = [];
+
+      // Create new markers
+      markersRef.current = validMarkers.map(
+        (marker) =>
+          new AdvancedMarkerElement({
             map: newMap,
             position: { lat: marker.lat, lng: marker.lng },
-            content: markerElement,
-          });
+            content: createMarkerElement(marker, marker.id === centerId),
+          })
+      );
 
-          markersRef.current.push(advancedMarker);
-        });
+      newMap.setCenter({ lat: centerMarker.lat, lng: centerMarker.lng });
+    } catch (error) {
+      console.error('Error initializing map:', error);
+    }
+  }, [isLoaded, markers, centerId, map, createMarkerElement]);
 
-        // Center the map on the selected marker
-        newMap.setCenter({ lat: centerMarker.lat, lng: centerMarker.lng });
-      } catch (error) {
-        console.error('Error initializing map:', error);
-      }
-    };
-
+  useEffect(() => {
     initMap();
-  }, [isLoaded, markers, centerId, map]);
+
+    return () => {
+      markersRef.current.forEach((marker) => {
+        // eslint-disable-next-line no-param-reassign
+        marker.map = null;
+      });
+      markersRef.current = [];
+    };
+  }, [initMap]);
 
   if (loadError)
     return (
