@@ -63,7 +63,7 @@ const FillTicketInfoSection = ({
     if (!firstSelectedTicket) {
       toast({
         variant: 'destructive',
-        title: '為選擇票券',
+        title: '未選擇票券',
       });
       return;
     }
