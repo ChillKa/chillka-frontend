@@ -18,7 +18,7 @@ import { Switch } from '@components/ui/switch';
 import { H2, H4, P } from '@components/ui/typography';
 import { createActivityFormSchema } from '@lib/definitions';
 import cn from '@lib/utils';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { z } from 'zod';
 import ActivityDateWrapper from '../fields/ActitvityDateWraper';
@@ -62,6 +62,21 @@ const ActivityContentFormSection = ({
     const dayIndex = day.getDay();
     return daysInChinese[dayIndex];
   };
+
+  const mapProps = useMemo(
+    () => ({
+      setLat: (lat: number) => {
+        setValue('lat', lat);
+      },
+      setLng: (lng: number) => {
+        setValue('lng', lng);
+      },
+      setAddress: (address: string) => {
+        setValue('address', address);
+      },
+    }),
+    [setValue]
+  );
 
   useEffect(() => {
     const subscription = watch((value, { name }) => {
@@ -356,15 +371,7 @@ const ActivityContentFormSection = ({
         )}
         <ActivityCreationMap
           className={activityTypeState === '線下' ? 'block' : 'hidden'}
-          setLat={(lat: number) => {
-            setValue('lat', lat);
-          }}
-          setLng={(lng: number) => {
-            setValue('lng', lng);
-          }}
-          setAddress={(address: string) => {
-            setValue('address', address);
-          }}
+          {...mapProps}
         />
         {activityTypeState === '線下' && (
           <FormField
