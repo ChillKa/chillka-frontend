@@ -23,6 +23,7 @@ type TicketPopUpProps = {
   pay: string;
   state: string;
   // link?: string;
+  openQRCodePopUp: () => void;
   children?: ReactNode;
 };
 
@@ -37,6 +38,7 @@ const TicketPopUp = ({
   pay,
   state,
   // link,
+  openQRCodePopUp,
   children,
 }: TicketPopUpProps) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -50,6 +52,11 @@ const TicketPopUp = ({
   const handleClose = (e: React.MouseEvent) => {
     e.stopPropagation();
     setIsOpen(false);
+  };
+
+  const handleOpenQRCodePopUp = () => {
+    setIsOpen(false);
+    openQRCodePopUp();
   };
 
   const formatDate = (dateString: string) => {
@@ -141,6 +148,7 @@ const TicketPopUp = ({
             className="flex h-[3.5rem] flex-1 items-center justify-center bg-primary text-base font-medium text-white xl:h-[3rem] xl:w-[9rem] xl:flex-none xl:flex-row-reverse"
             aria-label="Use Ticket"
             type="button"
+            onClick={handleOpenQRCodePopUp}
           >
             使用票券
             <QrCode className="xl:mr-4" size={16} />

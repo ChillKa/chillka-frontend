@@ -151,6 +151,7 @@ const TicketInquiry = () => {
                 pay={ticket.payment.type}
                 state={ticket.payment.status}
                 // link={ticket.paymen.link}
+                openQRCodePopUp={() => handleOpenQRCodePopUp(index)}
                 key={ticket._id}
               >
                 <div className="block grid-cols-[7fr_2fr_2fr_2fr] py-4 text-xl font-bold xl:grid">
@@ -189,7 +190,7 @@ const TicketInquiry = () => {
           {isLoading && <Loading />}
           {unusableTickets.length > 0 &&
             !isLoading &&
-            unusableTickets.map((ticket: TicketsInfoType) => (
+            unusableTickets.map((ticket: TicketsInfoType, index: number) => (
               <TicketPopUp
                 ticketName={`${ticket.activity.name} | ${ticket.ticket.name}`}
                 ticketQuantity={ticket.payment.orderNumber}
@@ -201,6 +202,7 @@ const TicketInquiry = () => {
                 pay={ticket.payment.type}
                 state={ticket.payment.status}
                 // link={ticket.paymen.link}
+                openQRCodePopUp={() => handleOpenQRCodePopUp(index)}
                 key={ticket._id}
               >
                 <div className="block grid-cols-[7fr_2fr_2fr_2fr] py-4 text-xl font-bold xl:grid">

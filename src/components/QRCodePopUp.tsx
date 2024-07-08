@@ -30,18 +30,15 @@ const QRCodePopUp = ({
   handleOpenPopUp,
   handleClosePopUp,
 }: QRCodeType) => {
-  // const [isOpen, setIsOpen] = useState(false);
   const { width } = useWindowSize();
 
   const handleOpen = (e: React.MouseEvent) => {
     e.stopPropagation();
-    // setIsOpen(true);
     handleOpenPopUp();
   };
 
   const handleClose = (e: React.MouseEvent) => {
     e.stopPropagation();
-    // setIsOpen(false);
     handleClosePopUp();
   };
 
