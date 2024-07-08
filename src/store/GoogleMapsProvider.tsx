@@ -34,14 +34,22 @@ export const GoogleMapsProvider = ({ children }: PropsWithChildren) => {
       language: 'zh-TW',
     });
 
-    loader
-      .load()
-      .then(() => {
+    const loadLibraries = async () => {
+      try {
+        await loader.importLibrary('maps');
+        await loader.importLibrary('places');
+
         setIsLoaded(true);
-      })
-      .catch((error) => {
-        setLoadError(error);
-      });
+      } catch (error) {
+        setLoadError(
+          error instanceof Error
+            ? error
+            : new Error('Failed to load Google Maps libraries')
+        );
+      }
+    };
+
+    loadLibraries();
   }, []);
 
   const contextValue = useMemo(
