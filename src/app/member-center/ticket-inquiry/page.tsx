@@ -19,6 +19,10 @@ const TicketInquiry = () => {
   const [unusableTickets, setUnusableTickets] = useState<TicketsInfoType[]>([]);
   const [sort, setSort] = useState<string>('paymentDate');
   const [isLoading, seIsLoading] = useState(true);
+  const [QRCodePopUpState, setQRCodePopUpState] = useState<boolean[]>([]);
+
+  console.log('QRCode', QRCodePopUpState);
+
   const { width } = useWindowSize();
 
   const changeSort = (value: string) => setSort(value);
@@ -54,9 +58,18 @@ const TicketInquiry = () => {
     return `${year}.${month}.${day}`;
   };
 
+  const switchQRCodePopUpState = (state: string) => {
+    setQRCodePopUpState(
+      state === 'usableTicket'
+        ? usableTickets.map(() => false)
+        : unusableTickets.map(() => false)
+    );
+  };
+
   useEffect(() => {
     setUsableTickets((prev) => handleSort([...prev]));
     setUnusableTickets((prev) => handleSort([...prev]));
+    setQRCodePopUpState((prev) => prev.map(() => false));
   }, [sort, handleSort]);
 
   useEffect(() => {
@@ -77,8 +90,11 @@ const TicketInquiry = () => {
             new Date(b.ticket.createdAt).getTime() -
             new Date(a.ticket.createdAt).getTime()
         );
+      const setQRCodePopUpStateList = usableTicketList.map(() => false);
+
       setUsableTickets(usableTicketList);
       setUnusableTickets(unusableTicketList);
+      setQRCodePopUpState(setQRCodePopUpStateList);
       seIsLoading(false);
     })();
   }, []);
@@ -98,12 +114,14 @@ const TicketInquiry = () => {
           <TabsTrigger
             className="mr-6 bg-surface px-0 py-6 text-xl font-bold text-primary data-[state=active]:border-b-4 data-[state=active]:pb-5 data-[state=active]:text-primary"
             value="usableTicket"
+            onClick={() => switchQRCodePopUpState('usableTicket')}
           >
             可使用
           </TabsTrigger>
           <TabsTrigger
             className="bg-surface px-0 py-6 text-xl font-bold text-primary data-[state=active]:border-b-4 data-[state=active]:pb-5 data-[state=active]:text-primary"
             value="unusableTicket"
+            onClick={() => switchQRCodePopUpState('unusableTicket')}
           >
             已使用或過期
           </TabsTrigger>
