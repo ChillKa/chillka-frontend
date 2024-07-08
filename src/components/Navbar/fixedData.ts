@@ -15,8 +15,8 @@ export const aboutEventList = [
 
 export const aboutAccount = [
   {
-    title: '信箱',
-    url: '/member-center/email',
+    title: '訊息',
+    url: '/member-center/message',
   },
   {
     title: '帳號',
