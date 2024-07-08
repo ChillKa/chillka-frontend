@@ -1,12 +1,13 @@
 'use server';
 
 import { FormState, userFormSchema } from '@lib/definitions';
+import { UserData } from 'src/types/user';
 import { z } from 'zod';
 import { fetchAPI, getJwtPayload, validateWithSchema } from './utils';
 
-export type UserData = z.infer<typeof userFormSchema>;
-
-export async function updateUser(data: UserData): Promise<FormState> {
+export async function updateUser(
+  data: z.infer<typeof userFormSchema>
+): Promise<FormState> {
   try {
     const validatedData = validateWithSchema(userFormSchema, data);
     const { displayName } = validatedData;
@@ -80,18 +81,9 @@ export async function fetchMe(): Promise<UserFetchState> {
 
     const fetchedData = await response.json();
 
-    const validatedData = userFormSchema.safeParse(fetchedData);
-
-    if (!validatedData.success) {
-      return {
-        status: 'failed',
-        message: 'Data validation failed',
-      };
-    }
-
     return {
       status: 'success',
-      data: validatedData.data,
+      data: fetchedData,
     };
   } catch (error) {
     return {
