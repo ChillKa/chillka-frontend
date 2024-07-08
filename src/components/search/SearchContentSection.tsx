@@ -93,7 +93,10 @@ const SearchContentSection = ({
   const [centerId, setCenterId] = useState(results[0]?._id ?? '-1');
 
   return (
-    <section id="result" className="flex w-full grow flex-row gap-6">
+    <section
+      id="result"
+      className="flex w-full grow flex-row gap-6 px-3 xl:px-0"
+    >
       {currentShow === 'results' && (
         <div
           id="result-list"
@@ -136,7 +139,7 @@ const SearchContentSection = ({
                 ticketPrices={activity?.ticketPrice ?? []}
                 isContinuous={activity.isContinuous}
                 discount={0}
-                className="gap-4"
+                className="h-auto gap-4"
                 onVisibleTrigger={() => {
                   setCenterId(activity._id);
                 }}
