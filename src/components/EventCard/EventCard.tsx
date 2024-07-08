@@ -114,12 +114,14 @@ const EventCard = forwardRef<HTMLDivElement, EventCardProps>(
           </div>
 
           <div className="flex h-7 items-center justify-start gap-2 px-4">
-            {nearestTicket && nearestTicket.price > 0 ? (
+            {nearestTicket?.price !== undefined ? (
               <>
                 <span className="text-lg font-bold">
-                  NT${nearestTicket.price}
+                  {nearestTicket.price === 0
+                    ? '免費'
+                    : `NT$${nearestTicket.price}`}
                 </span>
-                {discountLabel(discount)}
+                {nearestTicket.price > 0 && discountLabel(discount)}
               </>
             ) : (
               <span className="text-lg font-bold">價格未定</span>
