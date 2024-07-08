@@ -136,12 +136,12 @@ const TicketInquiry = () => {
                   <h3 className="mb-[1.25rem] flex items-center pl-3 text-left xl:mb-0 xl:font-bold">
                     {`${ticket.activity.name} | ${ticket.ticket.name}`}
                   </h3>
-                  <p className="mr-2 inline-block bg-primary px-2 py-1 text-xs/5 font-medium text-white group-hover:bg-primary/[0.00] xl:mr-0 xl:flex xl:items-center xl:justify-center xl:bg-surface xl:p-0 xl:text-xl xl:font-bold xl:text-primary">
+                  <p className="mr-2 inline-block bg-primary px-2 py-1 text-xs/5 font-medium text-white xl:mr-0 xl:flex xl:items-center xl:justify-center xl:bg-surface xl:p-0 xl:text-xl xl:font-bold xl:text-primary xl:group-hover:bg-primary/[0.00]">
                     {width > 1366
                       ? ticket.payment.orderNumber
                       : `數量：${ticket.payment.orderNumber}`}
                   </p>
-                  <p className="inline-block bg-primary px-2 py-1 text-xs/5 font-medium text-white group-hover:bg-primary/[0.00] xl:flex xl:items-center xl:justify-center xl:bg-surface xl:p-0 xl:text-xl xl:font-bold xl:text-primary">
+                  <p className="inline-block bg-primary px-2 py-1 text-xs/5 font-medium text-white xl:flex xl:items-center xl:justify-center xl:bg-surface xl:p-0 xl:text-xl xl:font-bold xl:text-primary xl:group-hover:bg-primary/[0.00]">
                     {width > 1366
                       ? formatDate(ticket.ticket.endDateTime)
                       : `使用期限：${formatDate(ticket.ticket.endDateTime)}`}

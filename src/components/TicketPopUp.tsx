@@ -7,6 +7,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@components/ui/dialog';
+import useWindowSize from '@hooks/use-window-size';
 import { motion } from 'framer-motion';
 import { QrCode, X } from 'lucide-react';
 import { ReactNode, useState } from 'react';
@@ -39,6 +40,7 @@ const TicketPopUp = ({
   children,
 }: TicketPopUpProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const { width } = useWindowSize();
 
   const handleOpen = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -61,9 +63,9 @@ const TicketPopUp = ({
   return (
     <Dialog open={isOpen}>
       <motion.div
-        className="group cursor-pointer hover:bg-primary/[0.03]"
-        whileHover={{ scale: 1.025 }}
-        whileTap={{ scale: 0.95 }}
+        className="group cursor-pointer xl:hover:bg-primary/[0.03]"
+        whileHover={width > 1366 ? { scale: 1.025 } : {}}
+        whileTap={width > 1366 ? { scale: 0.95 } : {}}
       >
         <DialogTrigger onClick={handleOpen} asChild>
           {children}
