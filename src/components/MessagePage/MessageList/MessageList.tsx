@@ -29,14 +29,14 @@ const MessageList = ({ messages }: MessageListProps) => {
             ? MessageUserType.HOST
             : MessageUserType.PARTICIPANT;
         const isCurrentUser = currentUserType === m.messages.userType;
-        const isHost = m.messages.userType === MessageUserType.HOST;
+        const isCurrentUserHost = auth?._id === m.host._id;
 
         if (isCurrentUser) {
           displayName = '你';
-        } else if (isHost) {
-          displayName = m.host.displayName;
-        } else {
+        } else if (isCurrentUserHost) {
           displayName = m.participant.displayName;
+        } else {
+          displayName = m.host.displayName;
         }
 
         return (
@@ -47,9 +47,9 @@ const MessageList = ({ messages }: MessageListProps) => {
               <div className="flex items-center gap-4">
                 <Image
                   src={
-                    isHost
-                      ? m.host?.profilePicture ?? defaultAvatar
-                      : m.participant?.profilePicture ?? defaultAvatar
+                    isCurrentUserHost
+                      ? m.participant?.profilePicture ?? defaultAvatar
+                      : m.host?.profilePicture ?? defaultAvatar
                   }
                   alt="user"
                   width={40}

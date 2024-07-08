@@ -17,6 +17,8 @@ const MessageDetailLayout = ({
   const { auth } = useAuthContext();
   const _query = { messageListId, userId: auth?._id };
 
+  if (!auth?._id) return null;
+
   return <SocketProvider query={_query}>{children}</SocketProvider>;
 };
 
