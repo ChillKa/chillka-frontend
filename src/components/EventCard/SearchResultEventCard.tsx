@@ -125,7 +125,7 @@ const SearchResultEventCard = ({
               )}
               endTime={format(
                 toZonedTime(endTime, 'Asia/Taipei'),
-                'MM.dd （EEEEE） ',
+                ' MM.dd （EEEEE）',
                 {
                   locale: zhTW,
                   timeZone: 'Asia/Taipei',
