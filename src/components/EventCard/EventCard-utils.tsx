@@ -5,6 +5,7 @@ import { isLoggedIn } from '@action/auth';
 import { toast } from '@components/ui/use-toast';
 import cn from '@lib/utils';
 import { cva } from 'class-variance-authority';
+import { isAfter } from 'date-fns';
 import { format, toZonedTime } from 'date-fns-tz';
 import { zhTW } from 'date-fns/locale';
 import {
@@ -179,13 +180,20 @@ export const EventCardInfoSection = ({
     });
   };
 
+  const isValidEndTime = (date?: string | Date) => {
+    if (!date) return false;
+    const endDate = new Date(date);
+    const year2100 = new Date('2100-01-01');
+    return isAfter(year2100, endDate);
+  };
+
   let timeDisplay = '時間未定';
-  if (startTime && endTime) {
-    timeDisplay = `${formatDate(startTime)} - ${formatDate(endTime)}`;
+  if (startTime && isValidEndTime(endTime)) {
+    timeDisplay = `${formatDate(startTime)} - ${formatDate(endTime!)}`;
   } else if (startTime) {
     timeDisplay = `${formatDate(startTime)}起`;
-  } else if (endTime) {
-    timeDisplay = `從即日起至${formatDate(endTime)}`;
+  } else if (isValidEndTime(endTime)) {
+    timeDisplay = `從即日起至${formatDate(endTime!)}`;
   }
 
   return (
