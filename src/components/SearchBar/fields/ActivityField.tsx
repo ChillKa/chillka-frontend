@@ -30,7 +30,7 @@ export type ActivityKeyword = {
 
 export type ActivityPicture = {
   thumbnail: string;
-  url: string;
+  id: string;
   description: string;
 };
 
@@ -139,7 +139,7 @@ const ActivityField = ({
                     key={num}
                     thumbnail={item.thumbnail}
                     description={item.description}
-                    link={item.url}
+                    id={item.id}
                   />
                 );
               })}
@@ -214,7 +214,7 @@ export const ActivityMobileField = ({
                   key={num}
                   thumbnail={item.thumbnail}
                   description={item.description}
-                  link={item.url}
+                  id={item.id}
                 />
               );
             })}
