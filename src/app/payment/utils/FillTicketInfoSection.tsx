@@ -17,6 +17,7 @@ import { RadioGroup, RadioGroupItem } from '@components/ui/radio-group';
 import { toast } from '@components/ui/use-toast';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { formatActivityTime } from '@lib/dateUtils';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { IAcitivityResponse } from 'src/types/activity';
 import { z } from 'zod';
@@ -44,6 +45,7 @@ const FillTicketInfoSection = ({
   activityId,
   totalAmount,
 }: FillTicketInfoSectionProps) => {
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -97,16 +99,27 @@ const FillTicketInfoSection = ({
 
     try {
       const result = await sendPayment(paymentProps);
-      if (result.status === 'success' && result.html) {
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = result.html;
+      if (result.status === 'success') {
+        if ('html' in result && result.html) {
+          // payment order success
+          const tempDiv = document.createElement('div');
+          tempDiv.innerHTML = result.html;
 
-        const tmpForm = tempDiv.querySelector('form');
-        if (tmpForm) {
-          document.body.appendChild(tmpForm);
-          tmpForm.submit();
-        } else {
-          throw new Error('無法找到支付表單');
+          const tmpForm = tempDiv.querySelector('form');
+          if (tmpForm) {
+            document.body.appendChild(tmpForm);
+            tmpForm.submit();
+          } else {
+            throw new Error('無法找到支付表單');
+          }
+        } else if ('orderData' in result) {
+          // free order success
+          toast({
+            title: '訂單創建成功',
+            description: `訂單號: ${result.orderData._id}`,
+          });
+
+          router.push(`/payement/complete`);
         }
       } else {
         throw new Error(result.message || '支付初始化失敗');

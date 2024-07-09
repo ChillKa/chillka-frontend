@@ -34,6 +34,17 @@ export async function sendPayment(props: SendPaymentProps) {
       );
     }
 
+    const contentType = response.headers.get('content-type');
+    if (contentType?.includes('application/json')) {
+      // free order
+      const jsonResponse = await response.json();
+      return {
+        status: 'success',
+        orderData: jsonResponse.data,
+        message: jsonResponse.message,
+      };
+    }
+    // payment order ecpay
     const html = await response.text();
     return { status: 'success', html };
   } catch (error) {
