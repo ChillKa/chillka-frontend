@@ -36,7 +36,7 @@ const ManagementCard = ({
   // LINK: src\components\EventCard\EventCard-utils.tsx:176
 
   const formatDate = (date: string | Date) => {
-    return format(toZonedTime(date, 'Asia/Taipei'), 'yyyy.MM.dd （EEEEE）', {
+    return format(toZonedTime(date, 'Asia/Taipei'), 'yyyy.MM.dd', {
       locale: zhTW,
       timeZone: 'Asia/Taipei',
     });
