@@ -1,18 +1,16 @@
+import { format, toDate, toZonedTime } from 'date-fns-tz';
+import { zhTW } from 'date-fns/locale';
+
 /**
  * @param dateString 日期字串，例如 '2024-06-21T12:33:33.476+00:00'
  * @returns 格式化後的日期字串，例如 '2024-07-20（六） 19:00'
  */
 export const formatDateWithDayOfWeek = (dateString: string): string => {
-  const date = new Date(dateString);
-  const year = date.getFullYear();
-  const month = (date.getMonth() + 1).toString().padStart(2, '0');
-  const day = date.getDate().toString().padStart(2, '0');
-  const hours = date.getHours().toString().padStart(2, '0');
-  const minutes = date.getMinutes().toString().padStart(2, '0');
-  const daysOfWeek = ['日', '一', '二', '三', '四', '五', '六'];
-  const dayOfWeek = daysOfWeek[date.getDay()];
-
-  return `${year}-${month}-${day}（${dayOfWeek}） ${hours}:${minutes}`;
+  const date = toZonedTime(toDate(dateString), 'Asia/Taipei');
+  return format(date, 'yyyy-MM-dd（EEEEE） HH:mm', {
+    locale: zhTW,
+    timeZone: 'Asia/Taipei',
+  });
 };
 
 /**
@@ -31,8 +29,15 @@ export const formatActivityTime = (
     ? formatDateWithDayOfWeek(endDateTime)
     : null;
 
-  const startYear = new Date(startDateTime).getFullYear();
-  const endYear = endDateTime ? new Date(endDateTime).getFullYear() : null;
+  const startDate = toZonedTime(toDate(startDateTime), 'Asia/Taipei');
+  const endDate = endDateTime
+    ? toZonedTime(toDate(endDateTime), 'Asia/Taipei')
+    : null;
+
+  const startYear = format(startDate, 'yyyy', { timeZone: 'Asia/Taipei' });
+  const endYear = endDate
+    ? format(endDate, 'yyyy', { timeZone: 'Asia/Taipei' })
+    : null;
 
   if (noEndDate) {
     return `${startFormatted} 起`;
@@ -53,15 +58,10 @@ export const formatActivityTime = (
  * @returns 格式化後的日期字串，例如 '2024-06-21 20:57'
  */
 const formatDateTime = (dateString: string): string => {
-  const date = new Date(dateString);
-
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  const hours = String(date.getHours()).padStart(2, '0');
-  const minutes = String(date.getMinutes()).padStart(2, '0');
-
-  return `${year}-${month}-${day} ${hours}:${minutes}`;
+  const date = toZonedTime(toDate(dateString), 'Asia/Taipei');
+  return format(date, 'yyyy-MM-dd HH:mm', {
+    timeZone: 'Asia/Taipei',
+  });
 };
 
 export default formatDateTime;

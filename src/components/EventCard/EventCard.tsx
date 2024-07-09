@@ -2,8 +2,6 @@
 
 import { H3 } from '@components/ui/typography';
 import cn from '@lib/utils';
-import { format } from 'date-fns';
-import { zhTW } from 'date-fns/locale';
 import Link from 'next/link';
 import { forwardRef, useMemo } from 'react';
 import {
@@ -42,8 +40,8 @@ const EventCard = forwardRef<HTMLDivElement, EventCardProps>(
       title = 'Unknown Title',
       cover = '/default.webp',
       summary = '快點來加入吧！',
-      startTime = '1900.01.01',
-      endTime = '1900.01.02',
+      startTime,
+      endTime,
       attendeeCount = 0,
       isCollected = false,
       location = 'Unknown location',
@@ -107,12 +105,8 @@ const EventCard = forwardRef<HTMLDivElement, EventCardProps>(
 
           <div className="flex h-[9rem] flex-col justify-between gap-4 px-4">
             <EventCardInfoSection
-              startTime={format(new Date(startTime), 'MM.dd （EEEEE） ', {
-                locale: zhTW,
-              })}
-              endTime={format(new Date(endTime), ' MM.dd （EEEEE）', {
-                locale: zhTW,
-              })}
+              startTime={startTime}
+              endTime={endTime}
               attendeeCount={attendeeCount}
               location={location}
               organizer={organizer}
@@ -120,12 +114,14 @@ const EventCard = forwardRef<HTMLDivElement, EventCardProps>(
           </div>
 
           <div className="flex h-7 items-center justify-start gap-2 px-4">
-            {nearestTicket && nearestTicket.price > 0 ? (
+            {nearestTicket?.price !== undefined ? (
               <>
                 <span className="text-lg font-bold">
-                  NT${nearestTicket.price}
+                  {nearestTicket.price === 0
+                    ? '免費'
+                    : `NT$${nearestTicket.price}`}
                 </span>
-                {discountLabel(discount)}
+                {nearestTicket.price > 0 && discountLabel(discount)}
               </>
             ) : (
               <span className="text-lg font-bold">價格未定</span>

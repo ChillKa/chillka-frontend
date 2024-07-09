@@ -5,6 +5,7 @@ import { Lead } from '@components/ui/typography';
 const FavoriteEvent = async () => {
   const result = await getFavoriteActivities();
   const { activities } = result;
+  console.log(activities[0].tickets);
 
   return (
     <div className="relative text-primary">
@@ -36,6 +37,7 @@ const FavoriteEvent = async () => {
               }
               location={activity.type === '線下' ? activity.location : '線上'}
               organizer={activity.organizer.name}
+              ticketPrices={activity.tickets}
               isCollected
               revalidate
             />
