@@ -59,6 +59,7 @@ const QRCodePopUp = ({
 
   return (
     <div
+      className="w-fit"
       role="button"
       tabIndex={0}
       onClick={(e: React.MouseEvent) => e.stopPropagation()}
@@ -68,7 +69,7 @@ const QRCodePopUp = ({
     >
       <Dialog open={popUpState}>
         <DialogTrigger
-          className="xl:flex xl:items-center xl:justify-center"
+          className="xl:flex xl:w-32 xl:items-center xl:justify-center"
           onClick={handleOpen}
         >
           {width > 1366 ? (
