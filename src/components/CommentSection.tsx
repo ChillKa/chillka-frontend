@@ -133,24 +133,6 @@ const CommentSection = ({ className = '' }: CommentSectionProps) => {
   */
   const { comments } = DUMMY_DATA;
 
-  /* For replace to three elements in a row version */
-
-  // const generateItemArrangement = (
-  //   arrangeItems: CommentType[],
-  //   rowLength: number
-  // ) => {
-  //   const arrangeLength = Math.ceil(arrangeItems.length / rowLength);
-  //   return Array.from({ length: arrangeLength }, (_, index) => {
-  //     const startIndex = index * rowLength;
-  //     const rowItems = arrangeItems.slice(startIndex, startIndex + rowLength);
-  //     return (
-  //       <CarouselItem className="space-y-12" key={index}>
-  //         <CommentItemRow rowItems={rowItems} />
-  //       </CarouselItem>
-  //     );
-  //   });
-  // };
-
   return (
     <section
       className={cn(

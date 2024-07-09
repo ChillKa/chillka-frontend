@@ -1,4 +1,7 @@
 import cn from '@lib/utils';
+import { parseISO } from 'date-fns';
+import { format, toZonedTime } from 'date-fns-tz';
+import { zhTW } from 'date-fns/locale';
 
 type CommentCardProps = {
   className: string;
@@ -17,7 +20,15 @@ const CommentCard = ({
   date,
   content,
 }: CommentCardProps) => {
-  const currentDate = new Date(date);
+  const formattedDate = format(
+    toZonedTime(parseISO(date), 'Asia/Taipei'),
+    'yyyy.MM.dd',
+    {
+      locale: zhTW,
+      timeZone: 'Asia/Taipei',
+    }
+  );
+
   return (
     <div className={cn('space-y-6 text-primary', className)}>
       <div className="flex items-center gap-4">
@@ -30,9 +41,7 @@ const CommentCard = ({
         />
         <div>
           <p className="text-xl font-bold">{participant}</p>
-          <span className="text-xs/5 font-medium">
-            {currentDate.toLocaleDateString('zh-tw').replaceAll('/', '.')}
-          </span>
+          <span className="text-xs/5 font-medium">{formattedDate}</span>
         </div>
       </div>
       <p className="line-clamp-4 min-h-24 text-sm/6">{content}</p>
