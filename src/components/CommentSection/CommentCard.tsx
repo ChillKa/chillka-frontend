@@ -2,6 +2,7 @@ import cn from '@lib/utils';
 import { parseISO } from 'date-fns';
 import { format, toZonedTime } from 'date-fns-tz';
 import { zhTW } from 'date-fns/locale';
+import Image from 'next/image';
 
 type CommentCardProps = {
   className: string;
@@ -32,13 +33,15 @@ const CommentCard = ({
   return (
     <div className={cn('space-y-6 text-primary', className)}>
       <div className="flex items-center gap-4">
-        <img
-          src={profilePicture}
-          width={48}
-          height={48}
-          className="inline-block rounded-[0.5rem]"
-          alt="User's avatar."
-        />
+        <div className="relative size-12">
+          <Image
+            src={profilePicture}
+            fill
+            className="inline-block rounded-[0.5rem] object-cover"
+            alt="User's avatar."
+            sizes="(max-width: 768px) 100vw, 33vw"
+          />
+        </div>
         <div>
           <p className="text-xl font-bold">{participant}</p>
           <span className="text-xs/5 font-medium">{formattedDate}</span>
