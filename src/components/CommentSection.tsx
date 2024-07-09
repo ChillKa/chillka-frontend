@@ -1,7 +1,8 @@
 import { fetchComments } from '@action/comment';
-import { Separator } from '@components/ui/separator';
+import CommentCarousel from '@components/CommentSection/CommentCarousel';
+import SkeletonComment from '@components/CommentSection/SkeletonComment';
 import cn from '@lib/utils';
-import CommentCarousel from './CommentSection/CommentCarousel';
+import { Suspense } from 'react';
 
 type CommentSectionProps = {
   className: string;
@@ -21,8 +22,9 @@ const CommentSection = async ({ className = '' }: CommentSectionProps) => {
       <h1 className="text-5xl font-bold tracking-[0.036rem]">
         探索他人的精彩經歷，找到你的下段冒險
       </h1>
-      <Separator className="h-0.5 w-12" />
-      <CommentCarousel comments={comments} />
+      <Suspense fallback={<SkeletonComment />}>
+        <CommentCarousel comments={comments} />
+      </Suspense>
     </section>
   );
 };
