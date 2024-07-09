@@ -30,11 +30,11 @@ const CommentCarousel = ({ comments }: CommentCarouselProps) => {
     >
       <CarouselContent className="xl:-ml-[1px]">
         {comments.map((item) => (
-          <CarouselItem key={item.id} className="xl:basis-1/3 xl:pl-[1px]">
+          <CarouselItem key={item._id} className="xl:basis-1/3 xl:pl-[1px]">
             <CommentCard
               className="bg-surface xl:px-6"
-              activityName={item.name}
-              participant={item.participant}
+              activityName={item.activityName}
+              participant={item.userName}
               profilePicture={item.profilePicture}
               date={item.date}
               content={item.content}
