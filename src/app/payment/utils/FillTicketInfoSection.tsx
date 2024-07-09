@@ -122,7 +122,7 @@ const FillTicketInfoSection = ({
             description: `訂單號: ${result.orderData._id}`,
           });
 
-          router.push(`/payement/complete`);
+          router.push(`/payment/complete`);
         }
       } else {
         throw new Error(result.message || '支付初始化失敗');
