@@ -49,7 +49,7 @@ export const GoogleMapsProvider = ({ children }: PropsWithChildren) => {
     const loader = new Loader({
       apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY as string,
       version: 'weekly',
-      libraries: ['places'],
+      libraries: ['places', 'maps', 'marker'],
       language: 'zh-TW',
     });
 
