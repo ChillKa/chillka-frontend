@@ -85,6 +85,14 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  #__next {
+    height: 100%;
+  }
+
+  #map {
+    height: 100%;
+  }
 }
 
 @layer utilities {
