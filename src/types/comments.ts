@@ -1,5 +1,5 @@
 export interface CommentType {
-  id: string;
+  _id: string;
   participant: string;
   profilePicture: string;
   name: string;
