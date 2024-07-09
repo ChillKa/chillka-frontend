@@ -4,6 +4,7 @@ import { Button } from '@components/ui/button';
 import { Card } from '@components/ui/card';
 import { Lead } from '@components/ui/typography';
 import cn from '@lib/utils';
+import { isAfter } from 'date-fns';
 import { format, toZonedTime } from 'date-fns-tz';
 import { zhTW } from 'date-fns/locale';
 import { SquareArrowOutUpRight } from 'lucide-react';
@@ -25,12 +26,37 @@ const ManagementCard = ({
   id,
   name = '未知活動',
   thumbnail = '/default.webp',
-  startDateTime = '2008/02/10',
-  endDateTime = '2008/02/11',
+  startDateTime,
+  endDateTime,
   category,
   address = '未知地點',
   participantCount = 0,
 }: ManagementCardProps) => {
+  // TODO: extract and refact duplicated logic method at following:
+  // LINK: src\components\EventCard\EventCard-utils.tsx:176
+  const formatDate = (date: string | Date) => {
+    return format(toZonedTime(date, 'Asia/Taipei'), 'yyyy.MM.dd （EEEEE）', {
+      locale: zhTW,
+      timeZone: 'Asia/Taipei',
+    });
+  };
+
+  const isValidEndTime = (date?: string | Date) => {
+    if (!date) return false;
+    const endDate = new Date(date);
+    const year2100 = new Date('2100-01-01');
+    return isAfter(year2100, endDate);
+  };
+
+  let timeDisplay = '時間未定';
+  if (startDateTime && isValidEndTime(endDateTime)) {
+    timeDisplay = `${formatDate(startDateTime)} - ${formatDate(endDateTime!)}`;
+  } else if (startDateTime) {
+    timeDisplay = `${formatDate(startDateTime)}起`;
+  } else if (isValidEndTime(endDateTime)) {
+    timeDisplay = `從即日起至${formatDate(endDateTime!)}`;
+  }
+
   return (
     <Card
       className={cn(
@@ -66,18 +92,7 @@ const ManagementCard = ({
           <Lead className="order-2 col-span-2 line-clamp-1 font-medium">
             {name}
           </Lead>
-          <Lead className="order-4 col-span-2 font-medium">
-            {' '}
-            {format(toZonedTime(startDateTime, 'Asia/Taipei'), 'yyyy-MM-dd', {
-              locale: zhTW,
-              timeZone: 'Asia/Taipei',
-            })}
-            {' - '}
-            {format(toZonedTime(endDateTime, 'Asia/Taipei'), 'yyyy-MM-dd', {
-              locale: zhTW,
-              timeZone: 'Asia/Taipei',
-            })}
-          </Lead>
+          <Lead className="order-4 col-span-2 font-medium">{timeDisplay}</Lead>
           <Lead className="order-6 col-span-2 line-clamp-1 font-medium">
             {address}
           </Lead>
