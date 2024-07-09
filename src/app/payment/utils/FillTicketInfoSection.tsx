@@ -17,7 +17,6 @@ import { RadioGroup, RadioGroupItem } from '@components/ui/radio-group';
 import { toast } from '@components/ui/use-toast';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { formatActivityTime } from '@lib/dateUtils';
-import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { IAcitivityResponse } from 'src/types/activity';
 import { z } from 'zod';
@@ -45,7 +44,6 @@ const FillTicketInfoSection = ({
   activityId,
   totalAmount,
 }: FillTicketInfoSectionProps) => {
-  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -65,7 +63,7 @@ const FillTicketInfoSection = ({
     if (!firstSelectedTicket) {
       toast({
         variant: 'destructive',
-        title: 'No tickets selected ',
+        title: '未選擇票券',
       });
       return;
     }
@@ -76,7 +74,7 @@ const FillTicketInfoSection = ({
     if (!ticket) {
       toast({
         variant: 'destructive',
-        title: 'Ticket not found',
+        title: '找不到票券',
       });
       return;
     }
@@ -99,18 +97,24 @@ const FillTicketInfoSection = ({
 
     try {
       const result = await sendPayment(paymentProps);
-      if (result.status === 'success') {
-        router.push('/payment/complete');
+      if (result.status === 'success' && result.html) {
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = result.html;
+
+        const tmpForm = tempDiv.querySelector('form');
+        if (tmpForm) {
+          document.body.appendChild(tmpForm);
+          tmpForm.submit();
+        } else {
+          throw new Error('無法找到支付表單');
+        }
       } else {
-        toast({
-          variant: 'destructive',
-          title: 'Payment failed',
-        });
+        throw new Error(result.message || '支付初始化失敗');
       }
     } catch (error) {
       toast({
         variant: 'destructive',
-        title: `Error during payment: ${error}`,
+        title: `支付過程中發生錯誤: ${error instanceof Error ? error.message : String(error)}`,
       });
     }
   };
