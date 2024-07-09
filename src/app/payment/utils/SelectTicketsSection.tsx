@@ -55,6 +55,10 @@ const SelectTicketsSection = ({
     router.push(`/payment/${activityId}/fill-info?${searchParams.toString()}`);
   };
 
+  const isNextDisabled = Object.keys(selectedTickets).every(
+    (ticketId) => selectedTickets[ticketId] === 0
+  );
+
   return (
     <>
       <section
@@ -114,7 +118,11 @@ const SelectTicketsSection = ({
           <H3>請選擇票券</H3>
           <div className="flex flex-row items-center gap-4">
             <Lead id="total-amount">Total: ${formatPrice(totalAmount)}</Lead>
-            <Button variant="default" onClick={handleNextStep}>
+            <Button
+              variant="default"
+              onClick={handleNextStep}
+              disabled={isNextDisabled}
+            >
               下一步
             </Button>
           </div>
