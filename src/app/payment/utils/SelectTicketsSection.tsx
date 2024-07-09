@@ -5,6 +5,7 @@ import { Button } from '@components/ui/button';
 import { Card } from '@components/ui/card';
 import { H3, Lead, P } from '@components/ui/typography';
 import { formatActivityTime, formatTicketTime } from '@lib/dateUtils';
+import { formatPrice } from '@lib/fomatPrice';
 import cn from '@lib/utils';
 import {
   CalendarDays,
@@ -112,7 +113,7 @@ const SelectTicketsSection = ({
         <div className="flex flex-row items-center justify-between">
           <H3>請選擇票券</H3>
           <div className="flex flex-row items-center gap-4">
-            <Lead id="total-amount">Total: ${totalAmount}</Lead>
+            <Lead id="total-amount">Total: ${formatPrice(totalAmount)}</Lead>
             <Button variant="default" onClick={handleNextStep}>
               下一步
             </Button>
@@ -137,7 +138,9 @@ const SelectTicketsSection = ({
                 <p>{ticket.description}</p>
               </div>
               <div className="flex flex-row gap-2">
-                <Lead className="leading-8">NTD${ticket.price}</Lead>
+                <Lead className="leading-8">
+                  NT${formatPrice(ticket.price)}
+                </Lead>
                 <div
                   id="ticket-select-number"
                   className="flex flex-row items-center"
