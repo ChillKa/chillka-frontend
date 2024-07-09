@@ -98,6 +98,9 @@ const FillTicketInfoSection = ({
     try {
       const result = await sendPayment(paymentProps);
       if (result.status === 'success' && result.html) {
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('ecpayForm', result.html);
+        }
         const tempDiv = document.createElement('div');
         tempDiv.innerHTML = result.html;
 
