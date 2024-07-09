@@ -8,11 +8,11 @@ import {
 } from '@components/ui/carousel';
 import { Separator } from '@components/ui/separator';
 import Autoplay from 'embla-carousel-autoplay';
-import { CommentType } from 'src/types/comments';
+import { IComment } from 'src/types/comments';
 import CommentCard from './CommentCard';
 
 type CommentCarouselProps = {
-  comments: CommentType[];
+  comments: IComment[];
 };
 
 const CommentCarousel = ({ comments }: CommentCarouselProps) => {

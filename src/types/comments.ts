@@ -1,4 +1,4 @@
-export interface CommentType {
+export interface IComment {
   _id: string;
   userName: string;
   profilePicture: string;
@@ -7,7 +7,7 @@ export interface CommentType {
   content: string;
 }
 
-export interface CommentsDataType {
-  comments: Array<CommentType>;
+export interface ICommentData {
+  comments: Array<IComment>;
   total: number;
 }

@@ -1,10 +1,10 @@
-import { CommentsDataType } from 'src/types/comments';
+import { ICommentData } from 'src/types/comments';
 import { fetchAPI } from './utils';
 
 export type CommentsResponseState = {
   status: string;
   message?: string;
-  data?: CommentsDataType;
+  data?: ICommentData;
 };
 
 export async function fetchComments(): Promise<CommentsResponseState> {
