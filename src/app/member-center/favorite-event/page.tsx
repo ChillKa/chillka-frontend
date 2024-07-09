@@ -5,7 +5,6 @@ import { Lead } from '@components/ui/typography';
 const FavoriteEvent = async () => {
   const result = await getFavoriteActivities();
   const { activities } = result;
-  console.log(activities[0].tickets);
 
   return (
     <div className="relative text-primary">
