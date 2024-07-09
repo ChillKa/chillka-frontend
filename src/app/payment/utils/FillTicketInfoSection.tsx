@@ -129,7 +129,7 @@ const FillTicketInfoSection = ({
           <Card className="bg-transparent p-6 text-primary">
             <H3>訂票明細</H3>
             <div className="my-6 mb-4 space-y-2">
-              <H4>{data.activity.name}</H4>
+              <H4 className="font-medium">{data.activity.name}</H4>
               <P className="flex items-center">
                 <CalendarDays className="mr-2" />
                 {formatActivityTime(
@@ -148,7 +148,7 @@ const FillTicketInfoSection = ({
               if (quantity > 0) {
                 return (
                   <div key={ticket._id} className="mb-2 space-y-2">
-                    <H4>{ticket.name}</H4>
+                    <H4 className="font-medium">{ticket.name}</H4>
                     <P className="flex items-center">
                       <CalendarDays className="mr-2" />
                       {formatTicketTime(
