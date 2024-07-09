@@ -1,4 +1,5 @@
 import CallToActionSection from '@components/CallToActionSection';
+import CommentSection from '@components/CommentSection';
 import HeroSection from '@components/HeroSection';
 import NearbyActivity from '@components/NearbyActivity';
 import RecommendActivity from '@components/RecommendActivity';
@@ -16,7 +17,7 @@ const Home = () => {
       <TopCategoryMenu className="mx-auto mt-24 xl:mt-36" />
       <RecommendActivity className="mx-auto mt-24 xl:mt-36" />
       <CallToActionSection className="mx-auto mt-24 xl:mt-36" />
-      {/* <CommentSection className="mx-auto my-24 xl:my-36" /> */}
+      <CommentSection className="mx-auto my-24 xl:my-36" />
     </>
   );
 };
