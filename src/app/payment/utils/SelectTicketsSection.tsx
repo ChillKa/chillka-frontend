@@ -3,8 +3,8 @@
 import OrganizerName from '@components/ActivityPage/OrganizerSection/OrganizerName';
 import { Button } from '@components/ui/button';
 import { Card } from '@components/ui/card';
-import { H3, Lead } from '@components/ui/typography';
-import { formatActivityTime } from '@lib/dateUtils';
+import { H3, Lead, P } from '@components/ui/typography';
+import { formatActivityTime, formatTicketTime } from '@lib/dateUtils';
 import cn from '@lib/utils';
 import {
   CalendarDays,
@@ -127,9 +127,13 @@ const SelectTicketsSection = ({
             >
               <div className="flex max-w-[70%] flex-col gap-2">
                 <H3>{ticket.name}</H3>
-                <p>
-                  {ticket.startDateTime} 至 {ticket.endDateTime}
-                </p>
+                <P>
+                  {formatTicketTime(
+                    ticket.startDateTime,
+                    ticket.endDateTime,
+                    ticket.noEndDate
+                  )}
+                </P>
                 <p>{ticket.description}</p>
               </div>
               <div className="flex flex-row gap-2">
