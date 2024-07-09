@@ -15,15 +15,17 @@ const PaymentLayout = ({ children }: { children: React.ReactNode }) => {
   const { activityId } = useParams();
 
   return (
-    <section className="mx-auto flex max-w-[81rem] flex-col gap-1">
-      <div className="w-full">
+    <section className="mx-auto flex max-w-[81rem] flex-col gap-1 px-3 pb-48 xl:px-0">
+      <div className="w-full py-12">
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
               {pathname === `/payment/${activityId}/select-tickets` ? (
-                <BreadcrumbPage>選擇票券</BreadcrumbPage>
+                <BreadcrumbPage className="font-medium text-primary">
+                  選擇票券
+                </BreadcrumbPage>
               ) : (
-                <BreadcrumbLink asChild>
+                <BreadcrumbLink asChild className="text-primary/70">
                   <p>選擇票券</p>
                 </BreadcrumbLink>
               )}
@@ -31,9 +33,11 @@ const PaymentLayout = ({ children }: { children: React.ReactNode }) => {
             <BreadcrumbSeparator />
             <BreadcrumbItem>
               {pathname === `/payment/${activityId}/fill-info` ? (
-                <BreadcrumbPage>填寫資料</BreadcrumbPage>
+                <BreadcrumbPage className="font-medium text-primary">
+                  填寫資料
+                </BreadcrumbPage>
               ) : (
-                <BreadcrumbLink asChild>
+                <BreadcrumbLink asChild className="text-primary/70">
                   <p>填寫資料</p>
                 </BreadcrumbLink>
               )}
@@ -41,9 +45,11 @@ const PaymentLayout = ({ children }: { children: React.ReactNode }) => {
             <BreadcrumbSeparator />
             <BreadcrumbItem>
               {pathname === `/payment/${activityId}/complete` ? (
-                <BreadcrumbPage>訂票完成</BreadcrumbPage>
+                <BreadcrumbPage className="font-medium text-primary">
+                  訂票完成
+                </BreadcrumbPage>
               ) : (
-                <BreadcrumbLink asChild>
+                <BreadcrumbLink asChild className="text-primary/70">
                   <p>訂票完成</p>
                 </BreadcrumbLink>
               )}
