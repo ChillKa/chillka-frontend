@@ -12,11 +12,11 @@ import {
   FormMessage,
 } from '@components/ui/form';
 import { Input } from '@components/ui/input';
-import { Label } from '@components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@components/ui/radio-group';
 import { toast } from '@components/ui/use-toast';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { formatActivityTime } from '@lib/dateUtils';
+import { useAuthContext } from '@store/AuthProvider/AuthProvider';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { IAcitivityResponse } from 'src/types/activity';
@@ -30,7 +30,7 @@ const formSchema = z.object({
   terms: z.boolean().refine((val) => val === true, {
     message: '您必須同意服務條款',
   }),
-  paymentMethod: z.enum(['ecpay']),
+  paymentMethod: z.enum(['none', 'ecpay']),
 });
 
 type FillTicketInfoSectionProps = {
@@ -46,14 +46,17 @@ const FillTicketInfoSection = ({
   totalAmount,
 }: FillTicketInfoSectionProps) => {
   const router = useRouter();
+  const { userEmail } = useAuthContext();
+  const defaultPaymentMethod = totalAmount === 0 ? 'none' : 'ecpay';
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: '',
       phone: '',
-      email: '',
+      email: userEmail,
       terms: false,
-      paymentMethod: 'ecpay',
+      paymentMethod: defaultPaymentMethod,
     },
   });
 
@@ -241,12 +244,36 @@ const FillTicketInfoSection = ({
         <section id="ticket-payment-info" className="flex-1">
           <Card className="p-6">
             <h2 className="mb-4 text-xl font-bold">選擇付款方式</h2>
-            <RadioGroup defaultValue="credit-card">
-              <div className="mb-2 flex items-center space-x-2">
-                <RadioGroupItem value="credit-card" id="credit-card" />
-                <Label htmlFor="credit-card">ECPay</Label>
-              </div>
-            </RadioGroup>
+            <FormField
+              control={form.control}
+              name="paymentMethod"
+              render={({ field }) => (
+                <FormItem className="space-y-3">
+                  <FormControl>
+                    <RadioGroup
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                      className="flex flex-col space-y-1"
+                      disabled // 設置為 disabled
+                    >
+                      <FormItem className="flex items-center space-x-3 space-y-0">
+                        <FormControl>
+                          <RadioGroupItem value="none" />
+                        </FormControl>
+                        <FormLabel className="font-normal">免費票券</FormLabel>
+                      </FormItem>
+                      <FormItem className="flex items-center space-x-3 space-y-0">
+                        <FormControl>
+                          <RadioGroupItem value="ecpay" />
+                        </FormControl>
+                        <FormLabel className="font-normal">ECPay</FormLabel>
+                      </FormItem>
+                    </RadioGroup>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <p className="mt-4 text-sm text-gray-600">
               選擇本次訂單付款方式，使用信用卡付款將會有額外手續費，請您小心核對金額，一旦付款將無法取消退款。
             </p>

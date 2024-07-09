@@ -26,6 +26,7 @@ export interface AuthContextType {
   logout: () => Promise<void>;
   getUser: () => Promise<void>;
   userName: string;
+  userEmail: string;
   userAvatar: string;
   auth: UserData | null;
 }
@@ -45,6 +46,7 @@ export const useAuthContext = (): AuthContextType => {
 const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [isLoggedin, setIsLoggedin] = useState(false);
   const [userName, setUserName] = useState('');
+  const [userEmail, setUserEmail] = useState('');
   const [userAvatar, setUserAvatar] = useState('');
   const [auth, setAuth] = useState<UserData | null>(null);
   const router = useRouter();
@@ -56,6 +58,7 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
       const { data } = response;
       setUserName(data.displayName);
       setUserAvatar(data.profilePicture ?? '');
+      setUserEmail(data.email ?? '');
     }
   }, []);
 
@@ -117,10 +120,11 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
       logout,
       getUser,
       userName,
+      userEmail,
       userAvatar,
       auth,
     }),
-    [isLoggedin, login, logout, getUser, userName, userAvatar, auth]
+    [isLoggedin, login, logout, getUser, userEmail, userName, userAvatar, auth]
   );
 
   return (
