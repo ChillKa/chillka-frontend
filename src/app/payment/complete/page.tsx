@@ -2,6 +2,7 @@
 
 import { Button } from '@components/ui/button';
 import { Card } from '@components/ui/card';
+import { H2, H4, P, Small } from '@components/ui/typography';
 import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -56,14 +57,14 @@ const CompletePage = () => {
           numberOfPieces={200}
         />
       )}
-      <Card className="w-full max-w-md p-8 text-center">
-        <h1 className="mb-4 text-3xl font-bold">訂票成功！</h1>
-        <p className="mb-6 text-xl">感謝您的訂購，我們期待在活動中見到您。</p>
-        <p className="mb-8 text-gray-600">訂單確認郵件已發送至您的信箱。</p>
+      <Card className="w-full max-w-md space-y-5 bg-transparent p-8 text-center text-primary">
+        <H2>訂票成功！</H2>
+        <H4 className="font-medium">感謝您的訂購，我們期待在活動中見到您。</H4>
+        <P>訂單確認郵件已發送至您的信箱。</P>
         <Button onClick={() => router.push('/')} className="w-full">
           返回首頁
         </Button>
-        <p className="mt-4 text-sm text-gray-500">
+        <Small className="mt-4">
           {isRedirecting ? (
             <span className="flex items-center justify-center">
               正在跳轉回首頁
@@ -72,7 +73,7 @@ const CompletePage = () => {
           ) : (
             `頁面將在 ${countdown} 秒後自動跳轉回首頁...`
           )}
-        </p>
+        </Small>
       </Card>
     </div>
   );
