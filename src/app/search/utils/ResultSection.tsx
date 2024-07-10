@@ -7,20 +7,20 @@ import {
 } from '@components/EventCard';
 import useMediaQuery from '@hooks/use-media-query';
 import { useSearchParams } from 'next/navigation';
-import { H4 } from '../ui/typography';
+import { H4 } from '../../../components/ui/typography';
 
-export type SearchContentSectionProps = {
+export type ResultSectionProps = {
   results: Activity[];
   currentShow: 'results' | 'map';
   setCenterId: (id: string) => void;
   total?: number;
 };
-const SearchContentSection = ({
+const ResultSection = ({
   results,
   currentShow,
   setCenterId,
   total = 0,
-}: SearchContentSectionProps) => {
+}: ResultSectionProps) => {
   const { matches: isMobile } = useMediaQuery();
   const searchParams = useSearchParams();
 
@@ -61,7 +61,7 @@ const SearchContentSection = ({
             }
             isCollected={activity.isCollected}
             location={activity?.type === '線下' ? activity?.address : '線上'}
-            organizer={activity.organizer?.contactName ?? '未知舉辦者'} // FIXME: Wait for backend fixed data
+            organizer={activity.organizer?.contactName ?? '未知舉辦者'}
             ticketPrices={activity?.ticketPrice ?? []}
             isContinuous={activity.isContinuous}
             discount={0}
@@ -90,7 +90,7 @@ const SearchContentSection = ({
             }
             isCollected={activity.isCollected}
             location={activity?.type === '線下' ? activity?.location : '線上'}
-            organizer={activity.organizer?.contactName ?? '未知舉辦者'} // FIXME: Wait for backend fixed data
+            organizer={activity.organizer?.contactName ?? '未知舉辦者'}
             ticketPrices={activity?.ticketPrice ?? []}
             isContinuous={activity.isContinuous}
             discount={0} // FIXME: remove, this is deprecated
@@ -104,4 +104,4 @@ const SearchContentSection = ({
   );
 };
 
-export default SearchContentSection;
+export default ResultSection;

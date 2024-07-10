@@ -12,12 +12,12 @@ import {
   updateQueryString,
 } from '@components/search/SearchBar/fields/utils';
 import SearchProvider from '@components/search/SearchBar/SearchProvider';
-import SearchContentSection from '@components/search/SearchContentSection';
 import SearchMapSection from '@components/search/SearchMapSection';
 import { zodResolver } from '@hookform/resolvers/zod';
 import useMediaQuery from '@hooks/use-media-query';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useMemo, useState } from 'react';
+import ResultSection from './ResultSection';
 
 type SearchClientProps = {
   result: SearchResult;
@@ -131,7 +131,7 @@ const SearchClient = ({ result }: SearchClientProps) => {
             id="result-list"
             className="lg:max-w-[53.5rem] mt-7 flex w-full flex-col gap-y-12"
           >
-            <SearchContentSection
+            <ResultSection
               results={activities}
               total={total}
               setCenterId={setCenterId}
