@@ -5,45 +5,34 @@ import SearchClient from './utils/search.client';
 
 export const runtime = 'edge';
 
-const getSearchFilter = (params: SearchPageProps['searchParams']) => {
-  const allowedParams: (keyof SearchParams)[] = [
-    'keyword',
-    'category',
-    'location',
-    'date',
-    'distance',
-    'sort',
-    'limit',
-    'page',
-  ];
+const allowedParams: (keyof SearchParams)[] = [
+  'keyword',
+  'category',
+  'location',
+  'date',
+  'distance',
+  'sort',
+  'limit',
+  'page',
+];
 
-  return Object.keys(params).reduce<Partial<SearchParams>>((acc, key) => {
-    if (allowedParams.includes(key as keyof SearchParams)) {
-      const value = params[key];
-      switch (key) {
-        case 'keyword':
-        case 'category':
-        case 'location':
-        case 'date':
-        case 'type':
-        case 'distance':
-        case 'limit':
-        case 'page':
-          if (typeof value === 'string') {
-            acc[key as keyof Omit<SearchParams, 'sort'>] = value;
-          }
-          break;
-        case 'sort':
-          if (value === '相關性' || value === '日期') {
-            acc[key as 'sort'] = value;
-          }
-          break;
-        default:
-          break;
-      }
-    }
-    return acc;
-  }, {});
+const getSearchFilter = (
+  params: Record<string, string | string[] | undefined>
+): Partial<SearchParams> => {
+  const isValidEntry = (
+    entry: [string, string | string[] | undefined]
+  ): entry is [keyof SearchParams, string] => {
+    const [key, value] = entry;
+    return (
+      allowedParams.includes(key as keyof SearchParams) &&
+      typeof value === 'string' &&
+      (key !== 'sort' || ['相關性', '日期'].includes(value))
+    );
+  };
+
+  const validEntries = Object.entries(params).filter(isValidEntry);
+
+  return Object.fromEntries(validEntries) as Partial<SearchParams>;
 };
 
 type SearchPageProps = {
@@ -53,9 +42,11 @@ type SearchPageProps = {
 const SearchPage = async ({ searchParams }: SearchPageProps) => {
   const filteredParams = getSearchFilter(searchParams);
 
-  const loggedIn = await isLoggedIn();
+  const [loggedIn, result] = await Promise.all([
+    isLoggedIn(),
+    getActivitiesByFilter(filteredParams),
+  ]);
 
-  const result = await getActivitiesByFilter(filteredParams);
   let { activities = [] } = result;
 
   if (loggedIn) {
