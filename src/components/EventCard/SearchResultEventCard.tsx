@@ -2,8 +2,6 @@
 
 import { H3 } from '@components/ui/typography';
 import cn from '@lib/utils';
-import { format } from 'date-fns';
-import { zhTW } from 'date-fns/locale';
 import Link from 'next/link';
 import { HTMLAttributes, useMemo, useRef } from 'react';
 import {
@@ -39,8 +37,8 @@ const SearchResultEventCard = ({
   title = 'Unknown Title',
   cover = '/default.webp',
   summary = 'Unknown description',
-  startTime = '1900.01.01',
-  endTime = '1900.01.02',
+  startTime,
+  endTime,
   attendeeCount = 0,
   isCollected = false,
   location = 'Unknown location',
@@ -108,31 +106,29 @@ const SearchResultEventCard = ({
           activityId={link}
         />
 
-        <div className="flex h-full w-[32.875rem] flex-col items-stretch justify-start gap-4">
+        <div className="flex h-full w-[32.875rem] flex-col items-stretch justify-start gap-4 p-4">
           <div id="activity-header" className="flex flex-col gap-2">
             <H3>{title}</H3>
             <p className="truncate text-sm font-normal">{summary}</p>
           </div>
           <div id="activity-info" className="flex flex-col gap-2">
             <EventCardInfoSection
-              startTime={format(new Date(startTime), 'MM.dd （EEEEE） ', {
-                locale: zhTW,
-              })}
-              endTime={format(new Date(endTime), ' MM.dd （EEEEE）', {
-                locale: zhTW,
-              })}
+              startTime={startTime}
+              endTime={endTime}
               attendeeCount={attendeeCount}
               location={location}
               organizer={organizer}
             />
           </div>
           <div className="flex h-7 items-center justify-start gap-2">
-            {nearestTicket && nearestTicket.price > 0 ? (
+            {nearestTicket?.price !== undefined ? (
               <>
                 <span className="text-lg font-bold">
-                  NT${nearestTicket.price}
+                  {nearestTicket.price === 0
+                    ? '免費'
+                    : `NT$${nearestTicket.price}`}
                 </span>
-                {discountLabel(discount)}
+                {nearestTicket.price > 0 && discountLabel(discount)}
               </>
             ) : (
               <span className="text-lg font-bold">價格未定</span>

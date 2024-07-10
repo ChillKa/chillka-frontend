@@ -29,20 +29,16 @@ export async function sendPayment(props: SendPaymentProps) {
 
     if (!response.ok) {
       const errorMessage = await response.text();
-
-      return {
-        status: 'failed',
-        message: `${errorMessage ?? '失敗，請稍後重新再試。'} (${response.status})`,
-      };
+      throw new Error(
+        `${errorMessage ?? '失敗，請稍後重新再試。'} (${response.status})`
+      );
     }
 
-    return {
-      status: 'success',
-      message: '',
-    };
+    const html = await response.text();
+    return { status: 'success', html };
   } catch (error) {
     return {
-      status: 'failed',
+      status: 'error',
       message:
         error instanceof Error ? error.message : 'An unknown error occurred',
     };

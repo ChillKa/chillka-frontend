@@ -40,9 +40,9 @@ export const userList = [
 
 export const phoneList = [
   {
-    name: '信箱',
+    name: '訊息',
     icon: <Mail size={24} />,
-    url: '/member-center/email',
+    url: '/member-center/message',
   },
   {
     name: '通知',
@@ -67,11 +67,11 @@ export const registerAndLoginList = [
 export const SITEMAP = [
   {
     name: '探索活動',
-    url: '/explore',
+    url: '/search',
   },
   {
     name: '推薦活動',
-    url: '/recommended',
+    url: '/search',
   },
   {
     name: '常見問題',

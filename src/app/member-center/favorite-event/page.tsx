@@ -36,6 +36,7 @@ const FavoriteEvent = async () => {
               }
               location={activity.type === '線下' ? activity.location : '線上'}
               organizer={activity.organizer.name}
+              ticketPrices={activity.tickets}
               isCollected
               revalidate
             />

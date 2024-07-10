@@ -1,7 +1,7 @@
 'use client';
 
-import { Loader } from '@googlemaps/js-api-loader';
 import cn from '@lib/utils';
+import { useGoogleMapsProvider } from '@store/GoogleMapsProvider';
 import { useEffect, useRef } from 'react';
 
 type ActivityLocationMarkerProps = {
@@ -24,43 +24,31 @@ const ActivityLocationMarker = ({
 </svg>
 `;
 
-  useEffect(() => {
-    const initMap = async () => {
-      const loader = new Loader({
-        apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY as string,
-        version: 'weekly',
-      });
+  const { isLoaded, loadError, initMap, createMarker } =
+    useGoogleMapsProvider();
 
-      const { Map } = (await loader.importLibrary(
-        'maps'
-      )) as google.maps.MapsLibrary;
-      const { AdvancedMarkerElement } = await loader.importLibrary('marker');
-      const locationInMap = {
-        lat,
-        lng,
-      };
+  useEffect(() => {
+    if (!isLoaded || !mapRef.current) return;
+
+    const initActivityMap = async () => {
+      const locationInMap = { lat, lng };
       const mapOptions: google.maps.MapOptions = {
         center: locationInMap,
         zoom: 17,
         mapId: 'MY_NEXTJS_MAP',
       };
-      const map = new Map(mapRef.current as HTMLDivElement, mapOptions);
+      const map = await initMap(mapRef.current!, mapOptions);
+
       const tag = document.createElement('div');
       tag.innerHTML = locationIcon;
-      const marker = new AdvancedMarkerElement({
-        map,
-        position: {
-          lat: locationInMap.lat,
-          lng: locationInMap.lng,
-        },
-        content: tag,
-      });
-
-      return marker;
+      await createMarker(map, locationInMap, { content: tag });
     };
 
-    initMap();
-  }, [lat, lng, locationIcon]);
+    initActivityMap();
+  }, [createMarker, initMap, isLoaded, lat, lng, locationIcon]);
+
+  if (loadError) return <div>讀取地圖時發生錯誤</div>;
+  if (!isLoaded) return <div>地圖資料載入中</div>;
 
   return <div className={cn('', className)} ref={mapRef} />;
 };

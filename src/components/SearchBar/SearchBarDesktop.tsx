@@ -4,7 +4,8 @@ import { getRecommendActivitiesByKeywordWithDebounce } from '@action/activity';
 import { Button } from '@components/ui/button';
 import { H3 } from '@components/ui/typography';
 import cn from '@lib/utils';
-import { useEffect, useState } from 'react';
+import { LoaderCircle } from 'lucide-react';
+import { useEffect, useState, useTransition } from 'react';
 import { FieldValues } from 'react-hook-form';
 import { SearchField, useSearch } from './SearchProvider';
 import ActivityField, {
@@ -87,11 +88,15 @@ const SearchBarDesktop = ({
   const [keywords, setKeywords] = useState<ActivityKeyword[]>([]);
   const [pictures, setPictures] = useState<ActivityPicture[]>([]);
 
+  const [isPending, startTransition] = useTransition();
+
   const { handleSubmit } = useSearch();
   const handleSearchSubmit = handleSubmit(async (data) => {
-    if (onSearchSubmit) {
-      await onSearchSubmit(data);
-    }
+    startTransition(async () => {
+      if (onSearchSubmit) {
+        await onSearchSubmit(data);
+      }
+    });
   });
 
   return (
@@ -158,8 +163,9 @@ const SearchBarDesktop = ({
         <Button
           type="submit"
           className="flex h-auto self-auto px-20 text-xl font-bold"
+          disabled={isPending}
         >
-          搜尋活動
+          {isPending ? <LoaderCircle className="animate-spin" /> : '搜尋'}
         </Button>
       </form>
     </section>

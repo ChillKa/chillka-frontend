@@ -53,7 +53,9 @@ export const getSessionCookie = (): string | null => {
 };
 
 export const setSessionCookie = (token: string, expiresIn: number) => {
-  const expires = new Date(Date.now() + expiresIn * 1000); // expiresIn is expected in seconds
+  const expiresISO = new Date(Date.now() + expiresIn * 1000).toISOString();
+  const expires = new Date(expiresISO);
+
   cookies().set('session', token, {
     httpOnly: true,
     expires,
@@ -86,8 +88,9 @@ export const isTokenExpiredOrError = async (): Promise<boolean> => {
     const payload = await getJwtPayload();
     if (!payload || !payload.exp) return true;
 
-    const currentTime = Math.floor(Date.now() / 1000);
-    return payload.exp < currentTime;
+    const expirationDate = new Date(payload.exp * 1000);
+    const currentDate = new Date();
+    return currentDate > expirationDate;
   } catch (error) {
     return true;
   }

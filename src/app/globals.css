@@ -4,8 +4,9 @@
 
 @layer base {
   :root {
-    --header-height: 4rem;
-    --footer-height: 3rem;
+    --header-height: 7rem;
+    /* FIXME: footer height is rwd */
+    --footer-height: 7rem;
 
     --surface: 40 23.1% 92.4%;
 
@@ -83,6 +84,14 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+
+  #__next {
+    height: 100%;
+  }
+
+  #map {
+    height: 100%;
   }
 }
 

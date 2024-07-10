@@ -5,6 +5,9 @@ import { isLoggedIn } from '@action/auth';
 import { toast } from '@components/ui/use-toast';
 import cn from '@lib/utils';
 import { cva } from 'class-variance-authority';
+import { isAfter } from 'date-fns';
+import { format, toZonedTime } from 'date-fns-tz';
+import { zhTW } from 'date-fns/locale';
 import {
   Bookmark,
   Building2,
@@ -157,8 +160,8 @@ export const EventCardCoverSection = ({
 };
 
 type EventCardInfoSectionProps = {
-  startTime: string;
-  endTime: string;
+  startTime?: string | Date;
+  endTime?: string | Date;
   attendeeCount: number;
   location: string;
   organizer: string;
@@ -170,13 +173,36 @@ export const EventCardInfoSection = ({
   location,
   organizer,
 }: EventCardInfoSectionProps) => {
+  const formatDate = (date: string | Date) => {
+    return format(toZonedTime(date, 'Asia/Taipei'), 'MM.dd （EEEEE）', {
+      locale: zhTW,
+      timeZone: 'Asia/Taipei',
+    });
+  };
+
+  const isValidEndTime = (date?: string | Date) => {
+    if (!date) return false;
+    const endDate = new Date(date);
+    const year2100 = new Date('2100-01-01');
+    return isAfter(year2100, endDate);
+  };
+
+  let timeDisplay = '時間未定';
+  if (startTime && isValidEndTime(endTime)) {
+    timeDisplay = `${formatDate(startTime)} - ${formatDate(endTime!)}`;
+  } else if (startTime) {
+    timeDisplay = `${formatDate(startTime)}起`;
+  } else if (isValidEndTime(endTime)) {
+    timeDisplay = `從即日起至${formatDate(endTime!)}`;
+  }
+
   return (
     <>
       <div className="flex justify-start gap-4">
         <CalendarDays className="flex-shrink-0" size={24} />
         <p className="h-6 w-16 flex-shrink-0 text-base font-normal">活動時間</p>
         <p className="flex-grow truncate text-base font-medium">
-          {startTime}-{endTime}
+          {timeDisplay}
         </p>
       </div>
       <div className="flex justify-start gap-4">

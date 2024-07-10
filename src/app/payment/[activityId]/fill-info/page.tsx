@@ -27,7 +27,7 @@ const FillInfoPage = async ({ params, searchParams }: FillInfoPageProps) => {
   });
 
   return (
-    <section className="mb-4 flex flex-col gap-6 xl:flex-row">
+    <section className="mx-auto mb-4 flex flex-col gap-6 xl:flex-row">
       {activityData && (
         <FillTicketInfoSection
           data={activityData}

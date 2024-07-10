@@ -12,7 +12,7 @@ import {
 } from '@components/SearchBar';
 import useMediaQuery from '@hooks/use-media-query';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { H4 } from '../ui/typography';
 import SearchMapSection from './SearchMapSection';
 
@@ -53,18 +53,50 @@ const SearchContentSection = ({
     router.push(`/search?${updatedQuery}`);
   };
 
-  const mapMarkers = results
-    .filter((result) => result.lat && result.lng)
-    .map((result) => ({
-      lat: result.lat,
-      lng: result.lng,
-      id: result._id,
-      pricing: result.price,
-    }));
+  const mapMarkers = useMemo(() => {
+    const now = Date.now();
+
+    return results
+      .filter(
+        (result): result is Activity =>
+          typeof result.lat === 'number' &&
+          typeof result.lng === 'number' &&
+          Array.isArray(result.ticketPrice)
+      )
+      .map((result) => {
+        const nearestTicket =
+          result.ticketPrice.length > 0
+            ? result.ticketPrice.reduce<{
+                name: string;
+                price: number;
+                startDateTime: string;
+                endDateTime: string;
+              }>((nearest, current) => {
+                const currentDiff = Math.abs(
+                  new Date(current.startDateTime).getTime() - now
+                );
+                const nearestDiff = Math.abs(
+                  new Date(nearest.startDateTime).getTime() - now
+                );
+                return currentDiff < nearestDiff ? current : nearest;
+              }, result.ticketPrice[0])
+            : null;
+
+        return {
+          lat: result.lat,
+          lng: result.lng,
+          id: result._id,
+          pricing: nearestTicket ? nearestTicket.price : 0,
+        };
+      });
+  }, [results]);
   const [centerId, setCenterId] = useState(results[0]?._id ?? '-1');
 
   return (
-    <section id="result" className="flex w-full grow flex-row gap-6">
+    <section
+      id="result"
+      className="flex w-full grow flex-row gap-6 px-3 xl:px-0"
+    >
       {currentShow === 'results' && (
         <div
           id="result-list"
@@ -107,7 +139,7 @@ const SearchContentSection = ({
                 ticketPrices={activity?.ticketPrice ?? []}
                 isContinuous={activity.isContinuous}
                 discount={0}
-                className="gap-4"
+                className="h-auto gap-4"
                 onVisibleTrigger={() => {
                   setCenterId(activity._id);
                 }}

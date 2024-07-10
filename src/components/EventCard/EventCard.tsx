@@ -2,8 +2,6 @@
 
 import { H3 } from '@components/ui/typography';
 import cn from '@lib/utils';
-import { format } from 'date-fns';
-import { zhTW } from 'date-fns/locale';
 import Link from 'next/link';
 import { forwardRef, useMemo } from 'react';
 import {
@@ -42,8 +40,8 @@ const EventCard = forwardRef<HTMLDivElement, EventCardProps>(
       title = 'Unknown Title',
       cover = '/default.webp',
       summary = '快點來加入吧！',
-      startTime = '1900.01.01',
-      endTime = '1900.01.02',
+      startTime,
+      endTime,
       attendeeCount = 0,
       isCollected = false,
       location = 'Unknown location',
@@ -83,7 +81,7 @@ const EventCard = forwardRef<HTMLDivElement, EventCardProps>(
           ref={ref}
           id="event-card"
           className={cn(
-            'flex h-[35.25rem] w-full flex-col gap-8 text-primary',
+            'flex h-[35.25rem] w-full flex-col gap-8 pb-4 text-primary',
             'xl:max-w-[26rem]',
             'duration-1000 ease-in-out',
             'transition-shadow hover:shadow-[0px_5px_15px_0px_rgba(0,0,0,0.05)]',
@@ -98,34 +96,32 @@ const EventCard = forwardRef<HTMLDivElement, EventCardProps>(
             revalidate={revalidate}
           />
 
-          <div className="flex h-[5.5rem] w-full flex-col gap-4">
+          <div className="flex h-[5.5rem] w-full flex-col gap-4 px-4">
             <H3 className="truncate">{title}</H3>
             <p className="line-clamp-2 overflow-hidden text-ellipsis text-sm">
               {summary}
             </p>
           </div>
 
-          <div className="flex h-[9rem] flex-col justify-between gap-4">
+          <div className="flex h-[9rem] flex-col justify-between gap-4 px-4">
             <EventCardInfoSection
-              startTime={format(new Date(startTime), 'MM.dd （EEEEE） ', {
-                locale: zhTW,
-              })}
-              endTime={format(new Date(endTime), ' MM.dd （EEEEE）', {
-                locale: zhTW,
-              })}
+              startTime={startTime}
+              endTime={endTime}
               attendeeCount={attendeeCount}
               location={location}
               organizer={organizer}
             />
           </div>
 
-          <div className="flex h-7 items-center justify-start gap-2">
-            {nearestTicket && nearestTicket.price > 0 ? (
+          <div className="flex h-7 items-center justify-start gap-2 px-4">
+            {nearestTicket?.price !== undefined ? (
               <>
                 <span className="text-lg font-bold">
-                  NT${nearestTicket.price}
+                  {nearestTicket.price === 0
+                    ? '免費'
+                    : `NT$${nearestTicket.price}`}
                 </span>
-                {discountLabel(discount)}
+                {nearestTicket.price > 0 && discountLabel(discount)}
               </>
             ) : (
               <span className="text-lg font-bold">價格未定</span>

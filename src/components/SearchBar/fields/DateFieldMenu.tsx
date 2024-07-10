@@ -19,7 +19,7 @@ import {
   RadioGroupIndicator,
   RadioGroupItem,
 } from '@radix-ui/react-radio-group';
-import { format } from 'date-fns';
+import { format, toZonedTime } from 'date-fns-tz';
 import { zhTW } from 'date-fns/locale';
 import { motion } from 'framer-motion';
 import { Circle } from 'lucide-react';
@@ -169,7 +169,14 @@ const DateFieldMenu = ({
                         >
                           {customDate ? (
                             <Lead className="text-primary">
-                              {format(customDate, 'PPP', { locale: zhTW })}
+                              {format(
+                                toZonedTime(customDate, 'Asia/Taipei'),
+                                'PPP',
+                                {
+                                  locale: zhTW,
+                                  timeZone: 'Asia/Taipei',
+                                }
+                              )}
                             </Lead>
                           ) : (
                             <Lead className="text-primary">自訂日期</Lead>
@@ -228,7 +235,10 @@ export const AdvancedDateMobileField = ({
       return;
     }
     setCustomDate(date);
-    const formattedDate = format(date, 'PPP');
+    const formattedDate = format(toZonedTime(date, 'Asia/Taipei'), 'PPP', {
+      locale: zhTW,
+      timeZone: 'Asia/Taipei',
+    });
     onChange(formattedDate);
   };
 
@@ -260,12 +270,30 @@ export const AdvancedDateMobileField = ({
                         key={date.text}
                         id={`radio-${date.text}`}
                         className="flex h-fit items-center justify-between gap-2.5 bg-surface px-4 py-2.5 transition-colors duration-300 ease-out hover:bg-primary/[0.03]"
-                        value={customDate ? format(customDate, 'PPP') : ''}
+                        value={
+                          customDate
+                            ? format(
+                                toZonedTime(customDate, 'Asia/Taipei'),
+                                'PPP',
+                                {
+                                  locale: zhTW,
+                                  timeZone: 'Asia/Taipei',
+                                }
+                              )
+                            : ''
+                        }
                       >
                         <div className="flex w-full items-center justify-between">
                           {customDate ? (
                             <Lead className="text-primary">
-                              {format(customDate, 'PPP', { locale: zhTW })}
+                              {format(
+                                toZonedTime(customDate, 'Asia/Taipei'),
+                                'PPP',
+                                {
+                                  locale: zhTW,
+                                  timeZone: 'Asia/Taipei',
+                                }
+                              )}
                             </Lead>
                           ) : (
                             <Lead className="text-primary">自訂日期</Lead>

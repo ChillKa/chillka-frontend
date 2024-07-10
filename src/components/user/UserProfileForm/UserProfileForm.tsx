@@ -19,6 +19,7 @@ import {
 import { Input } from '@components/ui/input';
 import { RadioGroup, RadioGroupItem } from '@components/ui/radio-group';
 import { Separator } from '@components/ui/separator';
+import { Textarea } from '@components/ui/textarea';
 import { H2, P } from '@components/ui/typography';
 import { toast } from '@components/ui/use-toast';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -232,8 +233,7 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ defaultData }) => {
                     <FormItem>
                       <FormLabel>自我介紹</FormLabel>
                       <FormControl>
-                        <Input
-                          variant="form"
+                        <Textarea
                           placeholder={
                             isEditing
                               ? '請輸入你喜歡的介紹，寫下一些有趣的事項也可以。'

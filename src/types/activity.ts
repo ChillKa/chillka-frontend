@@ -38,6 +38,7 @@ export interface IActivity {
   fromToday: boolean;
   noEndDate: boolean;
   isPrivate: boolean;
+  tickets?: ITicket[];
   displayRemainingTickets: boolean;
   status: string;
   createdAt: string;
