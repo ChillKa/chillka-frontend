@@ -1,6 +1,6 @@
 import { getActivitiesByFilter, getFavoriteActivities } from '@action/activity';
 import { isLoggedIn } from '@action/auth';
-import { SearchParams } from '@components/SearchBar/fields/utils';
+import { SearchParams } from '@components/search/SearchBar/fields/utils';
 import SearchClient from './search.client';
 
 export const runtime = 'edge';

@@ -18,7 +18,6 @@ import cn from '@lib/utils';
 import { HashIcon, MapIcon, SearchIcon, XIcon } from 'lucide-react';
 import { useRef, useState } from 'react';
 import { FieldValues } from 'react-hook-form';
-import { SearchField, useSearch } from './SearchProvider';
 import {
   ActivityKeyword,
   ActivityMobileField,
@@ -26,6 +25,7 @@ import {
 } from './fields/ActivityField';
 import { Category, CategoryMobileFieldMenu } from './fields/CategoryFieldMenu';
 import { Location, LocationMobileFieldMenu } from './fields/LocationFieldMenu';
+import { SearchField, useSearch } from './SearchProvider';
 
 type SearchBarMobileProps = {
   className: string;

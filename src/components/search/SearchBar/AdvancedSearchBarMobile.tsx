@@ -15,7 +15,6 @@ import { H2, H4 } from '@components/ui/typography';
 import cn from '@lib/utils';
 import { XIcon } from 'lucide-react';
 import { MouseEventHandler, useState } from 'react';
-import { SearchField, useSearch } from './SearchProvider';
 import {
   ActivityKeyword,
   ActivityPicture,
@@ -28,6 +27,7 @@ import { AdvancedEventTypeMobileField } from './fields/EventTypeFieldMenu';
 import { AdvancedLocationMobileField } from './fields/LocationFieldMenu';
 import { AdvancedSortMobileField } from './fields/SortFieldMenu';
 import { SearchParams } from './fields/utils';
+import { SearchField, useSearch } from './SearchProvider';
 
 export type AdvancedSearchBarMobileProps = {
   onSearchSubmit?: (value: SearchParams) => void;

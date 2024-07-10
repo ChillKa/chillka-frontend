@@ -9,7 +9,7 @@ import {
   SearchPagination,
   SearchPaginationProps,
   updateQueryString,
-} from '@components/SearchBar';
+} from '@components/search/SearchBar';
 import useMediaQuery from '@hooks/use-media-query';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useMemo, useState } from 'react';

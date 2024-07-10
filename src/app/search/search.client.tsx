@@ -1,7 +1,7 @@
 'use client';
 
 import { SearchResult } from '@action/activity';
-import AdvancedSearchBar from '@components/SearchBar/AdvancedSearchBar';
+import AdvancedSearchBar from '@components/search/SearchBar/AdvancedSearchBar';
 import SearchContentSection from '@components/search/SearchContentSection';
 import useMediaQuery from '@hooks/use-media-query';
 import { useState } from 'react';

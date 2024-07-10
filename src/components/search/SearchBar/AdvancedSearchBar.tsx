@@ -5,12 +5,12 @@ import { Map } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import AdvancedSearchBarDesktop from './AdvancedSearchBarDesktop';
 import AdvancedSearchBarMobile from './AdvancedSearchBarMobile';
-import SearchProvider from './SearchProvider';
 import {
   SearchParams,
   SearchParamsSchema,
   updateQueryString,
 } from './fields/utils';
+import SearchProvider from './SearchProvider';
 
 type AdvancedSearchBarProps = {
   isMobile: boolean;
