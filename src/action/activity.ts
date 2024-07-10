@@ -3,7 +3,7 @@
 import { SearchParams } from '@components/SearchBar/fields/utils';
 import { userCommentSchema } from '@lib/definitions';
 import { createDebounce } from '@lib/utils';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { z } from 'zod';
 import { IAcitivityResponse, IActivity } from '../types/activity';
 import { fetchAPI, getJwtPayload, validateWithSchema } from './utils';
@@ -272,7 +272,8 @@ export async function toggleFavoriteActivity(
       };
     }
 
-    if (revalidate) revalidatePath('/member-center/favorite-event', 'layout');
+    if (revalidate) revalidatePath('/member-center/favorite-event');
+    revalidateTag('favoritedActivities');
 
     return {
       status: 'success',
@@ -297,6 +298,7 @@ export async function getFavoriteActivities(): Promise<FavoriteActivitiesResult>
     api: `/auth/saved-activities`,
     method: 'GET',
     shouldAuth: true,
+    option: { next: { tags: ['favoritedActivities'] } },
   });
 
   if (!response.ok) {
