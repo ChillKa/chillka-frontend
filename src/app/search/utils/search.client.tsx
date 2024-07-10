@@ -31,16 +31,15 @@ const SearchClient = ({ result, initialSearchParams }: SearchClientProps) => {
   const searchParams = useSearchParams();
 
   const currentPage = parseInt(searchParams.get('page') ?? '1', 10);
-  const currentLimit = searchParams.get('limit') ?? '5';
 
   const { activities, total } = result;
   const totalPage = Math.ceil(total / 5);
 
   const handlePageChange = (newPage: number) => {
+    const currentParams = Object.fromEntries(searchParams.entries());
     const updatedQuery = updateQueryString({
-      ...searchParams.entries(),
+      ...currentParams,
       page: newPage.toString(),
-      limit: currentLimit,
     });
     router.push(`/search?${updatedQuery}`);
   };

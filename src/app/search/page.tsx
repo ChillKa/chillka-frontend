@@ -31,8 +31,11 @@ const getSearchFilter = (
   };
 
   const validEntries = Object.entries(params).filter(isValidEntry);
+  const result = Object.fromEntries(validEntries) as Partial<SearchParams>;
 
-  return Object.fromEntries(validEntries) as Partial<SearchParams>;
+  if (!result.limit) result.limit = '5';
+
+  return result;
 };
 
 type SearchPageProps = {

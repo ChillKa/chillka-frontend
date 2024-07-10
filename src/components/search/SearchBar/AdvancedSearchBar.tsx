@@ -35,7 +35,11 @@ const AdvancedSearchBar = ({
       sort: '相關性',
       limit: '5',
     });
-    router.push('/search?sort=相關性&page=1&limit=5');
+    const clearedParams = updateQueryString({
+      limit: '5',
+      page: '1',
+    });
+    router.push(`/search?${clearedParams}`);
   };
 
   return isMobile ? (
