@@ -3,6 +3,7 @@
 import { fetchActivity } from '@action/activity';
 import Question from '@components/ActivityPage/QuestionsSetcion/Question';
 import UserComment from '@components/ActivityPage/QuestionsSetcion/UserComment';
+import { P } from '@components/ui/typography';
 import cn from '@lib/utils';
 import { useCallback, useEffect, useState } from 'react';
 import { IAcitivityResponse } from 'src/types/activity';
@@ -36,6 +37,7 @@ const QuestionsSetcion = ({
       <div className="mb-4 text-2xl font-bold -tracking-[0.006em] xl:mb-6 xl:text-3xl xl:-tracking-[0.0075em]">
         Q&A
       </div>
+      {data?.questions.length === 0 && <P className="mb-12">目前尚未有提問</P>}
       {data?.questions &&
         data.questions.map((question, index) => {
           const isLast = index === data.questions.length - 1;
@@ -51,6 +53,7 @@ const QuestionsSetcion = ({
           );
         })}
       <UserComment
+        data={data!}
         activityId={activityId!}
         getActivity={getActivity}
         previewMode={previewMode}
