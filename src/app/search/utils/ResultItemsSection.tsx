@@ -9,18 +9,18 @@ import useMediaQuery from '@hooks/use-media-query';
 import { useSearchParams } from 'next/navigation';
 import { H4 } from '../../../components/ui/typography';
 
-export type ResultSectionProps = {
+export type ResultItemsSectionProps = {
   results: Activity[];
   currentShow: 'results' | 'map';
   setCenterId: (id: string) => void;
   total?: number;
 };
-const ResultSection = ({
+const ResultItemsSection = ({
   results,
   currentShow,
   setCenterId,
   total = 0,
-}: ResultSectionProps) => {
+}: ResultItemsSectionProps) => {
   const { matches: isMobile } = useMediaQuery();
   const searchParams = useSearchParams();
 
@@ -104,4 +104,4 @@ const ResultSection = ({
   );
 };
 
-export default ResultSection;
+export default ResultItemsSection;

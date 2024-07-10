@@ -16,8 +16,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import useMediaQuery from '@hooks/use-media-query';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
+import ResultItemsSection from './ResultItemsSection';
 import ResultMapSection from './ResultMapSection';
-import ResultSection from './ResultSection';
 
 type SearchClientProps = {
   result: SearchResult;
@@ -93,7 +93,7 @@ const SearchClient = ({ result }: SearchClientProps) => {
             id="result-list"
             className="lg:max-w-[53.5rem] mt-7 flex w-full flex-col gap-y-12"
           >
-            <ResultSection
+            <ResultItemsSection
               results={activities}
               total={total}
               setCenterId={setCenterId}
