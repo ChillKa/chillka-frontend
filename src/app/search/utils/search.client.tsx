@@ -14,7 +14,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import ResultItemsSection from './ResultItemsSection';
 import ResultMapSection from './ResultMapSection';
-import ResultsPagination, { ResultsPaginationProps } from './ResultsPagination';
+import ResultsPagination from './ResultsPagination';
 
 type SearchClientProps = {
   result: SearchResult;
@@ -35,17 +35,7 @@ const SearchClient = ({ result, initialSearchParams }: SearchClientProps) => {
   const { activities, total } = result;
   const totalPage = Math.ceil(total / 5);
 
-  const handleClickPrev: ResultsPaginationProps['onClickPrev'] = (page) => {
-    const newPage = Math.max(page - 1, 1);
-    const updatedQuery = updateQueryString({
-      ...searchParams.entries(),
-      page: newPage.toString(),
-    });
-    router.push(`/search?${updatedQuery}`);
-  };
-
-  const handleClickNext: ResultsPaginationProps['onClickNext'] = (page) => {
-    const newPage = Math.min(page + 1, totalPage);
+  const handlePageChange = (newPage: number) => {
     const updatedQuery = updateQueryString({
       ...searchParams.entries(),
       page: newPage.toString(),
@@ -100,11 +90,14 @@ const SearchClient = ({ result, initialSearchParams }: SearchClientProps) => {
             />
 
             <ResultsPagination
-              initialPage={currentPage}
+              currentPage={currentPage}
               totalPage={totalPage}
               isMobile={isMobile}
-              onClickPrev={handleClickPrev}
-              onClickNext={handleClickNext}
+              onClickPrev={() => handlePageChange(Math.max(currentPage - 1, 1))}
+              onClickNext={() =>
+                handlePageChange(Math.min(currentPage + 1, totalPage))
+              }
+              onPageChange={handlePageChange}
             />
           </div>
         ) : null}

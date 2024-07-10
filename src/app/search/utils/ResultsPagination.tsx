@@ -7,11 +7,10 @@ import Pagination, {
   generatePaginationItems,
 } from '@components/Pagination';
 import { cva } from 'class-variance-authority';
-import { useState } from 'react';
 
 export type ResultsPaginationProps = {
-  totalPage?: number;
-  initialPage?: number;
+  totalPage: number;
+  currentPage: number;
   isMobile?: boolean;
   onClickPrev?: (currentPage: number) => void;
   onClickNext?: (currentPage: number) => void;
@@ -28,32 +27,19 @@ const paginationStepperStyles = cva('flex gap-4 py-12', {
 });
 
 const ResultsPagination = ({
-  totalPage = 1,
-  initialPage = 1,
+  totalPage,
+  currentPage,
   isMobile = false,
   onClickPrev,
   onClickNext,
   onPageChange,
 }: ResultsPaginationProps) => {
-  const [currentPage, setCurrentPage] = useState(initialPage);
-
   const handlePrevClick = () => {
-    const newPage = Math.max(currentPage - 1, 1);
     onClickPrev?.(currentPage);
-    setCurrentPage(newPage);
-    onPageChange?.(newPage);
   };
 
   const handleNextClick = () => {
-    const newPage = Math.min(currentPage + 1, totalPage);
     onClickNext?.(currentPage);
-    setCurrentPage(newPage);
-    onPageChange?.(newPage);
-  };
-
-  const handlePageClick = (page: number) => {
-    setCurrentPage(page);
-    onPageChange?.(page);
   };
 
   const renderPaginationItems = () => {
@@ -64,7 +50,7 @@ const ResultsPagination = ({
             key={item.key}
             page={item.props.page}
             isCurrent={item.props.isCurrent}
-            onClick={() => handlePageClick(item.props.page)}
+            onClick={() => onPageChange?.(item.props.page)}
           />
         );
       }
