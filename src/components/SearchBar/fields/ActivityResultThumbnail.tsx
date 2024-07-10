@@ -15,19 +15,19 @@ export const SkeletonActivityResultThumbnail = () => {
 };
 
 type ActivityResultThumbnailProps = {
-  link?: string;
+  id?: string;
   thumbnail?: string;
   description: string;
 };
 const ActivityResultThumbnail = ({
-  link,
+  id,
   thumbnail,
   description,
 }: ActivityResultThumbnailProps) => {
   const [imageSrc, setImageSrc] = useState(thumbnail ?? '/default.webp');
 
   return (
-    <Link href={link ?? '/search'}>
+    <Link href={`/activity/${id}` ?? '/search'}>
       <div className="min-w-fit space-y-2">
         <Image
           src={imageSrc}
