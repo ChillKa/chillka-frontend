@@ -13,7 +13,7 @@ import ActivityField, {
 } from './fields/ActivityField';
 import CategoryFieldMenu, { Category } from './fields/CategoryFieldMenu';
 import LocationFieldMenu, { Location } from './fields/LocationFieldMenu';
-import { SearchField, useSearch } from './SearchProvider';
+import { SearchField, useSearchProvider } from './SearchProvider';
 
 type SearchBarDesktopProps = {
   className: string;
@@ -90,7 +90,7 @@ const SearchBarDesktop = ({
 
   const [isPending, startTransition] = useTransition();
 
-  const { handleSubmit } = useSearch();
+  const { handleSubmit } = useSearchProvider();
   const handleSearchSubmit = handleSubmit(async (data) => {
     startTransition(async () => {
       if (onSearchSubmit) {

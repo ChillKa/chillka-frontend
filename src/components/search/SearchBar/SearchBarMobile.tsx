@@ -25,7 +25,7 @@ import {
 } from './fields/ActivityField';
 import { Category, CategoryMobileFieldMenu } from './fields/CategoryFieldMenu';
 import { Location, LocationMobileFieldMenu } from './fields/LocationFieldMenu';
-import { SearchField, useSearch } from './SearchProvider';
+import { SearchField, useSearchProvider } from './SearchProvider';
 
 type SearchBarMobileProps = {
   className: string;
@@ -50,7 +50,7 @@ const SearchBarMobile = ({
   const containerRef = useRef(null);
   const { height, width } = useDimensions(containerRef);
 
-  const { handleSubmit } = useSearch();
+  const { handleSubmit } = useSearchProvider();
   const handleSearchSubmit = handleSubmit(async (data) => {
     if (onSearchSubmit) {
       await onSearchSubmit(data);

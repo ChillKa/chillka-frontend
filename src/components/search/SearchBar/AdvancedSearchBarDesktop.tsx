@@ -22,7 +22,7 @@ import {
   distances,
   locations,
 } from './fields/utils';
-import { SearchField, useSearch } from './SearchProvider';
+import { SearchField, useSearchProvider } from './SearchProvider';
 
 export type AdvancedSearchBarDesktopProps = {
   onSearchSubmit?: (value: SearchParams) => void;
@@ -37,7 +37,7 @@ const AdvancedSearchBarDesktop = ({
   const [keywords, setKeywords] = useState<ActivityKeyword[]>([]);
   const [pictures, setPictures] = useState<ActivityPicture[]>([]);
 
-  const { handleSubmit, reset, getValues } = useSearch<SearchParams>();
+  const { handleSubmit, reset, getValues } = useSearchProvider<SearchParams>();
   const handleSearchSubmit = handleSubmit((data) => {
     onSearchSubmit?.(data);
   });
