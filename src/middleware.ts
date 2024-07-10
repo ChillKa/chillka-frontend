@@ -49,16 +49,10 @@ const handleAuthRelatedPaths = (req: NextRequest, url: URL) => {
   }
 
   if (url.pathname === '/redirect') {
-    const lastVisitedPath = req.cookies.get('last_visited_path')?.value;
-    const homepage = '/';
+    const lastVisitedPath = req.cookies.get('last_visited_path')?.value || '/';
 
-    if (lastVisitedPath) {
-      const response = NextResponse.redirect(new URL(lastVisitedPath, url));
-      response.cookies.delete('last_visited_path');
-      return response;
-    }
-
-    const response = NextResponse.redirect(new URL(homepage, url));
+    const response = NextResponse.redirect(new URL(lastVisitedPath, url));
+    response.cookies.delete('last_visited_path');
     return response;
   }
 
