@@ -29,33 +29,37 @@ const handleAuthRelatedPaths = (req: NextRequest, url: URL) => {
 
   if (url.pathname === '/callback') {
     const accessToken = url.searchParams.get('accessToken');
-    const lastVisitedPath = req.cookies.get('last_visited_path')?.value;
+    const lastVisitedPath = req.cookies.get('last_visited_path')?.value || '/';
 
-    if (lastVisitedPath) {
-      const response = NextResponse.redirect(new URL(lastVisitedPath, url));
-      response.cookies.delete('last_visited_path');
+    const response = NextResponse.redirect(new URL(lastVisitedPath, url));
+    response.cookies.delete('last_visited_path');
 
-      if (accessToken) {
-        const expiresISO = new Date(Date.now() + 10800 * 1000).toISOString();
-        const expires = new Date(expiresISO);
+    if (accessToken) {
+      const expiresISO = new Date(Date.now() + 10800 * 1000).toISOString();
+      const expires = new Date(expiresISO);
 
-        response.cookies.set('session', accessToken, {
-          httpOnly: true,
-          expires,
-          path: '/',
-        });
-      }
-      return response;
+      response.cookies.set('session', accessToken, {
+        httpOnly: true,
+        expires,
+        path: '/',
+      });
     }
+
+    return response;
   }
 
   if (url.pathname === '/redirect') {
     const lastVisitedPath = req.cookies.get('last_visited_path')?.value;
+    const homepage = '/';
+
     if (lastVisitedPath) {
       const response = NextResponse.redirect(new URL(lastVisitedPath, url));
       response.cookies.delete('last_visited_path');
       return response;
     }
+
+    const response = NextResponse.redirect(new URL(homepage, url));
+    return response;
   }
 
   return NextResponse.next();
