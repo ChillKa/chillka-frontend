@@ -7,13 +7,7 @@ import { H3, Lead, P } from '@components/ui/typography';
 import { formatActivityTime, formatTicketTime } from '@lib/dateUtils';
 import { formatPrice } from '@lib/fomatPrice';
 import cn from '@lib/utils';
-import {
-  CalendarDays,
-  MapPin,
-  MinusCircle,
-  PlusCircle,
-  User,
-} from 'lucide-react';
+import { CalendarDays, MapPin, Minus, Plus, User } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { IAcitivityResponse } from 'src/types/activity';
@@ -153,19 +147,23 @@ const SelectTicketsSection = ({
                   id="ticket-select-number"
                   className="flex flex-row items-center"
                 >
-                  <MinusCircle
-                    size={32}
-                    className="cursor-pointer"
+                  <Button
+                    variant="outline"
+                    className="h-8 w-8 border-primary px-2 text-3xl text-primary transition-colors hover:bg-primary hover:fill-surface hover:text-surface xl:h-10 xl:w-10"
                     onClick={() => handleTicketChange(ticket._id, -1)}
-                  />
-                  <Lead className="mx-2 font-medium">
+                  >
+                    <Minus />
+                  </Button>
+                  <Lead className="mx-2 font-medium xl:mx-3">
                     {selectedTickets[ticket._id] || 0}
                   </Lead>
-                  <PlusCircle
-                    size={32}
-                    className="cursor-pointer"
+                  <Button
+                    variant="outline"
+                    className="h-8 w-8 border-primary px-2 text-3xl text-primary transition-colors hover:bg-primary hover:fill-surface hover:text-surface xl:h-10 xl:w-10"
                     onClick={() => handleTicketChange(ticket._id, 1)}
-                  />
+                  >
+                    <Plus />
+                  </Button>
                 </div>
               </div>
             </Card>
