@@ -21,9 +21,10 @@ import ResultMapSection from './ResultMapSection';
 
 type SearchClientProps = {
   result: SearchResult;
+  initialSearchParams: Partial<SearchParams>;
 };
 
-const SearchClient = ({ result }: SearchClientProps) => {
+const SearchClient = ({ result, initialSearchParams }: SearchClientProps) => {
   const { matches: isMobile } = useMediaQuery();
   const [currentShow, setCurrentShow] = useState<'results' | 'map'>('results');
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -79,6 +80,7 @@ const SearchClient = ({ result }: SearchClientProps) => {
         page: '1',
         limit: '5',
         sort: '相關性',
+        ...initialSearchParams,
       }}
       resolver={zodResolver(SearchParamsSchema)}
     >

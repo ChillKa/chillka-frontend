@@ -82,6 +82,7 @@ const SearchPage = async ({ searchParams }: SearchPageProps) => {
           ...result,
           activities,
         }}
+        initialSearchParams={filteredParams}
       />
     </section>
   );
