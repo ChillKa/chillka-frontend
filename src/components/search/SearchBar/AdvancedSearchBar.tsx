@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import AdvancedSearchBarDesktop from './AdvancedSearchBarDesktop';
 import AdvancedSearchBarMobile from './AdvancedSearchBarMobile';
 import { SearchParams, updateQueryString } from './fields/utils';
+import { useSearchProvider } from './SearchProvider';
 
 type AdvancedSearchBarProps = {
   isMobile: boolean;
@@ -16,21 +17,32 @@ const AdvancedSearchBar = ({
   isMobile,
 }: AdvancedSearchBarProps) => {
   const router = useRouter();
+  const formMethods = useSearchProvider<SearchParams>();
   const handleSearchSubmit = (data: SearchParams) => {
     const queryString = updateQueryString(data);
     router.push(`/search?${queryString}`);
   };
 
-  const handleClearFilter = (data: SearchParams) => {
-    const queryString = updateQueryString(data);
-    router.push(`/search?${queryString}`);
+  const handleClearFilter = () => {
+    formMethods.reset({
+      keyword: '',
+      location: '',
+      category: '',
+      date: '',
+      type: '',
+      distance: '',
+      page: '1',
+      sort: '相關性',
+      limit: '5',
+    });
+    router.push('/search?sort=相關性&page=1&limit=5');
   };
 
   return isMobile ? (
     <section className="fixed bottom-0 left-0 right-0 z-10 flex justify-between gap-2 border-t border-primary bg-surface px-3 py-4">
       <AdvancedSearchBarMobile
         onSearchSubmit={handleSearchSubmit}
-        onClearFilter={handleClearFilter}
+        onClearFilter={() => handleClearFilter}
       />
       <button
         type="button"
@@ -46,7 +58,7 @@ const AdvancedSearchBar = ({
   ) : (
     <AdvancedSearchBarDesktop
       onSearchSubmit={handleSearchSubmit}
-      onClearFilter={handleClearFilter}
+      onClearFilter={() => handleClearFilter}
     />
   );
 };
