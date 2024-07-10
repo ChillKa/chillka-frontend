@@ -1,6 +1,7 @@
 'use client';
 
 import Pagination, {
+  PaginationItem,
   PaginationNext,
   PaginationPrev,
   generatePaginationItems,
@@ -14,6 +15,7 @@ export type ResultsPaginationProps = {
   isMobile?: boolean;
   onClickPrev?: (currentPage: number) => void;
   onClickNext?: (currentPage: number) => void;
+  onPageChange?: (page: number) => void;
 };
 
 const paginationStepperStyles = cva('flex gap-4 py-12', {
@@ -31,17 +33,43 @@ const ResultsPagination = ({
   isMobile = false,
   onClickPrev,
   onClickNext,
+  onPageChange,
 }: ResultsPaginationProps) => {
   const [currentPage, setCurrentPage] = useState(initialPage);
 
   const handlePrevClick = () => {
+    const newPage = Math.max(currentPage - 1, 1);
     onClickPrev?.(currentPage);
-    setCurrentPage((prev) => Math.max(prev - 1, 1));
+    setCurrentPage(newPage);
+    onPageChange?.(newPage);
   };
 
   const handleNextClick = () => {
+    const newPage = Math.min(currentPage + 1, totalPage);
     onClickNext?.(currentPage);
-    setCurrentPage((prev) => Math.min(prev + 1, totalPage));
+    setCurrentPage(newPage);
+    onPageChange?.(newPage);
+  };
+
+  const handlePageClick = (page: number) => {
+    setCurrentPage(page);
+    onPageChange?.(page);
+  };
+
+  const renderPaginationItems = () => {
+    return generatePaginationItems(currentPage, totalPage).map((item) => {
+      if (item.type === PaginationItem) {
+        return (
+          <PaginationItem
+            key={item.key}
+            page={item.props.page}
+            isCurrent={item.props.isCurrent}
+            onClick={() => handlePageClick(item.props.page)}
+          />
+        );
+      }
+      return item;
+    });
   };
 
   return (
@@ -60,7 +88,7 @@ const ResultsPagination = ({
           className={isMobile ? 'border-[1px]' : ''}
           iconClassName={isMobile ? 'size-12' : ''}
         />
-        {isMobile ? null : generatePaginationItems(currentPage, totalPage)}
+        {isMobile ? null : renderPaginationItems()}
         <PaginationNext
           className={isMobile ? 'border-[1px]' : ''}
           iconClassName={isMobile ? 'size-12' : ''}
