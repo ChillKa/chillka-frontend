@@ -8,7 +8,7 @@ import Pagination, {
 import { cva } from 'class-variance-authority';
 import { useState } from 'react';
 
-export type SearchPaginationProps = {
+export type ResultsPaginationProps = {
   totalPage?: number;
   initialPage?: number;
   isMobile?: boolean;
@@ -25,13 +25,13 @@ const paginationStepperStyles = cva('flex gap-4 py-12', {
   },
 });
 
-const SearchPagination = ({
+const ResultsPagination = ({
   totalPage = 1,
   initialPage = 1,
   isMobile = false,
   onClickPrev,
   onClickNext,
-}: SearchPaginationProps) => {
+}: ResultsPaginationProps) => {
   const [currentPage, setCurrentPage] = useState(initialPage);
 
   const handlePrevClick = () => {
@@ -70,4 +70,4 @@ const SearchPagination = ({
   );
 };
 
-export default SearchPagination;
+export default ResultsPagination;

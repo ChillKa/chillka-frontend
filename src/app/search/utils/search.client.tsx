@@ -1,10 +1,6 @@
 'use client';
 
 import { SearchResult } from '@action/activity';
-import {
-  SearchPagination,
-  SearchPaginationProps,
-} from '@components/search/SearchBar';
 import AdvancedSearchBar from '@components/search/SearchBar/AdvancedSearchBar';
 import {
   SearchParams,
@@ -18,6 +14,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import ResultItemsSection from './ResultItemsSection';
 import ResultMapSection from './ResultMapSection';
+import ResultsPagination, { ResultsPaginationProps } from './ResultsPagination';
 
 type SearchClientProps = {
   result: SearchResult;
@@ -38,7 +35,7 @@ const SearchClient = ({ result, initialSearchParams }: SearchClientProps) => {
   const { activities, total } = result;
   const totalPage = Math.ceil(total / 5);
 
-  const handleClickPrev: SearchPaginationProps['onClickPrev'] = (page) => {
+  const handleClickPrev: ResultsPaginationProps['onClickPrev'] = (page) => {
     const newPage = Math.max(page - 1, 1);
     const updatedQuery = updateQueryString({
       ...searchParams.entries(),
@@ -47,7 +44,7 @@ const SearchClient = ({ result, initialSearchParams }: SearchClientProps) => {
     router.push(`/search?${updatedQuery}`);
   };
 
-  const handleClickNext: SearchPaginationProps['onClickNext'] = (page) => {
+  const handleClickNext: ResultsPaginationProps['onClickNext'] = (page) => {
     const newPage = Math.min(page + 1, totalPage);
     const updatedQuery = updateQueryString({
       ...searchParams.entries(),
@@ -102,7 +99,7 @@ const SearchClient = ({ result, initialSearchParams }: SearchClientProps) => {
               currentShow={currentShow}
             />
 
-            <SearchPagination
+            <ResultsPagination
               initialPage={currentPage}
               totalPage={totalPage}
               isMobile={isMobile}
