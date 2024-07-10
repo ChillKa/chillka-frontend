@@ -128,7 +128,7 @@ export async function getRecommendActivitiesByKeyword(keyword: string) {
       })),
       pictures: activitiesResult.data.map((activity: Activity) => ({
         thumbnail: activity.thumbnail,
-        url: activity.link,
+        id: activity._id,
         description: activity.name,
       })),
     };
