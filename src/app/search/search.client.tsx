@@ -2,7 +2,13 @@
 
 import { SearchResult } from '@action/activity';
 import AdvancedSearchBar from '@components/search/SearchBar/AdvancedSearchBar';
+import {
+  SearchParams,
+  SearchParamsSchema,
+} from '@components/search/SearchBar/fields/utils';
+import SearchProvider from '@components/search/SearchBar/SearchProvider';
 import SearchContentSection from '@components/search/SearchContentSection';
+import { zodResolver } from '@hookform/resolvers/zod';
 import useMediaQuery from '@hooks/use-media-query';
 import { useState } from 'react';
 
@@ -31,7 +37,20 @@ const SearchClient = ({ result }: SearchClientProps) => {
   };
 
   return (
-    <>
+    <SearchProvider<SearchParams>
+      defaultValues={{
+        keyword: '',
+        location: '',
+        category: '',
+        date: '',
+        type: '',
+        distance: '',
+        page: '1',
+        limit: '5',
+        sort: '相關性',
+      }}
+      resolver={zodResolver(SearchParamsSchema)}
+    >
       <AdvancedSearchBar toggleCurrentShow={toggleShow} isMobile={isMobile} />
 
       <SearchContentSection
@@ -40,7 +59,7 @@ const SearchClient = ({ result }: SearchClientProps) => {
         totalPage={totalPage}
         currentShow={currentShow}
       />
-    </>
+    </SearchProvider>
   );
 };
 
