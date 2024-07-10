@@ -48,7 +48,7 @@ const AdvancedSearchBar = ({
       resolver={zodResolver(SearchParamsSchema)}
     >
       {isMobile ? (
-        <section className="borrder-primary fixed bottom-0 left-0 right-0 z-10 flex justify-between gap-2 border-t bg-surface px-3 py-4">
+        <section className="fixed bottom-0 left-0 right-0 z-10 flex justify-between gap-2 border-t border-primary bg-surface px-3 py-4">
           <AdvancedSearchBarMobile
             onSearchSubmit={handleSearchSubmit}
             onClearFilter={handleClearFilter}
