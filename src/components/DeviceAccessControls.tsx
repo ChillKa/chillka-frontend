@@ -2,7 +2,7 @@
 
 import { Label } from '@ui/label';
 import { Switch } from '@ui/switch';
-import { cookies } from 'next/headers';
+import cookies from 'js-cookie';
 import { useCallback, useEffect, useState } from 'react';
 import { H4 } from './ui/typography';
 
@@ -63,15 +63,15 @@ const DeviceAccessControls = () => {
           const lat = position.coords.latitude.toString();
           const lng = position.coords.longitude.toString();
 
-          cookies().set('lat', lat, { maxAge: 7200 });
-          cookies().set('lng', lng, { maxAge: 7200 });
+          cookies.set('lat', lat, { maxAge: 7200 });
+          cookies.set('lng', lng, { maxAge: 7200 });
         },
         () => {
           setIsLocationEnabled(false);
           setLocationPermissionState('denied');
 
-          cookies().set('lat', '', { maxAge: 0 });
-          cookies().set('lng', '', { maxAge: 0 });
+          cookies.set('lat', '', { maxAge: 0 });
+          cookies.set('lng', '', { maxAge: 0 });
         }
       );
     } else {
