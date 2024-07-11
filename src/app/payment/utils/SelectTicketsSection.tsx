@@ -7,13 +7,7 @@ import { H3, Lead, P } from '@components/ui/typography';
 import { formatActivityTime, formatTicketTime } from '@lib/dateUtils';
 import { formatPrice } from '@lib/fomatPrice';
 import cn from '@lib/utils';
-import {
-  CalendarDays,
-  MapPin,
-  MinusCircle,
-  PlusCircle,
-  User,
-} from 'lucide-react';
+import { CalendarDays, MapPin, Minus, Plus, User } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { IAcitivityResponse } from 'src/types/activity';
@@ -27,7 +21,6 @@ const SelectTicketsSection = ({
   activityId,
   data,
 }: SelectTicketsSectionProps) => {
-  console.log(data);
   const router = useRouter();
   const [selectedTickets, setSelectedTickets] = useState<{
     [key: string]: number;
@@ -188,7 +181,7 @@ const SelectTicketsSection = ({
                 >
                   <Button
                     type="button"
-                    variant="ghost"
+                    variant="outline"
                     className={cn(
                       'w-fit cursor-pointer hover:bg-surface',
                       !canDecrease && 'opacity-50'
@@ -197,14 +190,14 @@ const SelectTicketsSection = ({
                       canDecrease && handleTicketChange(ticket._id, -1)
                     }
                   >
-                    <MinusCircle size={32} />
+                    <Minus size={32} />
                   </Button>
                   <Lead className="mx-2 font-medium">
                     {selectedTickets[ticket._id] || 0}
                   </Lead>
                   <Button
                     type="button"
-                    variant="ghost"
+                    variant="outline"
                     className={cn(
                       'w-fit cursor-pointer hover:bg-surface',
                       !canIncrease && 'opacity-50'
@@ -213,7 +206,7 @@ const SelectTicketsSection = ({
                       canIncrease && handleTicketChange(ticket._id, 1)
                     }
                   >
-                    <PlusCircle size={32} />
+                    <Plus size={32} />
                   </Button>
                 </div>
               </div>
