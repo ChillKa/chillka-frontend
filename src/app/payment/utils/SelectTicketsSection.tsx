@@ -61,12 +61,17 @@ const SelectTicketsSection = ({
     router.push(`/payment/${activityId}/fill-info?${searchParams.toString()}`);
   };
 
-  const isAnyTicketSelected = Object.values(selectedTickets).some(
-    (quantity) => quantity > 0
-  );
-  const isNextStepDisabled = Object.keys(selectedTickets).every(
-    (ticketId) => selectedTickets[ticketId] === 0
-  );
+  const handleReset = () => {
+    setSelectedTickets({});
+  };
+
+  const isNextStepDisabled = Object.keys(selectedTickets).length === 0;
+
+  const isDisabled = (ticketId: string) => {
+    return (
+      Object.keys(selectedTickets).length > 0 && !selectedTickets[ticketId]
+    );
+  };
 
   return (
     <>
@@ -124,9 +129,17 @@ const SelectTicketsSection = ({
         className="flex w-full flex-col gap-6 text-primary"
       >
         <div className="flex flex-row items-center justify-between">
-          <H3>請選擇票券</H3>
+          <div className="flex items-center gap-2">
+            <H3>請選擇票券</H3>
+            {Object.keys(selectedTickets).length > 0 && (
+              <Button variant="default" onClick={handleReset}>
+                重新選擇
+              </Button>
+            )}
+          </div>
           <div className="flex flex-row items-center gap-4">
             <Lead id="total-amount">Total: ${formatPrice(totalAmount)}</Lead>
+
             <Button
               variant="default"
               onClick={handleNextStep}
@@ -137,15 +150,13 @@ const SelectTicketsSection = ({
           </div>
         </div>
         {data.tickets.map((ticket) => {
-          const isDisabled =
-            isAnyTicketSelected && !selectedTickets[ticket._id];
+          const currentCount = selectedTickets[ticket._id] || 0;
           const remainingTickets =
             ticket.participantCapacity - ticket.soldNumber;
           const canIncrease =
-            (selectedTickets[ticket._id] || 0) <
-            Math.min(ticket.purchaseLimit, remainingTickets);
-
-          const canDecrease = (selectedTickets[ticket._id] || 0) > 0;
+            currentCount < Math.min(ticket.purchaseLimit, remainingTickets);
+          const canDecrease = currentCount > 0;
+          const disabled = isDisabled(ticket._id);
 
           return (
             <Card
@@ -153,7 +164,7 @@ const SelectTicketsSection = ({
               id="ticket"
               className={cn(
                 'flex w-full flex-row items-center justify-between gap-3 bg-transparent p-4 text-primary',
-                isDisabled && 'bg-gray-200 opacity-50'
+                disabled && 'bg-gray-200 opacity-50'
               )}
             >
               <div className="flex max-w-[70%] flex-col gap-2">
@@ -184,11 +195,13 @@ const SelectTicketsSection = ({
                     variant="outline"
                     className={cn(
                       'w-fit cursor-pointer hover:bg-surface',
-                      !canDecrease && 'opacity-50'
+                      (!canDecrease || disabled) &&
+                        'cursor-not-allowed opacity-50'
                     )}
                     onClick={() =>
                       canDecrease && handleTicketChange(ticket._id, -1)
                     }
+                    disabled={!canDecrease || disabled}
                   >
                     <Minus />
                   </Button>
@@ -200,11 +213,13 @@ const SelectTicketsSection = ({
                     variant="outline"
                     className={cn(
                       'w-fit cursor-pointer hover:bg-surface',
-                      !canIncrease && 'opacity-50'
+                      (!canIncrease || disabled) &&
+                        'cursor-not-allowed opacity-50'
                     )}
                     onClick={() =>
                       canIncrease && handleTicketChange(ticket._id, 1)
                     }
+                    disabled={!canIncrease || disabled}
                   >
                     <Plus />
                   </Button>
