@@ -23,7 +23,7 @@ import { Switch } from '@components/ui/switch';
 import { H2, H4, Subtle } from '@components/ui/typography';
 import { createActivityFormSchema } from '@lib/definitions';
 import { ChevronsUpDownIcon, Trash2Icon } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { UseFormReturn, useFieldArray } from 'react-hook-form';
 import { z } from 'zod';
 import ActivityDateWrapper from '../fields/ActitvityDateWraper';
@@ -45,6 +45,21 @@ const TicketFormSection = ({ form }: TicketFormSectionProps) => {
     control,
     name: 'tickets',
   });
+
+  const { setValue } = form;
+
+  useEffect(() => {
+    setValue('tickets', [
+      {
+        price: isChillKaMode ? 0 : 100,
+        name: '',
+        fromToday: false,
+        noEndDate: false,
+        participantCapacity: isChillKaMode ? 1 : 1,
+        unlimitedQuantity: false,
+      },
+    ]);
+  }, [isChillKaMode]);
 
   return (
     <>
@@ -138,6 +153,7 @@ const TicketFormSection = ({ form }: TicketFormSectionProps) => {
                           <Input
                             type="number"
                             variant="form"
+                            disabled={isChillKaMode}
                             placeholder="請輸入票券價格"
                             {...field}
                             onChange={(e) =>
@@ -284,7 +300,12 @@ const TicketFormSection = ({ form }: TicketFormSectionProps) => {
                       <FormItem className="space-y-1.5">
                         <FormLabel>每次購買數量限制</FormLabel>
                         <FormControl>
-                          <Input type="number" variant="form" {...field} />
+                          <Input
+                            disabled={isChillKaMode}
+                            type="number"
+                            variant="form"
+                            {...field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
