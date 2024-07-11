@@ -423,7 +423,7 @@ const ActivityContentFormSection = ({
           control={form.control}
           name="summary"
           render={({ field }) => (
-            <FormItem className="w-[26rem] space-y-1.5">
+            <FormItem className="max-w-[26rem] space-y-1.5">
               <FormLabel className="after:ml-1 after:text-destructive after:content-['*']">
                 活動摘要
               </FormLabel>
