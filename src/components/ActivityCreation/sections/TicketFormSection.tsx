@@ -86,7 +86,7 @@ const TicketFormSection = ({ form }: TicketFormSectionProps) => {
         {fields.map((fieldItem, index) => {
           return (
             <Collapsible key={fieldItem.id}>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center justify-between gap-2">
                 <FormField
                   name={`tickets.${index}.name`}
                   control={control}
