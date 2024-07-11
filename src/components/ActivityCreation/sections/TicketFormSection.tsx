@@ -136,10 +136,13 @@ const TicketFormSection = ({ form }: TicketFormSectionProps) => {
                         </FormLabel>
                         <FormControl>
                           <Input
+                            type="number"
                             variant="form"
-                            placeholder="請輸入你喜歡的稱呼"
+                            placeholder="請輸入票券價格"
                             {...field}
-                            onChange={(e) => field.onChange(+e.target.value)}
+                            onChange={(e) =>
+                              field.onChange(Number(e.target.value))
+                            }
                           />
                         </FormControl>
                         <FormMessage />
@@ -287,7 +290,7 @@ const TicketFormSection = ({ form }: TicketFormSectionProps) => {
                       </FormItem>
                     );
                   }}
-                />{' '}
+                />
                 <FormField
                   name={`tickets.${index}.description`}
                   control={control}
