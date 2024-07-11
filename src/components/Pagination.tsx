@@ -131,10 +131,14 @@ export const PaginationItem = ({
   return (
     <button
       type="button"
-      onClick={() => onClick?.(page)}
-      className={`flex size-10 cursor-pointer items-center justify-center rounded-full ${
-        isActive ? 'bg-primary text-white' : 'bg-surface'
-      }`}
+      onClick={() => !isCurrent && onClick?.(page)}
+      disabled={isCurrent}
+      className={cn('flex size-10 items-center justify-center rounded-full', {
+        'bg-primary text-white': isActive,
+        'bg-surface': !isActive,
+        'cursor-default': isCurrent,
+        'cursor-pointer hover:bg-primary hover:text-white': !isCurrent,
+      })}
     >
       {page}
     </button>
