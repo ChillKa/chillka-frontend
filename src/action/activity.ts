@@ -3,7 +3,7 @@
 import { SearchParams } from '@components/SearchBar/fields/utils';
 import { userCommentSchema } from '@lib/definitions';
 import { createDebounce } from '@lib/utils';
-import { revalidatePath, revalidateTag } from 'next/cache';
+import { revalidateTag } from 'next/cache';
 import { z } from 'zod';
 import { IAcitivityResponse, IActivity } from '../types/activity';
 import { fetchAPI, getJwtPayload, validateWithSchema } from './utils';
@@ -253,8 +253,7 @@ export type ActivityState =
     };
 
 export async function toggleFavoriteActivity(
-  activityId: string,
-  revalidate?: boolean
+  activityId: string
 ): Promise<ActivityState> {
   try {
     const response = await fetchAPI({
@@ -272,7 +271,6 @@ export async function toggleFavoriteActivity(
       };
     }
 
-    if (revalidate) revalidatePath('/member-center/favorite-event');
     revalidateTag('favoritedActivities');
 
     return {
