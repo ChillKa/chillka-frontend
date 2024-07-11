@@ -27,6 +27,7 @@ const SelectTicketsSection = ({
   activityId,
   data,
 }: SelectTicketsSectionProps) => {
+  console.log(data);
   const router = useRouter();
   const [selectedTickets, setSelectedTickets] = useState<{
     [key: string]: number;
@@ -34,7 +35,15 @@ const SelectTicketsSection = ({
 
   const handleTicketChange = (ticketId: string, change: number) => {
     setSelectedTickets((prev) => {
-      const newCount = Math.max(0, (prev[ticketId] || 0) + change);
+      const ticket = data.tickets.find((t) => t._id === ticketId);
+      if (!ticket) return prev;
+
+      const currentCount = prev[ticketId] || 0;
+      const newCount = Math.max(
+        0,
+        Math.min(currentCount + change, ticket.purchaseLimit)
+      );
+
       if (newCount === 0) {
         const { [ticketId]: _, ...rest } = prev;
         return rest;
@@ -62,7 +71,7 @@ const SelectTicketsSection = ({
   const isAnyTicketSelected = Object.values(selectedTickets).some(
     (quantity) => quantity > 0
   );
-  const isNextDisabled = Object.keys(selectedTickets).every(
+  const isNextStepDisabled = Object.keys(selectedTickets).every(
     (ticketId) => selectedTickets[ticketId] === 0
   );
 
@@ -128,7 +137,7 @@ const SelectTicketsSection = ({
             <Button
               variant="default"
               onClick={handleNextStep}
-              disabled={isNextDisabled}
+              disabled={isNextStepDisabled}
             >
               下一步
             </Button>
@@ -137,6 +146,11 @@ const SelectTicketsSection = ({
         {data.tickets.map((ticket) => {
           const isDisabled =
             isAnyTicketSelected && !selectedTickets[ticket._id];
+          const remainingTickets =
+            ticket.participantCapacity - ticket.soldNumber;
+          const canIncrease =
+            (selectedTickets[ticket._id] || 0) <
+            Math.min(ticket.purchaseLimit, remainingTickets);
           return (
             <Card
               key={ticket._id}
@@ -156,6 +170,10 @@ const SelectTicketsSection = ({
                   )}
                 </P>
                 <p>{ticket.description}</p>
+                <p>
+                  剩餘票數: {remainingTickets} / 每人限購:{' '}
+                  {ticket.purchaseLimit} 張
+                </p>
               </div>
               <div className="flex flex-row gap-2">
                 <Lead className="leading-8">
@@ -175,8 +193,13 @@ const SelectTicketsSection = ({
                   </Lead>
                   <PlusCircle
                     size={32}
-                    className="cursor-pointer"
-                    onClick={() => handleTicketChange(ticket._id, 1)}
+                    className={cn(
+                      'cursor-pointer',
+                      !canIncrease && 'opacity-50'
+                    )}
+                    onClick={() =>
+                      canIncrease && handleTicketChange(ticket._id, 1)
+                    }
                   />
                 </div>
               </div>
