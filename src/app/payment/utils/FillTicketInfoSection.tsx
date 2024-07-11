@@ -286,13 +286,13 @@ const FillTicketInfoSection = ({
                       disabled
                     >
                       <FormItem className="mb-2 flex items-center space-x-2">
-                        <FormControl>
+                        <FormControl className="mt-2">
                           <RadioGroupItem value="none" />
                         </FormControl>
                         <FormLabel className="font-normal">免費票券</FormLabel>
                       </FormItem>
                       <FormItem className="mb-2 flex items-center space-x-2">
-                        <FormControl>
+                        <FormControl className="mt-2">
                           <RadioGroupItem value="ecpay" />
                         </FormControl>
                         <FormLabel className="font-normal">ECPay</FormLabel>

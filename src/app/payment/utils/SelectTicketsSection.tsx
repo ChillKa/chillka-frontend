@@ -182,7 +182,7 @@ const SelectTicketsSection = ({
                   {ticket.purchaseLimit} 張
                 </Small>
               </div>
-              <div className="flex flex-row gap-2">
+              <div className="flex flex-row items-center gap-2">
                 <Lead className="leading-8">
                   NT${formatPrice(ticket.price)}
                 </Lead>
