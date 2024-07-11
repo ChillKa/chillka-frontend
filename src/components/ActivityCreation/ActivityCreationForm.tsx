@@ -80,7 +80,7 @@ const ActivityCreationForm = ({ className }: ActivityCreationFormProps) => {
           fromToday: false,
           endDateTime: undefined,
           noEndDate: false,
-          participantCapacity: 0,
+          participantCapacity: 1,
           unlimitedQuantity: false,
           purchaseLimit: 1,
           description: '',
@@ -118,7 +118,7 @@ const ActivityCreationForm = ({ className }: ActivityCreationFormProps) => {
   return (
     <section className={cn('', className)}>
       <Form {...form}>
-        <form className="mt-12 space-y-12" action={formAction}>
+        <form className="mt-12 space-y-12 px-3 xl:px-0" action={formAction}>
           <OrganizerFormSection form={form} onImageUploading={setUploadCount} />
           <ActivityContentFormSection
             form={form}
