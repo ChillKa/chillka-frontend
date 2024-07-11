@@ -2,6 +2,12 @@
 
 import { fetchAPI } from '@action/utils';
 
+interface PaymentCompleteApiResponse {
+  status: 'success' | 'fail';
+  _id?: string;
+  activityId?: string;
+}
+
 interface SendPaymentProps {
   activityId: string;
   ticketId: string;
@@ -50,6 +56,44 @@ export async function sendPayment(props: SendPaymentProps) {
   } catch (error) {
     return {
       status: 'error',
+      message:
+        error instanceof Error ? error.message : 'An unknown error occurred',
+    };
+  }
+}
+
+export async function getPaymentResult(): Promise<{
+  status: 'error' | 'success' | 'fail';
+  orderId?: string;
+  activityId?: string;
+  message?: string;
+}> {
+  try {
+    const response = await fetchAPI({
+      api: `/auth/payment/complete`,
+      method: 'GET',
+      shouldAuth: true,
+    });
+
+    if (!response.ok) {
+      const errorMessage = await response.text();
+      throw new Error(
+        `${errorMessage ?? '失敗，請稍後重新再試。'} (${response.status})`
+      );
+    }
+
+    const jsonResponse = (await response.json()) as PaymentCompleteApiResponse;
+    return {
+      status: jsonResponse.status,
+      orderId: jsonResponse._id,
+      activityId: jsonResponse.activityId,
+      message: '訂票狀態',
+    };
+  } catch (error) {
+    return {
+      status: 'error',
+      orderId: undefined,
+      activityId: undefined,
       message:
         error instanceof Error ? error.message : 'An unknown error occurred',
     };
