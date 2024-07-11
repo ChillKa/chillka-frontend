@@ -2,12 +2,12 @@
 
 import { SearchResult } from '@action/activity';
 import AdvancedSearchBar from '@components/search/SearchBar/AdvancedSearchBar';
+import SearchProvider from '@components/search/SearchBar/SearchProvider';
 import {
   SearchParams,
   SearchParamsSchema,
   updateQueryString,
 } from '@components/search/SearchBar/fields/utils';
-import SearchProvider from '@components/search/SearchBar/SearchProvider';
 import { zodResolver } from '@hookform/resolvers/zod';
 import useMediaQuery from '@hooks/use-media-query';
 import { useRouter, useSearchParams } from 'next/navigation';
