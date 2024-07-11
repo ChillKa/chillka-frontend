@@ -8,11 +8,17 @@ export type ResultItemsProp = {
   results: Activity[];
   setCenterId: (id: string) => void;
   isMobile: boolean;
+  className?: string;
 };
 
-const ResultItems = ({ results, setCenterId, isMobile }: ResultItemsProp) => {
+const ResultItems = ({
+  results,
+  setCenterId,
+  isMobile,
+  className,
+}: ResultItemsProp) => {
   return (
-    <div id="result-items">
+    <div id="result-items" className={className}>
       {results.map((activity) => {
         return isMobile ? (
           <IntersectionObserverEventCard

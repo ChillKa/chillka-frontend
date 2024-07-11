@@ -64,6 +64,7 @@ const ResultItemsSection = ({
           results={results}
           setCenterId={setCenterId}
           isMobile={isMobile}
+          className="lg:max-w-[53.5rem] flex w-full flex-col gap-y-12"
         />
       </WithErrorBoundaryAndSuspense>
     </>

@@ -1,7 +1,9 @@
 'use client';
 
 import { Activity } from '@action/activity';
+import WithErrorBoundaryAndSuspense from '@components/hoc/WithErrorBoundaryAndSuspense';
 import SearchMapSection from '@components/search/SearchMapSection';
+import { Skeleton } from '@components/ui/skeleton';
 import { useMemo } from 'react';
 
 type ResultMapSectionProps = {
@@ -56,7 +58,18 @@ const ResultMapSection = ({
   }, [activities]);
 
   return (
-    <>
+    <WithErrorBoundaryAndSuspense
+      loadingFallback={
+        <div className="h-[400px] w-full space-y-2">
+          <Skeleton className="h-full w-full rounded-lg" />
+          <div className="flex justify-between">
+            <Skeleton className="h-4 w-[100px]" />
+            <Skeleton className="h-4 w-[60px]" />
+          </div>
+          <Skeleton className="h-4 w-[80%]" />
+        </div>
+      }
+    >
       {isMobile && currentShow === 'map' && (
         <div className="h-fit w-full">
           <SearchMapSection centerId={centerId} markers={mapMarkers} />
@@ -67,7 +80,7 @@ const ResultMapSection = ({
           <SearchMapSection centerId={centerId} markers={mapMarkers} />
         </div>
       )}
-    </>
+    </WithErrorBoundaryAndSuspense>
   );
 };
 
