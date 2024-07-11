@@ -109,12 +109,12 @@ const TicketFormSection = ({ form }: TicketFormSectionProps) => {
                     <ChevronsUpDownIcon />
                   </Button>
                 </CollapsibleTrigger>
-                {errors?.tickets?.[index] && (
-                  <p className="text-sm font-medium text-destructive">
-                    請記得填寫票卷內容
-                  </p>
-                )}
               </div>
+              {errors?.tickets?.[index] && (
+                <p className="text-sm font-medium text-destructive">
+                  請記得填寫票卷內容
+                </p>
+              )}
               <CollapsibleContent
                 className="space-y-1.5 data-[state=closed]:hidden"
                 forceMount
