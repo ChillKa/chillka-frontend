@@ -46,19 +46,21 @@ const TicketFormSection = ({ form }: TicketFormSectionProps) => {
     name: 'tickets',
   });
 
-  const { setValue } = form;
+  const { setValue, getValues } = form;
 
   useEffect(() => {
-    setValue('tickets', [
-      {
-        price: isChillKaMode ? 0 : 100,
-        name: '',
-        fromToday: false,
-        noEndDate: false,
-        participantCapacity: isChillKaMode ? 1 : 1,
-        unlimitedQuantity: false,
-      },
-    ]);
+    const prevTicketsValues = getValues('tickets');
+
+    setValue(
+      'tickets',
+      prevTicketsValues.map((preValues) => {
+        return {
+          ...preValues,
+          price: isChillKaMode ? 0 : 100,
+          purchaseLimit: isChillKaMode ? 1 : 1,
+        };
+      })
+    );
   }, [isChillKaMode]);
 
   return (
