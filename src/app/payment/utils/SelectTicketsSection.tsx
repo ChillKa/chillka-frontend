@@ -151,6 +151,9 @@ const SelectTicketsSection = ({
           const canIncrease =
             (selectedTickets[ticket._id] || 0) <
             Math.min(ticket.purchaseLimit, remainingTickets);
+
+          const canDecrease = (selectedTickets[ticket._id] || 0) > 0;
+
           return (
             <Card
               key={ticket._id}
@@ -183,24 +186,35 @@ const SelectTicketsSection = ({
                   id="ticket-select-number"
                   className="flex flex-row items-center"
                 >
-                  <MinusCircle
-                    size={32}
-                    className="cursor-pointer"
-                    onClick={() => handleTicketChange(ticket._id, -1)}
-                  />
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    className={cn(
+                      'w-fit cursor-pointer hover:bg-surface',
+                      !canDecrease && 'opacity-50'
+                    )}
+                    onClick={() =>
+                      canDecrease && handleTicketChange(ticket._id, -1)
+                    }
+                  >
+                    <MinusCircle size={32} />
+                  </Button>
                   <Lead className="mx-2 font-medium">
                     {selectedTickets[ticket._id] || 0}
                   </Lead>
-                  <PlusCircle
-                    size={32}
+                  <Button
+                    type="button"
+                    variant="ghost"
                     className={cn(
-                      'cursor-pointer',
+                      'w-fit cursor-pointer hover:bg-surface',
                       !canIncrease && 'opacity-50'
                     )}
                     onClick={() =>
                       canIncrease && handleTicketChange(ticket._id, 1)
                     }
-                  />
+                  >
+                    <PlusCircle size={32} />
+                  </Button>
                 </div>
               </div>
             </Card>
