@@ -28,7 +28,19 @@ const SelectTicketsSection = ({
 
   const handleTicketChange = (ticketId: string, change: number) => {
     setSelectedTickets((prev) => {
-      const newCount = Math.max(0, (prev[ticketId] || 0) + change);
+      const ticket = data.tickets.find((t) => t._id === ticketId);
+      if (!ticket) return prev;
+
+      const currentCount = prev[ticketId] || 0;
+      const newCount = Math.max(
+        0,
+        Math.min(currentCount + change, ticket.purchaseLimit)
+      );
+
+      if (newCount === 0) {
+        const { [ticketId]: _, ...rest } = prev;
+        return rest;
+      }
       return { ...prev, [ticketId]: newCount };
     });
   };
@@ -49,9 +61,17 @@ const SelectTicketsSection = ({
     router.push(`/payment/${activityId}/fill-info?${searchParams.toString()}`);
   };
 
-  const isNextDisabled = Object.keys(selectedTickets).every(
-    (ticketId) => selectedTickets[ticketId] === 0
-  );
+  const handleReset = () => {
+    setSelectedTickets({});
+  };
+
+  const isNextStepDisabled = Object.keys(selectedTickets).length === 0;
+
+  const isDisabled = (ticketId: string) => {
+    return (
+      Object.keys(selectedTickets).length > 0 && !selectedTickets[ticketId]
+    );
+  };
 
   return (
     <>
@@ -109,24 +129,43 @@ const SelectTicketsSection = ({
         className="flex w-full flex-col gap-6 text-primary"
       >
         <div className="flex flex-row items-center justify-between">
-          <H3>請選擇票券</H3>
+          <div className="flex items-center gap-2">
+            <H3>請選擇票券</H3>
+            {Object.keys(selectedTickets).length > 0 && (
+              <Button variant="default" onClick={handleReset}>
+                重新選擇
+              </Button>
+            )}
+          </div>
           <div className="flex flex-row items-center gap-4">
             <Lead id="total-amount">Total: ${formatPrice(totalAmount)}</Lead>
+
             <Button
               variant="default"
               onClick={handleNextStep}
-              disabled={isNextDisabled}
+              disabled={isNextStepDisabled}
             >
               下一步
             </Button>
           </div>
         </div>
         {data.tickets.map((ticket) => {
+          const currentCount = selectedTickets[ticket._id] || 0;
+          const remainingTickets =
+            ticket.participantCapacity - ticket.soldNumber;
+          const canIncrease =
+            currentCount < Math.min(ticket.purchaseLimit, remainingTickets);
+          const canDecrease = currentCount > 0;
+          const disabled = isDisabled(ticket._id);
+
           return (
             <Card
               key={ticket._id}
               id="ticket"
-              className="flex w-full flex-row items-center justify-between gap-3 bg-transparent p-4 text-primary"
+              className={cn(
+                'flex w-full flex-row items-center justify-between gap-3 bg-transparent p-4 text-primary',
+                disabled && 'bg-gray-200 opacity-50'
+              )}
             >
               <div className="flex max-w-[70%] flex-col gap-2">
                 <H3>{ticket.name}</H3>
@@ -138,6 +177,10 @@ const SelectTicketsSection = ({
                   )}
                 </P>
                 <p>{ticket.description}</p>
+                <p>
+                  剩餘票數: {remainingTickets} / 每人限購:{' '}
+                  {ticket.purchaseLimit} 張
+                </p>
               </div>
               <div className="flex flex-row gap-2">
                 <Lead className="leading-8">
@@ -148,19 +191,35 @@ const SelectTicketsSection = ({
                   className="flex flex-row items-center"
                 >
                   <Button
+                    type="button"
                     variant="outline"
-                    className="h-8 w-8 border-primary px-2 text-3xl text-primary transition-colors hover:bg-primary hover:fill-surface hover:text-surface xl:h-10 xl:w-10"
-                    onClick={() => handleTicketChange(ticket._id, -1)}
+                    className={cn(
+                      'w-fit cursor-pointer hover:bg-surface',
+                      (!canDecrease || disabled) &&
+                        'cursor-not-allowed opacity-50'
+                    )}
+                    onClick={() =>
+                      canDecrease && handleTicketChange(ticket._id, -1)
+                    }
+                    disabled={!canDecrease || disabled}
                   >
                     <Minus />
                   </Button>
-                  <Lead className="mx-2 font-medium xl:mx-3">
+                  <Lead className="mx-2 font-medium">
                     {selectedTickets[ticket._id] || 0}
                   </Lead>
                   <Button
+                    type="button"
                     variant="outline"
-                    className="h-8 w-8 border-primary px-2 text-3xl text-primary transition-colors hover:bg-primary hover:fill-surface hover:text-surface xl:h-10 xl:w-10"
-                    onClick={() => handleTicketChange(ticket._id, 1)}
+                    className={cn(
+                      'w-fit cursor-pointer hover:bg-surface',
+                      (!canIncrease || disabled) &&
+                        'cursor-not-allowed opacity-50'
+                    )}
+                    onClick={() =>
+                      canIncrease && handleTicketChange(ticket._id, 1)
+                    }
+                    disabled={!canIncrease || disabled}
                   >
                     <Plus />
                   </Button>
