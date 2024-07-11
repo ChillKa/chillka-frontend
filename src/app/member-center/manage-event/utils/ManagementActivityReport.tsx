@@ -9,7 +9,7 @@ import {
   SelectValue,
 } from '@ui/select';
 import ReactECharts from 'echarts-for-react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Order } from './types';
 
 type ManagementActivityReportProps = {
@@ -21,11 +21,6 @@ const ManagementActivityReport = ({
 }: ManagementActivityReportProps) => {
   const [selectedChart, setSelectedChart] = useState('paymentStatus');
   const [chartTitle, setChartTitle] = useState('訂單支付狀態');
-
-  useEffect(() => {
-    // 防止 select 改變時滾動條消失
-    document.body.style.overflow = 'unset';
-  }, [selectedChart]);
 
   const paymentStatusOption = {
     tooltip: {
@@ -106,10 +101,38 @@ const ManagementActivityReport = ({
     ],
   };
 
+  const participantOption = {
+    tooltip: {
+      trigger: 'item',
+    },
+    legend: {
+      orient: 'vertical',
+      left: 'left',
+    },
+    series: [
+      {
+        name: '票種分佈',
+        type: 'pie',
+        radius: '50%',
+        data: Object.entries(
+          orders.reduce(
+            (acc, order) => {
+              const ticketName = order.ticket.name;
+              acc[ticketName] = (acc[ticketName] || 0) + 1;
+              return acc;
+            },
+            {} as Record<string, number>
+          )
+        ).map(([name, value]) => ({ name, value })),
+      },
+    ],
+  };
+
   const chartOptions = {
     paymentStatus: paymentStatusOption,
     orderStatus: orderStatusOption,
     orderTime: orderTimeOption,
+    participant: participantOption,
   };
 
   const handleChartChange = (value: string) => {
@@ -124,6 +147,9 @@ const ManagementActivityReport = ({
       case 'orderTime':
         setChartTitle('訂單時間趨勢');
         break;
+      case 'participant':
+        setChartTitle('參加者票種分佈');
+        break;
       default:
         break;
     }
@@ -131,18 +157,19 @@ const ManagementActivityReport = ({
 
   return (
     <section className="h-fit w-full p-4">
-      <div className="mb-4 flex items-center gap-2">
+      <div className="mb-4 flex flex-col items-center gap-2 xl:flex-row">
         <Select onValueChange={handleChartChange} defaultValue="paymentStatus">
-          <SelectTrigger className="w-[10rem] border-2 border-primary">
+          <SelectTrigger className="order-2 w-[10rem] border-2 border-primary xl:order-1">
             <SelectValue placeholder="選擇圖表" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="paymentStatus">支付狀態</SelectItem>
             <SelectItem value="orderStatus">訂單狀態</SelectItem>
             <SelectItem value="orderTime">訂單時間趨勢</SelectItem>
+            <SelectItem value="participant">參加者票種分佈</SelectItem>
           </SelectContent>
         </Select>
-        <H4>{chartTitle}</H4>
+        <H4 className="order-1 xl:order-2">{chartTitle}</H4>
       </div>
       <ReactECharts
         option={chartOptions[selectedChart as keyof typeof chartOptions]}
