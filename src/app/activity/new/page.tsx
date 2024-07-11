@@ -9,7 +9,7 @@ const Page = async () => {
     <>
       <Separator className="h-[0.3px]" />
       <div className="mx-auto mb-16 flex max-w-[81rem] justify-between gap-3 text-primary xl:mt-24">
-        <ActivityCreationSideBar className="hidden xl:basis-1/3" />
+        <ActivityCreationSideBar className="hidden xl:block xl:basis-1/3" />
         <ActivityCreationForm className="basis-full xl:basis-2/3" />
       </div>
     </>
