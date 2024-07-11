@@ -151,9 +151,8 @@ const TicketFormSection = ({ form }: TicketFormSectionProps) => {
                         </FormLabel>
                         <FormControl>
                           <Input
-                            type="number"
+                            type={isChillKaMode ? 'hidden' : 'number'}
                             variant="form"
-                            disabled={isChillKaMode}
                             placeholder="請輸入票券價格"
                             {...field}
                             onChange={(e) =>
@@ -301,8 +300,7 @@ const TicketFormSection = ({ form }: TicketFormSectionProps) => {
                         <FormLabel>每次購買數量限制</FormLabel>
                         <FormControl>
                           <Input
-                            disabled={isChillKaMode}
-                            type="number"
+                            type={isChillKaMode ? 'hidden' : 'number'}
                             variant="form"
                             {...field}
                           />
