@@ -1,15 +1,30 @@
 'use client';
 
 import { Activity } from '@action/activity';
-import {
-  IntersectionObserverEventCard,
-  SearchResultEventCard,
-} from '@components/EventCard';
+import { SkeletonEventCard } from '@components/EventCard';
+import { SkelotonSearchResultEventCard } from '@components/EventCard/SearchResultEventCard';
 import WithErrorBoundaryAndSuspense from '@components/hoc/WithErrorBoundaryAndSuspense';
-import { Skeleton } from '@components/ui/skeleton';
 import useMediaQuery from '@hooks/use-media-query';
 import { useSearchParams } from 'next/navigation';
 import { H4 } from '../../../components/ui/typography';
+import ResultItems from './ResultItems';
+
+const SkelotonItems = ({ isMobile }: { isMobile: boolean }) => {
+  if (isMobile) {
+    return (
+      <>
+        <SkeletonEventCard />
+        <SkeletonEventCard />
+      </>
+    );
+  }
+  return (
+    <>
+      <SkelotonSearchResultEventCard />
+      <SkelotonSearchResultEventCard />
+    </>
+  );
+};
 
 export type ResultItemsSectionProps = {
   results: Activity[];
@@ -43,70 +58,15 @@ const ResultItemsSection = ({
         </H4>
       </div>
       <WithErrorBoundaryAndSuspense
-        loadingFallback={<Skeleton className="w-full">Loading...</Skeleton>}
+        loadingFallback={<SkelotonItems isMobile={isMobile} />}
       >
-        {results.map((activity) => {
-          return isMobile ? (
-            <IntersectionObserverEventCard
-              key={activity._id}
-              link={activity._id}
-              title={activity.name}
-              cover={activity.thumbnail}
-              description={activity.details}
-              startTime={activity.startDateTime}
-              endTime={activity.endDateTime}
-              attendeeCount={
-                activity?.totalParticipantCapacity != null &&
-                activity?.remainingTickets != null &&
-                !Number.isNaN(
-                  activity.totalParticipantCapacity - activity.remainingTickets
-                )
-                  ? activity.totalParticipantCapacity -
-                    activity.remainingTickets
-                  : 0
-              }
-              isCollected={activity.isCollected}
-              location={activity?.type === '線下' ? activity?.address : '線上'}
-              organizer={activity.organizer?.contactName ?? '未知舉辦者'}
-              ticketPrices={activity?.ticketPrice ?? []}
-              isContinuous={activity.isContinuous}
-              discount={0}
-              className="h-auto gap-4"
-              onVisibleTrigger={() => {
-                setCenterId(activity._id);
-              }}
-            />
-          ) : (
-            <SearchResultEventCard
-              key={activity._id}
-              link={activity._id}
-              title={activity.name}
-              cover={activity.thumbnail}
-              summary={activity.summary}
-              startTime={activity.startDateTime}
-              endTime={activity.endDateTime}
-              attendeeCount={
-                activity?.totalParticipantCapacity != null &&
-                activity?.remainingTickets != null &&
-                !Number.isNaN(
-                  activity.totalParticipantCapacity - activity.remainingTickets
-                )
-                  ? activity.totalParticipantCapacity -
-                    activity.remainingTickets
-                  : 0
-              }
-              isCollected={activity.isCollected}
-              location={activity?.type === '線下' ? activity?.location : '線上'}
-              organizer={activity.organizer?.contactName ?? '未知舉辦者'}
-              ticketPrices={activity?.ticketPrice ?? []}
-              isContinuous={activity.isContinuous}
-              discount={0} // FIXME: remove, this is deprecated
-              onHoverCard={() => {
-                setCenterId(activity._id);
-              }}
-            />
-          );
-        })}
+        <ResultItems
+          results={results}
+          currentShow={currentShow}
+          setCenterId={setCenterId}
+          total={total}
+          isMobile={isMobile}
+        />
       </WithErrorBoundaryAndSuspense>
     </>
   );
