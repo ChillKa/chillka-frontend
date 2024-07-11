@@ -190,7 +190,7 @@ const SelectTicketsSection = ({
                       canDecrease && handleTicketChange(ticket._id, -1)
                     }
                   >
-                    <Minus size={32} />
+                    <Minus />
                   </Button>
                   <Lead className="mx-2 font-medium">
                     {selectedTickets[ticket._id] || 0}
@@ -206,7 +206,7 @@ const SelectTicketsSection = ({
                       canIncrease && handleTicketChange(ticket._id, 1)
                     }
                   >
-                    <Plus size={32} />
+                    <Plus />
                   </Button>
                 </div>
               </div>
