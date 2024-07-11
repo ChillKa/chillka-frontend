@@ -17,7 +17,7 @@ import React, {
   useMemo,
   useState,
 } from 'react';
-import { UserData } from 'src/types/user';
+import { Coordinates, UserData } from 'src/types/user';
 import { z } from 'zod';
 
 export interface AuthContextType {
@@ -28,6 +28,8 @@ export interface AuthContextType {
   userName: string;
   userEmail: string;
   userAvatar: string;
+  userCoordinates: Coordinates | null;
+  setUserCoordinates: (coordinates: Coordinates | null) => void;
   auth: UserData | null;
 }
 
@@ -48,6 +50,9 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [userName, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const [userAvatar, setUserAvatar] = useState('');
+  const [userCoordinates, setUserCoordinates] = useState<Coordinates | null>(
+    null
+  );
   const [auth, setAuth] = useState<UserData | null>(null);
   const router = useRouter();
 
@@ -122,9 +127,21 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
       userName,
       userEmail,
       userAvatar,
+      userCoordinates,
+      setUserCoordinates,
       auth,
     }),
-    [isLoggedin, login, logout, getUser, userEmail, userName, userAvatar, auth]
+    [
+      isLoggedin,
+      login,
+      logout,
+      getUser,
+      userName,
+      userEmail,
+      userAvatar,
+      userCoordinates,
+      auth,
+    ]
   );
 
   return (

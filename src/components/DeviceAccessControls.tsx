@@ -1,11 +1,13 @@
 'use client';
 
+import { useAuthContext } from '@store/AuthProvider/AuthProvider';
 import { Label } from '@ui/label';
 import { Switch } from '@ui/switch';
 import { useCallback, useEffect, useState } from 'react';
 import { H4 } from './ui/typography';
 
 const DeviceAccessControls = () => {
+  const { setUserCoordinates } = useAuthContext();
   const [isLocationAvailable, setIsLocationAvailable] = useState(false);
   const [isCameraAvailable, setIsCameraAvailable] = useState(false);
   const [isLocationEnabled, setIsLocationEnabled] = useState(false);
@@ -55,13 +57,18 @@ const DeviceAccessControls = () => {
   const requestPermission = useCallback((type: 'location' | 'camera') => {
     if (type === 'location') {
       navigator.geolocation.getCurrentPosition(
-        () => {
+        (position) => {
           setIsLocationEnabled(true);
           setLocationPermissionState('granted');
+          setUserCoordinates({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          });
         },
         () => {
           setIsLocationEnabled(false);
           setLocationPermissionState('denied');
+          setUserCoordinates(null);
         }
       );
     } else {

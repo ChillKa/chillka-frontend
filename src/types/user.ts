@@ -16,3 +16,8 @@ export type UserData = {
   createdAt: string;
   updatedAt: string;
 };
+
+export type Coordinates = {
+  lat: number;
+  lng: number;
+};
