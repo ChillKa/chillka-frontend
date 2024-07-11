@@ -38,7 +38,6 @@ const FavoriteEvent = async () => {
               organizer={activity.organizer.name}
               ticketPrices={activity.tickets}
               isCollected
-              revalidate
             />
           ))
         )}
