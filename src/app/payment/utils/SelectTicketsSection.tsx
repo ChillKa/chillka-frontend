@@ -3,7 +3,7 @@
 import OrganizerName from '@components/ActivityPage/OrganizerSection/OrganizerName';
 import { Button } from '@components/ui/button';
 import { Card } from '@components/ui/card';
-import { H3, Lead, P } from '@components/ui/typography';
+import { H3, Lead, P, Small } from '@components/ui/typography';
 import { formatActivityTime, formatTicketTime } from '@lib/dateUtils';
 import { formatPrice } from '@lib/fomatPrice';
 import cn from '@lib/utils';
@@ -129,7 +129,7 @@ const SelectTicketsSection = ({
         className="flex w-full flex-col gap-6 text-primary"
       >
         <div className="flex flex-row items-center justify-between">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-4">
             <H3>請選擇票券</H3>
             {Object.keys(selectedTickets).length > 0 && (
               <Button variant="default" onClick={handleReset}>
@@ -164,7 +164,7 @@ const SelectTicketsSection = ({
               id="ticket"
               className={cn(
                 'flex w-full flex-row items-center justify-between gap-3 bg-transparent p-4 text-primary',
-                disabled && 'bg-gray-200 opacity-50'
+                disabled && 'bg-gray-200 opacity-40'
               )}
             >
               <div className="flex max-w-[70%] flex-col gap-2">
@@ -176,13 +176,13 @@ const SelectTicketsSection = ({
                     ticket.noEndDate
                   )}
                 </P>
-                <p>{ticket.description}</p>
-                <p>
-                  剩餘票數: {remainingTickets} / 每人限購:{' '}
+                <P>{ticket.description}</P>
+                <Small className="mt-2 font-semibold">
+                  剩餘票數：{remainingTickets} / 每人限購：
                   {ticket.purchaseLimit} 張
-                </p>
+                </Small>
               </div>
-              <div className="flex flex-row gap-2">
+              <div className="flex flex-row items-center gap-2">
                 <Lead className="leading-8">
                   NT${formatPrice(ticket.price)}
                 </Lead>
@@ -194,7 +194,8 @@ const SelectTicketsSection = ({
                     type="button"
                     variant="outline"
                     className={cn(
-                      'w-fit cursor-pointer hover:bg-surface',
+                      'h-8 w-8 border-primary px-2 text-3xl text-primary xl:h-10 xl:w-10',
+                      'cursor-pointer transition-colors hover:bg-primary hover:fill-surface hover:text-surface',
                       (!canDecrease || disabled) &&
                         'cursor-not-allowed opacity-50'
                     )}
@@ -212,7 +213,8 @@ const SelectTicketsSection = ({
                     type="button"
                     variant="outline"
                     className={cn(
-                      'w-fit cursor-pointer hover:bg-surface',
+                      'h-8 w-8 border-primary px-2 text-3xl text-primary xl:h-10 xl:w-10',
+                      'cursor-pointer transition-colors hover:bg-primary hover:fill-surface hover:text-surface',
                       (!canIncrease || disabled) &&
                         'cursor-not-allowed opacity-50'
                     )}

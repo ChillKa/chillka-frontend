@@ -1,9 +1,17 @@
 'use client';
 
 import { Button } from '@components/ui/button';
-import { Dialog, DialogContent, DialogTrigger } from '@components/ui/dialog';
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@components/ui/dialog';
 import { Input } from '@components/ui/input';
-import { H3, P } from '@components/ui/typography';
+import { H2, P } from '@components/ui/typography';
+import { XIcon } from 'lucide-react';
 import { useState } from 'react';
 import QRCodeScanner, { QRCodeScannerProps } from './QRCodeScanner';
 
@@ -56,18 +64,27 @@ const QRCodeScannerDialogButton = ({
         </Button>
       </DialogTrigger>
       <DialogContent
-        className="w-vh h-svh xl:h-[44.25rem] xl:w-[26rem]"
+        hideCloseButton
+        className="w-vh flex h-svh flex-col xl:h-auto xl:min-h-[35rem] xl:w-[27rem]"
         onClick={(e) => {
           e.stopPropagation();
         }}
       >
-        <div className="my-4 flex w-full flex-col items-center justify-start gap-4">
-          <H3 asChild className="mb-4">
-            <div>掃描QR Code以使用票券</div>
-          </H3>
-          <div>
-            <P>序號: {currentSerials}</P>
-          </div>
+        <DialogHeader className="relative h-fit px-6 pb-6 pt-24 xl:pt-12">
+          <DialogTitle
+            asChild
+            className="flex items-end justify-between text-primary"
+          >
+            <div>
+              <H2>掃描 QR Code 以使用票券</H2>
+              <DialogClose className="absolute right-0 top-0 flex h-20 w-20 items-center justify-center bg-primary xl:h-12 xl:w-12">
+                <XIcon className="size-6 stroke-white" />
+              </DialogClose>
+            </div>
+          </DialogTitle>
+        </DialogHeader>
+        <div className="flex h-full w-full flex-col justify-start gap-4 px-6 pb-12 text-primary">
+          <P className="break-words font-medium">序號：{currentSerials}</P>
           <div className="flex flex-row gap-2">
             <Input
               variant="form"
