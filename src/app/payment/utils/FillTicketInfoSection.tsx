@@ -13,10 +13,13 @@ import {
 } from '@components/ui/form';
 import { Input } from '@components/ui/input';
 import { RadioGroup, RadioGroupItem } from '@components/ui/radio-group';
+import { H3, H4, Large, P, Small } from '@components/ui/typography';
 import { toast } from '@components/ui/use-toast';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { formatActivityTime } from '@lib/dateUtils';
+import { formatActivityTime, formatTicketTime } from '@lib/dateUtils';
+import { formatPrice } from '@lib/fomatPrice';
 import { useAuthContext } from '@store/AuthProvider/AuthProvider';
+import { CalendarDays, CircleDollarSign, MapPin } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { IAcitivityResponse } from 'src/types/activity';
@@ -139,60 +142,74 @@ const FillTicketInfoSection = ({
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <section id="ticket-detail" className="flex-1">
-          <Card className="p-6">
-            <h2 className="mb-4 text-xl font-bold">訂票明細</h2>
-            <div className="mb-4">
-              <h3 className="font-semibold">{data.activity.name}</h3>
-              <p className="text-sm text-gray-600">
+          <Card className="bg-transparent p-6 text-primary">
+            <H3>訂票明細</H3>
+            <div className="my-6 mb-4 space-y-2">
+              <H4 className="font-medium">{data.activity.name}</H4>
+              <P className="flex items-center">
+                <CalendarDays className="mr-2" />
                 {formatActivityTime(
                   data.activity.startDateTime,
                   data.activity.endDateTime,
                   data.activity.noEndDate
                 )}
-              </p>
-              <p className="text-sm text-gray-600">{data.activity.location}</p>
+              </P>
+              <P className="flex items-center">
+                <MapPin className="mr-2" />
+                {data.activity.location}
+              </P>
             </div>
             {data.tickets.map((ticket) => {
               const quantity = selectedTickets[ticket._id] || 0;
               if (quantity > 0) {
                 return (
-                  <div key={ticket._id} className="mb-2">
-                    <p className="font-semibold">{ticket.name}</p>
-                    <p className="text-sm text-gray-600">
-                      {ticket.startDateTime} 至 {ticket.endDateTime}
-                    </p>
-                    <p className="text-sm">
-                      NTD$ {ticket.price} x {quantity}
-                    </p>
+                  <div key={ticket._id} className="mb-2 space-y-2">
+                    <H4 className="font-medium">{ticket.name}</H4>
+                    <P className="flex items-center">
+                      <CalendarDays className="mr-2" />
+                      {formatTicketTime(
+                        ticket.startDateTime,
+                        ticket.endDateTime,
+                        ticket.noEndDate
+                      )}
+                    </P>
+                    <P className="flex items-center">
+                      <CircleDollarSign className="mr-2" />
+                      NT${formatPrice(ticket.price)} x {quantity}
+                    </P>
                   </div>
                 );
               }
               return null;
             })}
-            <div className="mt-4 border-t pt-4">
-              <p className="font-semibold">支付金額</p>
-              <p className="text-xl font-bold">TWD {totalAmount}</p>
+            <div className="mt-4 space-y-2 border-t pt-4">
+              <H4>支付金額</H4>
+              <Large className="tracking-wide">
+                TW${formatPrice(totalAmount)}
+              </Large>
             </div>
           </Card>
 
-          <Card className="mt-6 p-6">
-            <h2 className="mb-4 text-xl font-bold">訂購者資料</h2>
-            <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>名字*</FormLabel>
-                      <FormControl>
-                        <Input placeholder="王小明" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
+          <Card className="mt-8 bg-transparent p-6 text-primary">
+            <H3>訂購者資料</H3>
+            <div className="mt-6 space-y-4">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>名字*</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="王小明"
+                        className="bg-white placeholder:text-base placeholder:text-[#8F8A88]"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <FormField
                 control={form.control}
                 name="phone"
@@ -200,7 +217,11 @@ const FillTicketInfoSection = ({
                   <FormItem>
                     <FormLabel>手機號碼*</FormLabel>
                     <FormControl>
-                      <Input placeholder="0912345678" {...field} />
+                      <Input
+                        placeholder="0912345678"
+                        className="bg-white placeholder:text-base placeholder:text-[#8F8A88]"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -213,7 +234,11 @@ const FillTicketInfoSection = ({
                   <FormItem>
                     <FormLabel>電子信箱*</FormLabel>
                     <FormControl>
-                      <Input placeholder="example@gmail.com" {...field} />
+                      <Input
+                        placeholder="example@gmail.com"
+                        className="bg-white placeholder:text-base placeholder:text-[#8F8A88]"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -223,17 +248,19 @@ const FillTicketInfoSection = ({
                 control={form.control}
                 name="terms"
                 render={({ field }) => (
-                  <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                  <FormItem className="flex flex-row items-center space-x-3 space-y-0">
                     <FormControl>
                       <Checkbox
                         checked={field.value}
                         onCheckedChange={field.onChange}
                       />
                     </FormControl>
-                    <div className="space-y-1 leading-none">
-                      <FormLabel>同意服務條款</FormLabel>
-                      <FormMessage />
+                    <div className="flex items-center space-y-1 leading-none">
+                      <FormLabel className="cursor-pointer">
+                        同意服務條款
+                      </FormLabel>
                     </div>
+                    <FormMessage />
                   </FormItem>
                 )}
               />
@@ -242,8 +269,8 @@ const FillTicketInfoSection = ({
         </section>
 
         <section id="ticket-payment-info" className="flex-1">
-          <Card className="p-6">
-            <h2 className="mb-4 text-xl font-bold">選擇付款方式</h2>
+          <Card className="mt-8 bg-transparent p-6 text-primary">
+            <H3 className="mb-6">選擇付款方式</H3>
             <FormField
               control={form.control}
               name="paymentMethod"
@@ -253,16 +280,15 @@ const FillTicketInfoSection = ({
                     <RadioGroup
                       onValueChange={field.onChange}
                       defaultValue={field.value}
-                      className="flex flex-col space-y-1"
-                      disabled // 設置為 disabled
+                      disabled
                     >
-                      <FormItem className="flex items-center space-x-3 space-y-0">
+                      <FormItem className="mb-2 flex items-center space-x-2">
                         <FormControl>
                           <RadioGroupItem value="none" />
                         </FormControl>
                         <FormLabel className="font-normal">免費票券</FormLabel>
                       </FormItem>
-                      <FormItem className="flex items-center space-x-3 space-y-0">
+                      <FormItem className="mb-2 flex items-center space-x-2">
                         <FormControl>
                           <RadioGroupItem value="ecpay" />
                         </FormControl>
@@ -274,9 +300,9 @@ const FillTicketInfoSection = ({
                 </FormItem>
               )}
             />
-            <p className="mt-4 text-sm text-gray-600">
+            <Small className="mt-4">
               選擇本次訂單付款方式，使用信用卡付款將會有額外手續費，請您小心核對金額，一旦付款將無法取消退款。
-            </p>
+            </Small>
             <Button className="mt-6 w-full" type="submit">
               確認付款
             </Button>
