@@ -62,9 +62,7 @@ const ResultItemsSection = ({
       >
         <ResultItems
           results={results}
-          currentShow={currentShow}
           setCenterId={setCenterId}
-          total={total}
           isMobile={isMobile}
         />
       </WithErrorBoundaryAndSuspense>
