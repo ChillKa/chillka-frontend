@@ -3,7 +3,7 @@
 import OrganizerName from '@components/ActivityPage/OrganizerSection/OrganizerName';
 import { Button } from '@components/ui/button';
 import { Card } from '@components/ui/card';
-import { H3, Lead, P } from '@components/ui/typography';
+import { H3, Lead, P, Small } from '@components/ui/typography';
 import { formatActivityTime, formatTicketTime } from '@lib/dateUtils';
 import { formatPrice } from '@lib/fomatPrice';
 import cn from '@lib/utils';
@@ -176,11 +176,11 @@ const SelectTicketsSection = ({
                     ticket.noEndDate
                   )}
                 </P>
-                <p>{ticket.description}</p>
-                <p>
-                  剩餘票數: {remainingTickets} / 每人限購:{' '}
+                <P>{ticket.description}</P>
+                <Small className="mt-2 font-semibold">
+                  剩餘票數：{remainingTickets} / 每人限購：
                   {ticket.purchaseLimit} 張
-                </p>
+                </Small>
               </div>
               <div className="flex flex-row gap-2">
                 <Lead className="leading-8">
