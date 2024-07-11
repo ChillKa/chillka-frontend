@@ -87,7 +87,7 @@ export async function getPaymentResult(): Promise<{
       status: jsonResponse.status,
       orderId: jsonResponse._id,
       activityId: jsonResponse.activityId,
-      message: '訂票狀態',
+      message: '未知狀態',
     };
   } catch (error) {
     return {
