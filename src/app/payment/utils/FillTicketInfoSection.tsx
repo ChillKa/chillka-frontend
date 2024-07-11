@@ -185,6 +185,7 @@ const FillTicketInfoSection = ({
                     <FormLabel>名字*</FormLabel>
                     <FormControl>
                       <Input
+                        variant="form"
                         placeholder="王小明"
                         className="bg-white placeholder:text-base placeholder:text-[#8F8A88]"
                         {...field}
@@ -202,6 +203,7 @@ const FillTicketInfoSection = ({
                     <FormLabel>手機號碼*</FormLabel>
                     <FormControl>
                       <Input
+                        variant="form"
                         placeholder="0912345678"
                         className="bg-white placeholder:text-base placeholder:text-[#8F8A88]"
                         {...field}
@@ -219,6 +221,7 @@ const FillTicketInfoSection = ({
                     <FormLabel>電子信箱*</FormLabel>
                     <FormControl>
                       <Input
+                        variant="form"
                         placeholder="example@gmail.com"
                         className="bg-white placeholder:text-base placeholder:text-[#8F8A88]"
                         {...field}
