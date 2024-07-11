@@ -58,7 +58,7 @@ const PaymentSuccessSection = ({
       clearInterval(countdownInterval);
       clearTimeout(confettiTimer);
     };
-  }, [router]);
+  }, [activityId, router]);
 
   return (
     <>
@@ -91,16 +91,16 @@ const PaymentSuccessSection = ({
           }
           className="w-full"
         >
-          返回首頁
+          返回活動頁面
         </Button>
         <Small className="mt-4">
           {isRedirecting ? (
             <span className="flex items-center justify-center">
-              正在跳轉回首頁
+              正在跳轉回活動頁面
               <Loader2 className="ml-2 h-4 w-4 animate-spin" />
             </span>
           ) : (
-            `頁面將在 ${countdown} 秒後自動跳轉回首頁...`
+            `頁面將在 ${countdown} 秒後自動跳轉回活動頁面...`
           )}
         </Small>
       </Card>
