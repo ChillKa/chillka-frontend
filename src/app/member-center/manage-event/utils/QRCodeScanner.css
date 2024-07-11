@@ -1,0 +1,23 @@
+#reader {
+  border-color: #403e3d !important;
+  padding: 16px !important;
+}
+
+#reader__scan_region {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+button.html5-qrcode-element {
+  border: 1px solid #403e3d;
+  padding: 8px 16px;
+  margin: 16px 0;
+  color: #fff;
+  background-color: #403e3d;
+}
+
+button.html5-qrcode-element:hover {
+  background-color: rgba(64, 62, 61, 0.9);
+  transition: color;
+}
