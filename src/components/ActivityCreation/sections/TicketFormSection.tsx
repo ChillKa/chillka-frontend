@@ -22,8 +22,9 @@ import { Separator } from '@components/ui/separator';
 import { Switch } from '@components/ui/switch';
 import { H2, H4, Subtle } from '@components/ui/typography';
 import { createActivityFormSchema } from '@lib/definitions';
+import cn from '@lib/utils';
 import { ChevronsUpDownIcon, Trash2Icon } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { UseFormReturn, useFieldArray } from 'react-hook-form';
 import { z } from 'zod';
 import ActivityDateWrapper from '../fields/ActitvityDateWraper';
@@ -45,6 +46,23 @@ const TicketFormSection = ({ form }: TicketFormSectionProps) => {
     control,
     name: 'tickets',
   });
+
+  const { setValue, getValues } = form;
+
+  useEffect(() => {
+    const prevTicketsValues = getValues('tickets');
+
+    setValue(
+      'tickets',
+      prevTicketsValues.map((preValues) => {
+        return {
+          ...preValues,
+          price: isChillKaMode ? 0 : 100,
+          purchaseLimit: isChillKaMode ? 1 : 1,
+        };
+      })
+    );
+  }, [isChillKaMode]);
 
   return (
     <>
@@ -71,7 +89,7 @@ const TicketFormSection = ({ form }: TicketFormSectionProps) => {
         {fields.map((fieldItem, index) => {
           return (
             <Collapsible key={fieldItem.id}>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center justify-between gap-2">
                 <FormField
                   name={`tickets.${index}.name`}
                   control={control}
@@ -94,12 +112,12 @@ const TicketFormSection = ({ form }: TicketFormSectionProps) => {
                     <ChevronsUpDownIcon />
                   </Button>
                 </CollapsibleTrigger>
-                {errors?.tickets?.[index] && (
-                  <p className="text-sm font-medium text-destructive">
-                    請記得填寫票卷內容
-                  </p>
-                )}
               </div>
+              {errors?.tickets?.[index] && (
+                <p className="text-sm font-medium text-destructive">
+                  請記得填寫票卷內容
+                </p>
+              )}
               <CollapsibleContent
                 className="space-y-1.5 data-[state=closed]:hidden"
                 forceMount
@@ -130,16 +148,24 @@ const TicketFormSection = ({ form }: TicketFormSectionProps) => {
                   control={control}
                   render={({ field }) => {
                     return (
-                      <FormItem className="space-y-1.5">
+                      <FormItem
+                        className={cn(
+                          isChillKaMode ? 'hidden' : '',
+                          'space-y-1.5'
+                        )}
+                      >
                         <FormLabel className="after:ml-1 after:text-destructive after:content-['*']">
                           價格
                         </FormLabel>
                         <FormControl>
                           <Input
+                            type="number"
                             variant="form"
-                            placeholder="請輸入你喜歡的稱呼"
+                            placeholder="請輸入票券價格"
                             {...field}
-                            onChange={(e) => field.onChange(+e.target.value)}
+                            onChange={(e) =>
+                              field.onChange(Number(e.target.value))
+                            }
                           />
                         </FormControl>
                         <FormMessage />
@@ -278,7 +304,12 @@ const TicketFormSection = ({ form }: TicketFormSectionProps) => {
                   control={control}
                   render={({ field }) => {
                     return (
-                      <FormItem className="space-y-1.5">
+                      <FormItem
+                        className={cn(
+                          isChillKaMode ? 'hidden' : '',
+                          'space-y-1.5'
+                        )}
+                      >
                         <FormLabel>每次購買數量限制</FormLabel>
                         <FormControl>
                           <Input type="number" variant="form" {...field} />
@@ -287,7 +318,7 @@ const TicketFormSection = ({ form }: TicketFormSectionProps) => {
                       </FormItem>
                     );
                   }}
-                />{' '}
+                />
                 <FormField
                   name={`tickets.${index}.description`}
                   control={control}
@@ -327,10 +358,10 @@ const TicketFormSection = ({ form }: TicketFormSectionProps) => {
           onClick={() => {
             append({
               name: '',
-              price: 100,
+              price: 0,
               fromToday: false,
               noEndDate: false,
-              participantCapacity: 0,
+              participantCapacity: 1,
               unlimitedQuantity: false,
             });
           }}
