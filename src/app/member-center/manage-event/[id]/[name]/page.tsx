@@ -12,7 +12,7 @@ const ManageEventIdPage = async ({ params }: ManageEventIdPageProps) => {
 
   const decodeName = decodeURIComponent(name);
   const { orders } = await getOrderParticipant(id);
-  console.log(orders);
+
   return (
     <div className="relative text-primary">
       <div className="relative mb-12 flex text-5xl/none font-bold">
