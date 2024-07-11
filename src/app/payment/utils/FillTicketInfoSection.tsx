@@ -12,14 +12,15 @@ import {
   FormMessage,
 } from '@components/ui/form';
 import { Input } from '@components/ui/input';
-import { Label } from '@components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@components/ui/radio-group';
 import { H3, H4, Large, P, Small } from '@components/ui/typography';
 import { toast } from '@components/ui/use-toast';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { formatActivityTime, formatTicketTime } from '@lib/dateUtils';
 import { formatPrice } from '@lib/fomatPrice';
+import { useAuthContext } from '@store/AuthProvider/AuthProvider';
 import { CalendarDays, CircleDollarSign, MapPin } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { IAcitivityResponse } from 'src/types/activity';
 import { z } from 'zod';
@@ -32,7 +33,7 @@ const formSchema = z.object({
   terms: z.boolean().refine((val) => val === true, {
     message: '您必須同意服務條款',
   }),
-  paymentMethod: z.enum(['ecpay']),
+  paymentMethod: z.enum(['none', 'ecpay']),
 });
 
 type FillTicketInfoSectionProps = {
@@ -47,14 +48,18 @@ const FillTicketInfoSection = ({
   activityId,
   totalAmount,
 }: FillTicketInfoSectionProps) => {
+  const router = useRouter();
+  const { userEmail } = useAuthContext();
+  const defaultPaymentMethod = totalAmount === 0 ? 'none' : 'ecpay';
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: '',
       phone: '',
-      email: '',
+      email: userEmail,
       terms: false,
-      paymentMethod: 'ecpay',
+      paymentMethod: defaultPaymentMethod,
     },
   });
 
@@ -100,16 +105,27 @@ const FillTicketInfoSection = ({
 
     try {
       const result = await sendPayment(paymentProps);
-      if (result.status === 'success' && result.html) {
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = result.html;
+      if (result.status === 'success') {
+        if ('html' in result && result.html) {
+          // payment order success
+          const tempDiv = document.createElement('div');
+          tempDiv.innerHTML = result.html;
 
-        const tmpForm = tempDiv.querySelector('form');
-        if (tmpForm) {
-          document.body.appendChild(tmpForm);
-          tmpForm.submit();
-        } else {
-          throw new Error('無法找到支付表單');
+          const tmpForm = tempDiv.querySelector('form');
+          if (tmpForm) {
+            document.body.appendChild(tmpForm);
+            tmpForm.submit();
+          } else {
+            throw new Error('無法找到支付表單');
+          }
+        } else if ('orderData' in result) {
+          // free order success
+          toast({
+            title: '訂單創建成功',
+            description: `訂單號: ${result.orderData._id}`,
+          });
+
+          router.push(`/payment/complete`);
         }
       } else {
         throw new Error(result.message || '支付初始化失敗');
@@ -258,14 +274,35 @@ const FillTicketInfoSection = ({
         <section id="ticket-payment-info" className="flex-1">
           <Card className="mt-8 bg-transparent p-6 text-primary">
             <H3 className="mb-6">選擇付款方式</H3>
-            <RadioGroup defaultValue="credit-card">
-              <div className="mb-2 flex items-center space-x-2">
-                <RadioGroupItem value="credit-card" id="credit-card" />
-                <Label htmlFor="credit-card">
-                  <P>ECPay</P>
-                </Label>
-              </div>
-            </RadioGroup>
+            <FormField
+              control={form.control}
+              name="paymentMethod"
+              render={({ field }) => (
+                <FormItem className="space-y-3">
+                  <FormControl>
+                    <RadioGroup
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                      disabled
+                    >
+                      <FormItem className="mb-2 flex items-center space-x-2">
+                        <FormControl>
+                          <RadioGroupItem value="none" />
+                        </FormControl>
+                        <FormLabel className="font-normal">免費票券</FormLabel>
+                      </FormItem>
+                      <FormItem className="mb-2 flex items-center space-x-2">
+                        <FormControl>
+                          <RadioGroupItem value="ecpay" />
+                        </FormControl>
+                        <FormLabel className="font-normal">ECPay</FormLabel>
+                      </FormItem>
+                    </RadioGroup>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <Small className="mt-4">
               選擇本次訂單付款方式，使用信用卡付款將會有額外手續費，請您小心核對金額，一旦付款將無法取消退款。
             </Small>
