@@ -11,7 +11,7 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import useMediaQuery from '@hooks/use-media-query';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import ResultItemsSection from './ResultItemsSection';
 import ResultMapSection from './ResultMapSection';
 import ResultsPagination from './ResultsPagination';
@@ -35,14 +35,17 @@ const SearchClient = ({ result, initialSearchParams }: SearchClientProps) => {
   const { activities, total } = result;
   const totalPage = Math.ceil(total / 5);
 
-  const handlePageChange = (newPage: number) => {
-    const currentParams = Object.fromEntries(searchParams.entries());
-    const updatedQuery = updateQueryString({
-      ...currentParams,
-      page: newPage.toString(),
-    });
-    router.push(`/search?${updatedQuery}`);
-  };
+  const handlePageChange = useCallback(
+    (newPage: number) => {
+      const currentParams = Object.fromEntries(searchParams.entries());
+      const updatedQuery = updateQueryString({
+        ...currentParams,
+        page: newPage.toString(),
+      });
+      router.push(`/search?${updatedQuery}`);
+    },
+    [searchParams, router]
+  );
 
   const toggleShow = () => {
     if (isMobile) {
