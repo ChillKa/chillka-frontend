@@ -205,10 +205,12 @@ export const createActivityFormSchema = z
     address: z.string().optional(),
     summary: z
       .string({ required_error: '請填寫活動摘要' })
-      .min(4, { message: '請至少填寫四個字以上' }),
+      .min(4, '請至少填寫四個字以上')
+      .max(25, '請勿填寫超過25個字的摘要'),
     details: z
       .string({ required_error: '請填寫活動詳情' })
-      .min(20, { message: '請至少填寫20個字以上' }),
+      .min(20, '請至少填寫20個字以上')
+      .max(3000, '活動內容超過3000字，參加者看不完啦！'),
     isPrivate: z.coerce.boolean({ required_error: 'IsPrivate is required' }),
     displayRemainingTickets: z.coerce.boolean({
       required_error: 'DisplayRemainingTickets is required',
@@ -230,7 +232,10 @@ export const createActivityFormSchema = z
       .array(
         z.object({
           _id: z.string().optional(), // optional for edit activity
-          name: z.string().min(1, '請至少填寫一個字的名稱'),
+          name: z
+            .string()
+            .min(1, '請至少填寫一個字的名稱')
+            .max(50, '請勿填寫超過50個字的活動名稱'),
           price: z.coerce.number({ required_error: '請輸入票卷價格' }),
           startDateTime: z.preprocess(
             (val) => (val === '' ? undefined : new Date(`${val}`)),
@@ -268,16 +273,21 @@ export const createActivityFormSchema = z
               required_error: 'NoEndDate is required',
             })
           ),
-          participantCapacity: z.coerce.number({
-            required_error: '請選擇參與人數',
-          }),
+          participantCapacity: z.coerce
+            .number({
+              required_error: '請選擇參與人數',
+            })
+            .gte(1, '活動參加人數必須至少１人以上'),
           unlimitedQuantity: z.preprocess(
             (val) => val === 'true',
             z.boolean({
               required_error: 'UnlimitedQuantity is required',
             })
           ),
-          purchaseLimit: z.coerce.number().gte(1).optional(),
+          purchaseLimit: z.coerce
+            .number()
+            .gte(1, '購買票數限制不得低於１張')
+            .optional(),
           description: z.string().optional(),
           purchaseDuplicate: z.boolean().optional(),
           ticketStatus: z.string().optional(),
