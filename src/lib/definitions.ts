@@ -268,16 +268,21 @@ export const createActivityFormSchema = z
               required_error: 'NoEndDate is required',
             })
           ),
-          participantCapacity: z.coerce.number({
-            required_error: '請選擇參與人數',
-          }),
+          participantCapacity: z.coerce
+            .number({
+              required_error: '請選擇參與人數',
+            })
+            .gte(1, '活動參加人數必須至少１人以上'),
           unlimitedQuantity: z.preprocess(
             (val) => val === 'true',
             z.boolean({
               required_error: 'UnlimitedQuantity is required',
             })
           ),
-          purchaseLimit: z.coerce.number().gte(1).optional(),
+          purchaseLimit: z.coerce
+            .number()
+            .gte(1, '購買票數限制不得低於１張')
+            .optional(),
           description: z.string().optional(),
           purchaseDuplicate: z.boolean().optional(),
           ticketStatus: z.string().optional(),

@@ -330,10 +330,10 @@ const TicketFormSection = ({ form }: TicketFormSectionProps) => {
           onClick={() => {
             append({
               name: '',
-              price: 100,
+              price: 0,
               fromToday: false,
               noEndDate: false,
-              participantCapacity: 0,
+              participantCapacity: 1,
               unlimitedQuantity: false,
             });
           }}

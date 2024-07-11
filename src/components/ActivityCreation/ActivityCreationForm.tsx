@@ -80,7 +80,7 @@ const ActivityCreationForm = ({ className }: ActivityCreationFormProps) => {
           fromToday: false,
           endDateTime: undefined,
           noEndDate: false,
-          participantCapacity: 0,
+          participantCapacity: 1,
           unlimitedQuantity: false,
           purchaseLimit: 1,
           description: '',
