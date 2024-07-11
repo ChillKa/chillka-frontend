@@ -22,6 +22,7 @@ import { Separator } from '@components/ui/separator';
 import { Switch } from '@components/ui/switch';
 import { H2, H4, Subtle } from '@components/ui/typography';
 import { createActivityFormSchema } from '@lib/definitions';
+import cn from '@lib/utils';
 import { ChevronsUpDownIcon, Trash2Icon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { UseFormReturn, useFieldArray } from 'react-hook-form';
@@ -147,13 +148,18 @@ const TicketFormSection = ({ form }: TicketFormSectionProps) => {
                   control={control}
                   render={({ field }) => {
                     return (
-                      <FormItem className="space-y-1.5">
+                      <FormItem
+                        className={cn(
+                          isChillKaMode ? 'hidden' : '',
+                          'space-y-1.5'
+                        )}
+                      >
                         <FormLabel className="after:ml-1 after:text-destructive after:content-['*']">
                           價格
                         </FormLabel>
                         <FormControl>
                           <Input
-                            type={isChillKaMode ? 'hidden' : 'number'}
+                            type="number"
                             variant="form"
                             placeholder="請輸入票券價格"
                             {...field}
@@ -298,14 +304,15 @@ const TicketFormSection = ({ form }: TicketFormSectionProps) => {
                   control={control}
                   render={({ field }) => {
                     return (
-                      <FormItem className="space-y-1.5">
+                      <FormItem
+                        className={cn(
+                          isChillKaMode ? 'hidden' : '',
+                          'space-y-1.5'
+                        )}
+                      >
                         <FormLabel>每次購買數量限制</FormLabel>
                         <FormControl>
-                          <Input
-                            type={isChillKaMode ? 'hidden' : 'number'}
-                            variant="form"
-                            {...field}
-                          />
+                          <Input type="number" variant="form" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
