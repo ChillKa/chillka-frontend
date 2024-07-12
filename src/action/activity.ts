@@ -123,7 +123,7 @@ export async function getRecommendActivitiesByKeyword(keyword: string) {
     return {
       // FIXME: server response maybe change data: { url, keyword }
       keyword: keywordsResult.keywords.map((result: string) => ({
-        url: '/',
+        url: `/search?keyword=${result}`,
         keyword: result,
       })),
       pictures: activitiesResult.data.map((activity: Activity) => ({
@@ -141,7 +141,7 @@ export async function getRecommendActivitiesByKeyword(keyword: string) {
 }
 export const getRecommendActivitiesByKeywordWithDebounce = createDebounce(
   getRecommendActivitiesByKeyword,
-  1000
+  1500
 );
 
 export interface ActivityFetchState {
