@@ -4,6 +4,7 @@ import { Button } from '@components/ui/button';
 import { H1 } from '@components/ui/typography';
 import cn from '@lib/utils';
 import { ArrowUpRight } from 'lucide-react';
+import { cookies } from 'next/headers';
 import Link from 'next/link';
 import NearbyActivityContent from './NearbyActivityContent';
 
@@ -13,11 +14,13 @@ type NearbyActivityProps = {
 
 const NearbyActivity = async ({ className }: NearbyActivityProps) => {
   const loggedIn = await isLoggedIn();
+  const lat = cookies().get('lat')?.value ?? '121.5598';
+  const lng = cookies().get('lng')?.value ?? '25.09108';
 
   const activitiesData = await getActivitiesByFilter(
     {
-      lat: '121.5598',
-      lng: '25.09108',
+      lat,
+      lng,
       limit: '6',
     },
     { next: { revalidate: 1800 } }
