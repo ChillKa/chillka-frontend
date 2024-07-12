@@ -1,6 +1,7 @@
 'use client';
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@components/ui/tabs';
+import ManagementActivityReport from './ManagementActivityReport';
 import ManagementActivityTable from './ManagementActivityTable';
 import QRCodeScannerDialogButton, {
   QRCodeScannerDialogButtonProps,
@@ -57,7 +58,7 @@ const ManagementActivitySection = ({
           <ManagementActivityTable orders={orders} />
         </TabsContent>
         <TabsContent className="min-w-[37.5rem]" value="report" asChild>
-          report
+          <ManagementActivityReport orders={orders} />
         </TabsContent>
       </div>
     </Tabs>
