@@ -112,6 +112,9 @@ const DeviceAccessControls = () => {
     if (state === 'denied') {
       return '權限被拒絕。請在瀏覽器設置中更改權限，或重新整理頁面。';
     }
+    if (state === 'granted') {
+      return '權限已授予。如需更改，請在瀏覽器設置中修改。';
+    }
     return '';
   };
 
@@ -123,7 +126,9 @@ const DeviceAccessControls = () => {
           checked={isLocationEnabled}
           onCheckedChange={() => togglePermission('location')}
           disabled={
-            !isLocationAvailable || locationPermissionState === 'denied'
+            !isLocationAvailable ||
+            locationPermissionState === 'denied' ||
+            locationPermissionState === 'granted'
           }
           id="location-switch"
         />
@@ -138,7 +143,11 @@ const DeviceAccessControls = () => {
         <Switch
           checked={isCameraEnabled}
           onCheckedChange={() => togglePermission('camera')}
-          disabled={!isCameraAvailable || cameraPermissionState === 'denied'}
+          disabled={
+            !isCameraAvailable ||
+            cameraPermissionState === 'denied' ||
+            cameraPermissionState === 'granted'
+          }
           id="camera-switch"
         />
         <Label htmlFor="camera-switch">
