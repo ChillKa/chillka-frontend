@@ -177,7 +177,7 @@ export const updateQueryString = (newParams: SearchParams) => {
   Object.entries(newParams).forEach(([key, value]) => {
     if (value) {
       urlParams.set(key, value);
-    } else {
+    } else if (key !== 'limit') {
       urlParams.delete(key);
     }
   });
