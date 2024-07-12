@@ -117,23 +117,31 @@ export const PaginationMore = () => {
 type PaginationItemProps = {
   page: number;
   isCurrent?: boolean;
+  onClick?: (page: number) => void;
 };
 
 export const PaginationItem = ({
   page,
   isCurrent = false,
+  onClick,
 }: PaginationItemProps) => {
   const { currentPage } = usePagination();
   const isActive = isCurrent || currentPage === page;
 
   return (
-    <span
-      className={`flex size-10 cursor-pointer items-center justify-center rounded-full ${
-        isActive ? 'bg-primary text-white' : 'bg-surface'
-      }`}
+    <button
+      type="button"
+      onClick={() => !isCurrent && onClick?.(page)}
+      disabled={isCurrent}
+      className={cn('flex size-10 items-center justify-center rounded-full', {
+        'bg-primary text-white': isActive,
+        'bg-surface': !isActive,
+        'cursor-default': isCurrent,
+        'cursor-pointer hover:bg-primary hover:text-white': !isCurrent,
+      })}
     >
       {page}
-    </span>
+    </button>
   );
 };
 

@@ -67,7 +67,7 @@ const RecommendActivity = async ({ className }: RecommendActivityProps) => {
       <hr className="mb-12 mt-12 w-12 border-t-2 border-primary" />
       <div className="flex w-full flex-col justify-between space-y-12 xl:flex-row xl:gap-6 xl:space-y-0">
         <WithErrorBoundaryAndSuspense
-          fallback={
+          loadingFallback={
             <>
               {Array.from({ length: 3 }).map((_, index) => {
                 const id = index;
