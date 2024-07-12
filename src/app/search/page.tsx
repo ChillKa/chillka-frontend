@@ -1,11 +1,15 @@
 import { getActivitiesByFilter, getFavoriteActivities } from '@action/activity';
 import { isLoggedIn } from '@action/auth';
+import WithErrorBoundaryAndSuspense from '@components/hoc/WithErrorBoundaryAndSuspense';
 import AdvancedSearchBar from '@components/search/SearchBar/AdvancedSearchBar';
 import SearchProvider from '@components/search/SearchBar/SearchProvider';
 import SearchViewProvider from '@components/search/SearchBar/SearchViewProvider';
 import { SearchParams } from '@components/search/SearchBar/fields/utils';
+import { Skeleton } from '@components/ui/skeleton';
 import { Suspense } from 'react';
+import { SkelotonItems } from './utils/ResultItemsSection';
 import ResultMapSection from './utils/ResultMapSection';
+import ResultsPagination from './utils/ResultsPagination';
 import SearchClient from './utils/search.client';
 
 export const runtime = 'edge';
@@ -57,6 +61,11 @@ const SearchPage = async ({ searchParams }: SearchPageProps) => {
 
   let { activities = [] } = result;
 
+  const pageParam = searchParams.page;
+  const currentPage =
+    typeof pageParam === 'string' ? parseInt(pageParam, 10) : 1;
+  const totalPage = Math.ceil(result.total / 5);
+
   if (loggedIn) {
     const favoriteActivities = await getFavoriteActivities();
     const favoriteActivityIds = new Set(
@@ -95,22 +104,39 @@ const SearchPage = async ({ searchParams }: SearchPageProps) => {
             <AdvancedSearchBar />
           </Suspense>
 
-          <section
-            id="result"
-            className="flex w-full grow flex-row gap-6 px-3 xl:px-0"
-          >
-            <Suspense fallback={<div>loading...</div>}>
-              <SearchClient
-                result={{
-                  ...result,
-                  activities,
-                }}
-              />
-            </Suspense>
+          <section id="result-block" className="flex w-full flex-col gap-6">
+            <section className="flex w-full flex-row gap-6 px-3 xl:px-0">
+              <WithErrorBoundaryAndSuspense
+                loadingFallback={<SkelotonItems isMobile={false} />}
+              >
+                <SearchClient
+                  result={{
+                    ...result,
+                    activities,
+                  }}
+                />
+              </WithErrorBoundaryAndSuspense>
 
-            <Suspense fallback={<div>loading...</div>}>
-              <ResultMapSection activities={activities} />
-            </Suspense>
+              <WithErrorBoundaryAndSuspense
+                loadingFallback={
+                  <div className="h-[400px] w-full space-y-2">
+                    <Skeleton className="h-full w-full rounded-lg" />
+                    <div className="flex justify-between">
+                      <Skeleton className="h-4 w-[100px]" />
+                      <Skeleton className="h-4 w-[60px]" />
+                    </div>
+                    <Skeleton className="h-4 w-[80%]" />
+                  </div>
+                }
+              >
+                <ResultMapSection activities={activities} />
+              </WithErrorBoundaryAndSuspense>
+            </section>
+
+            <ResultsPagination
+              currentPage={currentPage}
+              totalPage={totalPage}
+            />
           </section>
         </SearchViewProvider>
       </SearchProvider>
