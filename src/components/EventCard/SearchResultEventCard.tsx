@@ -2,6 +2,7 @@
 
 import { Skeleton } from '@components/ui/skeleton';
 import { H3 } from '@components/ui/typography';
+import { formatPrice } from '@lib/fomatPrice';
 import cn from '@lib/utils';
 import Link from 'next/link';
 import { HTMLAttributes, useMemo, useRef } from 'react';
@@ -127,7 +128,7 @@ const SearchResultEventCard = ({
                 <span className="text-lg font-bold">
                   {nearestTicket.price === 0
                     ? '免費'
-                    : `NT$${nearestTicket.price}`}
+                    : `NT$${formatPrice(nearestTicket.price)}`}
                 </span>
                 {nearestTicket.price > 0 && discountLabel(discount)}
               </>
