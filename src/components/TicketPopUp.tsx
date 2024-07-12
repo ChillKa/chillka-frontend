@@ -22,6 +22,7 @@ type TicketPopUpProps = {
   price: number;
   pay: string;
   state: string;
+  disabled?: boolean;
   // link?: string;
   openQRCodePopUp: () => void;
   children?: ReactNode;
@@ -37,6 +38,7 @@ const TicketPopUp = ({
   price,
   pay,
   state,
+  disabled,
   // link,
   openQRCodePopUp,
   children,
@@ -56,7 +58,7 @@ const TicketPopUp = ({
 
   const handleOpenQRCodePopUp = () => {
     setIsOpen(false);
-    openQRCodePopUp();
+    if (!disabled) openQRCodePopUp();
   };
 
   const formatDate = (dateString: string) => {
@@ -106,7 +108,10 @@ const TicketPopUp = ({
               數量：{ticketQuantity}
             </div>
             <div className="bg-primary px-2 py-1 text-xs/5 font-medium text-white">
-              使用期限：{formatDate(endTime)}
+              使用期限：
+              {formatDate(endTime) === '2100.01.01'
+                ? '無期限'
+                : formatDate(endTime)}
             </div>
           </div>
           <ul className="xl:py- mt-4 border-b-[0.0625rem] border-t-[0.0625rem] pb-2 pt-4 xl:my-6 xl:flex xl:border-none xl:py-4">
@@ -145,7 +150,7 @@ const TicketPopUp = ({
             取消參加
           </button>
           <button
-            className="flex h-[3.5rem] flex-1 items-center justify-center bg-primary text-base font-medium text-white xl:h-[3rem] xl:w-[9rem] xl:flex-none xl:flex-row-reverse"
+            className={`${disabled ? 'bg-[#dfdfdc]' : 'bg-primary'} flex h-[3.5rem] flex-1 items-center justify-center text-base font-medium text-white xl:h-[3rem] xl:w-[9rem] xl:flex-none xl:flex-row-reverse`}
             aria-label="Use Ticket"
             type="button"
             onClick={handleOpenQRCodePopUp}
