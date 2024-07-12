@@ -1,5 +1,6 @@
 'use client';
 
+import { Separator } from '@components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@components/ui/tabs';
 import ManagementActivityReport from './ManagementActivityReport';
 import ManagementActivityTable from './ManagementActivityTable';
@@ -53,6 +54,7 @@ const ManagementActivitySection = ({
           name="檢驗票券"
         />
       </div>
+      <Separator className="my-8 h-[0.3px]" />
       <div className="w-full overflow-x-auto xl:overflow-x-visible">
         <TabsContent className="min-w-[37.5rem]" value="table" asChild>
           <ManagementActivityTable orders={orders} />
