@@ -63,7 +63,10 @@ const ManagementActivityTable = ({ orders }: ManagementActivityTableProps) => {
               年齡
             </TableHead>
             <TableHead className="text-base font-bold text-primary">
-              狀態
+              付款狀態
+            </TableHead>
+            <TableHead className="text-base font-bold text-primary">
+              票券狀態
             </TableHead>
           </TableRow>
         </TableHeader>
@@ -78,6 +81,7 @@ const ManagementActivityTable = ({ orders }: ManagementActivityTableProps) => {
                 <TableCell>{participant.user.email}</TableCell>
                 <TableCell>{participant.user.age}</TableCell>
                 <TableCell>{participant.payment.status}</TableCell>
+                <TableCell>{participant.orderStatus}</TableCell>
               </TableRow>
             );
           })}
