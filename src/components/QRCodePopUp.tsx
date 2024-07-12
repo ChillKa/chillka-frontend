@@ -93,7 +93,7 @@ const QRCodePopUp = ({
           >
             <X className="stroke-white" size={24} />
           </button>
-          <div className="flex h-[calc(100svh-30px)] flex-col overflow-scroll px-3 pb-6 pt-10 xl:h-fit xl:px-6 xl:pt-12">
+          <div className="flex h-[calc(100svh-30px)] flex-col overflow-auto px-3 pb-6 pt-10 xl:h-fit xl:px-6 xl:pt-12">
             <DialogTitle className="mb-[2.5rem] text-3xl font-bold xl:mb-6">
               票券可使用時間
             </DialogTitle>
