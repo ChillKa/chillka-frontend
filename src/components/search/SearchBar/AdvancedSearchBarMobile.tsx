@@ -1,4 +1,3 @@
-import { getRecommendActivitiesByKeywordWithDebounce } from '@action/activity';
 import { Button } from '@components/ui/button';
 import { Checkbox } from '@components/ui/checkbox';
 import {
@@ -15,17 +14,14 @@ import { H2, H4 } from '@components/ui/typography';
 import cn from '@lib/utils';
 import { XIcon } from 'lucide-react';
 import { MouseEventHandler, useState } from 'react';
-import {
-  ActivityKeyword,
-  ActivityPicture,
-  AdvancedActivityMobileField,
-} from './fields/ActivityField';
+import { AdvancedActivityMobileField } from './fields/ActivityField';
 import { AdvancedCategoryMobileField } from './fields/CategoryFieldMenu';
 import { AdvancedDateMobileField } from './fields/DateFieldMenu';
 import { AdvancedDistanceMobileField } from './fields/DistanceFieldMenu';
 import { AdvancedEventTypeMobileField } from './fields/EventTypeFieldMenu';
 import { AdvancedLocationMobileField } from './fields/LocationFieldMenu';
 import { AdvancedSortMobileField } from './fields/SortFieldMenu';
+import { useKeywordSearch } from './fields/use-keyword-search';
 import { SearchParams } from './fields/utils';
 import { SearchField, useSearchProvider } from './SearchProvider';
 
@@ -40,9 +36,8 @@ const AdvancedSearchBarMobile = ({
 }: AdvancedSearchBarMobileProps) => {
   const { handleSubmit, reset, getValues } = useSearchProvider<SearchParams>();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [keywords, setKeywords] = useState<ActivityKeyword[]>([]);
-  const [pictures, setPictures] = useState<ActivityPicture[]>([]);
+  const { isLoading, keywords, pictures, searchActivities } =
+    useKeywordSearch();
 
   const toggleDialog = () => {
     setIsDialogOpen((prev) => !prev);
@@ -97,16 +92,8 @@ const AdvancedSearchBarMobile = ({
                     isLoading={isLoading}
                     value={value}
                     onChange={(keyword) => {
-                      setIsLoading(true);
-                      getRecommendActivitiesByKeywordWithDebounce(keyword)
-                        .then((response) => {
-                          setKeywords(response.keyword);
-                          setPictures(response.pictures);
-                        })
-                        .finally(() => {
-                          setIsLoading(false);
-                        });
                       onChange(keyword);
+                      searchActivities(keyword);
                     }}
                   />
                 );

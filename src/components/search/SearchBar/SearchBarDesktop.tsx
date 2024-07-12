@@ -1,6 +1,5 @@
 'use client';
 
-import { getRecommendActivitiesByKeywordWithDebounce } from '@action/activity';
 import { Button } from '@components/ui/button';
 import { H3 } from '@components/ui/typography';
 import cn from '@lib/utils';
@@ -8,12 +7,10 @@ import { LoaderCircle } from 'lucide-react';
 import { useEffect, useState, useTransition } from 'react';
 import { FieldValues } from 'react-hook-form';
 import { SearchField, useSearchProvider } from './SearchProvider';
-import ActivityField, {
-  ActivityKeyword,
-  ActivityPicture,
-} from './fields/ActivityField';
+import ActivityField from './fields/ActivityField';
 import CategoryFieldMenu, { Category } from './fields/CategoryFieldMenu';
 import LocationFieldMenu, { Location } from './fields/LocationFieldMenu';
+import { useKeywordSearch } from './fields/use-keyword-search';
 
 type SearchBarDesktopProps = {
   className?: string;
@@ -84,9 +81,8 @@ const SearchBarDesktop = ({
   onSearchSubmit,
 }: SearchBarDesktopProps) => {
   const isSticky = useStickyToFixed('header');
-  const [isLoading, setIsLoading] = useState(false);
-  const [keywords, setKeywords] = useState<ActivityKeyword[]>([]);
-  const [pictures, setPictures] = useState<ActivityPicture[]>([]);
+  const { isLoading, keywords, pictures, searchActivities } =
+    useKeywordSearch();
 
   const [isPending, startTransition] = useTransition();
 
@@ -120,16 +116,8 @@ const SearchBarDesktop = ({
                 isLoading={isLoading}
                 value={value}
                 onChange={(keyword) => {
-                  setIsLoading(true);
-                  getRecommendActivitiesByKeywordWithDebounce(keyword)
-                    .then((response) => {
-                      setKeywords(response.keyword);
-                      setPictures(response.pictures);
-                    })
-                    .finally(() => {
-                      setIsLoading(false);
-                    });
                   onChange(keyword);
+                  searchActivities(keyword);
                 }}
               />
             );
