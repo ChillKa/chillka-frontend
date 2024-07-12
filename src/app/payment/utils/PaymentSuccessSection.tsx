@@ -3,7 +3,6 @@
 import { RecommendedActivityFetchState } from '@action/activity';
 import { Button } from '@components/ui/button';
 import { Card } from '@components/ui/card';
-import { Separator } from '@components/ui/separator';
 import { H2, H4, P, Small } from '@components/ui/typography';
 import { useAuthContext } from '@store/AuthProvider/AuthProvider';
 import Image from 'next/image';
@@ -48,7 +47,7 @@ const PaymentSuccessSection = ({
   }, []);
 
   return (
-    <>
+    <div className="flex flex-col">
       {showConfetti && (
         <Confetti
           width={windowSize.width}
@@ -81,18 +80,23 @@ const PaymentSuccessSection = ({
         >
           返回活動頁面
         </Button>
-        <Separator />
-        <H2>為您推薦</H2>
+      </Card>
+      <div className="mt-16 flex flex-col items-center">
+        <H2 className="mb-6 text-primary">為您推薦</H2>
         <section
           id="recommend-list"
-          className="flex flex-col items-center justify-center gap-3 xl:flex-row"
+          className="flex w-full flex-col items-center justify-center gap-6 xl:flex-row xl:gap-4"
         >
           {activities.map((activity) => {
             return (
-              <Link key={activity._id} href={`/activity/${activity._id}`}>
-                <div className="flex flex-col gap-1">
+              <Link
+                key={activity._id}
+                href={`/activity/${activity._id}`}
+                className="w-full"
+              >
+                <div className="flex w-full flex-col gap-1 xl:w-[12.5rem]">
                   <div className="relative min-w-fit">
-                    <div className="relative h-[6.25rem] w-[12.5rem] overflow-hidden">
+                    <div className="relative h-[18.75rem] w-full overflow-hidden xl:h-[12.5rem]">
                       <Image
                         src={activity.thumbnail ?? './default.webp'}
                         alt={
@@ -110,15 +114,16 @@ const PaymentSuccessSection = ({
                       </div>
                     </div>
                   </div>
-
-                  <H4 className="truncate">{activity.name}</H4>
+                  <H4 className="mt-2 truncate text-primary">
+                    {activity.name}
+                  </H4>
                 </div>
               </Link>
             );
           })}
         </section>
-      </Card>
-    </>
+      </div>
+    </div>
   );
 };
 
