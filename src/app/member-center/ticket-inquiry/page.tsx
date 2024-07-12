@@ -16,6 +16,7 @@ import { useCallback, useEffect, useState } from 'react';
 
 const TicketInquiry = () => {
   const [usableTickets, setUsableTickets] = useState<TicketsInfoType[]>([]);
+  useEffect(() => console.log('res', usableTickets), [usableTickets]);
   const [unusableTickets, setUnusableTickets] = useState<TicketsInfoType[]>([]);
   const [sort, setSort] = useState<string>('paymentDate');
   const [isLoading, seIsLoading] = useState(true);
@@ -143,9 +144,9 @@ const TicketInquiry = () => {
               <TicketPopUp
                 ticketName={`${ticket.activity.name} | ${ticket.ticket.name}`}
                 ticketQuantity={ticket.payment.orderNumber}
-                orderNumber={ticket.ticket.activityId}
+                orderNumber={ticket.serialNumber}
                 endTime={ticket.ticket.endDateTime}
-                organizer={ticket.activity.organizer.websiteName}
+                organizer={ticket.activity.organizer.name}
                 purchaseDate={ticket.ticket.createdAt}
                 price={ticket.ticket.price}
                 pay={ticket.payment.type}
@@ -178,7 +179,7 @@ const TicketInquiry = () => {
                       name={ticket.orderContact.name}
                       startTime={ticket.ticket.startDateTime}
                       endTime={ticket.ticket.endDateTime}
-                      id={ticket.ticket._id}
+                      id={ticket.serialNumber}
                     />
                   </div>
                 </div>
@@ -194,9 +195,9 @@ const TicketInquiry = () => {
               <TicketPopUp
                 ticketName={`${ticket.activity.name} | ${ticket.ticket.name}`}
                 ticketQuantity={ticket.payment.orderNumber}
-                orderNumber={ticket.ticket.activityId}
+                orderNumber={ticket.serialNumber}
                 endTime={ticket.ticket.endDateTime}
-                organizer={ticket.activity.organizer.websiteName}
+                organizer={ticket.activity.organizer.name}
                 purchaseDate={ticket.ticket.createdAt}
                 price={ticket.ticket.price}
                 pay={ticket.payment.type}
