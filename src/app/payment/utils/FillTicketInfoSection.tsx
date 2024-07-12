@@ -27,7 +27,7 @@ import { z } from 'zod';
 import { sendPayment } from './actions';
 
 const formSchema = z.object({
-  name: z.string().min(1, '名子是必須的'),
+  name: z.string().min(1, '姓名為必填欄位'),
   phone: z.string().min(10, '請輸入有效的手機號碼'),
   email: z.string().email('請輸入有效的電子郵件地址'),
   terms: z.boolean().refine((val) => val === true, {
