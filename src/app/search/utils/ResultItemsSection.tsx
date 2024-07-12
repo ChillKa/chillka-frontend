@@ -28,13 +28,11 @@ const SkelotonItems = ({ isMobile }: { isMobile: boolean }) => {
 
 export type ResultItemsSectionProps = {
   results: Activity[];
-  currentShow: 'results' | 'map';
   setCenterId: (id: string) => void;
   total?: number;
 };
 const ResultItemsSection = ({
   results,
-  currentShow,
   setCenterId,
   total = 0,
 }: ResultItemsSectionProps) => {
@@ -42,10 +40,6 @@ const ResultItemsSection = ({
   const searchParams = useSearchParams();
 
   const keyword = searchParams.get('keyword');
-
-  if (currentShow !== 'results') {
-    return null;
-  }
 
   return (
     <>

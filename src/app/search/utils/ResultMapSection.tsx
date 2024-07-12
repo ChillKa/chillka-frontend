@@ -2,23 +2,21 @@
 
 import { Activity } from '@action/activity';
 import WithErrorBoundaryAndSuspense from '@components/hoc/WithErrorBoundaryAndSuspense';
+import { useSearchView } from '@components/search/SearchBar/SearchViewProvider';
 import SearchMapSection from '@components/search/SearchMapSection';
 import { Skeleton } from '@components/ui/skeleton';
 import { useMemo } from 'react';
 
 type ResultMapSectionProps = {
   activities?: Activity[];
-  centerId?: string;
-  currentShow?: 'map' | 'results';
   isMobile?: boolean;
 };
 
 const ResultMapSection = ({
   activities = [],
-  centerId,
-  currentShow,
   isMobile = false,
 }: ResultMapSectionProps) => {
+  const { currentShow, centerId } = useSearchView();
   const mapMarkers = useMemo(() => {
     const now = Date.now();
 

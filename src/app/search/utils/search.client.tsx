@@ -6,7 +6,7 @@ import { useSearchView } from '@components/search/SearchBar/SearchViewProvider';
 import { updateQueryString } from '@components/search/SearchBar/fields/utils';
 import useMediaQuery from '@hooks/use-media-query';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import ResultItemsSection from './ResultItemsSection';
 import ResultMapSection from './ResultMapSection';
 import ResultsPagination from './ResultsPagination';
@@ -17,9 +17,7 @@ type SearchClientProps = {
 
 const SearchClient = ({ result }: SearchClientProps) => {
   const { matches: isMobile } = useMediaQuery();
-  const [scrollPosition, setScrollPosition] = useState(0);
-  const { currentShow, setCurrentShow, centerId, setCenterId } =
-    useSearchView();
+  const { currentShow, setCenterId } = useSearchView();
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -41,21 +39,9 @@ const SearchClient = ({ result }: SearchClientProps) => {
     [searchParams, router]
   );
 
-  const toggleShow = () => {
-    if (isMobile) {
-      if (currentShow === 'results') {
-        setScrollPosition(window.scrollY);
-        window.scrollTo(0, 0);
-      } else {
-        window.scrollTo(0, scrollPosition);
-      }
-    }
-    setCurrentShow((prev) => (prev === 'results' ? 'map' : 'results'));
-  };
-
   return (
     <>
-      <AdvancedSearchBar toggleCurrentShow={toggleShow} />
+      <AdvancedSearchBar />
 
       <section
         id="result"
@@ -70,7 +56,6 @@ const SearchClient = ({ result }: SearchClientProps) => {
               results={activities}
               total={total}
               setCenterId={setCenterId}
-              currentShow={currentShow}
             />
 
             <ResultsPagination
@@ -86,12 +71,7 @@ const SearchClient = ({ result }: SearchClientProps) => {
           </div>
         ) : null}
 
-        <ResultMapSection
-          activities={activities}
-          centerId={centerId}
-          isMobile={isMobile}
-          currentShow={currentShow}
-        />
+        <ResultMapSection activities={activities} isMobile={isMobile} />
       </section>
     </>
   );

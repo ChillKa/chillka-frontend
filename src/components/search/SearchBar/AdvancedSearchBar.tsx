@@ -2,18 +2,19 @@
 
 import { Map } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import AdvancedSearchBarDesktop from './AdvancedSearchBarDesktop';
 import AdvancedSearchBarMobile from './AdvancedSearchBarMobile';
 import { useSearchProvider } from './SearchProvider';
+import { useSearchView } from './SearchViewProvider';
 import { SearchParams, updateQueryString } from './fields/utils';
 
-type AdvancedSearchBarProps = {
-  toggleCurrentShow: () => void;
-};
-
-const AdvancedSearchBar = ({ toggleCurrentShow }: AdvancedSearchBarProps) => {
+const AdvancedSearchBar = () => {
   const router = useRouter();
+  const [scrollPosition, setScrollPosition] = useState(0);
   const { isMobile, ...formMethods } = useSearchProvider<SearchParams>();
+  const { currentShow, setCurrentShow } = useSearchView();
+
   const handleSearchSubmit = (data: SearchParams) => {
     const queryString = updateQueryString(data);
     router.push(`/search?${queryString}`);
@@ -36,6 +37,18 @@ const AdvancedSearchBar = ({ toggleCurrentShow }: AdvancedSearchBarProps) => {
       page: '1',
     });
     router.push(`/search?${clearedParams}`);
+  };
+
+  const toggleCurrentShow = () => {
+    if (isMobile) {
+      if (currentShow === 'results') {
+        setScrollPosition(window.scrollY);
+        window.scrollTo(0, 0);
+      } else {
+        window.scrollTo(0, scrollPosition);
+      }
+    }
+    setCurrentShow((prev) => (prev === 'results' ? 'map' : 'results'));
   };
 
   return isMobile ? (
