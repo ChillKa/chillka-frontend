@@ -18,6 +18,7 @@ import cn from '@lib/utils';
 import { HashIcon, MapIcon, SearchIcon, XIcon } from 'lucide-react';
 import { useRef, useState } from 'react';
 import { FieldValues } from 'react-hook-form';
+import { SearchField, useSearchProvider } from './SearchProvider';
 import {
   ActivityKeyword,
   ActivityMobileField,
@@ -25,13 +26,11 @@ import {
 } from './fields/ActivityField';
 import { Category, CategoryMobileFieldMenu } from './fields/CategoryFieldMenu';
 import { Location, LocationMobileFieldMenu } from './fields/LocationFieldMenu';
-import { SearchField, useSearchProvider } from './SearchProvider';
 
 type SearchBarMobileProps = {
   className: string;
   locations: Location[];
   categories: Category[];
-  debugMode: boolean;
   onSearchSubmit?: (data: FieldValues) => Promise<void>;
 };
 
@@ -40,7 +39,6 @@ const SearchBarMobile = ({
   locations,
   categories,
   onSearchSubmit,
-  debugMode,
 }: SearchBarMobileProps) => {
   const [isCategoryMenuOpen, setIsCategoryMenuOpen] = useState(false);
   const [isLocationMenuOpen, setIsLocationMenuOpen] = useState(false);
@@ -58,7 +56,7 @@ const SearchBarMobile = ({
   });
 
   return (
-    <Dialog defaultOpen={debugMode}>
+    <Dialog>
       <DialogTrigger
         className={cn(
           'fixed bottom-0 right-0 z-10 flex flex-col items-center justify-center gap-4 bg-primary p-7 font-medium text-white',

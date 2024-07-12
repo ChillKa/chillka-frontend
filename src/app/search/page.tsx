@@ -1,5 +1,6 @@
 import { getActivitiesByFilter, getFavoriteActivities } from '@action/activity';
 import { isLoggedIn } from '@action/auth';
+import SearchProvider from '@components/search/SearchBar/SearchProvider';
 import { SearchParams } from '@components/search/SearchBar/fields/utils';
 import SearchClient from './utils/search.client';
 
@@ -71,13 +72,27 @@ const SearchPage = async ({ searchParams }: SearchPageProps) => {
 
   return (
     <section className="mx-auto flex max-w-[81rem] flex-col gap-2">
-      <SearchClient
-        result={{
-          ...result,
-          activities,
+      <SearchProvider<SearchParams>
+        defaultValues={{
+          keyword: '',
+          location: '',
+          category: '',
+          date: '',
+          type: '',
+          distance: '',
+          page: '1',
+          limit: '5',
+          sort: '相關性',
+          ...filteredParams,
         }}
-        initialSearchParams={filteredParams}
-      />
+      >
+        <SearchClient
+          result={{
+            ...result,
+            activities,
+          }}
+        />
+      </SearchProvider>
     </section>
   );
 };

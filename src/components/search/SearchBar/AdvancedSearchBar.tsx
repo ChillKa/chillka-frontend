@@ -4,20 +4,16 @@ import { Map } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import AdvancedSearchBarDesktop from './AdvancedSearchBarDesktop';
 import AdvancedSearchBarMobile from './AdvancedSearchBarMobile';
-import { SearchParams, updateQueryString } from './fields/utils';
 import { useSearchProvider } from './SearchProvider';
+import { SearchParams, updateQueryString } from './fields/utils';
 
 type AdvancedSearchBarProps = {
-  isMobile: boolean;
   toggleCurrentShow: () => void;
 };
 
-const AdvancedSearchBar = ({
-  toggleCurrentShow,
-  isMobile,
-}: AdvancedSearchBarProps) => {
+const AdvancedSearchBar = ({ toggleCurrentShow }: AdvancedSearchBarProps) => {
   const router = useRouter();
-  const formMethods = useSearchProvider<SearchParams>();
+  const { isMobile, ...formMethods } = useSearchProvider<SearchParams>();
   const handleSearchSubmit = (data: SearchParams) => {
     const queryString = updateQueryString(data);
     router.push(`/search?${queryString}`);

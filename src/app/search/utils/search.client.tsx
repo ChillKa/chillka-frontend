@@ -2,13 +2,7 @@
 
 import { SearchResult } from '@action/activity';
 import AdvancedSearchBar from '@components/search/SearchBar/AdvancedSearchBar';
-import SearchProvider from '@components/search/SearchBar/SearchProvider';
-import {
-  SearchParams,
-  SearchParamsSchema,
-  updateQueryString,
-} from '@components/search/SearchBar/fields/utils';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { updateQueryString } from '@components/search/SearchBar/fields/utils';
 import useMediaQuery from '@hooks/use-media-query';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useState } from 'react';
@@ -18,10 +12,9 @@ import ResultsPagination from './ResultsPagination';
 
 type SearchClientProps = {
   result: SearchResult;
-  initialSearchParams: Partial<SearchParams>;
 };
 
-const SearchClient = ({ result, initialSearchParams }: SearchClientProps) => {
+const SearchClient = ({ result }: SearchClientProps) => {
   const { matches: isMobile } = useMediaQuery();
   const [currentShow, setCurrentShow] = useState<'results' | 'map'>('results');
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -60,22 +53,8 @@ const SearchClient = ({ result, initialSearchParams }: SearchClientProps) => {
   };
 
   return (
-    <SearchProvider<SearchParams>
-      defaultValues={{
-        keyword: '',
-        location: '',
-        category: '',
-        date: '',
-        type: '',
-        distance: '',
-        page: '1',
-        limit: '5',
-        sort: '相關性',
-        ...initialSearchParams,
-      }}
-      resolver={zodResolver(SearchParamsSchema)}
-    >
-      <AdvancedSearchBar toggleCurrentShow={toggleShow} isMobile={isMobile} />
+    <>
+      <AdvancedSearchBar toggleCurrentShow={toggleShow} />
 
       <section
         id="result"
@@ -113,7 +92,7 @@ const SearchClient = ({ result, initialSearchParams }: SearchClientProps) => {
           currentShow={currentShow}
         />
       </section>
-    </SearchProvider>
+    </>
   );
 };
 

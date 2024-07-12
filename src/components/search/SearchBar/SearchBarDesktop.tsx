@@ -7,16 +7,16 @@ import cn from '@lib/utils';
 import { LoaderCircle } from 'lucide-react';
 import { useEffect, useState, useTransition } from 'react';
 import { FieldValues } from 'react-hook-form';
+import { SearchField, useSearchProvider } from './SearchProvider';
 import ActivityField, {
   ActivityKeyword,
   ActivityPicture,
 } from './fields/ActivityField';
 import CategoryFieldMenu, { Category } from './fields/CategoryFieldMenu';
 import LocationFieldMenu, { Location } from './fields/LocationFieldMenu';
-import { SearchField, useSearchProvider } from './SearchProvider';
 
 type SearchBarDesktopProps = {
-  className: string;
+  className?: string;
   locations: Location[];
   categories: Category[];
   onSearchSubmit?: (data: FieldValues) => Promise<void>;
