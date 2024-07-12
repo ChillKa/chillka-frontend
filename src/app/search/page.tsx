@@ -1,5 +1,4 @@
-import { getActivitiesByFilter, getFavoriteActivities } from '@action/activity';
-import { isLoggedIn } from '@action/auth';
+import { getActivitiesWithCollectionStatus } from '@action/activity';
 import WithErrorBoundaryAndSuspense from '@components/hoc/WithErrorBoundaryAndSuspense';
 import AdvancedSearchBar from '@components/search/SearchBar/AdvancedSearchBar';
 import SearchProvider from '@components/search/SearchBar/SearchProvider';
@@ -50,35 +49,12 @@ type SearchPageProps = {
 
 const SearchPage = async ({ searchParams }: SearchPageProps) => {
   const filteredParams = getSearchFilter(searchParams);
-
-  const [loggedIn, result] = await Promise.all([
-    isLoggedIn(),
-    getActivitiesByFilter(filteredParams),
-  ]);
-
-  let { activities = [] } = result;
+  const result = await getActivitiesWithCollectionStatus(filteredParams);
 
   const pageParam = searchParams.page;
   const currentPage =
     typeof pageParam === 'string' ? parseInt(pageParam, 10) : 1;
   const totalPage = Math.ceil(result.total / 5);
-
-  if (loggedIn) {
-    const favoriteActivities = await getFavoriteActivities();
-    const favoriteActivityIds = new Set(
-      favoriteActivities.activities.map((activity) => activity._id)
-    );
-
-    activities = activities.map((activity) => ({
-      ...activity,
-      isCollected: favoriteActivityIds.has(activity._id),
-    }));
-  } else {
-    activities = activities.map((activity) => ({
-      ...activity,
-      isCollected: false,
-    }));
-  }
 
   return (
     <section className="mx-auto flex max-w-[81rem] flex-col gap-2">
@@ -110,12 +86,7 @@ const SearchPage = async ({ searchParams }: SearchPageProps) => {
                   </div>
                 }
               >
-                <ResultItemsSection
-                  results={{
-                    ...result,
-                    activities,
-                  }}
-                />
+                <ResultItemsSection results={result} />
               </WithErrorBoundaryAndSuspense>
 
               <WithErrorBoundaryAndSuspense
@@ -130,7 +101,7 @@ const SearchPage = async ({ searchParams }: SearchPageProps) => {
                   </div>
                 }
               >
-                <ResultMapSection activities={activities} />
+                <ResultMapSection activities={result.activities} />
               </WithErrorBoundaryAndSuspense>
             </section>
           </AdvancedSearchBar>

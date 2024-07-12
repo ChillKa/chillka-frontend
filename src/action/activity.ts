@@ -6,6 +6,7 @@ import { createDebounce } from '@lib/utils';
 import { revalidateTag } from 'next/cache';
 import { z } from 'zod';
 import { IAcitivityResponse, IActivity } from '../types/activity';
+import { isLoggedIn } from './auth';
 import { fetchAPI, getJwtPayload, validateWithSchema } from './utils';
 
 interface ContinuousActivity {
@@ -312,6 +313,44 @@ export async function getFavoriteActivities(): Promise<FavoriteActivitiesResult>
     activities: result.data,
     total: result.total,
   };
+}
+
+export async function getActivitiesWithCollectionStatus(
+  filteredParams: Partial<SearchParams>
+) {
+  const [resultStatus, loggedInStatus, favoriteActivitiesStatus] =
+    await Promise.allSettled([
+      getActivitiesByFilter(filteredParams),
+      isLoggedIn(),
+      getFavoriteActivities(),
+    ]);
+
+  let activities: Activity[] = [];
+  let total = 0;
+  let loggedIn = false;
+  let favoriteActivityIds = new Set();
+
+  if (resultStatus.status === 'fulfilled') {
+    activities = resultStatus.value.activities;
+    total = resultStatus.value.total;
+  }
+
+  if (loggedInStatus.status === 'fulfilled') {
+    loggedIn = loggedInStatus.value;
+  }
+
+  if (favoriteActivitiesStatus.status === 'fulfilled' && loggedIn) {
+    favoriteActivityIds = new Set(
+      favoriteActivitiesStatus.value.activities.map((activity) => activity._id)
+    );
+  }
+
+  activities = activities.map((activity) => ({
+    ...activity,
+    isCollected: loggedIn ? favoriteActivityIds.has(activity._id) : false,
+  }));
+
+  return { activities, total };
 }
 
 export type FavoriteActivityState =
