@@ -1,8 +1,11 @@
 import { getActivitiesByFilter, getFavoriteActivities } from '@action/activity';
 import { isLoggedIn } from '@action/auth';
+import AdvancedSearchBar from '@components/search/SearchBar/AdvancedSearchBar';
 import SearchProvider from '@components/search/SearchBar/SearchProvider';
 import SearchViewProvider from '@components/search/SearchBar/SearchViewProvider';
 import { SearchParams } from '@components/search/SearchBar/fields/utils';
+import { Suspense } from 'react';
+import ResultMapSection from './utils/ResultMapSection';
 import SearchClient from './utils/search.client';
 
 export const runtime = 'edge';
@@ -88,12 +91,27 @@ const SearchPage = async ({ searchParams }: SearchPageProps) => {
         }}
       >
         <SearchViewProvider>
-          <SearchClient
-            result={{
-              ...result,
-              activities,
-            }}
-          />
+          <Suspense fallback={<div>loading...</div>}>
+            <AdvancedSearchBar />
+          </Suspense>
+
+          <section
+            id="result"
+            className="flex w-full grow flex-row gap-6 px-3 xl:px-0"
+          >
+            <Suspense fallback={<div>loading...</div>}>
+              <SearchClient
+                result={{
+                  ...result,
+                  activities,
+                }}
+              />
+            </Suspense>
+
+            <Suspense fallback={<div>loading...</div>}>
+              <ResultMapSection activities={activities} />
+            </Suspense>
+          </section>
         </SearchViewProvider>
       </SearchProvider>
     </section>

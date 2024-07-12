@@ -1,14 +1,12 @@
 'use client';
 
 import { SearchResult } from '@action/activity';
-import AdvancedSearchBar from '@components/search/SearchBar/AdvancedSearchBar';
 import { useSearchView } from '@components/search/SearchBar/SearchViewProvider';
 import { updateQueryString } from '@components/search/SearchBar/fields/utils';
 import useMediaQuery from '@hooks/use-media-query';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback } from 'react';
 import ResultItemsSection from './ResultItemsSection';
-import ResultMapSection from './ResultMapSection';
 import ResultsPagination from './ResultsPagination';
 
 type SearchClientProps = {
@@ -39,42 +37,29 @@ const SearchClient = ({ result }: SearchClientProps) => {
     [searchParams, router]
   );
 
-  return (
-    <>
-      <AdvancedSearchBar />
+  return currentShow === 'results' ? (
+    <div
+      id="result-list"
+      className="lg:max-w-[53.5rem] mt-7 flex w-full flex-col gap-y-12"
+    >
+      <ResultItemsSection
+        results={activities}
+        total={total}
+        setCenterId={setCenterId}
+      />
 
-      <section
-        id="result"
-        className="flex w-full grow flex-row gap-6 px-3 xl:px-0"
-      >
-        {currentShow === 'results' ? (
-          <div
-            id="result-list"
-            className="lg:max-w-[53.5rem] mt-7 flex w-full flex-col gap-y-12"
-          >
-            <ResultItemsSection
-              results={activities}
-              total={total}
-              setCenterId={setCenterId}
-            />
-
-            <ResultsPagination
-              currentPage={currentPage}
-              totalPage={totalPage}
-              isMobile={isMobile}
-              onClickPrev={() => handlePageChange(Math.max(currentPage - 1, 1))}
-              onClickNext={() =>
-                handlePageChange(Math.min(currentPage + 1, totalPage))
-              }
-              onPageChange={handlePageChange}
-            />
-          </div>
-        ) : null}
-
-        <ResultMapSection activities={activities} isMobile={isMobile} />
-      </section>
-    </>
-  );
+      <ResultsPagination
+        currentPage={currentPage}
+        totalPage={totalPage}
+        isMobile={isMobile}
+        onClickPrev={() => handlePageChange(Math.max(currentPage - 1, 1))}
+        onClickNext={() =>
+          handlePageChange(Math.min(currentPage + 1, totalPage))
+        }
+        onPageChange={handlePageChange}
+      />
+    </div>
+  ) : null;
 };
 
 export default SearchClient;
