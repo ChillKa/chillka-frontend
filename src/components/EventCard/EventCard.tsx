@@ -1,6 +1,7 @@
 'use client';
 
 import { H3 } from '@components/ui/typography';
+import { formatPrice } from '@lib/fomatPrice';
 import cn from '@lib/utils';
 import Link from 'next/link';
 import { forwardRef, useMemo } from 'react';
@@ -31,7 +32,6 @@ type EventCardProps = {
   link?: string;
   discount?: number;
   className?: string;
-  revalidate?: boolean;
 };
 
 const EventCard = forwardRef<HTMLDivElement, EventCardProps>(
@@ -51,7 +51,6 @@ const EventCard = forwardRef<HTMLDivElement, EventCardProps>(
       link = '',
       discount = 0,
       className,
-      revalidate,
     },
     ref
   ) => {
@@ -93,7 +92,6 @@ const EventCard = forwardRef<HTMLDivElement, EventCardProps>(
             src={cover}
             collected={isCollected}
             activityId={link}
-            revalidate={revalidate}
           />
 
           <div className="flex h-[5.5rem] w-full flex-col gap-4 px-4">
@@ -119,7 +117,7 @@ const EventCard = forwardRef<HTMLDivElement, EventCardProps>(
                 <span className="text-lg font-bold">
                   {nearestTicket.price === 0
                     ? '免費'
-                    : `NT$${nearestTicket.price}`}
+                    : `NT$${formatPrice(nearestTicket.price)}`}
                 </span>
                 {nearestTicket.price > 0 && discountLabel(discount)}
               </>

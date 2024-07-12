@@ -37,10 +37,12 @@ const SearchProvider = <T extends FieldValues>({
   );
 };
 
-export const useSearch = <T extends FieldValues>(): SearchContextProps<T> => {
+export const useSearchProvider = <
+  T extends FieldValues,
+>(): SearchContextProps<T> => {
   const context = useContext(SearchContext);
   if (!context) {
-    throw new Error('useSearch must be used within a SearchProvider');
+    throw new Error('useSearchProvider must be used within a SearchProvider');
   }
   return context;
 };
@@ -61,7 +63,7 @@ export const SearchField = <T extends FieldValues>({
   children,
   className,
 }: SearchFieldProps<T>) => {
-  const methods = useSearch<T>();
+  const methods = useSearchProvider<T>();
 
   return (
     <FormField

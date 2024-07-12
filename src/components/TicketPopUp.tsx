@@ -9,6 +9,7 @@ import {
 } from '@components/ui/dialog';
 import useWindowSize from '@hooks/use-window-size';
 import { motion } from 'framer-motion';
+import { formatPrice } from '@lib/fomatPrice';
 import { QrCode, X } from 'lucide-react';
 import { ReactNode, useState } from 'react';
 
@@ -127,7 +128,7 @@ const TicketPopUp = ({
             </li>
             <li className="mb-2 flex justify-between border-primary xl:w-[8.5rem] xl:flex-col xl:border-r-[0.0625rem] xl:px-4">
               <p className="text-sm/6 font-medium xl:mb-2">總共金額</p>
-              <p className="text-base/7 font-normal">NT ${price}</p>
+              <p className="text-base/7 font-normal">NT${formatPrice(price)}</p>
             </li>
             <li className="justify-betwee xl:px-4n mb-2 flex border-primary xl:w-[8.5rem] xl:flex-col xl:border-r-[0.0625rem] xl:px-4">
               <p className="text-sm/6 font-medium xl:mb-2">付款方式</p>

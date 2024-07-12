@@ -6,6 +6,7 @@ import {
   QrcodeSuccessCallback,
 } from 'html5-qrcode';
 import { useCallback, useEffect } from 'react';
+import './QRCodeScanner.css';
 
 export type QRCodeScannerProps = {
   onScanSuccess: (result: string) => void;

@@ -18,7 +18,6 @@ import cn from '@lib/utils';
 import { HashIcon, MapIcon, SearchIcon, XIcon } from 'lucide-react';
 import { useRef, useState } from 'react';
 import { FieldValues } from 'react-hook-form';
-import { SearchField, useSearch } from './SearchProvider';
 import {
   ActivityKeyword,
   ActivityMobileField,
@@ -26,6 +25,7 @@ import {
 } from './fields/ActivityField';
 import { Category, CategoryMobileFieldMenu } from './fields/CategoryFieldMenu';
 import { Location, LocationMobileFieldMenu } from './fields/LocationFieldMenu';
+import { SearchField, useSearchProvider } from './SearchProvider';
 
 type SearchBarMobileProps = {
   className: string;
@@ -50,7 +50,7 @@ const SearchBarMobile = ({
   const containerRef = useRef(null);
   const { height, width } = useDimensions(containerRef);
 
-  const { handleSubmit } = useSearch();
+  const { handleSubmit } = useSearchProvider();
   const handleSearchSubmit = handleSubmit(async (data) => {
     if (onSearchSubmit) {
       await onSearchSubmit(data);

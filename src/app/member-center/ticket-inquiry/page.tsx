@@ -87,7 +87,10 @@ const TicketInquiry = () => {
             new Date(a.ticket.createdAt).getTime()
         );
       const unusableTicketList = result.data.data
-        .filter((ticket: TicketsInfoType) => ticket.orderStatus === '無效')
+        .filter(
+          (ticket: TicketsInfoType) =>
+            ticket.orderStatus === '已使用' || ticket.orderStatus === '無效票券'
+        )
         .sort(
           (a: TicketsInfoType, b: TicketsInfoType) =>
             new Date(b.ticket.createdAt).getTime() -
@@ -183,10 +186,11 @@ const TicketInquiry = () => {
                         id={ticket.serialNumber}
                       />
                     )}
+
                   </div>
-                </div>
-              </TicketPopUp>
-            ))}
+                </TicketPopUp>
+              );
+            })}
           {usableTickets.length === 0 && !isLoading && <NoTicket />}
         </TabsContent>
         <TabsContent value="unusableTicket">
