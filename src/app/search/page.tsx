@@ -38,7 +38,13 @@ const getSearchFilter = (
   const validEntries = Object.entries(params).filter(isValidEntry);
   const result = Object.fromEntries(validEntries) as Partial<SearchParams>;
 
-  if (!result.limit) result.limit = '5';
+  // always setup this
+  result.limit = '5';
+
+  // if no sort, setup the default
+  if (!result.sort) {
+    result.sort = '相關性';
+  }
 
   return result;
 };
@@ -56,22 +62,22 @@ const SearchPage = async ({ searchParams }: SearchPageProps) => {
     typeof pageParam === 'string' ? parseInt(pageParam, 10) : 1;
   const totalPage = Math.ceil(result.total / 5);
 
+  const defaultSearchParams: SearchParams = {
+    keyword: '',
+    location: '',
+    category: '',
+    date: '',
+    type: '',
+    distance: '',
+    page: '1',
+    limit: '5',
+    sort: '相關性',
+  };
+  const mergedParams = { ...defaultSearchParams, ...filteredParams };
+
   return (
     <section className="mx-auto flex max-w-[81rem] flex-col gap-2">
-      <SearchProvider<SearchParams>
-        defaultValues={{
-          keyword: '',
-          location: '',
-          category: '',
-          date: '',
-          type: '',
-          distance: '',
-          page: '1',
-          limit: '5',
-          sort: '相關性',
-          ...filteredParams,
-        }}
-      >
+      <SearchProvider<SearchParams> defaultValues={mergedParams}>
         <SearchViewProvider>
           <AdvancedSearchBar currentPage={currentPage} totalPage={totalPage}>
             <section className="flex w-full flex-row gap-6 px-3 xl:px-0">
