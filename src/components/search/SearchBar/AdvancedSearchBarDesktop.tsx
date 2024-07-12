@@ -5,7 +5,6 @@ import { Button } from '@components/ui/button';
 import cn from '@lib/utils';
 import { XSquare } from 'lucide-react';
 import { MouseEventHandler, useState } from 'react';
-import { SearchField, useSearch } from './SearchProvider';
 import ActivityField, {
   ActivityKeyword,
   ActivityPicture,
@@ -23,6 +22,7 @@ import {
   distances,
   locations,
 } from './fields/utils';
+import { SearchField, useSearchProvider } from './SearchProvider';
 
 export type AdvancedSearchBarDesktopProps = {
   onSearchSubmit?: (value: SearchParams) => void;
@@ -37,7 +37,7 @@ const AdvancedSearchBarDesktop = ({
   const [keywords, setKeywords] = useState<ActivityKeyword[]>([]);
   const [pictures, setPictures] = useState<ActivityPicture[]>([]);
 
-  const { handleSubmit, reset, getValues } = useSearch<SearchParams>();
+  const { handleSubmit, reset, getValues } = useSearchProvider<SearchParams>();
   const handleSearchSubmit = handleSubmit((data) => {
     onSearchSubmit?.(data);
   });

@@ -4,17 +4,17 @@ import ErrorBoundarySection from '@components/error/ErrorBoundarySection';
 import React, { ComponentType, Suspense } from 'react';
 
 type WithErrorBoundaryAndSuspenseProps = {
-  fallback?: React.ReactNode;
+  loadingFallback?: React.ReactNode;
   children: React.ReactNode;
 };
 
 const WithErrorBoundaryAndSuspense = ({
-  fallback,
+  loadingFallback,
   children,
 }: WithErrorBoundaryAndSuspenseProps) => {
   return (
     <ErrorBoundarySection>
-      <Suspense fallback={fallback}>{children}</Suspense>
+      <Suspense fallback={loadingFallback}>{children}</Suspense>
     </ErrorBoundarySection>
   );
 };
