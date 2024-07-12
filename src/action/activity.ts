@@ -1,6 +1,6 @@
 'use server';
 
-import { SearchParams } from '@components/SearchBar/fields/utils';
+import { SearchParams } from '@components/search/SearchBar/fields/utils';
 import { userCommentSchema } from '@lib/definitions';
 import { createDebounce } from '@lib/utils';
 import { revalidateTag } from 'next/cache';

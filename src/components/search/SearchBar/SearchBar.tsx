@@ -4,10 +4,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import useMediaQuery from '@hooks/use-media-query';
 import { useRouter } from 'next/navigation';
 import { z } from 'zod';
+import { categories, locations } from './fields/utils';
 import SearchBarDesktop from './SearchBarDesktop';
 import SearchBarMobile from './SearchBarMobile';
 import SearchProvider from './SearchProvider';
-import { categories, locations } from './fields/utils';
 
 //
 const debugMode = false;
