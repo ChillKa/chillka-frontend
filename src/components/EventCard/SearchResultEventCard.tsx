@@ -1,5 +1,6 @@
 'use client';
 
+import { Skeleton } from '@components/ui/skeleton';
 import { H3 } from '@components/ui/typography';
 import { formatPrice } from '@lib/fomatPrice';
 import cn from '@lib/utils';
@@ -141,5 +142,18 @@ const SearchResultEventCard = ({
     </Link>
   );
 };
+
+export const SkelotonSearchResultEventCard = () => (
+  <div className={cn('flex h-[19.125rem] w-full gap-6')}>
+    <Skeleton className="size-[19.125rem]" />
+    <div className="flex flex-1 flex-col space-y-4">
+      <Skeleton className="h-8 w-3/4" />
+      <Skeleton className="h-4 w-full" />
+      <Skeleton className="h-4 w-2/3" />
+      <Skeleton className="h-4 w-1/2" />
+      <Skeleton className="h-7 w-1/3" />
+    </div>
+  </div>
+);
 
 export default SearchResultEventCard;

@@ -1,19 +1,20 @@
 'use client';
 
 import Pagination, {
+  PaginationItem,
   PaginationNext,
   PaginationPrev,
   generatePaginationItems,
 } from '@components/Pagination';
 import { cva } from 'class-variance-authority';
-import { useState } from 'react';
 
-export type SearchPaginationProps = {
-  totalPage?: number;
-  initialPage?: number;
+export type ResultsPaginationProps = {
+  totalPage: number;
+  currentPage: number;
   isMobile?: boolean;
   onClickPrev?: (currentPage: number) => void;
   onClickNext?: (currentPage: number) => void;
+  onPageChange?: (page: number) => void;
 };
 
 const paginationStepperStyles = cva('flex gap-4 py-12', {
@@ -25,23 +26,36 @@ const paginationStepperStyles = cva('flex gap-4 py-12', {
   },
 });
 
-const SearchPagination = ({
-  totalPage = 1,
-  initialPage = 1,
+const ResultsPagination = ({
+  totalPage,
+  currentPage,
   isMobile = false,
   onClickPrev,
   onClickNext,
-}: SearchPaginationProps) => {
-  const [currentPage, setCurrentPage] = useState(initialPage);
-
+  onPageChange,
+}: ResultsPaginationProps) => {
   const handlePrevClick = () => {
     onClickPrev?.(currentPage);
-    setCurrentPage((prev) => Math.max(prev - 1, 1));
   };
 
   const handleNextClick = () => {
     onClickNext?.(currentPage);
-    setCurrentPage((prev) => Math.min(prev + 1, totalPage));
+  };
+
+  const renderPaginationItems = () => {
+    return generatePaginationItems(currentPage, totalPage).map((item) => {
+      if (item.type === PaginationItem) {
+        return (
+          <PaginationItem
+            key={item.key}
+            page={item.props.page}
+            isCurrent={item.props.isCurrent}
+            onClick={() => onPageChange?.(item.props.page)}
+          />
+        );
+      }
+      return item;
+    });
   };
 
   return (
@@ -60,7 +74,7 @@ const SearchPagination = ({
           className={isMobile ? 'border-[1px]' : ''}
           iconClassName={isMobile ? 'size-12' : ''}
         />
-        {isMobile ? null : generatePaginationItems(currentPage, totalPage)}
+        {isMobile ? null : renderPaginationItems()}
         <PaginationNext
           className={isMobile ? 'border-[1px]' : ''}
           iconClassName={isMobile ? 'size-12' : ''}
@@ -70,4 +84,4 @@ const SearchPagination = ({
   );
 };
 
-export default SearchPagination;
+export default ResultsPagination;
