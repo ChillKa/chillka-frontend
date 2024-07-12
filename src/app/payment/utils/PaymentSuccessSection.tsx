@@ -103,14 +103,14 @@ const PaymentSuccessSection = ({
                         objectFit="cover"
                       />
                       <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 p-2">
-                        <Small className="text-white">
+                        <Small className="line-clamp-1 text-white">
                           {activity.summary ?? '快來參加把'}
                         </Small>
                       </div>
                     </div>
                   </div>
 
-                  <H4>{activity.name}</H4>
+                  <H4 className="truncate">{activity.name}</H4>
                 </div>
               </Link>
             );
