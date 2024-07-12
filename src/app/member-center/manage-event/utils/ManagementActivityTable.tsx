@@ -46,7 +46,6 @@ const ManagementActivityTable = ({ orders }: ManagementActivityTableProps) => {
           傳送訊息
         </Button>
       </div>
-
       <Table>
         <TableHeader>
           <TableRow>
