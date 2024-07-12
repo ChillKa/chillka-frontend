@@ -73,18 +73,19 @@ const PaymentSuccessSection = ({
       <Card className="w-full max-w-md space-y-5 bg-transparent p-8 text-center text-primary">
         <H2>訂票成功！</H2>
         <H4 className="font-medium">感謝您的訂購，我們期待在活動中見到您。</H4>
-        {orderId && (
-          <P>
-            訂單編號:{' '}
-            {isLoggedin ? (
-              <Link href="/member-center/ticket-inquiry">{orderId}</Link>
-            ) : (
-              orderId
-            )}
-          </P>
-        )}
-        {activityId && <P>活動編號: {activityId}</P>}
-
+        <div>
+          {orderId && (
+            <P>
+              訂單編號：
+              {isLoggedin ? (
+                <Link href="/member-center/ticket-inquiry">{orderId}</Link>
+              ) : (
+                orderId
+              )}
+            </P>
+          )}
+          {activityId && <P className="mt-2">活動編號：{activityId}</P>}
+        </div>
         <Button
           onClick={() =>
             router.push(activityId ? `/activity/${activityId}` : '/')
