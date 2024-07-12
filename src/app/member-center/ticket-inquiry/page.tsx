@@ -16,6 +16,7 @@ import { useCallback, useEffect, useState } from 'react';
 
 const TicketInquiry = () => {
   const [usableTickets, setUsableTickets] = useState<TicketsInfoType[]>([]);
+  useEffect(() => console.log('@', usableTickets), [usableTickets]);
   const [unusableTickets, setUnusableTickets] = useState<TicketsInfoType[]>([]);
   const [sort, setSort] = useState<string>('paymentDate');
   const [isLoading, seIsLoading] = useState(true);

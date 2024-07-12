@@ -82,7 +82,7 @@ const QRCodePopUp = ({
           )}
         </DialogTrigger>
         <DialogContent
-          className="w-vh h-svh xl:h-[35rem] xl:w-[20rem]"
+          className="w-vh h-svh xl:h-[35rem] xl:w-[23rem]"
           hideCloseButton
         >
           <button
