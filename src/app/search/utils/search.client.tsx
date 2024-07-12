@@ -2,6 +2,7 @@
 
 import { SearchResult } from '@action/activity';
 import AdvancedSearchBar from '@components/search/SearchBar/AdvancedSearchBar';
+import { useSearchView } from '@components/search/SearchBar/SearchViewProvider';
 import { updateQueryString } from '@components/search/SearchBar/fields/utils';
 import useMediaQuery from '@hooks/use-media-query';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -16,9 +17,9 @@ type SearchClientProps = {
 
 const SearchClient = ({ result }: SearchClientProps) => {
   const { matches: isMobile } = useMediaQuery();
-  const [currentShow, setCurrentShow] = useState<'results' | 'map'>('results');
   const [scrollPosition, setScrollPosition] = useState(0);
-  const [centerId, setCenterId] = useState(result.activities[0]?._id ?? '-1');
+  const { currentShow, setCurrentShow, centerId, setCenterId } =
+    useSearchView();
 
   const router = useRouter();
   const searchParams = useSearchParams();

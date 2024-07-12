@@ -1,6 +1,7 @@
 import { getActivitiesByFilter, getFavoriteActivities } from '@action/activity';
 import { isLoggedIn } from '@action/auth';
 import SearchProvider from '@components/search/SearchBar/SearchProvider';
+import SearchViewProvider from '@components/search/SearchBar/SearchViewProvider';
 import { SearchParams } from '@components/search/SearchBar/fields/utils';
 import SearchClient from './utils/search.client';
 
@@ -86,12 +87,14 @@ const SearchPage = async ({ searchParams }: SearchPageProps) => {
           ...filteredParams,
         }}
       >
-        <SearchClient
-          result={{
-            ...result,
-            activities,
-          }}
-        />
+        <SearchViewProvider>
+          <SearchClient
+            result={{
+              ...result,
+              activities,
+            }}
+          />
+        </SearchViewProvider>
       </SearchProvider>
     </section>
   );
