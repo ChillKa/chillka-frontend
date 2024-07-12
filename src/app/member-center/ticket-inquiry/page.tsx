@@ -71,7 +71,10 @@ const TicketInquiry = () => {
             new Date(a.ticket.createdAt).getTime()
         );
       const unusableTicketList = result.data.data
-        .filter((ticket: TicketsInfoType) => ticket.orderStatus === '無效')
+        .filter(
+          (ticket: TicketsInfoType) =>
+            ticket.orderStatus === '已使用' || ticket.orderStatus === '無效票券'
+        )
         .sort(
           (a: TicketsInfoType, b: TicketsInfoType) =>
             new Date(b.ticket.createdAt).getTime() -
@@ -118,45 +121,48 @@ const TicketInquiry = () => {
           {isLoading && <Loading />}
           {usableTickets.length > 0 &&
             !isLoading &&
-            usableTickets.map((ticket: TicketsInfoType) => (
-              <TicketPopUp
-                ticketName={`${ticket.activity.name} | ${ticket.ticket.name}`}
-                ticketQuantity={ticket.payment.orderNumber}
-                orderNumber={ticket.ticket.activityId}
-                endTime={ticket.ticket.endDateTime}
-                organizer={ticket.activity.organizer.websiteName}
-                purchaseDate={ticket.ticket.createdAt}
-                price={ticket.ticket.price}
-                pay={ticket.payment.type}
-                state={ticket.payment.status}
-                // link={ticket.paymen.link}
-                key={ticket._id}
-              >
-                <div className="block grid-cols-[7fr_2fr_2fr_2fr] py-4 text-xl font-bold xl:grid">
-                  <h3 className="mb-[1.25rem] text-left xl:mb-0 xl:font-bold">
-                    {`${ticket.activity.name} | ${ticket.ticket.name}`}
-                  </h3>
-                  <p className="mr-2 inline-block bg-primary px-2 py-1 text-xs/5 font-medium text-white xl:mr-0 xl:flex xl:items-center xl:justify-center xl:bg-surface xl:p-0 xl:text-xl xl:font-bold xl:text-primary">
-                    {width > 1366
-                      ? ticket.payment.orderNumber
-                      : `數量：${ticket.payment.orderNumber}`}
-                  </p>
-                  <p className="inline-block bg-primary px-2 py-1 text-xs/5 font-medium text-white xl:flex xl:items-center xl:justify-center xl:bg-surface xl:p-0 xl:text-xl xl:font-bold xl:text-primary">
-                    {width > 1366
-                      ? formatDate(ticket.ticket.endDateTime)
-                      : `使用期限：${formatDate(ticket.ticket.endDateTime)}`}
-                  </p>
-                  <div className="xl:flex xl:items-center xl:justify-center">
-                    <QRCodePopUp
-                      name={ticket.orderContact.name}
-                      startTime={ticket.ticket.startDateTime}
-                      endTime={ticket.ticket.endDateTime}
-                      id={ticket.ticket._id}
-                    />
+            usableTickets.map((ticket: TicketsInfoType) => {
+              console.log(ticket);
+              return (
+                <TicketPopUp
+                  ticketName={`${ticket.activity.name} | ${ticket.ticket.name}`}
+                  ticketQuantity={ticket.payment.orderNumber}
+                  orderNumber={ticket.ticket.activityId}
+                  endTime={ticket.ticket.endDateTime}
+                  organizer={ticket.activity.organizer.websiteName}
+                  purchaseDate={ticket.ticket.createdAt}
+                  price={ticket.ticket.price}
+                  pay={ticket.payment.type}
+                  state={ticket.payment.status}
+                  // link={ticket.paymen.link}
+                  key={ticket._id}
+                >
+                  <div className="block grid-cols-[7fr_2fr_2fr_2fr] py-4 text-xl font-bold xl:grid">
+                    <h3 className="mb-[1.25rem] text-left xl:mb-0 xl:font-bold">
+                      {`${ticket.activity.name} | ${ticket.ticket.name}`}
+                    </h3>
+                    <p className="mr-2 inline-block bg-primary px-2 py-1 text-xs/5 font-medium text-white xl:mr-0 xl:flex xl:items-center xl:justify-center xl:bg-surface xl:p-0 xl:text-xl xl:font-bold xl:text-primary">
+                      {width > 1366
+                        ? ticket.payment.orderNumber
+                        : `數量：${ticket.payment.orderNumber}`}
+                    </p>
+                    <p className="inline-block bg-primary px-2 py-1 text-xs/5 font-medium text-white xl:flex xl:items-center xl:justify-center xl:bg-surface xl:p-0 xl:text-xl xl:font-bold xl:text-primary">
+                      {width > 1366
+                        ? formatDate(ticket.ticket.endDateTime)
+                        : `使用期限：${formatDate(ticket.ticket.endDateTime)}`}
+                    </p>
+                    <div className="xl:flex xl:items-center xl:justify-center">
+                      <QRCodePopUp
+                        name={ticket.orderContact.name}
+                        startTime={ticket.ticket.startDateTime}
+                        endTime={ticket.ticket.endDateTime}
+                        serialNumber={ticket.serialNumber}
+                      />
+                    </div>
                   </div>
-                </div>
-              </TicketPopUp>
-            ))}
+                </TicketPopUp>
+              );
+            })}
           {usableTickets.length === 0 && !isLoading && <NoTicket />}
         </TabsContent>
         <TabsContent value="unusableTicket">
