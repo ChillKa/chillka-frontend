@@ -1,6 +1,7 @@
 'use client';
 
 import { Skeleton } from '@components/ui/skeleton';
+import { formatPrice } from '@lib/fomatPrice';
 import cn from '@lib/utils';
 import { useGoogleMapsProvider } from '@store/GoogleMapsProvider';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -32,7 +33,7 @@ const SearchMapSection = ({ markers, centerId }: SearchMapSectionProps) => {
         isCentered ? 'bg-primary text-white' : 'bg-surface'
       );
       element.innerHTML = `<p class="text-sm font-bold">${
-        marker.pricing === 0 ? '免費' : `NT$${marker.pricing}`
+        marker.pricing === 0 ? '免費' : `NT$${formatPrice(marker.pricing)}`
       }</p>`;
       return element;
     },
