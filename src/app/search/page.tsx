@@ -6,11 +6,8 @@ import SearchProvider from '@components/search/SearchBar/SearchProvider';
 import SearchViewProvider from '@components/search/SearchBar/SearchViewProvider';
 import { SearchParams } from '@components/search/SearchBar/fields/utils';
 import { Skeleton } from '@components/ui/skeleton';
-import { Suspense } from 'react';
-import { SkelotonItems } from './utils/ResultItemsSection';
+import ResultItemsSection from './utils/ResultItemsSection';
 import ResultMapSection from './utils/ResultMapSection';
-import ResultsPagination from './utils/ResultsPagination';
-import SearchClient from './utils/search.client';
 
 export const runtime = 'edge';
 
@@ -100,17 +97,21 @@ const SearchPage = async ({ searchParams }: SearchPageProps) => {
         }}
       >
         <SearchViewProvider>
-          <Suspense fallback={<div>loading...</div>}>
-            <AdvancedSearchBar />
-          </Suspense>
-
-          <section id="result-block" className="flex w-full flex-col gap-6">
+          <AdvancedSearchBar currentPage={currentPage} totalPage={totalPage}>
             <section className="flex w-full flex-row gap-6 px-3 xl:px-0">
               <WithErrorBoundaryAndSuspense
-                loadingFallback={<SkelotonItems isMobile={false} />}
+                loadingFallback={
+                  <div className="h-[19.125rem] w-full">
+                    <Skeleton className="w-full xl:max-w-[19.125rem]" />
+                    <div className="flex flex-col">
+                      <Skeleton />
+                      <Skeleton />
+                    </div>
+                  </div>
+                }
               >
-                <SearchClient
-                  result={{
+                <ResultItemsSection
+                  results={{
                     ...result,
                     activities,
                   }}
@@ -132,12 +133,7 @@ const SearchPage = async ({ searchParams }: SearchPageProps) => {
                 <ResultMapSection activities={activities} />
               </WithErrorBoundaryAndSuspense>
             </section>
-
-            <ResultsPagination
-              currentPage={currentPage}
-              totalPage={totalPage}
-            />
-          </section>
+          </AdvancedSearchBar>
         </SearchViewProvider>
       </SearchProvider>
     </section>

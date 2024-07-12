@@ -142,7 +142,7 @@ const SearchResultEventCard = ({
   );
 };
 
-export const SkelotonSearchResultEventCard = () => (
+export const SkeletonSearchResultEventCard = () => (
   <div className={cn('flex h-[19.125rem] w-full gap-6')}>
     <Skeleton className="size-[19.125rem]" />
     <div className="flex flex-1 flex-col space-y-4">

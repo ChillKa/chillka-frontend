@@ -1,14 +1,15 @@
 'use client';
 
-import { Activity } from '@action/activity';
+import { SearchResult } from '@action/activity';
 import { SkeletonEventCard } from '@components/EventCard';
-import { SkelotonSearchResultEventCard } from '@components/EventCard/SearchResultEventCard';
+import { SkeletonSearchResultEventCard } from '@components/EventCard/SearchResultEventCard';
+import { useSearchView } from '@components/search/SearchBar/SearchViewProvider';
 import useMediaQuery from '@hooks/use-media-query';
 import { useSearchParams } from 'next/navigation';
 import { H4 } from '../../../components/ui/typography';
 import ResultItems from './ResultItems';
 
-export const SkelotonItems = ({ isMobile }: { isMobile: boolean }) => {
+export const SkeletonItems = ({ isMobile }: { isMobile: boolean }) => {
   if (isMobile) {
     return (
       <>
@@ -19,29 +20,28 @@ export const SkelotonItems = ({ isMobile }: { isMobile: boolean }) => {
   }
   return (
     <>
-      <SkelotonSearchResultEventCard />
-      <SkelotonSearchResultEventCard />
+      <SkeletonSearchResultEventCard />
+      <SkeletonSearchResultEventCard />
     </>
   );
 };
 
 export type ResultItemsSectionProps = {
-  results: Activity[];
-  setCenterId: (id: string) => void;
-  total?: number;
+  results: SearchResult;
 };
-const ResultItemsSection = ({
-  results,
-  setCenterId,
-  total = 0,
-}: ResultItemsSectionProps) => {
+const ResultItemsSection = ({ results }: ResultItemsSectionProps) => {
   const { matches: isMobile } = useMediaQuery();
   const searchParams = useSearchParams();
-
   const keyword = searchParams.get('keyword');
 
-  return (
-    <>
+  const { currentShow, setCenterId } = useSearchView();
+  const { activities, total } = results;
+
+  return currentShow === 'results' ? (
+    <div
+      id="result-list"
+      className="mt-7 flex w-full flex-col gap-y-12 xl:max-w-[53.5rem]"
+    >
       <div
         id="result-keyword"
         className="flex w-full items-center justify-start"
@@ -51,13 +51,13 @@ const ResultItemsSection = ({
         </H4>
       </div>
       <ResultItems
-        results={results}
+        results={activities}
         setCenterId={setCenterId}
         isMobile={isMobile}
         className="lg:max-w-[53.5rem] flex w-full flex-col gap-y-12"
       />
-    </>
-  );
+    </div>
+  ) : null;
 };
 
 export default ResultItemsSection;
