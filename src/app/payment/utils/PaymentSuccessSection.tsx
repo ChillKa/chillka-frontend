@@ -5,6 +5,7 @@ import { Button } from '@components/ui/button';
 import { Card } from '@components/ui/card';
 import { H2, H4, P, Small } from '@components/ui/typography';
 import { useAuthContext } from '@store/AuthProvider/AuthProvider';
+import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -94,30 +95,35 @@ const PaymentSuccessSection = ({
                 href={`/activity/${activity._id}`}
                 className="w-full"
               >
-                <div className="flex w-full flex-col gap-1 xl:w-[12.5rem]">
-                  <div className="relative min-w-fit">
-                    <div className="relative h-[18.75rem] w-full overflow-hidden xl:h-[12.5rem]">
-                      <Image
-                        src={activity.thumbnail ?? './default.webp'}
-                        alt={
-                          activity.summary ?? 'Thumbnail default description'
-                        }
-                        placeholder="blur"
-                        blurDataURL="/loading.webp"
-                        layout="fill"
-                        objectFit="cover"
-                      />
-                      <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 p-2">
-                        <Small className="line-clamp-1 text-white">
-                          {activity.summary ?? '快來參加把'}
-                        </Small>
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <div className="group flex w-full flex-col gap-1 xl:w-[12.5rem]">
+                    <div className="relative min-w-fit">
+                      <div className="relative h-[18.75rem] w-full overflow-hidden xl:h-[12.5rem]">
+                        <Image
+                          src={activity.thumbnail ?? './default.webp'}
+                          alt={
+                            activity.summary ?? 'Thumbnail default description'
+                          }
+                          placeholder="blur"
+                          blurDataURL="/loading.webp"
+                          layout="fill"
+                          objectFit="cover"
+                        />
+                        <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 p-3 transition-all duration-300 ease-linear group-hover:h-full">
+                          <Small className="line-clamp-1 text-white group-hover:line-clamp-5 group-hover:leading-5">
+                            {activity.summary ?? '快來參加吧！'}
+                          </Small>
+                        </div>
                       </div>
                     </div>
+                    <H4 className="mt-2 truncate text-primary">
+                      {activity.name}
+                    </H4>
                   </div>
-                  <H4 className="mt-2 truncate text-primary">
-                    {activity.name}
-                  </H4>
-                </div>
+                </motion.div>
               </Link>
             );
           })}
