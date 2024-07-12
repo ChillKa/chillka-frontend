@@ -2,6 +2,7 @@
 
 import { Button } from '@components/ui/button';
 import cn from '@lib/utils';
+import { useAuthContext } from '@store/AuthProvider/AuthProvider';
 import Link from 'next/link';
 import { IAcitivityResponse } from 'src/types/activity';
 
@@ -12,10 +13,12 @@ type SignUpButtonProps = {
 };
 
 const SignUpButton = ({ className, data, previewMode }: SignUpButtonProps) => {
+  const { auth } = useAuthContext();
   const canSignUp =
     !data.activity.participated &&
     data.activity.totalParticipantCapacity !== 0 &&
-    !previewMode;
+    !previewMode &&
+    data.activity.creatorId !== auth?._id;
 
   const buttonContent = () => {
     if (
@@ -26,6 +29,9 @@ const SignUpButton = ({ className, data, previewMode }: SignUpButtonProps) => {
     }
     if (data.activity.participated) {
       return '已報名';
+    }
+    if (data.activity.creatorId === auth?._id) {
+      return '主辦方無法報名';
     }
     return '立即報名';
   };

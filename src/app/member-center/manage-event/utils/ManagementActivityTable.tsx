@@ -38,7 +38,7 @@ const ManagementActivityTable = ({ orders }: ManagementActivityTableProps) => {
         <Input
           variant="form"
           placeholder="搜尋名稱或電子郵件"
-          className="w-full focus-visible:ring-0 focus-visible:ring-offset-0 xl:w-[26rem]"
+          className="w-full focus-visible:ring-0 focus-visible:ring-offset-0 xl:w-[27rem]"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
