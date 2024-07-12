@@ -1,4 +1,5 @@
 import { fetchMe } from '@action/user';
+import DeviceAccessControls from '@components/DeviceAccessControls';
 import UserProfileForm from '@components/user/UserProfileForm';
 
 const Account = async () => {
@@ -7,7 +8,10 @@ const Account = async () => {
   return (
     <section className="flex w-full justify-center text-primary">
       {result.status === 'success' ? (
-        <UserProfileForm defaultData={result.data} />
+        <div className="w-full">
+          <UserProfileForm defaultData={result.data} />
+          <DeviceAccessControls />
+        </div>
       ) : (
         <div>{result.message}</div>
       )}

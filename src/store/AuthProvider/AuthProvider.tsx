@@ -124,7 +124,7 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
       userAvatar,
       auth,
     }),
-    [isLoggedin, login, logout, getUser, userEmail, userName, userAvatar, auth]
+    [isLoggedin, login, logout, getUser, userName, userEmail, userAvatar, auth]
   );
 
   return (
