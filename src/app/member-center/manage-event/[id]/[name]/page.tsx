@@ -14,7 +14,7 @@ const ManageEventIdPage = async ({ params }: ManageEventIdPageProps) => {
   const { orders } = await getOrderParticipant(id);
 
   return (
-    <div className="relative text-primary">
+    <div className="relative pb-12 text-primary">
       <div className="relative mb-12 flex text-5xl/none font-bold">
         <Link href="/member-center/manage-event" className="mr-4 mt-3 h-fit">
           <ArrowLeftFromLine className="size-8" />
