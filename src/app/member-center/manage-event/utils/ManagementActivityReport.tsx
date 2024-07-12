@@ -169,7 +169,7 @@ const ManagementActivityReport = ({
             <SelectItem value="participant">參加者票種分佈</SelectItem>
           </SelectContent>
         </Select>
-        <H4 className="order-1 xl:order-2">{chartTitle}</H4>
+        <H4 className="order-1 xl:order-2 xl:ml-2">{chartTitle}</H4>
       </div>
       <ReactECharts
         option={chartOptions[selectedChart as keyof typeof chartOptions]}
