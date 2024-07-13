@@ -209,8 +209,7 @@ export const createActivityFormSchema = z
       .max(25, '請勿填寫超過25個字的摘要'),
     details: z
       .string({ required_error: '請填寫活動詳情' })
-      .min(20, '請至少填寫20個字以上')
-      .max(3000, '活動內容超過3000字，參加者看不完啦！'),
+      .min(20, '請至少填寫20個字以上'),
     isPrivate: z.coerce.boolean({ required_error: 'IsPrivate is required' }),
     displayRemainingTickets: z.coerce.boolean({
       required_error: 'DisplayRemainingTickets is required',
