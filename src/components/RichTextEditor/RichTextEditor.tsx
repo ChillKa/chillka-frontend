@@ -45,11 +45,12 @@ import {
 } from 'react';
 import { toLocaleEmojiGroupName } from './utils';
 
+const characterLimit = 3000;
+
 const RichTextEditorToolbar = ({ editor }: { editor: Editor }) => {
   const [urlString, setUrlString] = useState('');
   const [isUrlDialogOpen, setIsUrlDailogOpen] = useState(false);
 
-  const characterLimit = 3000;
   const percentage = editor
     ? Math.round(
         (100 / characterLimit) * editor.storage.characterCount.characters()
@@ -305,7 +306,7 @@ const RichTextEditor = ({
         emptyEditorClass:
           'before:text-primary-light  before:content-[attr(data-placeholder)] before:float-left before:h-0',
       }),
-      CharacterCount.configure({ limit: 3000 }),
+      CharacterCount.configure({ limit: characterLimit }),
       Link.configure({
         openOnClick: false,
         autolink: true,
