@@ -1,6 +1,5 @@
 'use client';
 
-import { getRecommendActivitiesByKeywordWithDebounce } from '@action/activity';
 import { Button } from '@components/ui/button';
 import {
   Dialog,
@@ -18,20 +17,16 @@ import cn from '@lib/utils';
 import { HashIcon, MapIcon, SearchIcon, XIcon } from 'lucide-react';
 import { useRef, useState } from 'react';
 import { FieldValues } from 'react-hook-form';
-import {
-  ActivityKeyword,
-  ActivityMobileField,
-  ActivityPicture,
-} from './fields/ActivityField';
+import { SearchField, useSearchProvider } from './SearchProvider';
+import { ActivityMobileField } from './fields/ActivityField';
 import { Category, CategoryMobileFieldMenu } from './fields/CategoryFieldMenu';
 import { Location, LocationMobileFieldMenu } from './fields/LocationFieldMenu';
-import { SearchField, useSearchProvider } from './SearchProvider';
+import { useKeywordSearch } from './fields/use-keyword-search';
 
 type SearchBarMobileProps = {
   className: string;
   locations: Location[];
   categories: Category[];
-  debugMode: boolean;
   onSearchSubmit?: (data: FieldValues) => Promise<void>;
 };
 
@@ -40,13 +35,11 @@ const SearchBarMobile = ({
   locations,
   categories,
   onSearchSubmit,
-  debugMode,
 }: SearchBarMobileProps) => {
   const [isCategoryMenuOpen, setIsCategoryMenuOpen] = useState(false);
   const [isLocationMenuOpen, setIsLocationMenuOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [keywords, setKeywords] = useState<ActivityKeyword[]>([]);
-  const [pictures, setPictures] = useState<ActivityPicture[]>([]);
+  const { isLoading, keywords, pictures, searchActivities } =
+    useKeywordSearch();
   const containerRef = useRef(null);
   const { height, width } = useDimensions(containerRef);
 
@@ -58,7 +51,7 @@ const SearchBarMobile = ({
   });
 
   return (
-    <Dialog defaultOpen={debugMode}>
+    <Dialog>
       <DialogTrigger
         className={cn(
           'fixed bottom-0 right-0 z-10 flex flex-col items-center justify-center gap-4 bg-primary p-7 font-medium text-white',
@@ -98,15 +91,8 @@ const SearchBarMobile = ({
                 isLoading={isLoading}
                 value={value}
                 onChange={(keyword) => {
-                  getRecommendActivitiesByKeywordWithDebounce(keyword)
-                    .then((response) => {
-                      setKeywords(response.keyword);
-                      setPictures(response.pictures);
-                    })
-                    .finally(() => {
-                      setIsLoading(false);
-                    });
                   onChange(keyword);
+                  searchActivities(keyword);
                 }}
               />
             )}

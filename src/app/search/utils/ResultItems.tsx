@@ -38,7 +38,7 @@ const ResultItems = ({
                 ? activity.totalParticipantCapacity - activity.remainingTickets
                 : 0
             }
-            isCollected={activity.isCollected}
+            isCollected={activity.saved ?? false}
             location={activity?.type === '線下' ? activity?.address : '線上'}
             organizer={activity.organizer?.contactName ?? '未知舉辦者'}
             ticketPrices={activity?.ticketPrice ?? []}
@@ -67,7 +67,7 @@ const ResultItems = ({
                 ? activity.totalParticipantCapacity - activity.remainingTickets
                 : 0
             }
-            isCollected={activity.isCollected}
+            isCollected={activity.saved ?? false}
             location={activity?.type === '線下' ? activity?.location : '線上'}
             organizer={activity.organizer?.contactName ?? '未知舉辦者'}
             ticketPrices={activity?.ticketPrice ?? []}

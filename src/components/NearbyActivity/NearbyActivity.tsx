@@ -1,5 +1,4 @@
-import { getActivitiesByFilter, getFavoriteActivities } from '@action/activity';
-import { isLoggedIn } from '@action/auth';
+import { getActivitiesWithCollectionStatus } from '@action/activity';
 import { Button } from '@components/ui/button';
 import { H1 } from '@components/ui/typography';
 import cn from '@lib/utils';
@@ -13,37 +12,17 @@ type NearbyActivityProps = {
 };
 
 const NearbyActivity = async ({ className }: NearbyActivityProps) => {
-  const loggedIn = await isLoggedIn();
   const lat = cookies().get('lat')?.value ?? '121.5598';
   const lng = cookies().get('lng')?.value ?? '25.09108';
-
-  const activitiesData = await getActivitiesByFilter(
+  const result = await getActivitiesWithCollectionStatus(
     {
       lat,
       lng,
       limit: '6',
     },
-    { next: { revalidate: 1800 } }
+    { next: { revalidate: 1800, tags: ['favoritedActivities'] } }
   );
-
-  let { activities = [] } = activitiesData;
-
-  if (loggedIn) {
-    const favoriteActivities = await getFavoriteActivities();
-    const favoriteActivityIds = new Set(
-      favoriteActivities.activities.map((activity) => activity._id)
-    );
-
-    activities = activities.map((activity) => ({
-      ...activity,
-      isCollected: favoriteActivityIds.has(activity._id),
-    }));
-  } else {
-    activities = activities.map((activity) => ({
-      ...activity,
-      isCollected: false,
-    }));
-  }
+  const { activities } = result;
 
   return (
     <section

@@ -1,23 +1,28 @@
+'use client';
+
 import { FormField, FormItem } from '@components/ui/form';
-import { ReactNode, createContext, useContext } from 'react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import useMediaQuery from '@hooks/use-media-query';
+import { ReactNode, createContext, useContext, useMemo } from 'react';
 import {
   DefaultValues,
   FieldPath,
   FieldValues,
   FormProvider,
   RegisterOptions,
-  Resolver,
   UseFormReturn,
   useForm,
 } from 'react-hook-form';
+import { SearchParamsSchema } from './fields/utils';
 
 export type SearchProviderProps<T extends FieldValues> = {
   children: ReactNode;
   defaultValues: DefaultValues<T>;
-  resolver?: Resolver<T>;
 };
 
-type SearchContextProps<T extends FieldValues> = UseFormReturn<T>;
+type SearchContextProps<T extends FieldValues> = UseFormReturn<T> & {
+  isMobile: boolean;
+};
 
 const SearchContext = createContext<SearchContextProps<any> | undefined>(
   undefined
@@ -26,12 +31,21 @@ const SearchContext = createContext<SearchContextProps<any> | undefined>(
 const SearchProvider = <T extends FieldValues>({
   children,
   defaultValues,
-  resolver,
 }: SearchProviderProps<T>) => {
+  const resolver = zodResolver(SearchParamsSchema);
   const methods = useForm<T>({ defaultValues, resolver });
+  const { matches: isMobile } = useMediaQuery();
+
+  const contextValue: SearchContextProps<T> = useMemo(
+    () => ({
+      ...methods,
+      isMobile,
+    }),
+    [methods, isMobile]
+  );
 
   return (
-    <SearchContext.Provider value={methods}>
+    <SearchContext.Provider value={contextValue}>
       <FormProvider {...methods}>{children}</FormProvider>
     </SearchContext.Provider>
   );

@@ -1,3 +1,5 @@
+'use client';
+
 import cn from '@lib/utils';
 import { Slot } from '@radix-ui/react-slot';
 import { ChevronLeft, ChevronRight, MoreHorizontal } from 'lucide-react';

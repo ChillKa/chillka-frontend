@@ -1,20 +1,12 @@
 'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import useMediaQuery from '@hooks/use-media-query';
 import { useRouter } from 'next/navigation';
 import { z } from 'zod';
-import { categories, locations } from './fields/utils';
 import SearchBarDesktop from './SearchBarDesktop';
 import SearchBarMobile from './SearchBarMobile';
-import SearchProvider from './SearchProvider';
+import SearchProvider, { useSearchProvider } from './SearchProvider';
+import { categories, locations } from './fields/utils';
 
-//
-const debugMode = false;
-
-type SearchBarProps = {
-  className: string;
-};
 export const searchSchema = z.object({
   keyword: z.string().optional(),
   location: z.string().optional(),
@@ -35,8 +27,11 @@ const createQueryString = (data: {
   return params.toString();
 };
 
-const SearchBar = ({ className = '' }: SearchBarProps) => {
-  const { matches: isMobile } = useMediaQuery();
+type SearchBarContainerProps = {
+  className?: string;
+};
+const SearchBarContainer = ({ className }: SearchBarContainerProps) => {
+  const { isMobile } = useSearchProvider();
   const router = useRouter();
 
   const handleSearchSubmit = async (data: any) => {
@@ -44,27 +39,28 @@ const SearchBar = ({ className = '' }: SearchBarProps) => {
     router.push(`/search?${queryString}`);
   };
 
+  return isMobile ? (
+    <SearchBarMobile
+      className=""
+      locations={locations}
+      categories={categories}
+      onSearchSubmit={handleSearchSubmit}
+    />
+  ) : (
+    <SearchBarDesktop
+      className={className}
+      locations={locations}
+      categories={categories}
+      onSearchSubmit={handleSearchSubmit}
+    />
+  );
+};
+
+type SearchBarProps = {} & SearchBarContainerProps;
+const SearchBar = ({ className = '' }: SearchBarProps) => {
   return (
-    <SearchProvider
-      defaultValues={{ keyword: '', location: '', category: '' }}
-      resolver={zodResolver(searchSchema)}
-    >
-      {isMobile ? (
-        <SearchBarMobile
-          className=""
-          locations={locations}
-          categories={categories}
-          onSearchSubmit={handleSearchSubmit}
-          debugMode={debugMode}
-        />
-      ) : (
-        <SearchBarDesktop
-          className={className}
-          locations={locations}
-          categories={categories}
-          onSearchSubmit={handleSearchSubmit}
-        />
-      )}
+    <SearchProvider defaultValues={{ keyword: '', location: '', category: '' }}>
+      <SearchBarContainer className={className} />
     </SearchProvider>
   );
 };

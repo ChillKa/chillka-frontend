@@ -1,15 +1,15 @@
 'use client';
 
-import { Activity } from '@action/activity';
+import { SearchResult } from '@action/activity';
 import { SkeletonEventCard } from '@components/EventCard';
-import { SkelotonSearchResultEventCard } from '@components/EventCard/SearchResultEventCard';
-import WithErrorBoundaryAndSuspense from '@components/hoc/WithErrorBoundaryAndSuspense';
+import { SkeletonSearchResultEventCard } from '@components/EventCard/SearchResultEventCard';
+import { useSearchView } from '@components/search/SearchBar/SearchViewProvider';
 import useMediaQuery from '@hooks/use-media-query';
 import { useSearchParams } from 'next/navigation';
 import { H4 } from '../../../components/ui/typography';
 import ResultItems from './ResultItems';
 
-const SkelotonItems = ({ isMobile }: { isMobile: boolean }) => {
+export const SkeletonItems = ({ isMobile }: { isMobile: boolean }) => {
   if (isMobile) {
     return (
       <>
@@ -20,35 +20,28 @@ const SkelotonItems = ({ isMobile }: { isMobile: boolean }) => {
   }
   return (
     <>
-      <SkelotonSearchResultEventCard />
-      <SkelotonSearchResultEventCard />
+      <SkeletonSearchResultEventCard />
+      <SkeletonSearchResultEventCard />
     </>
   );
 };
 
 export type ResultItemsSectionProps = {
-  results: Activity[];
-  currentShow: 'results' | 'map';
-  setCenterId: (id: string) => void;
-  total?: number;
+  results: SearchResult;
 };
-const ResultItemsSection = ({
-  results,
-  currentShow,
-  setCenterId,
-  total = 0,
-}: ResultItemsSectionProps) => {
+const ResultItemsSection = ({ results }: ResultItemsSectionProps) => {
   const { matches: isMobile } = useMediaQuery();
   const searchParams = useSearchParams();
-
   const keyword = searchParams.get('keyword');
 
-  if (currentShow !== 'results') {
-    return null;
-  }
+  const { currentShow, setCenterId } = useSearchView();
+  const { activities, total } = results;
 
-  return (
-    <>
+  return currentShow === 'results' ? (
+    <div
+      id="result-list"
+      className="mt-7 flex w-full flex-col gap-y-12 xl:max-w-[53.5rem]"
+    >
       <div
         id="result-keyword"
         className="flex w-full items-center justify-start"
@@ -57,18 +50,14 @@ const ResultItemsSection = ({
           「{keyword}」找到{total}個活動
         </H4>
       </div>
-      <WithErrorBoundaryAndSuspense
-        loadingFallback={<SkelotonItems isMobile={isMobile} />}
-      >
-        <ResultItems
-          results={results}
-          setCenterId={setCenterId}
-          isMobile={isMobile}
-          className="lg:max-w-[53.5rem] flex w-full flex-col gap-y-12"
-        />
-      </WithErrorBoundaryAndSuspense>
-    </>
-  );
+      <ResultItems
+        results={activities}
+        setCenterId={setCenterId}
+        isMobile={isMobile}
+        className="lg:max-w-[53.5rem] flex w-full flex-col gap-y-12"
+      />
+    </div>
+  ) : null;
 };
 
 export default ResultItemsSection;

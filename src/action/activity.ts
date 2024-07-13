@@ -37,6 +37,7 @@ export interface Activity {
   price: number;
   totalParticipantCapacity: number;
   remainingTickets: number;
+  saved?: boolean;
   ticketPrice: {
     name: string;
     price: number;
@@ -123,7 +124,7 @@ export async function getRecommendActivitiesByKeyword(keyword: string) {
     return {
       // FIXME: server response maybe change data: { url, keyword }
       keyword: keywordsResult.keywords.map((result: string) => ({
-        url: '/',
+        url: `/search?keyword=${result}`,
         keyword: result,
       })),
       pictures: activitiesResult.data.map((activity: Activity) => ({
@@ -141,7 +142,7 @@ export async function getRecommendActivitiesByKeyword(keyword: string) {
 }
 export const getRecommendActivitiesByKeywordWithDebounce = createDebounce(
   getRecommendActivitiesByKeyword,
-  1000
+  1500
 );
 
 export interface ActivityFetchState {
@@ -312,6 +313,30 @@ export async function getFavoriteActivities(): Promise<FavoriteActivitiesResult>
     activities: result.data,
     total: result.total,
   };
+}
+
+export async function getActivitiesWithCollectionStatus(
+  filteredParams: Partial<SearchParams>,
+  option?: RequestInit
+) {
+  try {
+    const jwtPayload = await getJwtPayload();
+
+    const userId =
+      jwtPayload && '_id' in jwtPayload
+        ? (jwtPayload._id as string)
+        : undefined;
+
+    return await getActivitiesByFilter(
+      {
+        ...filteredParams,
+        userId,
+      },
+      option
+    );
+  } catch (error) {
+    return await getActivitiesByFilter(filteredParams, option);
+  }
 }
 
 export type FavoriteActivityState =

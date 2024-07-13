@@ -1,20 +1,17 @@
 'use client';
 
-import { getRecommendActivitiesByKeywordWithDebounce } from '@action/activity';
 import { Button } from '@components/ui/button';
 import cn from '@lib/utils';
 import { XSquare } from 'lucide-react';
-import { MouseEventHandler, useState } from 'react';
-import ActivityField, {
-  ActivityKeyword,
-  ActivityPicture,
-} from './fields/ActivityField';
+import { MouseEventHandler } from 'react';
+import ActivityField from './fields/ActivityField';
 import CategoryFieldMenu from './fields/CategoryFieldMenu';
 import DateFieldMenu from './fields/DateFieldMenu';
 import DistanceFieldMenu from './fields/DistanceFieldMenu';
 import EventTypeFieldMenu from './fields/EventTypeFieldMenu';
 import LocationFieldMenu from './fields/LocationFieldMenu';
 import SortFieldMenu from './fields/SortFieldMenu';
+import { useKeywordSearch } from './fields/use-keyword-search';
 import {
   SearchParams,
   categories,
@@ -33,9 +30,8 @@ const AdvancedSearchBarDesktop = ({
   onSearchSubmit,
   onClearFilter,
 }: AdvancedSearchBarDesktopProps) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [keywords, setKeywords] = useState<ActivityKeyword[]>([]);
-  const [pictures, setPictures] = useState<ActivityPicture[]>([]);
+  const { isLoading, keywords, pictures, searchActivities } =
+    useKeywordSearch();
 
   const { handleSubmit, reset, getValues } = useSearchProvider<SearchParams>();
   const handleSearchSubmit = handleSubmit((data) => {
@@ -68,16 +64,8 @@ const AdvancedSearchBarDesktop = ({
                 isLoading={isLoading}
                 value={value}
                 onChange={(keyword) => {
-                  setIsLoading(true);
-                  getRecommendActivitiesByKeywordWithDebounce(keyword)
-                    .then((response) => {
-                      setKeywords(response.keyword);
-                      setPictures(response.pictures);
-                    })
-                    .finally(() => {
-                      setIsLoading(false);
-                    });
                   onChange(keyword);
+                  searchActivities(keyword);
                 }}
               />
             )}
