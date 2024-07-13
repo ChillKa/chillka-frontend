@@ -40,7 +40,7 @@ export async function login(
     }
 
     const result = await response.json();
-    setSessionCookie(result.token, 3600);
+    setSessionCookie(result.token, 86400);
 
     return {
       status: 'success',
