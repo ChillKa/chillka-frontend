@@ -1,6 +1,6 @@
 'use client';
 
-import { Loader } from '@googlemaps/js-api-loader';
+import { Library, Loader } from '@googlemaps/js-api-loader';
 import {
   PropsWithChildren,
   createContext,
@@ -8,6 +8,7 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from 'react';
 
@@ -44,33 +45,46 @@ export const useGoogleMapsProvider = () => {
 export const GoogleMapsProvider = ({ children }: PropsWithChildren) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [loadError, setLoadError] = useState<Error | null>(null);
+  const loadedLibraries = useRef<Set<Library>>(new Set());
+
+  const loader = useMemo(
+    () =>
+      new Loader({
+        apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY as string,
+        version: 'weekly',
+        libraries: ['places', 'maps', 'marker'],
+        language: 'zh-TW',
+      }),
+    []
+  );
+
+  const loadLibrary = useCallback(
+    async (lib: Library) => {
+      if (!loadedLibraries.current.has(lib)) {
+        await loader.importLibrary(lib);
+        loadedLibraries.current.add(lib);
+      }
+    },
+    [loader]
+  );
+
+  const loadLibraries = useCallback(async () => {
+    try {
+      const libraries: Library[] = ['maps', 'places', 'marker'];
+      await Promise.all(libraries.map(loadLibrary));
+      setIsLoaded(true);
+    } catch (error) {
+      setLoadError(
+        error instanceof Error
+          ? error
+          : new Error('Failed to load Google Maps libraries')
+      );
+    }
+  }, [loadLibrary]);
 
   useEffect(() => {
-    const loader = new Loader({
-      apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY as string,
-      version: 'weekly',
-      libraries: ['places', 'maps', 'marker'],
-      language: 'zh-TW',
-    });
-
-    const loadLibraries = async () => {
-      try {
-        await loader.importLibrary('maps');
-        await loader.importLibrary('places');
-        await loader.importLibrary('marker');
-
-        setIsLoaded(true);
-      } catch (error) {
-        setLoadError(
-          error instanceof Error
-            ? error
-            : new Error('Failed to load Google Maps libraries')
-        );
-      }
-    };
-
     loadLibraries();
-  }, []);
+  }, [loadLibraries]);
 
   const initMap = useCallback<GoogleMapsContextType['initMap']>(
     async (mapRef, options) => {
