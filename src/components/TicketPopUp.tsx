@@ -7,6 +7,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@components/ui/dialog';
+import useWindowSize from '@hooks/use-window-size';
+import { motion } from 'framer-motion';
 import { formatPrice } from '@lib/fomatPrice';
 import { QrCode, X } from 'lucide-react';
 import { ReactNode, useState } from 'react';
@@ -21,7 +23,9 @@ type TicketPopUpProps = {
   price: number;
   pay: string;
   state: string;
+  disabled?: boolean;
   // link?: string;
+  openQRCodePopUp: () => void;
   children?: ReactNode;
 };
 
@@ -35,10 +39,13 @@ const TicketPopUp = ({
   price,
   pay,
   state,
+  disabled,
   // link,
+  openQRCodePopUp,
   children,
 }: TicketPopUpProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const { width } = useWindowSize();
 
   const handleOpen = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -48,6 +55,11 @@ const TicketPopUp = ({
   const handleClose = (e: React.MouseEvent) => {
     e.stopPropagation();
     setIsOpen(false);
+  };
+
+  const handleOpenQRCodePopUp = () => {
+    setIsOpen(false);
+    if (!disabled) openQRCodePopUp();
   };
 
   const formatDate = (dateString: string) => {
@@ -60,9 +72,15 @@ const TicketPopUp = ({
 
   return (
     <Dialog open={isOpen}>
-      <DialogTrigger onClick={handleOpen} asChild>
-        {children}
-      </DialogTrigger>
+      <motion.div
+        className="group cursor-pointer xl:hover:bg-primary/[0.03]"
+        whileHover={width > 1366 ? { scale: 1.025 } : {}}
+        whileTap={width > 1366 ? { scale: 0.95 } : {}}
+      >
+        <DialogTrigger onClick={handleOpen} asChild>
+          {children}
+        </DialogTrigger>
+      </motion.div>
       <DialogContent
         className="w-vw h-svh text-primary xl:h-fit xl:w-[67.25rem]"
         hideCloseButton
@@ -91,7 +109,10 @@ const TicketPopUp = ({
               數量：{ticketQuantity}
             </div>
             <div className="bg-primary px-2 py-1 text-xs/5 font-medium text-white">
-              使用期限：{formatDate(endTime)}
+              使用期限：
+              {formatDate(endTime) === '2100.01.01'
+                ? '無期限'
+                : formatDate(endTime)}
             </div>
           </div>
           <ul className="xl:py- mt-4 border-b-[0.0625rem] border-t-[0.0625rem] pb-2 pt-4 xl:my-6 xl:flex xl:border-none xl:py-4">
@@ -122,16 +143,18 @@ const TicketPopUp = ({
         <DialogFooter className="flex h-[5.5rem] flex-row items-center justify-center border-t-[0.0625rem] px-4 py-3 xl:h-[4.5rem] xl:flex-row-reverse xl:justify-between xl:border-none xl:p-0 xl:px-6 xl:pb-6">
           <button
             onClick={handleClose}
-            className="flex h-[3.5rem] flex-1 items-center justify-start text-base font-medium xl:h-[3rem] xl:w-[7rem] xl:flex-none xl:justify-center xl:border xl:border-primary"
+            className="flex h-[3.5rem] flex-1 items-center justify-start bg-[#dfdfdc] text-base font-medium text-white xl:h-[3rem] xl:w-[7rem] xl:flex-none xl:justify-center"
             aria-label="Cancel Participation"
             type="button"
+            disabled
           >
             取消參加
           </button>
           <button
-            className="flex h-[3.5rem] flex-1 items-center justify-center bg-primary text-base font-medium text-white xl:h-[3rem] xl:w-[9rem] xl:flex-none xl:flex-row-reverse"
+            className={`${disabled ? 'bg-[#dfdfdc]' : 'bg-primary'} flex h-[3.5rem] flex-1 items-center justify-center text-base font-medium text-white xl:h-[3rem] xl:w-[9rem] xl:flex-none xl:flex-row-reverse`}
             aria-label="Use Ticket"
             type="button"
+            onClick={handleOpenQRCodePopUp}
           >
             使用票券
             <QrCode className="xl:mr-4" size={16} />
