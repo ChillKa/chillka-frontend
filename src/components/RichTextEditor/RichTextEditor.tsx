@@ -259,7 +259,9 @@ const RichTextEditorToolbar = ({ editor }: { editor: Editor }) => {
         </svg>
         <Small>
           {editor.storage.characterCount.characters()} / {characterLimit}{' '}
-          {percentage >= 100 ? '字數已達上限' : '字數'}
+          {editor.storage.characterCount.characters() === characterLimit
+            ? '字數已達上限'
+            : '字數'}
         </Small>
       </div>
     </div>
