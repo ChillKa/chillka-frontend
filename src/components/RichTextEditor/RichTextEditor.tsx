@@ -97,7 +97,7 @@ const RichTextEditorToolbar = ({ editor }: { editor: Editor }) => {
   };
 
   return (
-    <div>
+    <>
       <div className="flex flex-row items-center gap-1 rounded-b-[0.375rem] bg-primary-super-light p-1">
         <Toggle
           variant="editor"
@@ -264,7 +264,7 @@ const RichTextEditorToolbar = ({ editor }: { editor: Editor }) => {
             : '字數'}
         </Small>
       </div>
-    </div>
+    </>
   );
 };
 
