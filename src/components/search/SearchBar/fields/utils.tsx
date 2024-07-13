@@ -166,6 +166,7 @@ export const SearchParamsSchema = z.object({
   lat: z.string().optional(),
   lng: z.string().optional(),
   page: z.string().optional(),
+  userId: z.string().optional(),
 });
 
 export type SearchParams = z.infer<typeof SearchParamsSchema>;
