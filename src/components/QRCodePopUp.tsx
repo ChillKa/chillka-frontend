@@ -18,7 +18,7 @@ type QRCodeType = {
   name: string;
   startTime: string;
   endTime: string;
-  serialNumber: string;
+  id: string;
 };
 
 const QRCodePopUp = ({
@@ -113,13 +113,13 @@ const QRCodePopUp = ({
               </div>
             </div>
             <div className="flex items-center justify-center">
-              <QRCodeSVG value={serialNumber} size={width > 1366 ? 220 : 351} />
+              <QRCodeSVG value={id} size={width > 1366 ? 220 : 351} />
             </div>
             <div className="my-6 h-1 w-full border-t border-dashed border-black" />
             <p className="m-auto py-4 text-center">參加人：{name}</p>
           </div>
           <DialogFooter className="flex h-[1.875rem] items-center justify-center bg-primary text-sm text-white">
-            票券編號：{serialNumber}
+            票券編號：{id}
           </DialogFooter>
         </DialogContent>
       </Dialog>

@@ -186,11 +186,10 @@ const TicketInquiry = () => {
                         id={ticket.serialNumber}
                       />
                     )}
-
                   </div>
-                </TicketPopUp>
-              );
-            })}
+                </div>
+              </TicketPopUp>
+            ))}
           {usableTickets.length === 0 && !isLoading && <NoTicket />}
         </TabsContent>
         <TabsContent value="unusableTicket">
