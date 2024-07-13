@@ -10,32 +10,36 @@ import {
 import useWindowSize from '@hooks/use-window-size';
 import { ArrowRight, QrCode, X } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
-import { useState } from 'react';
 
 type QRCodeType = {
+  popUpState: boolean;
+  handleOpenPopUp: () => void;
+  handleClosePopUp: () => void;
   name: string;
   startTime: string;
   endTime: string;
-  serialNumber: string;
+  id: string;
 };
 
 const QRCodePopUp = ({
   name,
   startTime,
   endTime,
-  serialNumber,
+  id,
+  popUpState,
+  handleOpenPopUp,
+  handleClosePopUp,
 }: QRCodeType) => {
-  const [isOpen, setIsOpen] = useState(false);
   const { width } = useWindowSize();
 
   const handleOpen = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setIsOpen(true);
+    handleOpenPopUp();
   };
 
   const handleClose = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setIsOpen(false);
+    handleClosePopUp();
   };
 
   const formatDateTime = (dateString: string) => {
@@ -43,7 +47,7 @@ const QRCodePopUp = ({
     const hours = String(date.getUTCHours()).padStart(2, '0');
     const minutes = String(date.getUTCMinutes()).padStart(2, '0');
     const year = date.getUTCFullYear();
-    const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // 月份从0开始
+    const month = String(date.getUTCMonth() + 1).padStart(2, '0');
     const day = String(date.getUTCDate()).padStart(2, '0');
     const timeString = `${hours}:${minutes}`;
     const dateStringFormatted = `${year}.${month}.${day}`;
@@ -55,6 +59,7 @@ const QRCodePopUp = ({
 
   return (
     <div
+      className="w-fit"
       role="button"
       tabIndex={0}
       onClick={(e: React.MouseEvent) => e.stopPropagation()}
@@ -62,8 +67,11 @@ const QRCodePopUp = ({
         e.stopPropagation()
       }
     >
-      <Dialog open={isOpen}>
-        <DialogTrigger onClick={handleOpen}>
+      <Dialog open={popUpState}>
+        <DialogTrigger
+          className="xl:flex xl:w-32 xl:items-center xl:justify-center"
+          onClick={handleOpen}
+        >
           {width > 1366 ? (
             <QrCode size={40} />
           ) : (
@@ -74,7 +82,7 @@ const QRCodePopUp = ({
           )}
         </DialogTrigger>
         <DialogContent
-          className="w-vh h-svh xl:h-[44.25rem] xl:w-[26rem]"
+          className="w-vh h-svh xl:h-[35rem] xl:w-[23rem]"
           hideCloseButton
         >
           <button
@@ -85,7 +93,7 @@ const QRCodePopUp = ({
           >
             <X className="stroke-white" size={24} />
           </button>
-          <div className="flex h-[calc(100svh-30px)] flex-col overflow-scroll px-3 pb-6 pt-10 xl:h-fit xl:px-6 xl:pt-12">
+          <div className="flex h-[calc(100svh-30px)] flex-col overflow-auto px-3 pb-6 pt-10 xl:h-fit xl:px-6 xl:pt-12">
             <DialogTitle className="mb-[2.5rem] text-3xl font-bold xl:mb-6">
               票券可使用時間
             </DialogTitle>
@@ -105,13 +113,13 @@ const QRCodePopUp = ({
               </div>
             </div>
             <div className="flex items-center justify-center">
-              <QRCodeSVG value={serialNumber} size={width > 1366 ? 368 : 351} />
+              <QRCodeSVG value={id} size={width > 1366 ? 220 : 351} />
             </div>
             <div className="my-6 h-1 w-full border-t border-dashed border-black" />
             <p className="m-auto py-4 text-center">參加人：{name}</p>
           </div>
           <DialogFooter className="flex h-[1.875rem] items-center justify-center bg-primary text-sm text-white">
-            票券編號：{serialNumber}
+            票券編號：{id}
           </DialogFooter>
         </DialogContent>
       </Dialog>

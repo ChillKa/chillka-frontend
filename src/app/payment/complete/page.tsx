@@ -13,7 +13,7 @@ const CompletePage = async () => {
   const { activities } = data;
 
   return (
-    <div className="flex min-h-screen items-center justify-center">
+    <div className="flex items-center justify-center">
       <WithErrorBoundaryAndSuspense
         loadingFallback={
           <Skeleton className="w-full max-w-md space-y-5 bg-transparent p-8 text-center text-primary" />
