@@ -37,6 +37,7 @@ export interface Activity {
   price: number;
   totalParticipantCapacity: number;
   remainingTickets: number;
+  saved?: boolean;
   ticketPrice: {
     name: string;
     price: number;
@@ -315,22 +316,26 @@ export async function getFavoriteActivities(): Promise<FavoriteActivitiesResult>
 }
 
 export async function getActivitiesWithCollectionStatus(
-  filteredParams: Partial<SearchParams>
+  filteredParams: Partial<SearchParams>,
+  option?: RequestInit
 ) {
   try {
     const jwtPayload = await getJwtPayload();
 
     const userId =
-      jwtPayload && 'userId' in jwtPayload
-        ? (jwtPayload.userId as string)
+      jwtPayload && '_id' in jwtPayload
+        ? (jwtPayload._id as string)
         : undefined;
 
-    return await getActivitiesByFilter({
-      ...filteredParams,
-      userId,
-    });
+    return await getActivitiesByFilter(
+      {
+        ...filteredParams,
+        userId,
+      },
+      option
+    );
   } catch (error) {
-    return await getActivitiesByFilter(filteredParams);
+    return await getActivitiesByFilter(filteredParams, option);
   }
 }
 
