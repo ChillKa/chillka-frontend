@@ -257,7 +257,8 @@ const RichTextEditorToolbar = ({ editor }: { editor: Editor }) => {
           <circle r="5" cx="10" cy="10" fill="#f0ede7" />
         </svg>
         <Small>
-          {editor.storage.characterCount.characters()} / {characterLimit} 字數
+          {editor.storage.characterCount.characters()} / {characterLimit}{' '}
+          {percentage >= 100 ? '字數已達上限' : '字數'}
         </Small>
       </div>
     </div>
