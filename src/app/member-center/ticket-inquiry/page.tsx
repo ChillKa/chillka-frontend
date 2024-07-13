@@ -173,19 +173,18 @@ const TicketInquiry = () => {
                       : `使用期限：${formatDate(ticket.ticket.endDateTime) === '2100.01.01' ? '無期限' : formatDate(ticket.ticket.endDateTime)}`}
                   </p>
                   <div className="xl:flex xl:items-center xl:justify-center">
-                    {ticket.payment.status === '已付款' && (
-                      <QRCodePopUp
-                        popUpState={QRCodePopUpState[index]}
-                        handleOpenPopUp={() => handleOpenQRCodePopUp(index)}
-                        handleClosePopUp={() =>
-                          setQRCodePopUpState((prev) => prev.map(() => false))
-                        }
-                        name={ticket.orderContact.name}
-                        startTime={ticket.ticket.startDateTime}
-                        endTime={ticket.ticket.endDateTime}
-                        id={ticket.serialNumber}
-                      />
-                    )}
+                    <QRCodePopUp
+                      popUpState={QRCodePopUpState[index]}
+                      handleOpenPopUp={() => handleOpenQRCodePopUp(index)}
+                      handleClosePopUp={() =>
+                        setQRCodePopUpState((prev) => prev.map(() => false))
+                      }
+                      name={ticket.orderContact.name}
+                      startTime={ticket.ticket.startDateTime}
+                      endTime={ticket.ticket.endDateTime}
+                      id={ticket.serialNumber}
+                      disabled={ticket.payment.status === '待付款'}
+                    />
                   </div>
                 </div>
               </TicketPopUp>

@@ -19,6 +19,7 @@ type QRCodeType = {
   startTime: string;
   endTime: string;
   id: string;
+  disabled?: boolean;
 };
 
 const QRCodePopUp = ({
@@ -27,12 +28,14 @@ const QRCodePopUp = ({
   endTime,
   id,
   popUpState,
+  disabled,
   handleOpenPopUp,
   handleClosePopUp,
 }: QRCodeType) => {
   const { width } = useWindowSize();
 
   const handleOpen = (e: React.MouseEvent) => {
+    if (disabled) return;
     e.stopPropagation();
     handleOpenPopUp();
   };
@@ -73,11 +76,13 @@ const QRCodePopUp = ({
           onClick={handleOpen}
         >
           {width > 1366 ? (
-            <QrCode size={40} />
+            <QrCode className={disabled ? 'text-[#bbbbbb]' : ''} size={40} />
           ) : (
-            <div className="mt-4 flex w-fit items-center justify-center border border-black px-6 py-4 text-base font-medium">
-              <QrCode size={16} />
-              <p className="ml-4">使用票券</p>
+            <div
+              className={`${disabled && 'border-none bg-[#dfdfdc]'} mt-4 flex w-fit items-center justify-center border border-black px-6 py-4 text-base font-medium`}
+            >
+              <QrCode className={disabled ? 'text-white' : ''} size={16} />
+              <p className={`ml-4 ${disabled && 'text-white'}`}>使用票券</p>
             </div>
           )}
         </DialogTrigger>
