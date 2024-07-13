@@ -54,12 +54,13 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const getUser = useCallback(async () => {
     const response = await fetchMe();
 
-    if (response.status === 'success' && response.data) {
-      const { data } = response;
-      setUserName(data.displayName);
-      setUserAvatar(data.profilePicture ?? '');
-      setUserEmail(data.email ?? '');
+    if (!(response.status === 'success' && response.data)) {
+      return;
     }
+    const { data } = response;
+    setUserName(data.displayName);
+    setUserAvatar(data.profilePicture ?? '');
+    setUserEmail(data.email ?? '');
   }, []);
 
   useEffect(() => {
@@ -85,8 +86,10 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const login = useCallback(
     async (formData: z.infer<typeof loginFormSchema>) => {
       const result = await authLogin(formData);
-      const session = await getSession();
-      const response = await fetchMe();
+
+      if (result?.status !== 'success') return result;
+
+      const [session, response] = await Promise.all([getSession(), fetchMe()]);
 
       if (response.status === 'success' && response.data) {
         const { data } = response;
