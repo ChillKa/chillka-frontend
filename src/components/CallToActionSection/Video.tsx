@@ -11,6 +11,7 @@ const Video = ({ className }: VideoProps) => {
       loop
       muted
       playsInline
+      preload="none"
       className={cn('object-cover', className)}
     >
       <source src="/callToAction.mp4" type="video/mp4" />
