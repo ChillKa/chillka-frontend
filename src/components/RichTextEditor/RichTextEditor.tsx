@@ -16,9 +16,10 @@ import {
 } from '@components/ui/popover';
 import { Separator } from '@components/ui/separator';
 import { Toggle } from '@components/ui/toggle';
-import { P } from '@components/ui/typography';
+import { P, Small } from '@components/ui/typography';
 import cn from '@lib/utils';
 import Emoji, { gitHubEmojis } from '@tiptap-pro/extension-emoji';
+import CharacterCount from '@tiptap/extension-character-count';
 import Link from '@tiptap/extension-link';
 import Placeholder from '@tiptap/extension-placeholder';
 import { EditorContent, useEditor, type Editor } from '@tiptap/react';
@@ -47,6 +48,14 @@ import { toLocaleEmojiGroupName } from './utils';
 const RichTextEditorToolbar = ({ editor }: { editor: Editor }) => {
   const [urlString, setUrlString] = useState('');
   const [isUrlDialogOpen, setIsUrlDailogOpen] = useState(false);
+
+  const characterLimit = 3000;
+  const percentage = editor
+    ? Math.round(
+        (100 / characterLimit) * editor.storage.characterCount.characters()
+      )
+    : 0;
+
   const emojiArray = editor.storage.emoji.emojis;
   const emojiMap = new Map();
   const emojiGroupKeys = [];
@@ -87,143 +96,170 @@ const RichTextEditorToolbar = ({ editor }: { editor: Editor }) => {
   };
 
   return (
-    <div className="flex flex-row items-center gap-1 rounded-b-[0.375rem] bg-primary-super-light p-1">
-      <Toggle
-        variant="editor"
-        size="sm"
-        pressed={editor.isActive('bold')}
-        onPressedChange={() => editor.chain().focus().toggleBold().run()}
-      >
-        <BoldIcon className="h-4 w-4" />
-      </Toggle>
-      <Toggle
-        variant="editor"
-        size="sm"
-        pressed={editor.isActive('italic')}
-        onPressedChange={() => editor.chain().focus().toggleItalic().run()}
-      >
-        <ItalicIcon className="h-4 w-4" />
-      </Toggle>
-      <Toggle
-        variant="editor"
-        size="sm"
-        pressed={editor.isActive('strike')}
-        onPressedChange={() => editor.chain().focus().toggleStrike().run()}
-      >
-        <StrikethroughIcon className="h-4 w-4" />
-      </Toggle>
-      <Separator orientation="vertical" className="h-8 w-[1px]" />
-      <Toggle
-        variant="editor"
-        size="sm"
-        pressed={editor.isActive('bulletList')}
-        onPressedChange={() => editor.chain().focus().toggleBulletList().run()}
-      >
-        <ListIcon className="h-4 w-4" />
-      </Toggle>
-      <Toggle
-        variant="editor"
-        size="sm"
-        pressed={editor.isActive('orderedList')}
-        onPressedChange={() => editor.chain().focus().toggleOrderedList().run()}
-      >
-        <ListOrderedIcon className="h-4 w-4" />
-      </Toggle>
-      <Separator orientation="vertical" className="h-8 w-[1px]" />
-      <Dialog modal={false} open={isUrlDialogOpen}>
+    <div>
+      <div className="flex flex-row items-center gap-1 rounded-b-[0.375rem] bg-primary-super-light p-1">
         <Toggle
           variant="editor"
           size="sm"
-          pressed={editor.isActive('link')}
-          onPressedChange={toggleUrlDialog}
+          pressed={editor.isActive('bold')}
+          onPressedChange={() => editor.chain().focus().toggleBold().run()}
         >
-          <LinkIcon className="h-4 w-4" />
+          <BoldIcon className="h-4 w-4" />
         </Toggle>
-        <DialogPortal>
-          <DialogContent
-            onInteractOutside={() => setIsUrlDailogOpen(false)}
-            hideCloseButton
-            className="max-h-64 max-w-[21rem] gap-6 rounded-[0.375rem] border border-primary-super-light p-3"
-          >
-            <DialogHeader className="text-left">請輸入連結網址</DialogHeader>
-            <Input
-              variant="form"
-              value={urlString}
-              onChange={(e) => setUrlString(e.target.value)}
-            />
-            <DialogFooter>
-              <Button
-                className="ml-auto w-fit"
-                variant="form"
-                type="button"
-                onClick={setUrlLink}
-              >
-                設定網址
-              </Button>
-            </DialogFooter>
-          </DialogContent>
-        </DialogPortal>
-      </Dialog>
-      <Separator orientation="vertical" className="h-8 w-[1px]" />
-      <Popover modal={false}>
-        <PopoverTrigger asChild>
-          <Toggle variant="editor" size="sm">
-            <SmileIcon className="size-4" />
-          </Toggle>
-        </PopoverTrigger>
-        <PopoverContent
-          side="top"
-          align="start"
-          className="flex max-h-64 w-[21rem] flex-wrap overflow-y-scroll rounded-[0.375rem] border-primary-super-light px-3"
+        <Toggle
+          variant="editor"
+          size="sm"
+          pressed={editor.isActive('italic')}
+          onPressedChange={() => editor.chain().focus().toggleItalic().run()}
         >
-          {emojiGroupKeys.map((key: string) => {
-            const emojiArr = emojiMap.get(key);
-            return (
-              <div key={key}>
-                <P className="pl-1 uppercase text-primary">
-                  {toLocaleEmojiGroupName(key)}
-                </P>
-                {emojiArr.map(
-                  (emoji: {
-                    name: Key;
-                    emoji:
-                      | string
-                      | number
-                      | bigint
-                      | boolean
-                      | ReactElement<any, string | JSXElementConstructor<any>>
-                      | Iterable<ReactNode>
-                      | ReactPortal
-                      | Promise<AwaitedReactNode>
-                      | null
-                      | undefined;
-                    fallbackImage: any;
-                  }) => {
-                    return (
-                      <button
-                        className="p-2.5"
-                        type="button"
-                        key={emoji.name}
-                        onClick={() =>
-                          editor
-                            .chain()
-                            .focus()
-                            .setEmoji(emoji.name?.toString())
-                            .run()
-                        }
-                      >
-                        <div className="scale-150 leading-none">
-                          {emoji.emoji}
-                        </div>
-                      </button>
-                    );
-                  }
-                )}
-              </div>
-            );
-          })}
-        </PopoverContent>
-      </Popover>
+          <ItalicIcon className="h-4 w-4" />
+        </Toggle>
+        <Toggle
+          variant="editor"
+          size="sm"
+          pressed={editor.isActive('strike')}
+          onPressedChange={() => editor.chain().focus().toggleStrike().run()}
+        >
+          <StrikethroughIcon className="h-4 w-4" />
+        </Toggle>
+        <Separator orientation="vertical" className="h-8 w-[1px]" />
+        <Toggle
+          variant="editor"
+          size="sm"
+          pressed={editor.isActive('bulletList')}
+          onPressedChange={() =>
+            editor.chain().focus().toggleBulletList().run()
+          }
+        >
+          <ListIcon className="h-4 w-4" />
+        </Toggle>
+        <Toggle
+          variant="editor"
+          size="sm"
+          pressed={editor.isActive('orderedList')}
+          onPressedChange={() =>
+            editor.chain().focus().toggleOrderedList().run()
+          }
+        >
+          <ListOrderedIcon className="h-4 w-4" />
+        </Toggle>
+        <Separator orientation="vertical" className="h-8 w-[1px]" />
+        <Dialog modal={false} open={isUrlDialogOpen}>
+          <Toggle
+            variant="editor"
+            size="sm"
+            pressed={editor.isActive('link')}
+            onPressedChange={toggleUrlDialog}
+          >
+            <LinkIcon className="h-4 w-4" />
+          </Toggle>
+          <DialogPortal>
+            <DialogContent
+              onInteractOutside={() => setIsUrlDailogOpen(false)}
+              hideCloseButton
+              className="max-h-64 max-w-[21rem] gap-6 rounded-[0.375rem] border border-primary-super-light p-3"
+            >
+              <DialogHeader className="text-left">請輸入連結網址</DialogHeader>
+              <Input
+                variant="form"
+                value={urlString}
+                onChange={(e) => setUrlString(e.target.value)}
+              />
+              <DialogFooter>
+                <Button
+                  className="ml-auto w-fit"
+                  variant="form"
+                  type="button"
+                  onClick={setUrlLink}
+                >
+                  設定網址
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </DialogPortal>
+        </Dialog>
+        <Separator orientation="vertical" className="h-8 w-[1px]" />
+        <Popover modal={false}>
+          <PopoverTrigger asChild>
+            <Toggle variant="editor" size="sm">
+              <SmileIcon className="size-4" />
+            </Toggle>
+          </PopoverTrigger>
+          <PopoverContent
+            side="top"
+            align="start"
+            className="flex max-h-64 w-[21rem] flex-wrap overflow-y-scroll rounded-[0.375rem] border-primary-super-light px-3"
+          >
+            {emojiGroupKeys.map((key: string) => {
+              const emojiArr = emojiMap.get(key);
+              return (
+                <div key={key}>
+                  <P className="pl-1 uppercase text-primary">
+                    {toLocaleEmojiGroupName(key)}
+                  </P>
+                  {emojiArr.map(
+                    (emoji: {
+                      name: Key;
+                      emoji:
+                        | string
+                        | number
+                        | bigint
+                        | boolean
+                        | ReactElement<any, string | JSXElementConstructor<any>>
+                        | Iterable<ReactNode>
+                        | ReactPortal
+                        | Promise<AwaitedReactNode>
+                        | null
+                        | undefined;
+                      fallbackImage: any;
+                    }) => {
+                      return (
+                        <button
+                          className="p-2.5"
+                          type="button"
+                          key={emoji.name}
+                          onClick={() =>
+                            editor
+                              .chain()
+                              .focus()
+                              .setEmoji(emoji.name?.toString())
+                              .run()
+                          }
+                        >
+                          <div className="scale-150 leading-none">
+                            {emoji.emoji}
+                          </div>
+                        </button>
+                      );
+                    }
+                  )}
+                </div>
+              );
+            })}
+          </PopoverContent>
+        </Popover>
+      </div>
+      <div
+        className={`flex items-center gap-2 p-2 ${editor.storage.characterCount.characters() === characterLimit ? 'stroke-destructive text-destructive' : ''}`}
+      >
+        <svg height="20" width="20" viewBox="0 0 20 20">
+          <circle r="10" cx="10" cy="10" fill="#f7f3f1" />
+          <circle
+            r="5"
+            cx="10"
+            cy="10"
+            fill="transparent"
+            stroke="currentColor"
+            strokeWidth="10"
+            strokeDasharray={`calc(${percentage} * 31.4 / 100) 31.4`}
+            transform="rotate(-90) translate(-20)"
+          />
+          <circle r="5" cx="10" cy="10" fill="#f0ede7" />
+        </svg>
+        <Small>
+          {editor.storage.characterCount.characters()} / {characterLimit} 字數
+        </Small>
+      </div>
     </div>
   );
 };
@@ -268,6 +304,7 @@ const RichTextEditor = ({
         emptyEditorClass:
           'before:text-primary-light  before:content-[attr(data-placeholder)] before:float-left before:h-0',
       }),
+      CharacterCount.configure({ limit: 3000 }),
       Link.configure({
         openOnClick: false,
         autolink: true,
