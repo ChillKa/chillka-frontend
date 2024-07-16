@@ -1,12 +1,18 @@
-# chillka README
+# chillka - README
 
-<img width="1483" alt="Screenshot 2024-06-24 at 3 27 50 PM" src="https://github.com/ChillKa/chillka-frontend/assets/70035368/7743c3ab-cd0f-4227-8300-2040b0337ab1">
+![首頁](https://i.imgur.com/KZiNovQ.jpeg)
 
-- [線上觀看連結](https://chillka-frontend.vercel.app/)
+<br/>
+
+<center>
+    <font size='4'>
+        <a href="https://chillka-frontend.vercel.app/">🚀 DEMO</a>
+    </font>
+</center>
 
 ## 功能
 
-測試帳號密碼
+測試帳號密碼：
 
 ```bash
 帳號： coach@gmail.com
@@ -16,21 +22,27 @@
 - 登入
 - 登出
 
+<br/>
+
 ## 畫面
 
-單一活動頁面
-![image](https://github.com/ChillKa/chillka-frontend/assets/70035368/facff796-bda9-4d96-8733-700035a31b7d)
-搜尋活動頁面
-![Untitled](https://github.com/ChillKa/chillka-frontend/assets/70035368/ec085eec-42a8-4187-813c-2c87676e67b1)
-新增活動頁面
-<img width="1344" alt="Screenshot 2024-06-24 at 1 15 13 PM" src="https://github.com/ChillKa/chillka-frontend/assets/70035368/51a6e07a-5b88-4e8d-91d7-e7481dab857f">
-票券頁面
-<img width="774" alt="截圖 2024-06-24 下午2 56 00" src="https://github.com/ChillKa/chillka-frontend/assets/70035368/0b757c7d-ad61-495d-820f-47f33a773fea">
+- 單一活動頁面
+  ![單一活動頁面](https://i.imgur.com/CgM2bqS.jpeg)
+- 搜尋活動頁面
+  ![搜尋活動頁面](https://i.imgur.com/He2nxox.jpeg)
+- 新增活動頁面
+  ![新增活動頁面](https://i.imgur.com/Qhb9HNn.jpeg)
+- 票券頁面
+  ![票券頁面](https://i.imgur.com/PoJM2N7.jpeg)
+
+<br/>
 
 ## 安裝
 
 以下將會引導你如何安裝此專案到你的電腦上。
-Node.js 版本建議為：`18.18.0` 以上...
+Node.js 版本建議為：`18.18.0` 以上。
+
+<br/>
 
 ### 取得專案
 
@@ -38,15 +50,19 @@ Node.js 版本建議為：`18.18.0` 以上...
 git clone git@github.com:ChillKa/chillka-frontend.git
 ```
 
+<br/>
+
 ### 移動到專案內
 
 ```bash
 cd chillka-frontend
 ```
 
+<br/>
+
 ### 安裝套件
 
-需要設定.npmrc, 才能正常安裝tiptap (WYSIWYG)的pro 套件
+必須先設定 `.npmrc`，才能正常安裝 tiptap（WYSIWYG）的 pro 套件
 
 ```
 @tiptap-pro:registry=https://registry.tiptap.dev/
@@ -55,21 +71,27 @@ cd chillka-frontend
 
 - 詳情請參考（需登入）：https://cloud.tiptap.dev/pro-extensions
 
-接著
+接著執行
 
 ```bash
 yarn
 ```
 
+<br/>
+
 ### 環境變數設定
 
-請在終端機輸入 `cp .env.example .env` 來複製 .env.example 檔案，並依據 `.env` 內容調整相關欄位。
+請在終端機輸入 `cp .env.example .env` 來複製 `.env.example` 檔案，並依據 `.env` 內容調整相關欄位。
+
+<br/>
 
 ### 運行專案
 
 ```bash
 yarn dev
 ```
+
+<br/>
 
 ### 開啟專案
 
@@ -79,6 +101,8 @@ yarn dev
 http://localhost:3535/
 ```
 
+<br/>
+
 ## 環境變數說明
 
 ```env
@@ -87,68 +111,83 @@ API_ENDPOINT= # 後端網址
 NEXT_PUBLIC_GOOGLE_MAP_API_KEY= # Google 地圖 API 密鑰
 ```
 
+<br/>
+
 ## 資料夾說明
 
 - public - 靜態檔案放置處
 - src - 程式碼放置處
-  - action - Next.js server actions
+  - action - Next.js Server Actions
   - app - 路徑放置處
     - route - Next.js Route Handlers
   - components - React 元件
   - hooks - React hooks
   - store - 儲存內部狀態
-  - type - 串接API的型別
-  - lib - Zod Schema, 或其他共用程式碼
-- .github - CI/CD (github action)
-- .husky - husky檔案
-- .vscode - visual studio code 的設定
+  - type - 串接 API 的型別
+  - lib - Zod Schema，或其他共用程式碼
+- .github - CI/CD (GitHub Actions)
+- .husky - Husky 檔案
+- .vscode - Visual Studio Code 的設定
+
+<br/>
 
 ## 專案技術
 
 - Node.js v18.18
 - Next.js v14.2.1
-- tailwindcss
-- shadcn(with radix)
-- Framer-motion
+- Tailwind CSS
+- shadcn/ui (with radix)
+- Framer Motion
 - TypeScript
 - React Hook Form
-- husky
-- tiptap (WYSIWYG 文字編輯器)
+- Husky
+- tiptap（WYSIWYG 文字編輯器）
+
+<br/>
 
 ## 第三方服務
 
-- Google Map API
+- Google Maps API
+
+<br/>
 
 ## CI/CD 說明
 
-此專案有使用 Github Actions，所以發起 PR 時會自動執行以下動作：
+此專案有使用 GitHub Actions，所以發起 PR 時會自動執行以下動作：
 
 - 建立 Node.js 環境
 - 安裝相依套件
 - 編譯程式碼
-- 部署到vercel上，並產生preview url 在PR上
+- 部署到 Vercel 上，並產生 preview url 在 PR 上
 
 當專案 merge 到 main 時會自動執行以下動作：
 
 - 建立 Node.js 環境
 - 安裝相依套件
 - 編譯程式碼
-- 部署到vercel上
+- 部署到 Vercel 上
+
+<br/>
 
 ## 其他
 
-### chillka 的github使用手冊
+### chillka 的使用手冊
 
 通用操作
-[使用者登入](https://childlike-overcoat-a86.notion.site/3cae6a11888344a89ec8eee1504f18aa)
+
+- [使用者登入](https://childlike-overcoat-a86.notion.site/3cae6a11888344a89ec8eee1504f18aa)
 
 活動舉辦者
-[舉辦者創建活動](https://childlike-overcoat-a86.notion.site/59de1ed2d9934a2f8a0f2e93b788818e)
-[舉辦者檢驗票券](https://childlike-overcoat-a86.notion.site/16ed1fdebee14ee38cc96fc2225df6c9)
+
+- [舉辦者創建活動](https://childlike-overcoat-a86.notion.site/59de1ed2d9934a2f8a0f2e93b788818e)
+- [舉辦者檢驗票券](https://childlike-overcoat-a86.notion.site/16ed1fdebee14ee38cc96fc2225df6c9)
 
 活動參加者
-[參加者搜尋與參加活動](https://childlike-overcoat-a86.notion.site/e165e810e02b48129b702b3f30521167)
-[參加者出示票券](https://childlike-overcoat-a86.notion.site/5082b50383ce48f1b497696a23d02347)
+
+- [參加者搜尋與參加活動](https://childlike-overcoat-a86.notion.site/e165e810e02b48129b702b3f30521167)
+- [參加者出示票券](https://childlike-overcoat-a86.notion.site/5082b50383ce48f1b497696a23d02347)
+
+<br />
 
 ## 聯絡作者
 
@@ -156,7 +195,7 @@ NEXT_PUBLIC_GOOGLE_MAP_API_KEY= # Google 地圖 API 密鑰
 
 Zim
 
-- [linkedin](www.linkedin.com/in/zim314)
+- [LinkedIn](www.linkedin.com/in/zim314)
 - [GitHub](https://github.com/zim314)
 
 Louis
@@ -171,18 +210,22 @@ Felix
 Brian
 
 - [個人網站](https://po-cheng-yeh.vercel.app)
-- [linkedin](https://www.linkedin.com/in/po-cheng-yeh/)
+- [LinkedIn](https://www.linkedin.com/in/po-cheng-yeh/)
 - [GitHub](https://github.com/blp100)
+
+<br />
 
 # 後端連結
 
-- [GitHub連結](https://github.com/ChillKa/chillka-backend)
+- [chillka-backend](https://github.com/ChillKa/chillka-backend)
+
+<br />
 
 ## 專案協作作者（後端）
 
 Mia
 
-- [linkedin](https://www.linkedin.com/in/chih-yi-mai-b302391aa?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app)
+- [LinkedIn](https://www.linkedin.com/in/chih-yi-mai-b302391aa?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app)
 - [GitHub](https://github.com/miamai)
 
 Ben
