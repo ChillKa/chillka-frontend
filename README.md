@@ -139,7 +139,16 @@ NEXT_PUBLIC_GOOGLE_MAP_API_KEY= # Google 地圖 API 密鑰
 
 ### chillka 的github使用手冊
 
-[前端環境指南](https://www.notion.so/chillka-83254641906b46e690ed2fab71f9179d)
+通用操作
+[使用者登入](https://childlike-overcoat-a86.notion.site/3cae6a11888344a89ec8eee1504f18aa)
+
+活動舉辦者
+[舉辦者創建活動](https://childlike-overcoat-a86.notion.site/59de1ed2d9934a2f8a0f2e93b788818e)
+[舉辦者檢驗票券](https://childlike-overcoat-a86.notion.site/16ed1fdebee14ee38cc96fc2225df6c9)
+
+活動參加者
+[參加者搜尋與參加活動](https://childlike-overcoat-a86.notion.site/e165e810e02b48129b702b3f30521167)
+[參加者出示票券](https://childlike-overcoat-a86.notion.site/5082b50383ce48f1b497696a23d02347)
 
 ## 聯絡作者
 
@@ -147,7 +156,8 @@ NEXT_PUBLIC_GOOGLE_MAP_API_KEY= # Google 地圖 API 密鑰
 
 Zim
 
-- TBA
+- [linkedin](www.linkedin.com/in/zim314)
+- [GitHub](https://github.com/zim314)
 
 Louis
 
@@ -155,6 +165,7 @@ Louis
 
 Felix
 
+- [個人網站](https://felixshih.com/)
 - [GitHub](https://github.com/fufuShih)
 
 Brian
@@ -171,6 +182,7 @@ Brian
 
 Mia
 
+- [linkedin](https://www.linkedin.com/in/chih-yi-mai-b302391aa?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app)
 - [GitHub](https://github.com/miamai)
 
 Ben
